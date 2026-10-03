@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spot Now</title>
+<meta name="theme-color" content="#14151a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Spot Now">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" href="/icons/icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+<div class="stage">
+  <div class="phone" id="phone">
+
+    <!-- INTRO -->
+    <section class="screen active" data-screen="intro" id="intro">
+      <p class="eyebrow">Spot Now</p>
+      <div class="hero-card">
+        <svg viewBox="0 0 340 190" width="100%" height="100%" role="img">
+          <title>Due persone si notano a vicenda in mezzo alla folla di un locale</title>
+          <defs>
+            <radialGradient id="heroGlow" cx="50%" cy="48%" r="60%">
+              <stop offset="0%" stop-color="var(--coral)" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="var(--coral)" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width="340" height="190" fill="url(#heroGlow)"/>
+          <g fill="var(--muted)" opacity="0.3">
+            <circle cx="24" cy="30" r="3.2"/><circle cx="52" cy="150" r="3.6"/>
+            <circle cx="78" cy="42" r="2.8"/><circle cx="296" cy="36" r="3.4"/>
+            <circle cx="312" cy="128" r="3"/><circle cx="270" cy="158" r="3.6"/>
+            <circle cx="40" cy="96" r="2.6"/><circle cx="300" cy="90" r="2.8"/>
+            <circle cx="150" cy="24" r="2.6"/><circle cx="200" cy="168" r="3"/>
+            <circle cx="120" cy="164" r="2.8"/><circle cx="238" cy="26" r="3"/>
+          </g>
+          <circle cx="110" cy="102" r="34" fill="none" stroke="var(--coral)" stroke-width="1.4" opacity="0.22"/>
+          <circle cx="110" cy="102" r="22" fill="none" stroke="var(--coral)" stroke-width="1.4" opacity="0.38"/>
+          <circle cx="230" cy="102" r="34" fill="none" stroke="var(--teal)" stroke-width="1.4" opacity="0.22"/>
+          <circle cx="230" cy="102" r="22" fill="none" stroke="var(--teal)" stroke-width="1.4" opacity="0.38"/>
+          <line x1="128" y1="100" x2="212" y2="100" stroke="var(--text)" stroke-width="1.4" stroke-dasharray="3 6" opacity="0.4"/>
+          <path d="M170 92 l4 8 8 4 -8 4 -4 8 -4 -8 -8 -4 8 -4 z" fill="var(--gold)"/>
+          <g transform="translate(110,102)">
+            <circle cx="0" cy="-6" r="9" fill="var(--coral)"/>
+            <path d="M-13 22 a13 13 0 0 1 26 0 z" fill="var(--coral)"/>
+          </g>
+          <g transform="translate(230,102)">
+            <circle cx="0" cy="-6" r="9" fill="var(--teal)"/>
+            <path d="M-13 22 a13 13 0 0 1 26 0 z" fill="var(--teal)"/>
+          </g>
+        </svg>
+      </div>
+      <h1 class="disp">Scopri se la tua<br>crush ti ha notato</h1>
+      <p class="sub">Entra in un locale, inquadra il QR e scopri chi altro è lì con te — in tempo reale.</p>
+      <div class="spacer"></div>
+      <button class="btn btn-primary" onclick="go('camera')">Inquadra il QR Code</button>
+    </section>
+
+    <!-- 0. CAMERA / QR SCAN -->
+    <section class="screen" data-screen="camera" id="camera" onclick="finishScan()">
+      <p class="eyebrow">Spot Now</p>
+      <div class="viewfinder">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="scanline"></div>
+      </div>
+      <h2 class="disp">Inquadra il QR del locale</h2>
+      <p class="sub">Tienilo a fuoco per un secondo — lo troviamo noi.</p>
+      <p class="camhint">Tocca lo schermo per simulare la scansione</p>
+    </section>
+
+    <!-- 1. SCAN -->
+    <section class="screen" data-screen="scan" id="scan">
+      <div class="pin">📍</div>
+      <h1 class="disp">Scopri chi è<br>single qui ora</h1>
+      <p class="sub" id="scanVenueName">Locale demo</p>
+      <p class="eyebrow" id="scanVenueAddress">Luogo di esempio</p>
+      <div class="card-stat">
+        <div>
+          <div class="num" id="countNow">8</div>
+        </div>
+        <div class="lbl">persone sono qui in questo momento</div>
+      </div>
+      <p class="sub" id="scanTribeCount"></p>
+      <p class="sub">Il check-in dura 90 minuti. Dopo entri nella Tribe di questo luogo, disponibile anche quando non sei qui.</p>
+      <div class="spacer"></div>
+      <button class="btn btn-primary" id="enterVenueBtn" onclick="go('onboarding')">Entra</button>
+    </section>
+
+    <section class="screen" id="login">
+      <button class="backlink" onclick="go('intro')">← Indietro</button>
+      <h2 class="disp" style="margin-top:26px">Entra in Spot Now</h2>
+      <p class="sub">Accedi e ritrova il tuo profilo e le tue Tribe quando torni.</p>
+      <button class="btn btn-primary" id="googleLoginBtn" style="margin-top:20px">Continua con Google</button>
+      <button class="btn btn-ghost" id="existingAccountBtn" style="margin-top:10px" hidden>Conserva il profilo temporaneo</button>
+      <p class="sub" id="existingAccountNote" style="font-size:12px" hidden>Continua con Google per accedere o creare il tuo account Spot Now. Se avevi un profilo temporaneo, usa “Conserva il profilo temporaneo” per collegarlo a un nuovo account Google. L’accesso normale non trasferisce i dati del profilo temporaneo.</p>
+      <form id="emailForm">
+        <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="La tua email"></div>
+        <button class="btn btn-primary" style="margin-top:22px" id="requestCodeBtn" type="submit">Ricevi l’email di accesso</button>
+      </form>
+      <form id="codeForm" hidden>
+        <div class="field"><label for="loginCode">Codice ricevuto via email</label><input id="loginCode" autocomplete="one-time-code" inputmode="numeric" required placeholder="Inserisci il codice"></div>
+        <button class="btn btn-primary" style="margin-top:22px" id="verifyCodeBtn" type="submit">Accedi</button>
+        <button type="button" class="backlink" style="margin-top:18px" onclick="changeEmail()">Cambia email</button>
+      </form>
+      <p class="sub" id="loginStatus" style="font-size:13px" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 2. PROFILE CREATION -->
+    <section class="screen" data-screen="onboarding" id="onboarding">
+      <button class="backlink" onclick="go('scan')">← Indietro</button>
+      <h2 class="disp" style="margin-top:18px">Crea il tuo profilo</h2>
+      <p class="sub">Una foto e pochi dati. Dopo il check-in sarai visibile anche ai membri della Tribe del luogo.</p>
+      <div class="field">
+        <label>La tua foto</label>
+        <div class="photo-pick">
+          <button type="button" class="photo-circle" id="photoCircle" aria-label="Carica o cambia la tua foto" onclick="document.getElementById('photoInput').click()">📷</button>
+          <div class="photo-btn-txt"><b>Carica una foto</b>Obbligatoria per riconoscerti nel locale</div>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handlePhoto(event)">
+        </div>
+      </div>
+      <div class="field">
+        <label for="inName">Nome</label>
+        <input id="inName" maxlength="60" autocomplete="given-name" placeholder="Es. Marco" oninput="checkProfileValid()">
+      </div>
+      <div class="field">
+        <label for="inAge">Età</label>
+        <input id="inAge" type="number" min="18" max="120" step="1" inputmode="numeric" aria-describedby="ageError" placeholder="Es. 27" oninput="checkProfileValid()">
+        <div class="field-error" id="ageError">Inserisci un’età intera da 18 a 120 anni</div>
+      </div>
+      <div class="field">
+        <label>Sei</label>
+        <div class="pref-options">
+          <button type="button" class="pref-btn" onclick="setGender('M', this)">Uomo</button>
+          <button type="button" class="pref-btn" onclick="setGender('F', this)">Donna</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Ti interessano</label>
+        <div class="pref-options" id="prefOptions">
+          <button type="button" class="pref-btn" onclick="setPref('F', this)">Donne</button>
+          <button type="button" class="pref-btn" onclick="setPref('M', this)">Uomini</button>
+          <button type="button" class="pref-btn selected" onclick="setPref('ALL', this)">Entrambi</button>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn btn-primary" id="profileBtn" onclick="trySaveProfile()">Vai dentro</button>
+    </section>
+
+    <!-- 3. VENUE / WHO'S HERE NOW -->
+    <section class="screen tabscreen" data-screen="venue" id="venue">
+      <div class="venue-head">
+        <div>
+          <div class="name">Chi c'è ora</div>
+          <div class="addr">Locale demo</div>
+        </div>
+        <div class="pill"><span class="dot"></span><span id="countPill">8 ora</span></div>
+      </div>
+      <p class="privacy-note">Scopri chi è qui ora e chi frequenta i tuoi stessi posti.</p>
+      <div class="list" id="list"></div>
+    </section>
+
+    <section class="screen tabscreen" id="tribes"><h2 class="disp">Tribe</h2><p class="sub">Le tue Tribe</p><p class="privacy-note">I conteggi includono tutti i membri. I profili visibili dipendono da preferenze e blocchi.</p><div class="list" id="tribesList"></div></section>
+    <section class="screen tabscreen" id="tribe"><button class="backlink" onclick="go('tribes')">← Le tue Tribe</button><h2 class="disp" id="tribeTitle" style="margin-top:20px"></h2><p class="sub">Frequentano questo posto</p><p class="sub" id="tribeCount"></p><div class="tribe-grid" id="tribeGrid"></div></section>
+    <!-- MATCHES -->
+    <section class="screen tabscreen" data-screen="matches" id="matches">
+      <h2 class="disp">I tuoi match</h2>
+      <div class="list" id="matchesList" style="margin-top:18px"></div>
+    </section>
+
+    <!-- CHATS -->
+    <section class="screen tabscreen" data-screen="chats" id="chats">
+      <h2 class="disp">Chat</h2>
+      <div class="list" id="chatsList" style="margin-top:18px"></div>
+    </section>
+
+    <!-- MY PROFILE -->
+    <section class="screen tabscreen" data-screen="myprofile" id="myprofile">
+      <h2 class="disp">Il tuo profilo</h2>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:34px">
+        <div class="avatar" id="mpAvatar" style="width:96px;height:96px;font-size:34px"></div>
+        <div style="text-align:center">
+          <div id="mpName" style="font-family:var(--font-d);font-size:26px"></div>
+          <div class="sub" id="mpMeta" style="margin-top:2px"></div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn btn-ghost" onclick="editProfile()">Modifica profilo</button>
+    </section>
+
+    <!-- 4. DETAIL OVERLAY -->
+    <div class="overlay" id="detailOverlay">
+      <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dName">
+        <div class="avatar" id="dAvatar"></div>
+        <div class="nm" id="dName"></div>
+        <div class="tm" id="dTime"></div>
+        <div class="row">
+          <button class="btn btn-ghost" onclick="closeDetail()">Continua a guardare</button>
+          <button class="btn btn-primary" id="interestBtn" onclick="expressInterest()">Mi interessa</button>
+        </div>
+        <button class="report-link" onclick="reportPerson()">Segnala o blocca questo profilo</button>
+      </div>
+    </div>
+
+    <!-- 5. MATCH -->
+    <section class="screen" data-screen="match" id="match">
+      <div class="match-avatars">
+        <div class="avatar" id="mAvatarMe"></div>
+        <div class="avatar" id="mAvatarThem"></div>
+      </div>
+      <h1 class="disp">È un match!</h1>
+      <p class="sub" id="mText"></p>
+      <p class="sub" style="font-size:12.5px;margin-top:8px">Il match resta disponibile. Iniziate la conversazione quando volete.</p>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="go('venue')">Continua a guardare</button>
+        <button class="btn btn-primary" onclick="matchStartChat()">Inizia la conversazione</button>
+      </div>
+    </section>
+
+    <!-- 6. CHAT -->
+    <section class="screen" data-screen="chat" id="chat">
+      <div class="chat-head">
+        <button class="backlink" onclick="go('chats')" aria-label="Torna alle chat" style="margin-right:2px">←</button>
+        <div class="avatar" id="cAvatar"></div>
+        <div style="flex:1">
+          <div class="nm" id="cName"></div>
+          <div class="status">Qui ora</div>
+        </div>
+        <button class="backlink" onclick="blockFromChat()" aria-label="Segnala o blocca questa persona" style="font-size:19px">⋯</button>
+      </div>
+      <div class="bubbles" id="bubbles" role="log" aria-label="Messaggi della conversazione" aria-live="polite"></div>
+      <div class="chat-input">
+        <input id="chatIn" aria-label="Scrivi un messaggio" maxlength="2000" placeholder="Scrivi un messaggio…" onkeydown="if(event.key==='Enter'&&!event.isComposing){event.preventDefault();sendMsg()}">
+        <button id="sendMessageBtn" aria-label="Invia messaggio" onclick="sendMsg()">→</button>
+      </div>
+      <p id="chatSendStatus" class="chat-send-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <nav class="tabbar" id="tabbar" aria-label="Sezioni principali">
+      <button class="tab" data-tab="venue" onclick="go('venue')"><span class="ic">🔥</span><span>Ora</span></button>
+      <button class="tab" data-tab="tribes" onclick="go('tribes')"><span class="ic">👥</span><span>Tribe</span></button>
+      <button class="tab" data-tab="matches" onclick="go('matches')"><span class="ic">💘</span><span>Match</span></button>
+      <button class="tab" data-tab="chats" onclick="go('chats')"><span class="ic">💬</span><span>Chat</span></button>
+      <button class="tab" data-tab="myprofile" onclick="go('myprofile')"><span class="ic">🙂</span><span>Profilo</span></button>
+    </nav>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body></html>

@@ -1,0 +1,57 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {database,seed,ids,asUser,admin} from './helpers/database.js';
+const {a,b,c,v,w,q,r}=ids;
+test('adversarial PostgreSQL matrix: isolation, replay, mutations and deletion quarantine',async t=>{
+ const db=await database();t.after(()=>db.close());await seed(db);
+ await asUser(db,a);await db.query(`select public.check_in('${q}')`);
+ await asUser(db,b);await db.query(`select public.check_in('${q}')`);
+ await asUser(db,c);assert.equal((await db.query(`select * from public.profiles where id='${a}'`)).rows.length,0);
+ await assert.rejects(db.query(`select public.send_spot('${a}','${v}')`));await assert.rejects(db.query(`select public.block_profile('${a}')`));
+ await assert.rejects(db.query('select public.moderation_reports()'));
+ for(const table of ['tribe_memberships','interests','reports','suspensions','moderation_audit','account_deletions'])await assert.rejects(db.query(`select * from spot_private.${table}`));
+ await asUser(db,a);await db.query(`select public.send_spot('${b}','${v}')`);
+ await asUser(db,b);const match=(await db.query(`select public.send_spot('${a}','${v}') as id`)).rows[0].id;assert.ok(match);
+ await db.query(`select public.send_spot('${a}','${v}')`);assert.equal((await db.query('select * from public.my_matches()')).rows.length,1);
+ await asUser(db,c);assert.equal((await db.query(`select * from public.messages where match_id='${match}'`)).rows.length,0);await assert.rejects(db.query(`select public.send_message('${match}','Intrusione',gen_random_uuid())`));
+ await asUser(db,a);const nonce='40000000-0000-0000-0000-000000000001';
+ const sent=(await db.query(`select (public.send_message('${match}','Ciao','${nonce}')).id as id`)).rows[0].id;
+ const retry=(await db.query(`select (public.send_message('${match}','Ciao','${nonce}')).id as id`)).rows[0].id;assert.equal(sent,retry);
+ assert.equal((await db.query(`select * from public.messages where match_id='${match}'`)).rows.length,1);
+ await assert.rejects(db.query(`select public.send_message('${match}','Diverso','${nonce}')`));await assert.rejects(db.query(`select public.send_message('${match}',' ',gen_random_uuid())`));
+ await assert.rejects(db.query(`select public.send_message('${match}',repeat('a',2001),gen_random_uuid())`));
+ await db.query(`select public.send_message('${match}','<script>alert(1)</script>',gen_random_uuid())`);
+ const reportNonce='40000000-0000-0000-0000-000000000002';
+ const report=(await db.query(`select public.report_profile('${b}','other','Test',true,'${reportNonce}') as id`)).rows[0].id;
+ const reportRetry=(await db.query(`select public.report_profile('${b}','other','Test',true,'${reportNonce}') as id`)).rows[0].id;assert.equal(report,reportRetry);
+ await db.query(`select public.block_profile('${b}')`);await db.query(`select public.block_profile('${b}')`);
+ assert.equal((await db.query('select * from public.blocks')).rows.length,1);assert.equal((await db.query('select * from public.my_matches()')).rows.length,0);
+ await asUser(db,b);assert.equal((await db.query(`select * from public.location_people('${v}',true)`)).rows.length,0);await assert.rejects(db.query(`select public.send_message('${match}','Non consentito',gen_random_uuid())`));
+ await admin(db);await db.exec('delete from public.blocks;');await db.exec(`insert into spot_private.moderators(user_id) values('${a}');`);
+ await asUser(db,a);assert.equal((await db.query('select public.is_moderator() as ok')).rows[0].ok,true);
+ await db.query(`select public.moderate_report('${report}','review','Verifica fittizia')`);
+ await assert.rejects(db.query(`select public.moderate_report('${report}','suspend','')`));
+ await db.query(`select public.moderate_report('${report}','suspend','Test')`);
+ await asUser(db,b);assert.equal((await db.query('select public.my_account_state() as state')).rows[0].state,'suspended');
+ assert.equal((await db.query(`update public.profiles set name='Non consentito' where id='${b}' returning id`)).rows.length,0);
+ await assert.rejects(db.query(`insert into storage.objects(bucket_id,name) values('profile-photos','${b}/blocked.png')`));
+ await assert.rejects(db.query(`select public.check_in('${q}')`));
+ await asUser(db,a);await db.query(`select public.moderate_report('${report}','revoke','Test')`);
+ await admin(db);await db.query(`select public.begin_account_deletion('${b}')`);
+ await asUser(db,b);assert.equal((await db.query('select public.my_account_state() as state')).rows[0].state,'deleting');await assert.rejects(db.query(`select public.check_in('${q}')`));
+ await asUser(db,a);assert.equal((await db.query('select * from public.my_matches()')).rows.length,0);assert.equal((await db.query(`select * from public.location_people('${v}',true)`)).rows.length,0);
+ assert.equal((await db.query(`select * from public.venue_preview('${q}')`)).rows[0].member_count,1);await assert.rejects(db.query(`select public.begin_account_deletion('${c}')`));
+ await admin(db);await db.query(`select public.prepare_account_deletion('${b}')`);await db.query(`delete from auth.users where id='${b}'`);
+ for(const table of ['matches','messages'])assert.equal((await db.query(`select * from public.${table}`)).rows.length,0);
+ for(const table of ['reports','moderation_audit','account_deletions'])assert.equal((await db.query(`select * from spot_private.${table}`)).rows.length,0);
+ await db.exec(`update auth.users set is_anonymous=true where id='${c}';`);await asUser(db,c);await assert.rejects(db.query(`insert into storage.objects(bucket_id,name) values('profile-photos','${c}/anonymous.png')`));
+});
+
+test('cross-location interests cannot form a match and expired activity-window membership requires a new QR',async t=>{
+ const db=await database();t.after(()=>db.close());await seed(db);
+ for(const user of [a,b]){await asUser(db,user);await db.query(`select public.check_in('${q}')`);await db.query(`select public.check_in('${r}')`);}
+ await asUser(db,a);await db.query(`select public.send_spot('${b}','${v}')`);await asUser(db,b);await db.query(`select public.send_spot('${a}','${w}')`);assert.equal((await db.query('select * from public.my_matches()')).rows.length,0);
+ await db.query(`select public.send_spot('${a}','${v}')`);assert.equal((await db.query('select * from public.my_matches()')).rows.length,1);
+ await admin(db);await db.exec(`update spot_private.tribe_settings set activity_window=interval '7 days';update spot_private.tribe_memberships set last_checkin_at=now()-interval '8 days' where user_id='${a}';`);
+ await asUser(db,a);assert.equal((await db.query('select * from public.my_tribes()')).rows.length,0);await assert.rejects(db.query(`select * from public.location_people('${v}',false)`));
+ await db.query(`select public.check_in('${q}')`);assert.equal((await db.query('select * from public.my_tribes()')).rows.length,1);
+});

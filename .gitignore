@@ -1,0 +1,23 @@
+node_modules/
+.pnpm-store/
+dist/
+.env
+.env.local
+config.local.js
+.DS_Store
+
+# Local venue QR tokens and test credentials
+.local/
+docs/test-qr*.png
+
+# Review screenshots and private workspace evidence stay local.
+docs/*.png
+docs/*.jpg
+docs/figma-state.json
+.env.*
+!.env.example
+
+# User-supplied reference and local browser fixtures are not release source.
+reference/
+figma-reference.html
+tests/fixtures/

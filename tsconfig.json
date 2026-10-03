@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
+    "strict": false,
+    "paths": {
+      "npm:@supabase/supabase-js@2.117.2": [
+        "./node_modules/@supabase/supabase-js/dist/index.d.mts"
+      ]
+    }
+  },
+  "include": [
+    "src/domain.js",
+    "src/backend.js",
+    "supabase/functions/delete-account/index.ts",
+    "types/deno.d.ts",
+    "src/qr.js",
+    "src/errors.js",
+    "src/request.js",
+    "src/photo.js",
+    "src/ui-refresh.js",
+    "src/navigation.js"
+  ]
+}

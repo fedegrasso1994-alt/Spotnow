@@ -1,0 +1,11 @@
+import QRCode from 'qrcode';
+import {mkdir} from 'node:fs/promises';
+import {dirname} from 'node:path';
+import {venueTokenFromQr} from '../src/qr.js';
+const [url,path]=process.argv.slice(2);
+if(!url||!path)throw new Error('Uso: node scripts/create-qr.mjs URL FILE.png');
+const link=new URL(url);
+if(!['http:','https:'].includes(link.protocol)||!venueTokenFromQr(link.href,link.origin))throw new Error('Serve il link del luogo con il parametro venue.');
+await mkdir(dirname(path),{recursive:true});
+await QRCode.toFile(path,link.href,{width:600,margin:4,errorCorrectionLevel:'M'});
+console.log('QR creato.');
