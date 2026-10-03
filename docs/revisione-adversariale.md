@@ -218,6 +218,8 @@ GitHub: sorgente pubblicato nel commit `47d6d5ab83266858b6845cb8f57952c02b5490e4
 
 ## Secondo passaggio della revisione
 
-Foto non caricabile: segnaposto esplicito; immagine invariata mantiene il proprio nodo; errore tardivo non rimuove la foto sostitutiva. Nuovo messaggio: bolle precedenti e scroll conservati. Suite aggiornata: **68 test superati** e typecheck riuscito. Inventario delle foto non referenziate disponibile in `supabase/maintenance/photo-cleanup-preview.sql`: solo lettura, nessuna cancellazione. Collaudo fisico pronto in `collaudo-telefono.md`; numero di telefono non necessario. La pulizia Storage resta da autorizzare e collaudare, non è stata effettuata.
+Foto non caricabile: segnaposto esplicito; immagine invariata mantiene il proprio nodo; errore tardivo non rimuove la foto sostitutiva. Nuovo messaggio: bolle precedenti e scroll conservati. Suite aggiornata: **69 test superati** e typecheck riuscito. Inventario delle foto non referenziate disponibile in `supabase/maintenance/photo-cleanup-preview.sql`: solo lettura, nessuna cancellazione. Collaudo fisico pronto in `collaudo-telefono.md`; numero di telefono non necessario. La pulizia Storage resta da autorizzare e collaudare, non è stata effettuata.
 
 Secondo passaggio pubblicato: `dpl_8uSMeVN27g1D4J58CFtxTngegA2E`, READY, dominio invariato. Android confermato dal proprietario come primo dispositivo di collaudo; QR del luogo di prova preparato localmente, escluso dal repository.
+
+Foto lenta: iniziale visibile fino al caricamento riuscito. Rilascio definitivo Android: `dpl_ErwKD6wiR4ABcbtjQuP72dFvqrcr`, READY; 69 test, typecheck, build e controllo asset superati.
