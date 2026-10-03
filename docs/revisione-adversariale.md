@@ -159,7 +159,7 @@ Figma: screenshot introduttivo nodo 13:76 confrontato tramite skill figma-use; s
 | N05 | Carico di polling/foto, utenti simultanei e risposte lente | Esterna aperta | Richieste identiche condivise e cache privata breve; baseline costi/latenza sotto carico non misurata. |
 | N06 | Errori client/server e monitoraggio | Esterna aperta | Eventi locali senza payload e banner offline; alert di servizio ancora da definire. |
 | N07 | Google, email mittente, dominio e supporto dedicati | Esterna aperta | Copertura parziale: adversarial-database.test.js; restore.test.js; scripts/check-release.mjs; ispezione build. Completare le condizioni della riga originale nel collaudo pilota. |
-| N08 | Repository: commit, push, documentazione e tracciamento | Tecnica parziale | Sorgente e CI preparati; esito commit/push riportato nel registro di pubblicazione. |
+| N08 | Repository: commit, push, documentazione e tracciamento | Tecnica parziale | Repository pubblicato, sorgente coincidente con locale, workflow GitHub completato con successo; registro sotto. |
 | N09 | Build, deploy statico Vercel e configurazione | Tecnica parziale | Copertura parziale: adversarial-database.test.js; restore.test.js; scripts/check-release.mjs; ispezione build. Completare le condizioni della riga originale nel collaudo pilota. |
 | N10 | Migrazioni, compatibilità frontend e rollback | Tecnica parziale | Copertura parziale: adversarial-database.test.js; restore.test.js; scripts/check-release.mjs; ispezione build. Completare le condizioni della riga originale nel collaudo pilota. |
 | N11 | Backup e ripristino dati | Esterna aperta | Dashboard Free senza project backups; ripristino PGlite fittizio superato, ripristino Supabase/Storage aperto. |
@@ -213,3 +213,5 @@ Nessuno di questi punti viene presentato come superato grazie a una simulazione 
 Prima pubblicazione della revisione: dpl_CEVf7xFeXkhw8brDe2nnT2xJx35y, READY, dominio https://spot-now-alpha.vercel.app/. Successive correzioni di scanner/anteprima/sfondo modale e relativo deploy finale sono registrate sotto dopo i controlli.
 
 Rilascio finale: `dpl_HHr3FBr4vKksWdrjtBLeBLBJkQj2`, READY, https://spot-now-alpha.vercel.app/. Suite finale: **65 test**, zero fallimenti; typecheck ampliato, build e controllo asset superati. Migrazione 009 e funzione Edge pubblicate.
+
+GitHub: sorgente pubblicato nel commit `47d6d5ab83266858b6845cb8f57952c02b5490e4`; confronto alberi locale/remoto senza differenze. CI `Verify Spot Now #1` completata con successo in 20 s: https://github.com/fedegrasso1994-alt/Spotnow/actions/runs/37153460408. Dopo il rilascio finale, presenza scaduta correttamente a 0 con comando QR disponibile, Tribe mantenuta.
