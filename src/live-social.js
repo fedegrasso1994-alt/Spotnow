@@ -56,9 +56,10 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   const loadChat=singleFlight(async(m,version,generation)=>{if(!m)return;const messages=await backend.messages(m.id);if(generation!==epoch||version!==chatVersion||current?.id!==m.id||active()!=='chat')return;
     const signature=JSON.stringify(messages.map(msg=>[msg.id,msg.sender_id,msg.body]));if(signature===chatSignature)return;const first=chatSignature==='';chatSignature=signature;
     const bubbles=$('bubbles');const nearBottom=bubbles.scrollHeight-bubbles.scrollTop-bubbles.clientHeight<80;
-    bubbles.replaceChildren();const line=document.createElement('div');line.className='sysline';line.textContent=`Match avvenuto a ${m.venue_name}`;bubbles.append(line);
-    if(!messages.length){const empty=document.createElement('p');empty.className='chat-empty';empty.textContent="Inizia la conversazione quando vuoi. Il match resta disponibile.";bubbles.append(empty);}
-    for(const msg of messages){const b=document.createElement('div');b.className=`bub ${msg.sender_id===session()?.user.id?'me':'them'}`;b.textContent=msg.body;bubbles.append(b);}
+    const rows=[{id:'context',className:'sysline',body:`Match avvenuto a ${m.venue_name}`}];
+    if(!messages.length)rows.push({id:'empty',className:'chat-empty',body:'Inizia la conversazione quando vuoi. Il match resta disponibile.'});
+    for(const msg of messages)rows.push({id:`message:${msg.id}`,className:`bub ${msg.sender_id===session()?.user.id?'me':'them'}`,body:msg.body});
+    stableList(bubbles,rows,{key:row=>row.id,signature:row=>JSON.stringify([row.className,row.body]),create:row=>{const bubble=document.createElement('div');bubble.className=row.className;bubble.textContent=row.body;return bubble;}});
     if(first||nearBottom)bubbles.scrollTop=bubbles.scrollHeight;
   });
   const renderChat=()=>current?loadChat(current,chatVersion,epoch):Promise.resolve();

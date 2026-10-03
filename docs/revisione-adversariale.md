@@ -105,7 +105,7 @@ Figma: screenshot introduttivo nodo 13:76 confrontato tramite skill figma-use; s
 | H04 | Invio con pulsante/Invio, vuoto, spazi, emoji, multilinea, limite 2000 | Tecnica parziale | Copertura parziale: live-social.test.js; adversarial-database.test.js. Completare le condizioni della riga originale nel collaudo pilota. |
 | H05 | Rete persa prima/durante/dopo invio e retry | Tecnica parziale | Nonce e bozza riusati nei retry della stessa pagina. Dopo reload la chiave non è conservata. |
 | H06 | Ricezione dall'altro telefono e ordinamento | Esterna aperta | Lettura reale della chat verificata; ricezione simultanea tra due telefoni va riconfermata. |
-| H07 | Polling, scroll su messaggi vecchi, testo selezionato | Tecnica parziale | Polling identico preserva DOM. Arrivo nuovo messaggio ricostruisce le bolle: selezione di testo e scroll su telefono da rifinire/verificare. |
+| H07 | Polling, scroll su messaggi vecchi, testo selezionato | Tecnica parziale | Polling identico preserva DOM. Arrivo nuovo messaggio mantiene le bolle esistenti e lo scroll nei test; selezione e tastiera su telefono da verificare. |
 | H08 | Bozza, uscita/rientro e app in background | Tecnica parziale | Copertura parziale: live-social.test.js; adversarial-database.test.js. Completare le condizioni della riga originale nel collaudo pilota. |
 | H09 | Tastiera, input, pulsante invio, schermo piccolo | Esterna aperta | Layout desktop a 390 px controllato; tastiera fisica e safe-area da verificare. |
 | H10 | Conversazione dopo presenza scaduta e cambio luogo | Tecnica parziale | Copertura parziale: live-social.test.js; adversarial-database.test.js. Completare le condizioni della riga originale nel collaudo pilota. |
@@ -215,3 +215,9 @@ Prima pubblicazione della revisione: dpl_CEVf7xFeXkhw8brDe2nnT2xJx35y, READY, do
 Rilascio finale: `dpl_HHr3FBr4vKksWdrjtBLeBLBJkQj2`, READY, https://spot-now-alpha.vercel.app/. Suite finale: **65 test**, zero fallimenti; typecheck ampliato, build e controllo asset superati. Migrazione 009 e funzione Edge pubblicate.
 
 GitHub: sorgente pubblicato nel commit `47d6d5ab83266858b6845cb8f57952c02b5490e4`; confronto alberi locale/remoto senza differenze. CI `Verify Spot Now #1` completata con successo in 20 s: https://github.com/fedegrasso1994-alt/Spotnow/actions/runs/37153460408. Dopo il rilascio finale, presenza scaduta correttamente a 0 con comando QR disponibile, Tribe mantenuta.
+
+## Secondo passaggio della revisione
+
+Foto non caricabile: segnaposto esplicito; immagine invariata mantiene il proprio nodo; errore tardivo non rimuove la foto sostitutiva. Nuovo messaggio: bolle precedenti e scroll conservati. Suite aggiornata: **68 test superati** e typecheck riuscito. Inventario delle foto non referenziate disponibile in `supabase/maintenance/photo-cleanup-preview.sql`: solo lettura, nessuna cancellazione. Collaudo fisico pronto in `collaudo-telefono.md`; numero di telefono non necessario. La pulizia Storage resta da autorizzare e collaudare, non è stata effettuata.
+
+Secondo passaggio pubblicato: `dpl_8uSMeVN27g1D4J58CFtxTngegA2E`, READY, dominio invariato. Android confermato dal proprietario come primo dispositivo di collaudo; QR del luogo di prova preparato localmente, escluso dal repository.

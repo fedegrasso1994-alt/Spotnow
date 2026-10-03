@@ -5,6 +5,7 @@ import fs from 'node:fs/promises';
 import {singleFlight,stableList} from '../src/ui-refresh.js';
 import {userMessage} from '../src/errors.js';
 import {createNavigation} from '../src/navigation.js';
+import {renderAvatar} from '../src/avatar.js';
 import {validProfile} from '../src/domain.js';
 import {dom,Element,flush,deferred} from './helpers/dom.js';
 
@@ -16,7 +17,7 @@ async function boot(overrides={},anonymous=false){
  const session={user:{id:'me',is_anonymous:anonymous}};let callback;const assigned=[],intervals=[],storage=new Map();
  const backend={session:async()=>session,onSessionChange:cb=>{callback=cb;},accountState:async()=> 'active',isSuspended:async()=>false,getProfile:async()=>({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'}),photoUrl:async()=>'/photo',ownCheckIn:async()=>({venue_id:'place',expires_at:new Date(Date.now()+600000).toISOString()}),getVenue:async()=>({id:'place',name:'Locale'}),locationPeople:async()=>[{id:'person',name:'Anna',age:25,photo_path:'person/photo',checked_in_at:new Date().toISOString(),expires_at:new Date(Date.now()+600000).toISOString()}],tribes:async()=>[{id:'place',name:'Locale',member_count:2,live_count:1}],googleLogin:async()=>({url:'https://accounts.google.com/oauth'}),linkGoogle:async()=>({url:'https://accounts.google.com/link'}),signOut:async()=>callback('SIGNED_OUT',null),...overrides};
  const window={addEventListener(type,handler){(this.listeners??={})[type]=handler;}};
- const context={document:ui.document,window,testBackend:backend,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,validProfile,URL,URLSearchParams,Date,console,location:{search:'',href:'https://spot.example/',origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:()=>0,clearTimeout:()=>{},createVenueScanner:()=>({stop(){},open(){}}),setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
+ const context={renderAvatar,document:ui.document,window,testBackend:backend,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,validProfile,URL,URLSearchParams,Date,console,location:{search:'',href:'https://spot.example/',origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:()=>0,clearTimeout:()=>{},createVenueScanner:()=>({stop(){},open(){}}),setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
  vm.createContext(context);await vm.runInContext(`(async()=>{${source}})()`,context);await flush();
  return {...ui,window,backend,assigned,intervals,storage,callback};
 }
@@ -46,7 +47,7 @@ test('editing an existing profile has a save action and returns to profile witho
  const ui=await boot();ui.window.editProfile();assert.equal(ui.get('profileBtn').textContent,'Salva modifiche');ui.get('onboarding').querySelector('.backlink').onclick();await flush();assert.equal(ui.document.querySelector('.screen.active').id,'myprofile');
 });
 test('profile photo is renewed when returning to profile after its signed URL expires',async()=>{
- let photos=0;const ui=await boot({photoUrl:async()=>`/photo-${++photos}`});ui.window.go('myprofile');await flush();const first=ui.get('mpAvatar').style.backgroundImage;ui.window.go('chats');ui.window.go('myprofile');await flush();assert.notEqual(ui.get('mpAvatar').style.backgroundImage,first);
+ let photos=0;const ui=await boot({photoUrl:async()=>`/photo-${++photos}`});ui.window.go('myprofile');await flush();const first=ui.get('mpAvatar').dataset.photoSource;ui.window.go('chats');ui.window.go('myprofile');await flush();assert.notEqual(ui.get('mpAvatar').dataset.photoSource,first);
 });
 test('signout clears profile fields and photo before another account can enter',async()=>{
  const ui=await boot();ui.callback('SIGNED_OUT',null);assert.equal(ui.get('inName').value,'');assert.equal(ui.get('inAge').value,'');assert.equal(ui.get('photoCircle').style.backgroundImage,'');

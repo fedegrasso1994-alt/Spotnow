@@ -14,7 +14,7 @@ export class Element {
 }
 export function dom(){
  const elements=new Map();
- const get=id=>{if(!elements.has(id)){const el=new Element();el.id=id;elements.set(id,el);}return elements.get(id);};
+ const get=id=>{if(!elements.has(id)){const el=new Element();el.id=id;el.ownerDocument=document;elements.set(id,el);}return elements.get(id);};
  const document={hidden:false,getElementById:get,createElement:tag=>{const el=new Element(tag);el.ownerDocument=document;return el;},querySelectorAll:selector=>Array.from(new Set([...elements.values()].flatMap(el=>[...(el.matches(selector)?[el]:[]),...el.querySelectorAll(selector)]))),querySelector:selector=>document.querySelectorAll(selector)[0]||null,addEventListener(type,handler){(this.listeners??={})[type]=handler;}};
  const screen=id=>{const el=get(id);el.className='screen';return el;};
  const activate=id=>{for(const el of elements.values())if(el.classes.has('screen'))el.classList.toggle('active',el.id===id);};

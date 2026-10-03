@@ -1,3 +1,4 @@
+import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
 import { userMessage } from './errors.js';
 import { createNavigation } from './navigation.js';
@@ -23,7 +24,7 @@ const photoFor=path=>backend.photoUrl(path).catch(()=>null);
 const message=userMessage;
 function showToast(text) {$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),4500);}
 async function refreshOwnPhoto(){const generation=accountGeneration,path=state.profile.photoPath,selection=photoSelection;if(!path||state.photoFile)return;const photo=await photoFor(path);if(generation!==accountGeneration||state.profile.photoPath!==path||selection!==photoSelection||state.photoFile)return;state.profile.photo=photo;for(const id of ['mpAvatar','photoCircle'])avatar($(id),state.profile);}
-function avatar(el,profile) {el.style.backgroundImage=profile.photo?`url("${profile.photo}")`:'';el.style.backgroundSize='cover';el.style.backgroundPosition='center';el.textContent=profile.photo?'':'📷';}
+const avatar=renderAvatar;
 const memberLabel=count=>`${count} ${Number(count)===1?'membro':'membri'}`;
 function emptyList(id,text) {const p=document.createElement('p');p.className='empty-hint';p.textContent=text;$(id).replaceChildren(p);}
 function go(screen,{replace=false,fromHistory=false}={}) {
