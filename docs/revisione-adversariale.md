@@ -223,3 +223,5 @@ Foto non caricabile: segnaposto esplicito; immagine invariata mantiene il propri
 Secondo passaggio pubblicato: `dpl_8uSMeVN27g1D4J58CFtxTngegA2E`, READY, dominio invariato. Android confermato dal proprietario come primo dispositivo di collaudo; QR del luogo di prova preparato localmente, escluso dal repository.
 
 Foto lenta: iniziale visibile fino al caricamento riuscito. Rilascio definitivo Android: `dpl_ErwKD6wiR4ABcbtjQuP72dFvqrcr`, READY; 69 test, typecheck, build e controllo asset superati.
+
+Ripristino installazione richiesto dal proprietario: pulsante statico Salva l’app sul telefono nel profilo, stato già salvata visibile anziché rimozione del controllo; invito dopo il match riattivato una volta tramite flag versione v2. 71 test, build e typecheck superati. Deploy `dpl_AZbGHk1HcxKXEnsaFTkSyvoZE9Nx`, READY.
