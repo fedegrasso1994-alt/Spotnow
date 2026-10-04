@@ -32,3 +32,9 @@ Per la cancellazione preparare un account D esplicitamente eliminabile. Prima de
 ## Esito da riportare
 
 Modello del telefono, versione iOS/Android, browser, passaggio preciso, risultato e problema eventuale. Non mandare numero di telefono, password, token o screenshot con conversazioni private. I passaggi non provati restano aperti nel registro di revisione.
+
+## Ricontrollo responsive dopo la correzione
+
+Sul dispositivo iPhone che ha mostrato il problema: aprire una chat, ruotare il telefono, aprire la tastiera, digitare una bozza senza inviarla, verificare il pulsante invio, chiudere/riaprire la tastiera e ripetere in verticale. Il tasto invio deve rimanere interamente visibile; la cronologia deve scorrere indipendentemente dal campo. Ripetere in Safari e dalla Home se l'app è installata. Ripetere su Android Chrome. Controllare anche testo ingrandito e notch/safe area: lo scorrimento del modulo è previsto quando lo spazio non basta. Le misure in browser desktop non sostituiscono questa verifica.
+
+Notifiche ad app chiusa: al momento non attive. Il piano di attivazione e i relativi test sono in `docs/notifiche-push.md`.

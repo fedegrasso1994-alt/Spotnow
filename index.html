@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Spot Now</title>
 <meta name="theme-color" content="#14151a">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -167,7 +167,7 @@
         <div class="pill"><span class="dot"></span><span id="countPill">8 ora</span></div>
       </div>
       <p class="privacy-note">Scopri chi è qui ora e chi frequenta i tuoi stessi posti.</p>
-      <button class="btn discover-tribe" id="discoverTribeBtn">Scopri chi frequenta questo posto <span aria-hidden="true">↗</span></button>
+      <button class="btn btn-primary discover-tribe" id="discoverTribeBtn">Scopri chi frequenta questo posto</button>
       <div class="list" id="list"></div>
     </section>
 
@@ -234,7 +234,7 @@
       <div class="chat-head">
         <button class="backlink" onclick="go('chats')" aria-label="Torna alle chat" style="margin-right:2px"><span class="nav-arrow" aria-hidden="true">←</span></button>
         <div class="avatar" id="cAvatar"></div>
-        <div style="flex:1">
+        <div class="chat-person">
           <div class="nm" id="cName"></div>
           <div class="status">Qui ora</div>
         </div>

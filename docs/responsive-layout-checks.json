@@ -1,0 +1,2405 @@
+{
+  "environment": "Codex in-app browser; Chromium layout checks, not physical iOS/Android certification",
+  "checks": [
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        568
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        568,
+        580
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        640,
+        640
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        667,
+        667
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        375,
+        667
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        844,
+        844
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        915,
+        915
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        412,
+        915
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        932,
+        932
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        710,
+        710
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        390
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        527
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        390,
+        564
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        375
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        527
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        375,
+        564
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        667,
+        375
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        742,
+        742
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        838,
+        838
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        345
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        340
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        527
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        340,
+        580
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        375,
+        340
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        527
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        580
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Ora",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        380
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "venue",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Tribe",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        304
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Dettaglio",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        304
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribe",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Tribe luoghi",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        303
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "tribes",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Match",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        240
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "matches",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Chat elenco",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        240
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chats",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Conversazione",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        240
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Profilo",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        527
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "myprofile",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Modulo",
+      "chatControlsFit": true,
+      "content": [
+        240,
+        580
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "onboarding",
+      "viewport": [
+        320,
+        240
+      ]
+    },
+    {
+      "label": "Home",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Scanner QR",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Anteprima luogo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Accesso",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Creazione profilo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Home",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Scanner QR",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Anteprima luogo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Accesso",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Creazione profilo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Home",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Scanner QR",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Anteprima luogo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Accesso",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    },
+    {
+      "label": "Creazione profilo",
+      "chatControlsFit": true,
+      "content": [
+        420,
+        420
+      ],
+      "ctaMatchesHome": true,
+      "horizontalOverflow": false,
+      "phoneFits": true,
+      "screen": "chat",
+      "viewport": [
+        390,
+        420
+      ]
+    }
+  ]
+}

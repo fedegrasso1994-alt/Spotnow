@@ -244,3 +244,14 @@ Ripristino installazione richiesto dal proprietario: pulsante statico Salva l’
 - Se esiste un match autorizzato con la persona, nel suo dettaglio compare “Apri la Chat”. Il pulsante apre la conversazione esistente senza inviare un nuovo interesse, anche se il match nasce in un altro luogo.
 - Un interesse senza reciprocità resta “Interesse già inviato”, disabilitato. Il dettaglio si aggiorna quando il match arriva o viene rimosso, senza attribuire il match a un altro profilo.
 - Verifiche: 82 test superati, inclusi apertura chat senza nuova scrittura, reciprocità in tempo reale, match rimosso e cambio profilo durante il caricamento. Collaudo UI con dati esclusivamente simulati.
+
+### Responsive e notifiche (4 ottobre 2026)
+
+- Il pulsante “Scopri chi frequenta questo posto” usa esattamente le classi `btn btn-primary` della home: stessi carattere, peso, dimensione, colori, bordo, raggi e padding; rimossa la freccia decorativa e lo stile verde.
+- Chat: il campo testo può restringersi senza spingere via invio; pulsante di invio da 48px senza compressione; intestazione, input e stato invio non si comprimono, messaggi lunghi vanno a capo e la cronologia scorre.
+- VisualViewport aggiorna l'altezza realmente visibile e lo spostamento della tastiera; supporta rotazione, ripristino pagina e browser senza questa API, senza disabilitare lo zoom. Safe area applicata dentro le schermate, non sommata all'altezza dell'intera pagina.
+- Layout senza overflow orizzontale verificato in browser Chromium su 15 dimensioni: 320×568, 360×640, 375×667, 390×844, 412×915, 430×932, 768×1024, 1024×768, 844×390, 667×375, 1280×800, 1920×1080, 375×340, 390×420, 320×240. Nove viste per dimensione: Ora, Tribe, dettaglio, luoghi, match, elenco chat, conversazione, profilo, modulo. Controlli DOM conservati in `docs/responsive-layout-checks.json`.
+- Le altezze ridotte simulano lo spazio disponibile con tastiera. Non certificano il comportamento della tastiera nativa di Safari né ogni modello di telefono. Collaudo fisico iPhone Safari e Android Chrome ancora da eseguire con due dispositivi concordati.
+- Web Push: progetto concreto in `docs/notifiche-push.md`; non implementato né attivo. Nessun permesso notifiche chiesto e nessuna notifica reale inviata in questo collaudo.
+
+- Ulteriori 15 controlli del percorso iniziale (home, scanner QR, anteprima luogo, accesso, creazione profilo) su mobile piccolo, altezza ridotta e desktop: totale 150 misurazioni, nessuna anomalia rilevata nei criteri controllati.

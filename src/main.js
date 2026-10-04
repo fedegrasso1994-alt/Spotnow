@@ -1,3 +1,5 @@
+import {setupViewport} from './viewport.js';
+setupViewport();
 import {setupDiagnostics} from './diagnostics.js';
 setupDiagnostics();
 const demo = new URLSearchParams(location.search).get('demo') === '1';

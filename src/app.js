@@ -57,7 +57,7 @@ function go(screen) {
   if(screen==='venue') renderList();
   if(screen==='matches') fillList('matchesList',state.matches,"Ancora nessun match. Continua a guardare chi c'è ora.",()=> 'Match a Locale demo',openChat);
   if(screen==='chats') fillList('chatsList',state.matches.filter(p=>p.messages.length),'Nessuna conversazione ancora.',p=>p.messages.at(-1).text,openChat);
-  if(screen==='onboarding'){$('onboarding').querySelector('.disp').textContent=state.editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=state.editing?'Salva modifiche':'Entra';}
+  if(screen==='onboarding'){$('onboarding').querySelector('.disp').textContent=state.editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=state.editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(state.editing?'myprofile':'scan');}
   if(screen==='myprofile') {avatar($('mpAvatar'),state.profile);$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''} · Locale demo`;}
   if(screen==='camera') showToast('Anteprima: tocca il riquadro per simulare una scansione QR.');
 }
@@ -137,3 +137,11 @@ if(new URLSearchParams(location.search).get('preview')==='tribes'){
 }
 
 $('discoverTribeBtn').onclick=()=>{selectedDemoTribe='Locale demo';go('tribe');};
+
+// Explicit responsive QA preview; every profile and message is fictional.
+if(new URLSearchParams(location.search).get('preview')==='responsive'){
+ demoAccount=true;Object.assign(state.profile,{name:'Alex',age:28,gender:'M',preference:'ALL',occupation:'Ingegneria',photo:null});
+ const person=people[0];person.sent=true;
+ state.matches=[{...person,createdAt:Date.now(),messages:[{from:'them',text:'Ciao! Questa è una conversazione dimostrativa.'},{from:'me',text:'UnaParolaMoltoLunga'.repeat(12)}]}];
+ go('venue');
+}

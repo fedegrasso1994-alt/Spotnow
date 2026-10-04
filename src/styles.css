@@ -6,8 +6,7 @@
     --font-d:'Bebas Neue','Arial Narrow',sans-serif;
     --font-b:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
+
   }
   *{box-sizing:inherit}
   html,body{height:100%;margin:0}
@@ -238,8 +237,7 @@
 .venue-head>div:first-child{min-width:0}
 .venue-head .name{font-family:var(--font-b);font-size:14px;color:var(--muted)}
 .venue-head .addr{font-family:var(--font-d);font-size:34px;line-height:1.05;color:var(--text);margin-top:6px;overflow-wrap:anywhere}
-.discover-tribe{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);border-radius:14px;font-size:14px;padding:14px;margin-top:14px;flex-shrink:0}
-.discover-tribe span{font-size:24px}
+.discover-tribe{margin-top:14px;flex-shrink:0}
 .own-profile{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:18px;flex-shrink:0}
 #mpAvatar{width:100%;height:min(34dvh,300px);min-height:180px;border-radius:20px;background:var(--surface2);font-size:64px;overflow:hidden}
 #myprofile .btn{flex-shrink:0}
@@ -275,3 +273,45 @@
 .chat-head .backlink[aria-label="Segnala o blocca questa persona"]{min-width:48px;justify-content:center;background:var(--surface2);font-size:28px!important}
 .tab .ic{font-size:24px;line-height:1.1}
 .tab{min-height:48px;font-size:11px}
+
+/* Keep controls inside narrow screens and the keyboard-adjusted visible area. */
+html,body{min-width:0}
+.stage{min-height:var(--app-height,100dvh)}
+.phone{height:min(840px,calc(var(--app-height,100dvh) - 56px))}
+.screen{overflow-x:hidden;overflow-y:auto;padding-top:max(18px,env(safe-area-inset-top,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.screen>h1,.screen>h2,.screen>.sub,.screen>.privacy-note,.screen>.venue-head{flex-shrink:0}
+.tabscreen{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.list{min-height:80px}
+.person .meta,.chat-person{min-width:0}
+.person .nm,.person .tm,.chat-person .nm,.tribe-place .nm{overflow-wrap:anywhere}
+.chat-person{flex:1}
+#chat{overflow:hidden;padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+.chat-head{flex-shrink:0;gap:10px;padding-bottom:12px}
+.chat-head .avatar{flex:0 0 40px}
+.chat-input{flex-shrink:0;min-width:0;align-items:center}
+.chat-input input{flex:1 1 0%;min-width:0;width:0;font-size:16px}
+.chat-input button{flex:0 0 48px;width:48px;height:48px;font-size:24px}
+.chat-send-status{flex-shrink:0;font-size:12px;line-height:1.4}
+.bub,.sysline{overflow-wrap:anywhere;white-space:pre-wrap;flex-shrink:0}
+#onboarding{padding-top:max(12px,env(safe-area-inset-top,0px));padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+.sheet .row .btn{min-width:0;overflow-wrap:anywhere}
+.hero-card,.card-stat,.btn{flex-shrink:0}
+@media(max-width:480px),(max-height:500px) and (max-width:1024px){
+ .stage{position:fixed;left:0;right:0;top:var(--app-top,0px);height:var(--app-height,100dvh);min-height:0;padding:0}
+ .phone{height:100%;max-width:none;border:0;border-radius:0;box-shadow:none}
+}
+@media(max-height:450px){
+ .screen{padding-top:max(10px,env(safe-area-inset-top,0px))}
+ #chat .chat-head{padding-bottom:6px}
+ #chat .bubbles{padding:8px 0}
+ #chat .chat-input{padding-top:6px}
+ .detail-photo{min-height:100px}
+ #detailOverlay .sheet{gap:8px;padding-top:8px}
+}
+/* Auto margins center when there is room and preserve scrollable starts when short. */
+#camera,#match{justify-content:flex-start}
+#camera .viewfinder{margin-top:auto;width:min(230px,65vw,calc(var(--app-height,100dvh)*.4));height:auto;aspect-ratio:1;flex-shrink:0;margin-bottom:18px}
+#camera>.backlink{margin-bottom:auto}
+#match .match-avatars{margin-top:auto;flex-shrink:0}
+#match>.row{margin-bottom:auto}
+@keyframes scan{0%,100%{top:8px}50%{top:calc(100% - 10px)}}
