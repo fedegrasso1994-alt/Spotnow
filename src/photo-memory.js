@@ -17,3 +17,11 @@ export function rememberPhoto(path,image){
   },'image/webp',.82);
  }catch{pending.delete(path);/* Unsupported canvas/CORS retains the normal authorized image. */}
 }
+
+/** Warm only a few authorized thumbnails; a reset invalidates late image callbacks. */
+export function preloadPhoto(path,url){
+ if(!path||!url||cachedPhoto(path)||typeof Image==='undefined')return;
+ const generation=epoch,image=new Image();image.crossOrigin='anonymous';image.decoding='async';
+ image.onload=()=>{if(generation===epoch)rememberPhoto(path,image);image.onload=null;image.onerror=null;};
+ image.onerror=()=>{image.onload=null;image.onerror=null;};image.src=url;
+}

@@ -24,3 +24,8 @@ test('choosing a new local photo replaces the old decoded photo before its stora
  const ui=setup();t.after(ui.restore);const face=ui.get('face');renderAvatar(face,{photoPath:'me/old',photo:'/old'});const image=face.children[0];image.onload();
  renderAvatar(face,{photoPath:'me/old',photo:'data:image/jpeg;base64,bmV3'});assert.notEqual(face.children[0],image);assert.equal(face.children[0].src,'data:image/jpeg;base64,bmV3');
 });
+
+test('metadata preview is visible before signing, survives a failed thumbnail and upgrades on load',t=>{
+ const ui=setup();t.after(ui.restore);const face=ui.get('face'),profile={name:'Anna',photo_path:'a/full',thumbnail_path:'a/full.thumb.jpg',photo_preview:'data:image/jpeg;base64,YQ=='};renderAvatar(face,profile,{thumbnail:true});assert.equal(face.children[0].src,profile.photo_preview);
+ renderAvatar(face,{...profile,photo:'/slow-thumb'},{thumbnail:true});let image=face.children.at(-1);assert.equal(face.children.length,2);image.onerror();assert.equal(face.children[0].src,profile.photo_preview);renderAvatar(face,{...profile,photo:'/retry'},{thumbnail:true});image=face.children.at(-1);assert.equal(image.src,'/retry');image.onload();assert.equal(face.children.length,1);assert.equal(face.children[0],image);renderAvatar(face,profile,{thumbnail:true});assert.equal(face.children[0],image);
+});

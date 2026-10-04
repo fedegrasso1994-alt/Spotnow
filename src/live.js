@@ -1,5 +1,6 @@
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
+import { photoVariants } from './photo-variants.js';
 import { optimizePhoto } from './optimize-photo.js';
 import { userMessage } from './errors.js';
 import { createNavigation } from './navigation.js';
@@ -31,8 +32,8 @@ async function peoplePage(place,live,offset){if(backend.locationPeoplePage)retur
 async function withPhotos(people,onReady=()=>{}){
  const loaded=new Map();const groups=[people.slice(0,4),people.slice(4)].filter(group=>group.length);
  await Promise.all(groups.map(async group=>{
-  const urls=backend.photoUrls?await backend.photoUrls(group.map(p=>p.photo_path)).catch(()=>new Map()):null;
-  const records=await Promise.all(group.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));
+  const urls=backend.photoUrls?await backend.photoUrls(group.map(p=>p.thumbnail_path||p.photo_path)).catch(()=>new Map()):null;
+  const records=await Promise.all(group.map(async p=>({...p,photo:urls?urls.get(p.thumbnail_path||p.photo_path)||null:await photoFor(p.thumbnail_path||p.photo_path)})));
   for(const p of records)loaded.set(p.id,p);onReady(people.map(p=>loaded.get(p.id)||p));
  }));return people.map(p=>loaded.get(p.id)||p);
 }
@@ -51,7 +52,7 @@ function emptyList(id,text) {const p=document.createElement('p');p.className='em
 function go(screen,{replace=false,fromHistory=false}={}) {
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
-  listGeneration++;backend.cancelDiscoveryReads?.();
+  listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
@@ -67,7 +68,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(!fromHistory)navigation.record(screen,{...(screen==='tribe'?{tribeId:selectedTribe?.id}:{}),...(['chat','match'].includes(screen)?social.route():{})},replace);
   document.querySelectorAll('.screen').forEach(el=>{el.inert=dialogOpen||!el.classList.contains('active');});
   if(screen==='camera')venueScanner.open();
-  if(screen==='venue')void renderPeople();
+  if(screen==='venue'){void renderPeople();if(state.venue?.id&&backend.prefetchTribe)void backend.prefetchTribe(state.venue.id).catch(()=>{});}
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe')void renderTribe();
   social.onScreen(screen);
@@ -91,10 +92,10 @@ const loadAccount=singleFlight(async(key)=>{
   const profile=await backend.getProfile();
   if(!current())return;
   if(!profile){if(pendingQr){await previewVenue();if(!current())return;restoredDraft=false;rememberDraft();syncForm();go('onboarding',{replace:true});}else{syncForm();go('intro',{replace:true});}return;}
-  const photo=await photoFor(profile.photo_path);
+  const photo=state.profile.photoPath===profile.photo_path?state.profile.photo:null;
   if(!current()||state.session?.user.id!==account)return;
   state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path,occupation:profile.occupation||''};
-  syncForm();
+  syncForm();void refreshOwnPhoto();
   if(restoredDraft){pendingQr=null;restoredDraft=false;clearDraft();}
   if(pendingQr){await performCheckin(generation,entry);return;}
   clearDraft();
@@ -146,7 +147,7 @@ const loadPeople=singleFlight(async(generation)=>{
       const face=document.createElement('div');face.className='avatar';const meta=document.createElement('div');meta.className='meta';
       const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;
       const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);return row;
-    },update:(row,person)=>{avatar(row.querySelector('.avatar'),person,{eager:people.slice(0,4).some(p=>p.id===person.id)});row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
+    },update:(row,person)=>{avatar(row.querySelector('.avatar'),person,{eager:people.slice(0,4).some(p=>p.id===person.id),thumbnail:true});row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
     paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
   }catch(error){if(generation===listGeneration){livePager.update({offset:liveOffset,count:0,total:liveOffset,hasMore:false});$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
 });
@@ -172,8 +173,9 @@ async function trySaveProfile() {
   try {
     // Preserve the uploaded path on retries, so a transient DB error does not upload twice.
     const draft={...state.profile},file=state.photoFile;
-    if(file){const optimized=await optimizePhoto(file);if(generation!==accountGeneration)return;const path=await backend.uploadPhoto(optimized);if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPath=path;state.photoFile=null;}
+    if(file){const optimized=await optimizePhoto(file);if(generation!==accountGeneration)return;const variants=await photoVariants(optimized);if(generation!==accountGeneration||selection!==photoSelection)return;const path=await backend.uploadPhoto(optimized,variants);draft.photoPreview=variants?.preview;if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPreview=draft.photoPreview;state.profile.photoPath=path;state.photoFile=null;}
     await backend.saveProfile({...draft,photo:draft.photoPath});
+    if(generation===accountGeneration&&backend.ensurePhotoAssets)void backend.ensurePhotoAssets(draft.photoPath).catch(()=>{});
     if(generation!==accountGeneration)return;
     await hydrate();
   }catch(error){if(generation===accountGeneration)showToast(message(error));}
@@ -258,6 +260,7 @@ const loadTribes=singleFlight(async(generation)=>{
  try{
   const tribes=await backend.tribes();if(generation!==listGeneration)return;
   tribes.sort((a,b)=>Number(b.id===state.venue?.id)-Number(a.id===state.venue?.id)||a.name.localeCompare(b.name));
+  if(tribes[0]&&backend.prefetchTribe)void backend.prefetchTribe(tribes[0].id).catch(()=>{});
   $('tribesList').replaceChildren();if(!tribes.length)return emptyList('tribesList','Inquadra il QR di un luogo per entrare nella sua Tribe.');
   for(const tribe of tribes){const card=document.createElement('button');card.className='person tribe-place';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const name=document.createElement('div');name.className='nm';name.textContent=tribe.name;const count=document.createElement('div');count.className='tm';count.textContent=`${memberLabel(tribe.member_count)} · ${tribe.live_count} qui ora`;meta.append(name,count);card.append(meta);card.onclick=()=>{if(selectedTribe?.id!==tribe.id){tribeOffset=0;tribePager.reset();$('tribeGrid').replaceChildren();}selectedTribe=tribe;go('tribe');};$('tribesList').append(card);}
  }catch(error){if(generation===listGeneration)emptyList('tribesList',message(error));}
@@ -276,7 +279,7 @@ const loadTribe=singleFlight(async(generation)=>{
   tribePager.update({offset:tribeOffset,count:people.length,total:page.total,hasMore:page.hasMore});
   if(!people.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
   const eagerIds=new Set(people.slice(0,4).map(p=>p.id));
-  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id)});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
+  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id),thumbnail:true});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
   paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
  }catch(error){if(generation===listGeneration){tribePager.update({offset:tribeOffset,count:0,total:tribeOffset,hasMore:false});emptyList('tribeGrid',message(error));}}
 });

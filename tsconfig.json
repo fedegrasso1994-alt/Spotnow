@@ -25,6 +25,7 @@
     "src/request-queue.js",
     "src/photo.js",
     "src/optimize-photo.js",
+    "src/photo-variants.js",
     "src/ui-refresh.js",
     "src/navigation.js",
     "src/pagination.js",
