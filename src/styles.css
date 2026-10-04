@@ -267,3 +267,11 @@
 .tribe-grid{grid-auto-rows:max-content}
 .tribe-card{aspect-ratio:3/4;min-height:0}
 .tribe-card .avatar{position:absolute;inset:0;height:100%;aspect-ratio:auto}
+
+/* Navigation controls have a visible icon and a generous touch target. */
+.backlink{min-height:48px;gap:8px;color:var(--text);font-size:15px;font-weight:600;flex-shrink:0;border-radius:12px}
+.nav-arrow{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;font-size:28px;line-height:1;background:var(--surface2);border:1px solid var(--line);border-radius:12px;flex-shrink:0}
+.backlink:hover .nav-arrow,.backlink:focus-visible .nav-arrow{border-color:var(--teal);color:var(--teal)}
+.chat-head .backlink[aria-label="Segnala o blocca questa persona"]{min-width:48px;justify-content:center;background:var(--surface2);font-size:28px!important}
+.tab .ic{font-size:24px;line-height:1.1}
+.tab{min-height:48px;font-size:11px}

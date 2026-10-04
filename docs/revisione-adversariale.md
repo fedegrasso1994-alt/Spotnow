@@ -237,3 +237,10 @@ Ripristino installazione richiesto dal proprietario: pulsante statico Salva l’
 - Tribe: schede dei luoghi più grandi e colorate; griglia con immagini a tutta scheda e nome sovrapposto, gap ridotto.
 - Verifiche: test di regressione per scanner automatico, rifiuto fotocamera, recupero lento sessione, QR fresco, CTA Tribe e persistenza/isolamento del nuovo campo.
 - La richiesta fotocamera e una scansione reale sul dispositivo Android devono essere confermate anche nel collaudo fisico; il browser desktop non sostituisce quel controllo.
+
+### Navigazione e chat da dettaglio profilo
+
+- Frecce di ritorno da 28px, icona su fondo contrastato e pulsante con area minima di 48px; icone delle sezioni ingrandite. Il modulo compatto conserva lo scorrimento di sicurezza.
+- Se esiste un match autorizzato con la persona, nel suo dettaglio compare “Apri la Chat”. Il pulsante apre la conversazione esistente senza inviare un nuovo interesse, anche se il match nasce in un altro luogo.
+- Un interesse senza reciprocità resta “Interesse già inviato”, disabilitato. Il dettaglio si aggiorna quando il match arriva o viene rimosso, senza attribuire il match a un altro profilo.
+- Verifiche: 82 test superati, inclusi apertura chat senza nuova scrittura, reciprocità in tempo reale, match rimosso e cambio profilo durante il caricamento. Collaudo UI con dati esclusivamente simulati.

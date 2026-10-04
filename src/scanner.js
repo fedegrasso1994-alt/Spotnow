@@ -7,7 +7,7 @@ export function createVenueScanner({screen,onScan,onBack}) {
   const video=document.createElement('video');video.playsInline=true;video.muted=true;video.className='qr-video';finder.prepend(video);
   const hint=screen.querySelector('.camhint');hint.setAttribute('role','status');
   const start=document.createElement('button');start.className='btn btn-primary btn-sm';start.style.marginTop='16px';start.textContent='Riprova fotocamera';
-  const back=document.createElement('button');back.className='backlink';back.style.marginTop='18px';back.textContent='← Indietro';back.onclick=()=>{stop();onBack();};screen.append(start,back);
+  const back=document.createElement('button');back.className='backlink';back.style.marginTop='18px';const backArrow=document.createElement('span');backArrow.className='nav-arrow';backArrow.setAttribute('aria-hidden','true');backArrow.textContent='←';const backLabel=document.createElement('span');backLabel.textContent='Indietro';back.append(backArrow,backLabel);back.onclick=()=>{stop();onBack();};screen.append(start,back);
   let scanner,active=false,processing=false,generation=0;
   function stop(){generation++;active=false;scanner?.destroy();scanner=null;video.srcObject=null;start.hidden=false;}
   async function activate(){

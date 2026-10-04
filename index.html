@@ -94,7 +94,7 @@
     </section>
 
     <section class="screen" id="login">
-      <button class="backlink" onclick="go('intro')">← Indietro</button>
+      <button class="backlink" onclick="go('intro')"><span class="nav-arrow" aria-hidden="true">←</span> Indietro</button>
       <h2 class="disp" style="margin-top:26px">Entra in Spot Now</h2>
       <p class="sub">Accedi e ritrova il tuo profilo e le tue Tribe quando torni.</p>
       <button class="btn btn-primary" id="googleLoginBtn" style="margin-top:20px">Continua con Google</button>
@@ -114,7 +114,7 @@
 
     <!-- 2. PROFILE CREATION -->
     <section class="screen" data-screen="onboarding" id="onboarding">
-      <button class="backlink" onclick="go('scan')">← Indietro</button>
+      <button class="backlink" onclick="go('scan')"><span class="nav-arrow" aria-hidden="true">←</span> Indietro</button>
       <h2 class="disp">Crea il tuo profilo</h2>
       <p class="sub">Una foto e pochi dati per farti riconoscere nel locale e nella sua Tribe.</p>
       <div class="field">
@@ -172,7 +172,7 @@
     </section>
 
     <section class="screen tabscreen" id="tribes"><h2 class="disp">Tribe</h2><p class="sub">Le tue Tribe</p><p class="privacy-note">I conteggi includono tutti i membri. I profili visibili dipendono da preferenze e blocchi.</p><div class="list" id="tribesList"></div></section>
-    <section class="screen tabscreen" id="tribe"><button class="backlink" onclick="go('tribes')">← Le tue Tribe</button><h2 class="disp" id="tribeTitle" style="margin-top:20px"></h2><p class="sub">Frequentano questo posto</p><p class="sub" id="tribeCount"></p><div class="tribe-grid" id="tribeGrid"></div></section>
+    <section class="screen tabscreen" id="tribe"><button class="backlink" onclick="go('tribes')"><span class="nav-arrow" aria-hidden="true">←</span> Le tue Tribe</button><h2 class="disp" id="tribeTitle" style="margin-top:20px"></h2><p class="sub">Frequentano questo posto</p><p class="sub" id="tribeCount"></p><div class="tribe-grid" id="tribeGrid"></div></section>
     <!-- MATCHES -->
     <section class="screen tabscreen" data-screen="matches" id="matches">
       <h2 class="disp">I tuoi match</h2>
@@ -232,7 +232,7 @@
     <!-- 6. CHAT -->
     <section class="screen" data-screen="chat" id="chat">
       <div class="chat-head">
-        <button class="backlink" onclick="go('chats')" aria-label="Torna alle chat" style="margin-right:2px">←</button>
+        <button class="backlink" onclick="go('chats')" aria-label="Torna alle chat" style="margin-right:2px"><span class="nav-arrow" aria-hidden="true">←</span></button>
         <div class="avatar" id="cAvatar"></div>
         <div style="flex:1">
           <div class="nm" id="cName"></div>

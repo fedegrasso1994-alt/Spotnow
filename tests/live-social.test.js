@@ -62,3 +62,24 @@ test('logout clears visible chat data and a late write cannot clear another acco
  const wait=deferred();const ui=setup(t,{sendMessage:()=>wait.promise});ui.go('chats');await ui.social.refresh();await ui.get('chatsList').children[0].onclick();ui.get('chatIn').value='Vecchio';const sending=globalThis.window.sendMsg();await flush();ui.social.reset();assert.equal(ui.get('bubbles').children.length,0);ui.get('chatIn').value='Altro account';wait.resolve({});await sending;assert.equal(ui.get('chatIn').value,'Altro account');
 });
 test('receiving a new message preserves older bubbles and scroll when reading history',async t=>{let messages=[{id:'old',sender_id:'a',body:'Primo'}];const ui=setup(t,{messages:async()=>messages});ui.go('chats');await ui.social.refresh();await ui.get('chatsList').children[0].onclick();const older=ui.get('bubbles').children[1];ui.get('bubbles').scrollTop=35;messages=[...messages,{id:'new',sender_id:'me',body:'Secondo'}];await ui.social.refresh();assert.equal(ui.get('bubbles').children[1],older);assert.equal(ui.get('bubbles').scrollTop,35);assert.equal(ui.get('bubbles').children.at(-1).textContent,'Secondo');});
+
+
+test('matched Tribe profile opens the existing chat without sending another interest',async t=>{
+ let writes=0,opened;const ui=setup(t,{expressInterest:async()=>{writes++;},messages:async id=>{opened=id;return [];}});ui.go('venue');await ui.social.refresh();
+ ui.social.openDetail({id:'a',name:'Anna',age:24,venue_id:'place',source:'tribe',interest_sent:true});
+ assert.equal(ui.get('interestBtn').textContent,'Apri la Chat');assert.equal(ui.get('interestBtn').disabled,false);
+ await globalThis.window.expressInterest();assert.equal(opened,'match-a');assert.equal(writes,0);assert.equal(ui.document.querySelector('.screen.active').id,'chat');assert.equal(ui.get('detailOverlay').classList.contains('active'),false);
+});
+test('one-way interest stays disabled until a reciprocal match arrives, and updates while detail is open',async t=>{
+ const ui=setup(t);ui.setRecords([]);ui.go('venue');await ui.social.refresh();ui.social.openDetail({id:'a',name:'Anna',age:24,venue_id:'place',source:'tribe',interest_sent:true});await flush();
+ assert.equal(ui.get('interestBtn').textContent,'Interesse già inviato');assert.equal(ui.get('interestBtn').disabled,true);
+ ui.setRecords([{id:'match-a',person_id:'a',name:'Anna',age:24,photo_path:'a/photo'}]);await ui.social.refresh();
+ assert.equal(ui.get('interestBtn').textContent,'Apri la Chat');assert.equal(ui.get('interestBtn').disabled,false);
+ ui.setRecords([]);await ui.social.refresh();assert.equal(ui.get('interestBtn').textContent,'Interesse già inviato');assert.equal(ui.get('interestBtn').disabled,true);
+});
+test('a match for another profile never enables the chat action on the selected person',async t=>{
+ const wait=deferred();const ui=setup(t,{matches:()=>wait.promise});ui.go('venue');ui.social.openDetail({id:'a',name:'Anna',age:24,venue_id:'place',interest_sent:true});await flush();
+ ui.social.openDetail({id:'b',name:'Bea',age:25,venue_id:'place',interest_sent:true});wait.resolve([{id:'match-a',person_id:'a',photo_path:'a/photo'}]);await flush();
+ assert.equal(ui.get('dName').textContent,'Bea, 25');assert.equal(ui.get('interestBtn').textContent,'Interesse già inviato');assert.equal(ui.get('interestBtn').disabled,true);
+});
+test('an unmatched profile still offers Mi Interessa',async t=>{const ui=setup(t);ui.setRecords([]);ui.social.openDetail({id:'b',name:'Bea',age:25,venue_id:'place'});await flush();assert.equal(ui.get('interestBtn').textContent,'Mi Interessa');assert.equal(ui.get('interestBtn').disabled,false);});

@@ -49,7 +49,8 @@ function go(screen) {
   if(screen==='onboarding'&&!demoAccount)screen='login';
   if(screen==='tribes')renderDemoTribes();
   if(screen==='tribe')renderDemoTribe();
-  document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===screen));
+  const dialogOpen=Boolean(document.querySelector('.overlay.active'));
+  document.querySelectorAll('.screen').forEach(el=>{el.classList.toggle('active',el.id===screen);el.inert=dialogOpen||el.id!==screen;});$('tabbar').inert=dialogOpen;
   $('tabbar').classList.toggle('show',tabScreens.includes(screen));
   document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===(screen==='tribe'?'tribes':screen)));
   state.matches=state.matches.filter(match=>liveMatch(match));
@@ -83,12 +84,12 @@ function editProfile() {state.editing=true;$('inName').value=state.profile.name;
 function openDetail(person) {
   state.detail=person;$('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;
   $('dTime').textContent=`Check-in ${person.checkedIn} minuti fa · Locale demo`;
-  $('interestBtn').disabled=Boolean(person.sent);$('interestBtn').textContent=person.sent?'Interesse già inviato':'Mi Interessa';
+  const match=state.matches.find(m=>m.id===person.id);$('interestBtn').disabled=!match&&Boolean(person.sent);$('interestBtn').textContent=match?'Apri la Chat':person.sent?'Interesse già inviato':'Mi Interessa';
   $('detailOverlay').classList.add('active');
 }
 function closeDetail() {$('detailOverlay').classList.remove('active');}
 function expressInterest() {
-  const person=state.detail;if(!person||person.sent)return;
+  const person=state.detail;if(!person)return;const existing=state.matches.find(m=>m.id===person.id);if(existing){closeDetail();openChat(existing);return;}if(person.sent)return;
   person.sent=true;closeDetail();
   if(!person.mutual){renderList();return showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
   const match={...person,createdAt:Date.now(),messages:[]};state.matches.push(match);state.chat=match;
