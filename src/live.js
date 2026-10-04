@@ -16,6 +16,12 @@ const state={profile:{name:'',age:0,gender:null,preference:'ALL',photo:null},pho
 const qrFromUrl=new URLSearchParams(location.search).get('venue');
 // OAuth/email redirects carry the current QR in their URL; a stored old token is never an ingress.
 let pendingQr=qrFromUrl;
+let restoredDraft=false;
+const draftKey='spot-onboarding-venue-v1';
+function clearDraft(){try{localStorage.removeItem(draftKey);}catch{/* Storage can be unavailable in private browsing. */}}
+function rememberDraft(){try{localStorage.setItem(draftKey,JSON.stringify({token:pendingQr,owner:state.session?.user.is_anonymous?null:state.session?.user.id||null}));}catch{/* The current flow and OAuth URL still work without storage. */}}
+function restoreDraft(){try{const draft=JSON.parse(localStorage.getItem(draftKey)||'null');if(!draft||typeof draft.token!=='string'||!draft.token)return;if(draft.owner&&draft.owner!==state.session?.user.id)return;pendingQr=draft.token;restoredDraft=true;}catch{clearDraft();}}
+const liveCheckin=()=>Boolean(state.checkin&&Date.parse(state.checkin.expires_at)>Date.now());
 let selectedTribe=null,expiryTimer;
 let awaitingQr=false,entryGeneration=0;
 let entering=false,suspended=false,deleting=false,statusChecking=false,photoSelection=0;
@@ -33,12 +39,13 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
   listGeneration++;
-  if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
+  if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
   if(screen==='scan'&&!state.venue)screen='intro';
   if(screen==='scan') { $('scanVenueName').textContent=state.venue.name; $('scanVenueAddress').textContent=state.venue.address||''; }
   if(['onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen)&&(!state.session||state.session.user.is_anonymous))screen='login';
+  if(screen==='onboarding'&&!state.profile.photoPath&&!pendingQr)screen='intro';
   if(screen==='login'){const legacy=Boolean(state.session?.user.is_anonymous);$('emailForm').hidden=legacy;$('existingAccountBtn').hidden=!legacy;$('existingAccountNote').hidden=!legacy;$('login').querySelector('.sub').textContent='Accedi e ritrova il tuo profilo e le tue Tribe quando torni.';}
   document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===screen));
   const dialogOpen=Boolean(document.querySelector('.overlay.active'));$('tabbar').inert=dialogOpen;
@@ -70,17 +77,19 @@ const loadAccount=singleFlight(async(key)=>{
   if(await checkAccountStatus())return;
   const profile=await backend.getProfile();
   if(!current())return;
-  if(!profile){syncForm();go('onboarding',{replace:true});return;}
+  if(!profile){if(pendingQr){await previewVenue();if(!current())return;restoredDraft=false;rememberDraft();syncForm();go('onboarding',{replace:true});}else{syncForm();go('intro',{replace:true});}return;}
   const photo=await photoFor(profile.photo_path);
   if(!current()||state.session?.user.id!==account)return;
   state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path,occupation:profile.occupation||''};
   syncForm();
+  if(restoredDraft){pendingQr=null;restoredDraft=false;clearDraft();}
   if(pendingQr){await performCheckin(generation,entry);return;}
+  clearDraft();
   const checkin=await backend.ownCheckIn();
   if(!current())return;state.checkin=checkin;
-  if(state.checkin){
-    const venue=await backend.getVenue(state.checkin.venue_id);if(!current())return;state.venue=venue;go(new Date(state.checkin.expires_at)>new Date()?'venue':'tribes');
-  } else {state.checkin=null;go('myprofile');showToast('Inquadra il QR del locale per vedere chi c’è ora.');}
+  if(liveCheckin()){
+    const venue=await backend.getVenue(state.checkin.venue_id);if(!current())return;state.venue=venue;go('venue',{replace:true});
+  }else{state.venue=null;go('tribes',{replace:true});}
 });
 const hydrate=()=>loadAccount(`${accountGeneration}:${entryGeneration}`);
 async function checkAccountStatus(){
@@ -95,10 +104,10 @@ async function checkAccountStatus(){
 }
 createSuspensionScreen({onCheck:async()=>{const blocked=await checkAccountStatus();if(!blocked)await hydrate();return blocked;},onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick()});
 async function performCheckin(generation=accountGeneration,entry=entryGeneration) {
-  if(!pendingQr)return go('myprofile');
+  if(!pendingQr)return go('tribes');
   const token=pendingQr;const checkin=await backend.scanVenue(token);
   if(generation!==accountGeneration||entry!==entryGeneration||awaitingQr)return;state.checkin=checkin;
-  if(pendingQr===token){pendingQr=null;sessionStorage.removeItem('spot-pending-qr');
+  if(pendingQr===token){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');
     const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);
   }
   // Remove the token after use; opening the app again must not renew a check-in.
@@ -107,9 +116,10 @@ async function performCheckin(generation=accountGeneration,entry=entryGeneration
 }
 const loadPeople=singleFlight(async(generation)=>{
   if(generation!==listGeneration)return;
-  const valid=state.checkin&&new Date(state.checkin.expires_at)>new Date();
-  if(!$('list').children.length)$('countPill').textContent='…';$('venue').querySelector('.addr').textContent=state.venue?.name||'Nessun check-in attivo';
-  if(!valid){$('countPill').textContent='0 ora';emptyList('list',state.checkin?'Il check-in è scaduto. Inquadra di nuovo il QR del locale per entrare.':'Inquadra il QR del locale per vedere chi è qui ora.');const btn=document.createElement('button');btn.className='btn btn-primary';btn.textContent='Inquadra il QR';btn.onclick=()=>go('camera');$('list').append(btn);return;}
+  const valid=liveCheckin();
+  $('discoverTribeBtn').hidden=!valid;
+  if(!$('list').children.length)$('countPill').textContent='…';$('venue').querySelector('.addr').textContent=valid?state.venue?.name||'Locale':'Nessun check-in attivo';
+  if(!valid){$('countPill').textContent='0 ora';emptyList('list',state.checkin?'Il check-in è scaduto. Inquadra di nuovo il QR del locale per entrare.':'Inquadra il QR del locale per vedere chi è qui ora.');const btn=document.createElement('button');btn.className='btn btn-primary';btn.textContent='Scansiona il QR per vedere chi c’è qui ora';btn.onclick=()=>go('camera');$('list').append(btn);return;}
   if(!$('list').children.length)emptyList('list','Caricamento…');
   try {
     const people=await backend.locationPeople(state.venue.id,true);
@@ -182,7 +192,7 @@ async function enterApp(){
   finally{entering=false;introButton.disabled=false;}
 }
 const introButton=$('intro').querySelector('.btn-primary');introButton.textContent='Inquadra il QR Code';introButton.onclick=()=>go('camera');
-const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{awaitingQr=false;entryGeneration++;pendingQr=token;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
+const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{awaitingQr=false;entryGeneration++;pendingQr=token;restoredDraft=false;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
 const social=createLiveSocial({backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,venueName:()=>state.venue?.name||''});
@@ -208,10 +218,11 @@ deletingScreen.append(deletingTitle,deletingNote,retryDelete,deletingExit);$('ph
 async function previewVenue(){
  sessionStorage.setItem('spot-pending-qr',pendingQr);
  const token=pendingQr,generation=accountGeneration;
- const preview=await backend.venuePreview(token);if(generation!==accountGeneration||pendingQr!==token)return;state.venue=preview;
+ let preview;try{preview=await backend.venuePreview(token);}catch(error){if(generation===accountGeneration&&pendingQr===token){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');}throw error;}if(generation!==accountGeneration||pendingQr!==token||awaitingQr)return;state.venue=preview;rememberDraft();
  $('countNow').textContent=preview.live_count;$('scanTribeCount').textContent=`${memberLabel(preview.member_count)} nella Tribe`;
  go('scan');
 }
+$('returningAccountBtn').onclick=()=>{pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);go('login');};
 $('enterVenueBtn').onclick=()=>void enterApp();
 $('existingAccountBtn').onclick=async()=>{
  const btn=$('existingAccountBtn');btn.disabled=true;
@@ -259,16 +270,16 @@ const loadTribe=singleFlight(async(generation)=>{
 const renderTribe=()=>loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
 deleteAccountButtonSetup();
-function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('myprofile').append(deletion);}
+function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('myprofile').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}
 backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
 setInterval(()=>{if(document.hidden)return;if($('venue').classList.contains('active'))void renderPeople();if($('tribe').classList.contains('active'))void renderTribe();},5000);
 setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;statusChecking=true;try{const wasSuspended=suspended;if(!await checkAccountStatus()&&wasSuspended)await hydrate();}catch{/* Retry on the next poll; server authorization remains authoritative. */}finally{statusChecking=false;}},15000);
-function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue')void renderPeople();if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
+function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople();}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
 document.addEventListener('visibilitychange',resume);window.addEventListener('online',resume);
-try{state.session=await backend.session();syncAccountControls();if(state.session)await hydrate();else if(pendingQr)await previewVenue();}
-catch(error){go('intro',{replace:true});showToast(message(error));}finally{booting=false;}
+try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr)restoreDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr)await previewVenue();}
+catch(error){if(!awaitingQr)go('intro',{replace:true});showToast(message(error));}finally{booting=false;}
 
 const returnedUrl=new URL(location.href);const hashParams=new URLSearchParams(returnedUrl.hash.slice(1));
 const oauthError=returnedUrl.searchParams.get('error_description')||hashParams.get('error_description');

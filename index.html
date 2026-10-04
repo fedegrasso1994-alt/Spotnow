@@ -56,10 +56,11 @@
           </g>
         </svg>
       </div>
-      <h1 class="disp">Scopri se la tua<br>crush ti ha notato</h1>
-      <p class="sub">Entra in un locale, inquadra il QR e scopri chi altro è lì con te — in tempo reale.</p>
+      <h1 class="disp">Scansiona il QR<br>del posto</h1>
+      <p class="sub">Inquadra il QR per entrare, creare il tuo profilo e scoprire chi è single qui ora.</p>
       <div class="spacer"></div>
       <button class="btn btn-primary" onclick="go('camera')">Inquadra il QR Code</button>
+      <button class="backlink" id="returningAccountBtn" onclick="go('login')" style="margin-top:12px">Hai già un account? Accedi</button>
     </section>
 
     <!-- 0. CAMERA / QR SCAN -->
@@ -88,7 +89,7 @@
         <div class="lbl">persone sono qui in questo momento</div>
       </div>
       <p class="sub" id="scanTribeCount"></p>
-      <p class="sub">Il check-in dura 90 minuti. Dopo entri nella Tribe di questo luogo, disponibile anche quando non sei qui.</p>
+      <p class="sub">Il check-in dura 90 minuti. Entri anche nella Tribe di questo luogo, disponibile quando non sei qui.</p>
       <div class="spacer"></div>
       <button class="btn btn-primary" id="enterVenueBtn" onclick="go('onboarding')">Entra</button>
     </section>
