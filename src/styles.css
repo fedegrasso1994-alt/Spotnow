@@ -340,3 +340,9 @@ html,body{min-width:0}
  #myprofile .profile-actions{grid-column:2;grid-row:2;align-self:start;max-height:100%;overflow-y:auto;gap:6px}
  #profileActions .btn,#profileActions .backlink{min-height:44px;padding:10px 12px}
 }
+.pager{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;flex-shrink:0;min-width:0}
+.pager .btn{width:auto;min-width:0;min-height:44px;padding:8px 10px;font-size:12px;flex:0 1 auto;overflow-wrap:anywhere}
+.pager .btn:disabled{opacity:.4;cursor:not-allowed}
+.page-label{font-size:11px;text-align:center;color:var(--muted)}
+.chat-history-controls{display:flex;gap:8px;flex-shrink:0;margin-bottom:6px}
+.chat-history-controls .btn{width:auto;min-height:44px;font-size:12px;padding:8px 12px;flex:1;min-width:0}

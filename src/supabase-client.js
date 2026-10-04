@@ -4,6 +4,8 @@ import { createBackend } from './backend.js';
 
 // Loaded by the future production bundle, never by the unconfigured static demo.
 export function connectBackend({url,publicKey,storageKey}) {
+  // Local load fixtures inject synthetic data; this branch is removed from production.
+  if(import.meta.env.DEV&&globalThis.__SPOT_LOAD_TEST_BACKEND__)return globalThis.__SPOT_LOAD_TEST_BACKEND__;
   const parsed=new URL(url);
   if(parsed.protocol!=='https:' && !['localhost','127.0.0.1'].includes(parsed.hostname)) {
     throw new Error('Il backend deve usare HTTPS.');

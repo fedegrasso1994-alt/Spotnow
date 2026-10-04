@@ -93,3 +93,20 @@ test('a late detail photo never overwrites another person or repopulates a close
  ui.social.openDetail({id:'a',name:'Anna',age:24,photo_path:'a/photo'});ui.social.openDetail({id:'b',name:'Bea',age:25,photo_path:'b/photo'});const count=photos.length;
  first.resolve('/anna');await flush();assert.equal(photos.length,count);ui.social.closeDetail();second.resolve('/bea');await flush();assert.equal(photos.length,count);
 });
+
+
+test('2,000 matches are paged and an off-page Tribe match opens without a duplicate interest',async t=>{
+ const records=Array.from({length:2000},(_,i)=>({id:`match-${i}`,person_id:`person-${i}`,name:`Persona ${i}`,age:25,photo_path:`${i}/photo`,venue_name:'Luogo'}));let writes=0;
+ const ui=setup(t,{matchesPage:async offset=>({items:records.slice(offset,offset+48),hasMore:offset+48<records.length,total:records.length}),matchById:async id=>records.find(m=>m.id===id),matchWith:async id=>records.find(m=>m.person_id===id),expressInterest:async()=>{writes++;},messages:async()=>[]});
+ ui.go('chats');await ui.social.refresh();assert.equal(ui.get('chatsList').children.length,48);
+ const pager=ui.get('chats').querySelector('.pager');pager.children[2].onclick();await flush();await ui.social.refresh();assert.equal(pager.children[1].textContent,'49–96 di 2000');assert.equal(ui.get('chatsList').children.length,48);
+ ui.social.openDetail({id:'person-1500',name:'Persona 1500',age:25,interest_sent:true,source:'tribe'});await flush();assert.equal(ui.get('interestBtn').textContent,'Apri la Chat');await globalThis.window.expressInterest();await ui.social.refresh();assert.equal(ui.get('cName').textContent,'Persona 1500');assert.equal(ui.document.querySelector('.screen.active').id,'chat');assert.equal(writes,0);
+ ui.social.reset();await ui.social.restoreChat('match-1500');assert.equal(ui.get('cName').textContent,'Persona 1500');assert.equal(ui.document.querySelector('.screen.active').id,'chat');
+});
+test('20,000-message history stays bounded, supports previous/latest and sending from history',async t=>{
+ const records=Array.from({length:20000},(_,i)=>({id:`message-${i}`,sender_id:'a',body:`Messaggio ${i}`,created_at:new Date(1700000000000+i*1000).toISOString()}));let writes=0;
+ const ui=setup(t,{messages:async(id,before)=>records.filter(m=>!before||m.created_at<before.created_at).slice(-100),sendMessage:async()=>{writes++;records.push({id:'sent',sender_id:'me',body:'Nuovo',created_at:new Date().toISOString()});}});
+ ui.go('chats');await ui.social.refresh();await ui.get('chatsList').children[0].onclick();assert.equal(ui.get('bubbles').children.length,101);assert.equal(ui.get('bubbles').children.at(-1).textContent,'Messaggio 19999');
+ const [older,latest]=ui.get('chat').querySelector('.chat-history-controls').children;older.onclick();await flush();assert.equal(ui.get('bubbles').children.at(-1).textContent,'Messaggio 19899');assert.equal(ui.get('bubbles').children.length,101);
+ latest.onclick();await flush();assert.equal(ui.get('bubbles').children.at(-1).textContent,'Messaggio 19999');older.onclick();await flush();ui.get('chatIn').value='Nuovo';await globalThis.window.sendMsg();assert.equal(writes,1);assert.equal(ui.get('bubbles').children.at(-1).textContent,'Nuovo');assert.equal(ui.get('bubbles').children.length,101);
+});

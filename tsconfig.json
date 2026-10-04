@@ -22,10 +22,12 @@
     "src/qr.js",
     "src/errors.js",
     "src/request.js",
+    "src/request-queue.js",
     "src/photo.js",
     "src/optimize-photo.js",
     "src/ui-refresh.js",
     "src/navigation.js",
+    "src/pagination.js",
     "src/avatar.js",
     "src/viewport.js"
   ]

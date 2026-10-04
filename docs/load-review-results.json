@@ -1,0 +1,70 @@
+{
+  "environment": "Isolated local PostgreSQL (PGlite); synthetic users; no production traffic",
+  "users": 10000,
+  "measurements": [
+    {
+      "name": "QR landing aggregate",
+      "ms": 11.8,
+      "rows": 1
+    },
+    {
+      "name": "10 Tribe counts",
+      "ms": 23.1,
+      "rows": 10
+    },
+    {
+      "name": "baseline Tribe 9000 offline profiles",
+      "ms": 467.4,
+      "rows": 9000
+    },
+    {
+      "name": "baseline Ora 999 live profiles",
+      "ms": 408.1,
+      "rows": 999
+    },
+    {
+      "name": "baseline 2000 matches",
+      "ms": 50.2,
+      "rows": 2000
+    },
+    {
+      "name": "baseline 20000 messages",
+      "ms": 468,
+      "rows": 20000
+    },
+    {
+      "name": "paged Tribe first 49",
+      "ms": 21.6,
+      "rows": 49
+    },
+    {
+      "name": "paged Tribe near end",
+      "ms": 20.1,
+      "rows": 49
+    },
+    {
+      "name": "paged matches first 49",
+      "ms": 5.8,
+      "rows": 49
+    },
+    {
+      "name": "latest 100 messages",
+      "ms": 3,
+      "rows": 100
+    },
+    {
+      "name": "older 100 messages",
+      "ms": 5.5,
+      "rows": 100
+    },
+    {
+      "name": "paged Ora first 49",
+      "ms": 7.6,
+      "rows": 49
+    }
+  ],
+  "at": "2026-10-04T11:39:44.881Z",
+  "memberships": 19009,
+  "messages": 20000,
+  "matches": 2000
+}

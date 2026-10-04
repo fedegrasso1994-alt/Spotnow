@@ -1,0 +1,30 @@
+{
+  "environment": "Isolated local PostgreSQL (PGlite); synthetic users; no production traffic",
+  "users": 10000,
+  "measurements": [
+    {
+      "name": "baseline Tribe 9000 offline profiles",
+      "ms": 454.1,
+      "rows": 9000
+    },
+    {
+      "name": "baseline Ora 999 live profiles",
+      "ms": 404.6,
+      "rows": 999
+    },
+    {
+      "name": "baseline 2000 matches",
+      "ms": 48.9,
+      "rows": 2000
+    },
+    {
+      "name": "baseline 20000 messages",
+      "ms": 460.9,
+      "rows": 20000
+    }
+  ],
+  "at": "2026-10-04T11:10:25.089Z",
+  "memberships": 19009,
+  "messages": 20000,
+  "matches": 2000
+}

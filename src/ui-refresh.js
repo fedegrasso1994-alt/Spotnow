@@ -20,6 +20,7 @@ export function stableList(container, items, {key, signature, create, update}) {
     update?.(row, item);
     return row;
   });
-  for (const child of Array.from(container.children)) if (!rows.includes(child)) child.remove();
+  const retained=new Set(rows);
+  for (const child of Array.from(container.children)) if (!retained.has(child)) child.remove();
   rows.forEach((row, index) => { if (container.children[index] !== row) container.insertBefore(row, container.children[index] || null); });
 }

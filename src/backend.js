@@ -1,8 +1,18 @@
 import { validProfile } from './domain.js';
+import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client) {
-  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{photoEpoch++;photos.clear();pendingPhotos.clear();};
+export function createBackend(client,{readTimeoutMs=15000}={}) {
+  const photoQueue=createRequestQueue(4),readQueue=createRequestQueue(6),pendingReads=new Map();
+  const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
+  function sharedRead(name,args,work){
+    const key=JSON.stringify([name,args]);if(pendingReads.has(key))return pendingReads.get(key).promise;
+    const controller=new AbortController();
+    const promise=readQueue.run(()=>{if(controller.signal.aborted)throw new Error('Richiesta annullata');return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{controller.abort();reject(new Error('Connessione non disponibile o troppo lenta. Riprova.'));},readTimeoutMs);Promise.resolve().then(()=>work(controller.signal)).then(resolve,reject).finally(()=>clearTimeout(timer));});}).finally(()=>{if(pendingReads.get(key)?.promise===promise)pendingReads.delete(key);});
+    pendingReads.set(key,{promise,controller,name});return promise;
+  }
+  const rpcRead=(name,args={})=>sharedRead(name,args,async signal=>unwrap(await cancelable(client.rpc(name,args),signal)));
+  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{photoEpoch++;photos.clear();pendingPhotos.clear();for(const read of pendingReads.values())read.controller.abort();pendingReads.clear();};
   function prunePhotos(){const now=Date.now();for(const [path,cached]of photos)if(cached.until<=now)photos.delete(path);}
   function unwrap(result) {if(result.error) throw result.error;return result.data;}
   async function userId() {
@@ -12,7 +22,7 @@ export function createBackend(client) {
   }
   return {
     async session(){return unwrap(await client.auth.getSession()).session;},
-    async accountState(){return unwrap(await client.rpc('my_account_state'));},
+    async accountState(){return rpcRead('my_account_state');},
     async isSuspended(){return unwrap(await client.rpc('my_account_status'));},
     async isModerator(){return unwrap(await client.rpc('is_moderator'));},
     async moderationReports(){return unwrap(await client.rpc('moderation_reports'));},
@@ -61,8 +71,9 @@ export function createBackend(client) {
     async getVenue(id){return unwrap(await client.from('venues').select('id,name,address').eq('id',id).single());},
     async scanVenue(token){return unwrap(await client.rpc('check_in',{qr_token:token}));},
     async venuePreview(token){const rows=unwrap(await client.rpc('venue_preview',{qr_token:token}));if(!rows?.length)throw new Error('QR non valido');return rows[0];},
-    async tribes(){return unwrap(await client.rpc('my_tribes'));},
+    async tribes(){return rpcRead('my_tribes');},
     async locationPeople(place,live){return unwrap(await client.rpc('location_people',{place,live}));},
+    async locationPeoplePage(place,live,offset=0){const rows=await rpcRead('location_people_page',{place,live,page_size:49,page_offset:offset});return {items:rows.slice(0,48),hasMore:rows.length>48,total:Number(rows[0]?.total_count||0)};},
     async googleLogin(redirectTo){const result=unwrap(await client.auth.signInWithOAuth({provider:'google',options:{redirectTo,skipBrowserRedirect:true}}));if(!result?.url)throw new Error('Google non ha restituito il collegamento di accesso. Riprova.');return result;},
     async deleteAccount(){const data=unwrap(await client.functions.invoke('delete-account',{body:{confirm:true}}));if(data?.deleted!==true)throw new Error('Cancellazione non completata. Riprova.');},
     async checkDeletion(){return unwrap(await client.functions.invoke('delete-account',{body:{dry_run:true}}));},
@@ -72,7 +83,15 @@ export function createBackend(client) {
     },
     async expressInterest(personId,place){return unwrap(await client.rpc('send_spot',{target_user:personId,place}));},
     async matches(){return unwrap(await client.rpc('my_matches'));},
-    async messages(matchId){return unwrap(await client.from('messages').select('*').eq('match_id',matchId).order('created_at').order('id'));},
+    async matchesPage(offset=0){const rows=await rpcRead('my_matches_page',{page_size:49,page_offset:offset});return {items:rows.slice(0,48),hasMore:rows.length>48,total:Number(rows[0]?.total_count||0)};},
+    async matchById(id){return (await rpcRead('my_matches_page',{page_size:1,requested_match:id}))[0]||null;},
+    async matchWith(person){return (await rpcRead('my_matches_page',{page_size:1,requested_person:person}))[0]||null;},
+    async messages(matchId,before){return sharedRead('messages',{matchId,before},async signal=>{
+      let query=client.from('messages').select('id,match_id,sender_id,body,created_at').eq('match_id',matchId);
+      if(before)query=query.or(`created_at.lt.${before.created_at},and(created_at.eq.${before.created_at},id.lt.${before.id})`);
+      const rows=unwrap(await cancelable(query.order('created_at',{ascending:false}).order('id',{ascending:false}).limit(100),signal));return rows.reverse();
+    });},
+    cancelDiscoveryReads(){for(const [key,read]of pendingReads)if(read.name==='location_people_page'){read.controller.abort();pendingReads.delete(key);}},
     async sendMessage(matchId,text,nonce){return unwrap(await client.rpc('send_message',{target_match:matchId,message_text:text,client_nonce:nonce}));},
     async block(personId){clearPhotos();return unwrap(await client.rpc('block_profile',{target_user:personId}));},
     async report(personId,reason,details,alsoBlock,nonce){if(alsoBlock)clearPhotos();return unwrap(await client.rpc('report_profile',{target_user:personId,report_reason:reason,report_details:details,also_block:alsoBlock,client_nonce:nonce}));},
@@ -83,7 +102,8 @@ export function createBackend(client) {
       // One authorized request per group rather than one round trip for every card.
       for(let start=0;start<missing.length;start+=100){
         const group=missing.slice(start,start+100).filter(path=>!pendingPhotos.has(path));if(!group.length)continue;
-        const request=Promise.resolve().then(async()=>{
+        const request=photoQueue.run(async()=>{
+          if(generation!==photoEpoch)return new Map();
           const rows=unwrap(await storage.createSignedUrls(group,30));
           const result=new Map(rows.map(row=>[row.path,row.error?null:row.signedUrl||null]));
           if(generation===photoEpoch)for(const [path,url]of result){if(url)photos.set(path,{url,until:Date.now()+20000});}
@@ -91,7 +111,7 @@ export function createBackend(client) {
         });
         for(const path of group){const pending=request.then(result=>result.get(path)||null).finally(()=>{if(pendingPhotos.get(path)===pending)pendingPhotos.delete(path);});pendingPhotos.set(path,pending);}
       }
-      const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path));}));return result;
+      const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path)?.catch(()=>null));}));return result;
     },
     async photoUrl(path) {
       prunePhotos();
@@ -99,7 +119,8 @@ export function createBackend(client) {
       const cached=photos.get(path);if(cached&&cached.until>Date.now())return cached.url;
       if(pendingPhotos.has(path))return pendingPhotos.get(path);
       const generation=photoEpoch;
-      const request=Promise.resolve().then(async()=>{
+      const request=photoQueue.run(async()=>{
+        if(generation!==photoEpoch)return null;
         const url=unwrap(await client.storage.from('profile-photos').createSignedUrl(path,30)).signedUrl;
         if(generation===photoEpoch){photos.set(path,{url,until:Date.now()+20000});}return url;
       }).finally(()=>{if(pendingPhotos.get(path)===request)pendingPhotos.delete(path);});

@@ -3,6 +3,7 @@ import { validatePhoto } from './photo.js';
 import { optimizePhoto } from './optimize-photo.js';
 import { userMessage } from './errors.js';
 import { createNavigation } from './navigation.js';
+import { createPager } from './pagination.js';
 import { singleFlight, stableList } from './ui-refresh.js';
 import {setupInstallApp} from './install-app.js';
 import { connectBackend } from './supabase-client.js';
@@ -23,7 +24,11 @@ function clearDraft(){try{localStorage.removeItem(draftKey);}catch{/* Storage ca
 function rememberDraft(){try{localStorage.setItem(draftKey,JSON.stringify({token:pendingQr,owner:state.session?.user.is_anonymous?null:state.session?.user.id||null}));}catch{/* The current flow and OAuth URL still work without storage. */}}
 function restoreDraft(){try{const draft=JSON.parse(localStorage.getItem(draftKey)||'null');if(!draft||typeof draft.token!=='string'||!draft.token)return;if(draft.owner&&draft.owner!==state.session?.user.id)return;pendingQr=draft.token;restoredDraft=true;}catch{clearDraft();}}
 const liveCheckin=()=>Boolean(state.checkin&&Date.parse(state.checkin.expires_at)>Date.now());
-let selectedTribe=null,expiryTimer;
+let selectedTribe=null,expiryTimer,liveOffset=0,tribeOffset=0;
+const livePager=createPager($('venue'),offset=>{liveOffset=offset;$('list').replaceChildren();go('venue');});
+const tribePager=createPager($('tribe'),offset=>{tribeOffset=offset;$('tribeGrid').replaceChildren();go('tribe');});
+async function peoplePage(place,live,offset){if(backend.locationPeoplePage)return backend.locationPeoplePage(place,live,offset);const rows=await backend.locationPeople(place,live);return {items:rows.slice(offset,offset+48),hasMore:rows.length>offset+48,total:rows.length};}
+async function withPhotos(people){const urls=backend.photoUrls?await backend.photoUrls(people.map(p=>p.photo_path)).catch(()=>new Map()):null;return Promise.all(people.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));}
 let awaitingQr=false,entryGeneration=0;
 let entering=false,suspended=false,deleting=false,statusChecking=false,photoSelection=0;
 let toastTimer;
@@ -39,7 +44,7 @@ function emptyList(id,text) {const p=document.createElement('p');p.className='em
 function go(screen,{replace=false,fromHistory=false}={}) {
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
-  listGeneration++;
+  listGeneration++;backend.cancelDiscoveryReads?.();
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
@@ -113,33 +118,30 @@ async function performCheckin(generation=accountGeneration,entry=entryGeneration
   }
   // Remove the token after use; opening the app again must not renew a check-in.
   const venue=await backend.getVenue(checkin.venue_id);if(generation!==accountGeneration||entry!==entryGeneration||awaitingQr)return;state.venue=venue;
-  $('list').replaceChildren();go('venue',{replace:true});
+  liveOffset=0;livePager.reset();$('list').replaceChildren();go('venue',{replace:true});
 }
 const loadPeople=singleFlight(async(generation)=>{
   if(generation!==listGeneration)return;
-  const valid=liveCheckin();
-  $('discoverTribeBtn').hidden=!valid;
+  const valid=liveCheckin();$('discoverTribeBtn').hidden=!valid;
   if(!$('list').children.length)$('countPill').textContent='…';$('venue').querySelector('.addr').textContent=valid?state.venue?.name||'Locale':'Nessun check-in attivo';
-  if(!valid){$('countPill').textContent='0 ora';emptyList('list',state.checkin?'Il check-in è scaduto. Inquadra di nuovo il QR del locale per entrare.':'Inquadra il QR del locale per vedere chi è qui ora.');const btn=document.createElement('button');btn.className='btn btn-primary';btn.textContent='Scansiona il QR per vedere chi c’è qui ora';btn.onclick=()=>go('camera');$('list').append(btn);return;}
-  if(!$('list').children.length)emptyList('list','Caricamento…');
+  if(!valid){livePager.reset();$('countPill').textContent='0 ora';emptyList('list',state.checkin?'Il check-in è scaduto. Inquadra di nuovo il QR del locale per entrare.':'Inquadra il QR del locale per vedere chi è qui ora.');const btn=document.createElement('button');btn.className='btn btn-primary';btn.textContent='Scansiona il QR per vedere chi c’è qui ora';btn.onclick=()=>go('camera');$('list').append(btn);return;}
+  if(!$('list').children.length)emptyList('list','Caricamento…');livePager.busy(true);
   try {
-    const people=await backend.locationPeople(state.venue.id,true);
-    const visible=await Promise.all(people.map(async p=>({...p,photo:await photoFor(p.photo_path)})));
-    if(generation!==listGeneration)return;
-    clearTimeout(expiryTimer);
-    const nextExpiry=Math.min(Date.parse(state.checkin.expires_at),...visible.map(p=>Date.parse(p.expires_at)));
+    const page=await peoplePage(state.venue.id,true,liveOffset);if(generation!==listGeneration)return;
+    const people=page.items;
+    if(!people.length&&liveOffset){liveOffset=0;go('venue',{replace:true});return;}
+    livePager.update({offset:liveOffset,count:people.length,total:page.total,hasMore:page.hasMore});$('countPill').textContent=`${page.total} ora`;
+    clearTimeout(expiryTimer);const nextExpiry=Math.min(Date.parse(state.checkin.expires_at),...people.map(p=>Date.parse(p.expires_at)).filter(Number.isFinite));
     expiryTimer=setTimeout(()=>{if($('venue').classList.contains('active'))void renderPeople();},Math.max(1,nextExpiry-Date.now()));
-    $('countPill').textContent=`${visible.length} ora`;
-    if(!visible.length)return emptyList('list','Sei tra i primi qui. I profili compariranno quando altre persone entreranno.');
-    stableList($('list'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age,Math.floor((Date.now()-Date.parse(p.checked_in_at))/60000)]),create:person=>{
+    if(!people.length)return emptyList('list','Sei tra i primi qui. I profili compariranno quando altre persone entreranno.');
+    const paint=visible=>stableList($('list'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age,Math.floor((Date.now()-Date.parse(p.checked_in_at))/60000)]),create:person=>{
       const row=document.createElement('button');row.className='person';row.style.color='var(--text)';row.style.textAlign='left';
-      const face=document.createElement('div');face.className='avatar';avatar(face,person);
-      const meta=document.createElement('div');meta.className='meta';
+      const face=document.createElement('div');face.className='avatar';const meta=document.createElement('div');meta.className='meta';
       const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;
-      const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);
-      return row;
+      const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);return row;
     },update:(row,person)=>{avatar(row.querySelector('.avatar'),person);row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
-  }catch(error){if(generation===listGeneration){$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
+    paint(people);const visible=await withPhotos(people);if(generation!==listGeneration)return;paint(visible);
+  }catch(error){if(generation===listGeneration){livePager.update({offset:liveOffset,count:0,total:liveOffset,hasMore:false});$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
 });
 const renderPeople=()=>loadPeople(listGeneration);
 function checkProfileValid() {
@@ -250,27 +252,26 @@ const loadTribes=singleFlight(async(generation)=>{
   const tribes=await backend.tribes();if(generation!==listGeneration)return;
   tribes.sort((a,b)=>Number(b.id===state.venue?.id)-Number(a.id===state.venue?.id)||a.name.localeCompare(b.name));
   $('tribesList').replaceChildren();if(!tribes.length)return emptyList('tribesList','Inquadra il QR di un luogo per entrare nella sua Tribe.');
-  for(const tribe of tribes){const card=document.createElement('button');card.className='person tribe-place';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const name=document.createElement('div');name.className='nm';name.textContent=tribe.name;const count=document.createElement('div');count.className='tm';count.textContent=`${memberLabel(tribe.member_count)} · ${tribe.live_count} qui ora`;meta.append(name,count);card.append(meta);card.onclick=()=>{if(selectedTribe?.id!==tribe.id)$('tribeGrid').replaceChildren();selectedTribe=tribe;go('tribe');};$('tribesList').append(card);}
+  for(const tribe of tribes){const card=document.createElement('button');card.className='person tribe-place';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const name=document.createElement('div');name.className='nm';name.textContent=tribe.name;const count=document.createElement('div');count.className='tm';count.textContent=`${memberLabel(tribe.member_count)} · ${tribe.live_count} qui ora`;meta.append(name,count);card.append(meta);card.onclick=()=>{if(selectedTribe?.id!==tribe.id){tribeOffset=0;tribePager.reset();$('tribeGrid').replaceChildren();}selectedTribe=tribe;go('tribe');};$('tribesList').append(card);}
  }catch(error){if(generation===listGeneration)emptyList('tribesList',message(error));}
 });
 const renderTribes=()=>loadTribes(listGeneration);
 $('discoverTribeBtn').onclick=async()=>{
  const place=state.venue;if(!place)return go('tribes');const generation=listGeneration;
- try{const tribes=await backend.tribes();if(generation!==listGeneration)return;const tribe=tribes.find(t=>t.id===place.id);if(!tribe)return showToast('Inquadra il QR di questo luogo per entrare nella sua Tribe.');if(selectedTribe?.id!==tribe.id)$('tribeGrid').replaceChildren();selectedTribe=tribe;go('tribe');}catch(error){showToast(message(error));}
+ try{const tribes=await backend.tribes();if(generation!==listGeneration)return;const tribe=tribes.find(t=>t.id===place.id);if(!tribe)return showToast('Inquadra il QR di questo luogo per entrare nella sua Tribe.');if(selectedTribe?.id!==tribe.id){tribeOffset=0;tribePager.reset();$('tribeGrid').replaceChildren();}selectedTribe=tribe;go('tribe');}catch(error){showToast(message(error));}
 };
 const loadTribe=singleFlight(async(generation)=>{
  if(generation!==listGeneration)return;if(!selectedTribe)return go('tribes');const place=selectedTribe;
  $('tribeTitle').textContent=place.name;$('tribeCount').textContent=`${memberLabel(place.member_count)} · i presenti ora sono nella sezione Ora`;
  try{
-  const people=await backend.locationPeople(place.id,false);if(generation!==listGeneration)return;
+  tribePager.busy(true);const page=await peoplePage(place.id,false,tribeOffset);if(generation!==listGeneration)return;const people=page.items;
+  if(!people.length&&tribeOffset){tribeOffset=0;go('tribe',{replace:true});return;}
+  tribePager.update({offset:tribeOffset,count:people.length,total:page.total,hasMore:page.hasMore});
   if(!people.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
-  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:people.findIndex(p=>p.id===person.id)<4});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
-  // Cards become usable immediately; one slow photo must not hold the whole grid.
-  paint(people);
-  const urls=backend.photoUrls?await backend.photoUrls(people.map(p=>p.photo_path)).catch(()=>new Map()):null;
-  const visible=await Promise.all(people.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));
-  if(generation!==listGeneration)return;paint(visible);
- }catch(error){if(generation===listGeneration)emptyList('tribeGrid',message(error));}
+  const eagerIds=new Set(people.slice(0,4).map(p=>p.id));
+  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id)});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
+  paint(people);const visible=await withPhotos(people);if(generation!==listGeneration)return;paint(visible);
+ }catch(error){if(generation===listGeneration){tribePager.update({offset:tribeOffset,count:0,total:tribeOffset,hasMore:false});emptyList('tribeGrid',message(error));}}
 });
 const renderTribe=()=>loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
@@ -278,7 +279,7 @@ deleteAccountButtonSetup();
 function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('profileActions').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}
-backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
+backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
 setInterval(()=>{if(document.hidden)return;if($('venue').classList.contains('active'))void renderPeople();if($('tribe').classList.contains('active'))void renderTribe();},5000);
 setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;statusChecking=true;try{const wasSuspended=suspended;if(!await checkAccountStatus()&&wasSuspended)await hydrate();}catch{/* Retry on the next poll; server authorization remains authoritative. */}finally{statusChecking=false;}},15000);
 function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople();}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}

@@ -2,11 +2,23 @@ import { modalController } from './modal.js';
 import { userMessage } from './errors.js';
 import { singleFlight, stableList } from './ui-refresh.js';
 import { createReportPrompt } from './report-prompt.js';
+import { createPager } from './pagination.js';
 /** Live match/chat UI. All authorization and expiry are enforced by the server. */
 export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName}) {
   const $=id=>document.getElementById(id);
   let matches=[],current=null,detail=null,known=null,busy=false,sending=false,epoch=0,chatVersion=0,chatSignature='';
-  const sent=new Set();
+  const sent=new Set();let matchOffset=0,loadedOffset=-1,matchPage={hasMore:false,total:0},detailFound=null,detailChecking=false;
+  const pagers={matches:createPager($('matches'),offset=>changeMatchPage('matches',offset),{nextLabel:'Altri match'}),chats:createPager($('chats'),offset=>changeMatchPage('chats',offset),{nextLabel:'Altre chat'})};
+  function changeMatchPage(screen,offset){matchOffset=offset;$(screen==='matches'?'matchesList':'chatsList').replaceChildren();go(screen);}
+  async function matchPageRead(offset){if(backend.matchesPage)return backend.matchesPage(offset);const records=await backend.matches();return {items:records.slice(offset,offset+48),hasMore:records.length>offset+48,total:records.length};}
+  async function photosFor(records){const urls=backend.photoUrls?await backend.photoUrls(records.map(m=>m.photo_path)).catch(()=>new Map()):null;return Promise.all(records.map(async m=>({...m,photo:urls?urls.get(m.photo_path)||null:await backend.photoUrl(m.photo_path).catch(()=>null)})));}
+  let chatBefore=null,chatMessages=[],historyExhausted=false;
+  const historyControls=document.createElement('div');historyControls.className='chat-history-controls';historyControls.hidden=true;
+  const older=document.createElement('button'),latest=document.createElement('button');for(const button of [older,latest]){button.className='btn btn-ghost';button.type='button';}
+  older.textContent='Messaggi precedenti';latest.textContent='Ultimi messaggi';historyControls.append(older,latest);$('chat').insertBefore(historyControls,$('bubbles'));
+  function syncHistory(){historyControls.hidden=!chatBefore&&chatMessages.length<100;older.hidden=historyExhausted||chatMessages.length<100;latest.hidden=!chatBefore;}
+  function changeHistory(before){chatBefore=before;chatVersion++;chatSignature='';historyExhausted=false;void renderChat().catch(()=>showToast('Non riesco a caricare i messaggi. Puoi riprovare.'));}
+  older.onclick=()=>{if(!older.disabled&&chatMessages[0]?.created_at)changeHistory({created_at:chatMessages[0].created_at,id:chatMessages[0].id});};latest.onclick=()=>changeHistory(null);
   const detailModal=modalController($('detailOverlay'),{firstFocus:$('interestBtn'),onEscape:()=>closeDetail()});
   const active=()=>document.querySelector('.screen.active')?.id;
   function hint(id,text){const p=document.createElement('p');p.className='empty-hint';p.textContent=text;$(id).replaceChildren(p);}
@@ -18,64 +30,81 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     const sub=document.createElement('div');sub.className='tm';sub.textContent=subtitle;meta.append(name,sub);r.append(face,meta);
     r.onclick=()=>action(person);return r;
   }
-  const loadMatches=singleFlight(async(generation)=>{
+  const loadMatches=singleFlight(async(generation,offset)=>{
     if(!session()||session().user.is_anonymous)return;
+    const accountId=session()?.user.id;
+    const valid=()=>generation===epoch&&session()?.user.id===accountId&&offset===(['matches','chats'].includes(active())?matchOffset:0);
     try{
-      const accountId=session()?.user.id;
-      const records=await backend.matches();
-      const loaded=await Promise.all(records.map(async m=>({...m,photo:await backend.photoUrl(m.photo_path).catch(()=>null)})));
-      if(generation!==epoch||session()?.user.id!==accountId)return;
-      matches=loaded;syncDetailAction();
-      if(known===null&&matches.length)onFirstMatch();
-      const next=new Set(matches.map(m=>m.id));
-      const fresh=known?matches.find(m=>!known.has(m.id)):null;known=next;
-      if(current&&!next.has(current.id)){current=null;if(['chat','match'].includes(active())){go('matches');showToast('Il match non è più disponibile.');}}
-      if(fresh){if(active()==='venue'&&!document.querySelector('.overlay.active'))showMatch(fresh);else showToast(`Nuovo match con ${fresh.name}!`);onFirstMatch();}
+      const page=await matchPageRead(offset);if(!valid())return;
+      if(!page.items.length&&offset){matchOffset=0;void refresh();return;}
+      const previous=new Map(matches.map(m=>[m.id,m]));matches=page.items.map(m=>({...m,photo:previous.get(m.id)?.photo_path===m.photo_path?previous.get(m.id)?.photo:null}));loadedOffset=offset;matchPage=page;syncDetailAction();
+      if(offset===0){
+        if(known===null&&matches.length)onFirstMatch();
+        const next=new Set(matches.map(m=>m.id)),fresh=known?matches.find(m=>!known.has(m.id)):null;known=next;
+        if(fresh){if(active()==='venue'&&!document.querySelector('.overlay.active'))showMatch(fresh);else showToast(`Nuovo match con ${fresh.name}!`);onFirstMatch();}
+      }
       if(['matches','chats'].includes(active()))await renderList(active());
+      if(current&&!matches.some(m=>m.id===current.id)){
+        const selected=current.id,version=chatVersion;
+        const available=backend.matchById?await backend.matchById(selected):page.total>48?current:null;
+        if(!valid())return;
+        if(current?.id===selected&&chatVersion===version&&!available){current=null;if(['chat','match'].includes(active())){go('matches');showToast('Il match non è più disponibile.');}}
+      }
       if(active()==='chat'&&current)await renderChat();
-    }catch(error){if(generation===epoch&&['matches','chats'].includes(active())&&!matches.length)hint(active()==='matches'?'matchesList':'chatsList','Connessione non disponibile. Tocca di nuovo la scheda per riprovare.');}
+      const loaded=await photosFor(matches);if(!valid())return;matches=loaded;syncDetailAction();
+      if(current){const updated=matches.find(m=>m.id===current.id);if(updated){current={...current,...updated};if(active()==='chat')avatar($('cAvatar'),current);if(active()==='match')avatar($('mAvatarThem'),current);}}
+      if(['matches','chats'].includes(active()))await renderList(active());
+    }catch(error){if(valid()&&['matches','chats'].includes(active())){pagers[active()].update({offset:matchOffset,count:0,total:matchOffset,hasMore:false});if(!matches.length||loadedOffset!==matchOffset)hint(active()==='matches'?'matchesList':'chatsList','Connessione non disponibile. Tocca di nuovo la scheda per riprovare.');}}
   });
-  const refresh=()=>loadMatches(epoch);
+  const refresh=()=>loadMatches(epoch,['matches','chats'].includes(active())?matchOffset:0);
   async function renderList(screen){
     const id=screen==='matches'?'matchesList':'chatsList';
-    const entries=matches;
+    if(loadedOffset!==matchOffset){hint(id,'Caricamento…');pagers[screen].busy(true);return;}
+    const entries=matches;pagers[screen].update({offset:matchOffset,count:entries.length,total:matchPage.total,hasMore:matchPage.hasMore});
     if(!entries.length)return hint(id,screen==='chats'?'Nessuna conversazione ancora.':"Ancora nessun match. Continua a guardare chi c'è ora.");
     stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name]),create:m=>row(m,`Match a ${m.venue_name}`,openChat),update:(el,m)=>{avatar(el.querySelector('.avatar'),m);el.onclick=()=>openChat(m);}});
   }
   function showMatch(m){if(current)drafts.set(current.id,$('chatIn').value);current=m;avatar($('mAvatarMe'),profile());avatar($('mAvatarThem'),m);$('mText').textContent=`Tu e ${m.name} vi siete notati a vicenda.`;go('match');}
-  function detailMatch(){return detail?matches.find(m=>m.person_id===detail.id):null;}
+  function detailMatch(){return detail?(matches.find(m=>m.person_id===detail.id)||detailFound):null;}
   function syncDetailAction(){
     if(!detail)return;
     const match=detailMatch(),done=detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
-    $('interestBtn').disabled=!match&&(busy||Boolean(done));
-    $('interestBtn').textContent=match?'Apri la Chat':done?'Interesse già inviato':'Mi Interessa';
+    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done));
+    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':done?'Interesse già inviato':'Mi Interessa';
   }
   function openDetail(person){
-    detail=person;const generation=epoch,account=session()?.user.id;
+    detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
     $('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person,{eager:true});$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
+    if(detailChecking)void backend.matchWith(person.id).then(match=>{if(detail!==person||generation!==epoch)return;detailFound=match;}).catch(()=>{}).finally(()=>{if(detail===person&&generation===epoch){detailChecking=false;syncDetailAction();}});
     // A card is clickable before its photo is ready. Join that request and fill the detail too.
     if(person.photo_path)void backend.photoUrl(person.photo_path).then(photo=>{if(!photo||detail!==person||generation!==epoch||session()?.user.id!==account)return;person.photo=photo;avatar($('dAvatar'),person,{eager:true});}).catch(()=>{});
   }
-  function closeDetail(){detail=null;detailModal.close();}
+  function closeDetail(){detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();
-    try{const id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id);if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
+    try{const id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
     catch(error){if(generation===epoch)showToast(userMessage(error));}
     finally{if(generation===epoch){busy=false;syncDetailAction();}}
   }
   const drafts=new Map();
-  async function openChat(m,options={}){if(current)drafts.set(current.id,$('chatIn').value);current=m;chatVersion++;chatSignature='';$('chatSendStatus').textContent='';$('bubbles').replaceChildren();hint('bubbles','Caricamento…');$('chatIn').value=drafts.get(m.id)||'';avatar($('cAvatar'),m);$('cName').textContent=m.name;$('chat').querySelector('.status').textContent='Match';go('chat',options);const generation=epoch;await renderChat().catch(()=>{if(generation!==epoch||current?.id!==m.id||active()!=='chat')return;hint('bubbles','Connessione non disponibile. La chat si aggiornerà appena torni online.');showToast('Non riesco a caricare la chat. Riprova.');});}
-  const loadChat=singleFlight(async(m,version,generation)=>{if(!m)return;const messages=await backend.messages(m.id);if(generation!==epoch||version!==chatVersion||current?.id!==m.id||active()!=='chat')return;
-    const signature=JSON.stringify(messages.map(msg=>[msg.id,msg.sender_id,msg.body]));if(signature===chatSignature)return;const first=chatSignature==='';chatSignature=signature;
-    const bubbles=$('bubbles');const nearBottom=bubbles.scrollHeight-bubbles.scrollTop-bubbles.clientHeight<80;
-    const rows=[{id:'context',className:'sysline',body:`Match avvenuto a ${m.venue_name}`}];
-    if(!messages.length)rows.push({id:'empty',className:'chat-empty',body:'Inizia la conversazione quando vuoi. Il match resta disponibile.'});
-    for(const msg of messages)rows.push({id:`message:${msg.id}`,className:`bub ${msg.sender_id===session()?.user.id?'me':'them'}`,body:msg.body});
-    stableList(bubbles,rows,{key:row=>row.id,signature:row=>JSON.stringify([row.className,row.body]),create:row=>{const bubble=document.createElement('div');bubble.className=row.className;bubble.textContent=row.body;return bubble;}});
-    if(first||nearBottom)bubbles.scrollTop=bubbles.scrollHeight;
+  async function openChat(m,options={}){if(current)drafts.set(current.id,$('chatIn').value);current=m;chatVersion++;chatSignature='';chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();$('chatSendStatus').textContent='';$('bubbles').replaceChildren();hint('bubbles','Caricamento…');$('chatIn').value=drafts.get(m.id)||'';avatar($('cAvatar'),m);$('cName').textContent=m.name;$('chat').querySelector('.status').textContent='Match';go('chat',options);const generation=epoch,version=chatVersion;void photosFor([m]).then(([loaded])=>{if(generation===epoch&&version===chatVersion&&current?.id===m.id&&active()==='chat')avatar($('cAvatar'),loaded);}).catch(()=>{});await renderChat().catch(()=>{if(generation!==epoch||current?.id!==m.id||active()!=='chat')return;hint('bubbles','Connessione non disponibile. La chat si aggiornerà appena torni online.');showToast('Non riesco a caricare la chat. Riprova.');});}
+  const loadChat=singleFlight(async(matchId,version,generation,before)=>{
+    const valid=()=>generation===epoch&&version===chatVersion&&current?.id===matchId&&active()==='chat';older.disabled=true;
+    try{
+      const messages=(await backend.messages(matchId,before)).slice(-100);if(!valid())return;
+      if(before&&!messages.length){historyExhausted=true;syncHistory();return;}
+      chatMessages=messages;syncHistory();
+      const signature=JSON.stringify(messages.map(msg=>[msg.id,msg.sender_id,msg.body]));if(signature===chatSignature)return;const first=chatSignature==='';chatSignature=signature;
+      const bubbles=$('bubbles'),nearBottom=bubbles.scrollHeight-bubbles.scrollTop-bubbles.clientHeight<80;
+      const rows=[{id:'context',className:'sysline',body:`Match avvenuto a ${current.venue_name}`}];
+      if(!messages.length)rows.push({id:'empty',className:'chat-empty',body:'Inizia la conversazione quando vuoi. Il match resta disponibile.'});
+      for(const msg of messages)rows.push({id:`message:${msg.id}`,className:`bub ${msg.sender_id===session()?.user.id?'me':'them'}`,body:msg.body});
+      stableList(bubbles,rows,{key:row=>row.id,signature:row=>JSON.stringify([row.className,row.body]),create:row=>{const bubble=document.createElement('div');bubble.className=row.className;bubble.textContent=row.body;return bubble;}});
+      if(first||nearBottom)bubbles.scrollTop=bubbles.scrollHeight;
+    }finally{if(valid())older.disabled=false;}
   });
-  const renderChat=()=>current?loadChat(current,chatVersion,epoch):Promise.resolve();
+  const renderChat=()=>current?loadChat(current.id,chatVersion,epoch,chatBefore):Promise.resolve();
   const pendingSends=new Map();
   async function sendMsg(){
     const m=current,text=$('chatIn').value.trim();if(!m||!text||sending)return;
@@ -90,7 +119,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
       pendingSends.delete(key);
       if(current?.id===m.id&&$('chatIn').value.trim()===text){$('chatIn').value='';drafts.delete(m.id);}
       else if(drafts.get(m.id)?.trim()===text)drafts.delete(m.id);
-      if(current?.id===m.id)$('chatSendStatus').textContent='Messaggio inviato';
+      if(current?.id===m.id){$('chatSendStatus').textContent='Messaggio inviato';if(chatBefore){chatBefore=null;chatVersion++;chatSignature='';historyExhausted=false;syncHistory();}}
     }catch(error){if(generation===epoch){if(current?.id===m.id)$('chatSendStatus').textContent='Invio non confermato. La bozza è conservata: puoi riprovare.';showToast(userMessage(error));}return;}
     finally{if(generation===epoch){sending=false;$('sendMessageBtn').disabled=false;}}
     // Read errors must never describe an already confirmed write as a failed send.
@@ -103,5 +132,5 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   Object.assign(window,{closeDetail,expressInterest,sendMsg,matchStartChat:()=>{if(current)void openChat(current);},
     reportPerson:()=>{if(detail){const person=detail;closeDetail();reportPrompt.open(person.id);}},blockFromChat:()=>{if(current)reportPrompt.open(current.person_id);}});
   setInterval(()=>{if(!document.hidden&&session())void refresh();},5000);
-  return {openDetail,closeDetail,refresh,route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id);if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;known=null;sent.clear();closeDetail();reportPrompt.reset();}};
+  return {openDetail,closeDetail,refresh,route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id)||(backend.matchById?await backend.matchById(id):null);if(!isCurrent())return;if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;detailFound=null;detailChecking=false;loadedOffset=-1;matchOffset=0;pagers.matches.reset();pagers.chats.reset();chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();known=null;sent.clear();closeDetail();reportPrompt.reset();}};
 }

@@ -8,7 +8,9 @@
     "dev": "vite --host 127.0.0.1 --port 4173 --strictPort",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "review:load": "node scripts/load-review.mjs",
+    "preview:load": "node scripts/prepare-load-preview.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
