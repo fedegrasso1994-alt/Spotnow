@@ -1,5 +1,6 @@
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
+import { optimizePhoto } from './optimize-photo.js';
 import { userMessage } from './errors.js';
 import { createNavigation } from './navigation.js';
 import { singleFlight, stableList } from './ui-refresh.js';
@@ -162,7 +163,7 @@ async function trySaveProfile() {
   try {
     // Preserve the uploaded path on retries, so a transient DB error does not upload twice.
     const draft={...state.profile},file=state.photoFile;
-    if(file){const path=await backend.uploadPhoto(file);if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPath=path;state.photoFile=null;}
+    if(file){const optimized=await optimizePhoto(file);if(generation!==accountGeneration)return;const path=await backend.uploadPhoto(optimized);if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPath=path;state.photoFile=null;}
     await backend.saveProfile({...draft,photo:draft.photoPath});
     if(generation!==accountGeneration)return;
     await hydrate();
@@ -184,7 +185,7 @@ $('codeForm').addEventListener('submit',async event=>{
 });
 // Existing profile controls retain the same styling as the prototype.
 const signout=document.createElement('button');signout.className='backlink';signout.style.marginTop='18px';signout.textContent='Esci dall’account';
-signout.onclick=async()=>{try{await backend.signOut();location.reload();}catch(error){showToast(message(error));}};$('myprofile').append(signout);
+signout.onclick=async()=>{try{await backend.signOut();location.reload();}catch(error){showToast(message(error));}};$('profileActions').append(signout);
 async function enterApp(){
   if(entering)return;entering=true;introButton.disabled=true;
   try{if(state.session&&!state.session.user.is_anonymous)await hydrate();else go('login');}
@@ -261,16 +262,20 @@ const loadTribe=singleFlight(async(generation)=>{
  if(generation!==listGeneration)return;if(!selectedTribe)return go('tribes');const place=selectedTribe;
  $('tribeTitle').textContent=place.name;$('tribeCount').textContent=`${memberLabel(place.member_count)} · i presenti ora sono nella sezione Ora`;
  try{
-  const people=await backend.locationPeople(place.id,false);const visible=await Promise.all(people.map(async p=>({...p,photo:await photoFor(p.photo_path)})));
-  if(generation!==listGeneration)return;
-  if(!visible.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
-  stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';avatar(face,person);const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person);card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
+  const people=await backend.locationPeople(place.id,false);if(generation!==listGeneration)return;
+  if(!people.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
+  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:people.findIndex(p=>p.id===person.id)<4});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
+  // Cards become usable immediately; one slow photo must not hold the whole grid.
+  paint(people);
+  const urls=backend.photoUrls?await backend.photoUrls(people.map(p=>p.photo_path)).catch(()=>new Map()):null;
+  const visible=await Promise.all(people.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));
+  if(generation!==listGeneration)return;paint(visible);
  }catch(error){if(generation===listGeneration)emptyList('tribeGrid',message(error));}
 });
 const renderTribe=()=>loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
 deleteAccountButtonSetup();
-function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('myprofile').append(deletion);}
+function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('profileActions').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}
 backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});

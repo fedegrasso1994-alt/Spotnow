@@ -136,6 +136,9 @@ if(new URLSearchParams(location.search).get('preview')==='tribes'){
  demoAccount=true;Object.assign(state.profile,{name:'Alex',age:28,gender:'M',preference:'ALL',photo:null});go('tribes');
 }
 
+// Profile actions are simulated explicitly; no demo action changes a real account.
+for(const text of ['Esci dall’account','Elimina account']){const button=document.createElement('button');button.className='backlink';button.textContent=text;button.onclick=()=>showToast('Questa azione è disponibile nel tuo account reale.');$('profileActions').append(button);}
+
 $('discoverTribeBtn').onclick=()=>{selectedDemoTribe='Locale demo';go('tribe');};
 
 // Explicit responsive QA preview; every profile and message is fictional.

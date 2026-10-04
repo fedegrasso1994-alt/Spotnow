@@ -69,3 +69,25 @@ test('private photo cache reduces polling requests and clears across sessions',a
  let requests=0,notify;const api=createBackend({auth:{onAuthStateChange:cb=>{notify=cb;return {data:{subscription:{}}};}},storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:`/photo-${++requests}`}})})}});
  api.onSessionChange(()=>{});assert.equal(await api.photoUrl('me/photo'),'/photo-1');assert.equal(await api.photoUrl('me/photo'),'/photo-1');notify('SIGNED_OUT',null);assert.equal(await api.photoUrl('me/photo'),'/photo-2');
 });
+
+test('Tribe signs a group of private photos in one request and reuses individual cached URLs',async()=>{
+ let requests=0;const api=createBackend({storage:{from:()=>({createSignedUrls:async(paths,seconds)=>{requests++;assert.equal(seconds,30);return {data:paths.map(path=>({path,signedUrl:`/signed/${path}`,error:null}))};}})}});
+ const urls=await api.photoUrls(['anna/photo','luca/photo','anna/photo',null]);assert.equal(requests,1);assert.equal(urls.size,2);assert.equal(await api.photoUrl('anna/photo'),'/signed/anna/photo');await api.photoUrls(['anna/photo','luca/photo']);assert.equal(requests,1);
+});
+test('one unavailable photo does not prevent other authorized photos loading',async()=>{
+ const api=createBackend({storage:{from:()=>({createSignedUrls:async()=>({data:[{path:'anna/photo',signedUrl:'/anna',error:null},{path:'missing/photo',signedUrl:null,error:'Object not found'}]})})}});
+ const urls=await api.photoUrls(['anna/photo','missing/photo']);assert.equal(urls.get('anna/photo'),'/anna');assert.equal(urls.get('missing/photo'),null);
+});
+test('simultaneous lists share an unfinished photo request',async()=>{
+ let resolve,requests=0;const ready=new Promise(r=>resolve=r);const api=createBackend({storage:{from:()=>({createSignedUrls:async paths=>{requests++;await ready;return {data:paths.map(path=>({path,signedUrl:'/photo',error:null}))};}})}});
+ const first=api.photoUrls(['anna/photo']);const second=api.photoUrl('anna/photo');await Promise.resolve();resolve();assert.equal((await first).get('anna/photo'),'/photo');assert.equal(await second,'/photo');assert.equal(requests,1);
+});
+test('a photo response finishing after logout never repopulates the next account cache',async()=>{
+ let resolve,notify,requests=0;const ready=new Promise(r=>resolve=r);const api=createBackend({auth:{onAuthStateChange:cb=>{notify=cb;return {data:{subscription:{}}};}},storage:{from:()=>({createSignedUrls:async paths=>{requests++;if(requests===1)await ready;return {data:paths.map(path=>({path,signedUrl:`/photo-${requests}`,error:null}))};}})}});
+ api.onSessionChange(()=>{});const old=api.photoUrls(['anna/photo']);await Promise.resolve();notify('SIGNED_OUT',null);resolve();await old;await api.photoUrls(['anna/photo']);assert.equal(requests,2);
+});
+
+test('signing another photo never discards a large Tribe cache and causes another round of group requests',async()=>{
+ let grouped=0;const storage={createSignedUrls:async paths=>{grouped++;return {data:paths.map(path=>({path,signedUrl:`/signed/${path}`,error:null}))};},createSignedUrl:async()=>({data:{signedUrl:'/own'}})};
+ const api=createBackend({storage:{from:()=>storage}}),paths=Array.from({length:250},(_,i)=>`person-${i}/photo`);await api.photoUrls(paths);assert.equal(grouped,3);await api.photoUrl('me/photo');await api.photoUrls(paths);assert.equal(grouped,3);
+});

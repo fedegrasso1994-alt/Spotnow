@@ -2,7 +2,8 @@ import { validProfile } from './domain.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
 export function createBackend(client) {
-  const photos=new Map();let photoEpoch=0;const clearPhotos=()=>{photoEpoch++;photos.clear();};
+  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{photoEpoch++;photos.clear();pendingPhotos.clear();};
+  function prunePhotos(){const now=Date.now();for(const [path,cached]of photos)if(cached.until<=now)photos.delete(path);}
   function unwrap(result) {if(result.error) throw result.error;return result.data;}
   async function userId() {
     const data=unwrap(await client.auth.getUser());
@@ -75,11 +76,34 @@ export function createBackend(client) {
     async sendMessage(matchId,text,nonce){return unwrap(await client.rpc('send_message',{target_match:matchId,message_text:text,client_nonce:nonce}));},
     async block(personId){clearPhotos();return unwrap(await client.rpc('block_profile',{target_user:personId}));},
     async report(personId,reason,details,alsoBlock,nonce){if(alsoBlock)clearPhotos();return unwrap(await client.rpc('report_profile',{target_user:personId,report_reason:reason,report_details:details,also_block:alsoBlock,client_nonce:nonce}));},
+    async photoUrls(paths) {
+      prunePhotos();
+      const unique=[...new Set(paths.filter(Boolean))],missing=unique.filter(path=>!photos.has(path)||photos.get(path).until<=Date.now());
+      const generation=photoEpoch,storage=client.storage.from('profile-photos');
+      // One authorized request per group rather than one round trip for every card.
+      for(let start=0;start<missing.length;start+=100){
+        const group=missing.slice(start,start+100).filter(path=>!pendingPhotos.has(path));if(!group.length)continue;
+        const request=Promise.resolve().then(async()=>{
+          const rows=unwrap(await storage.createSignedUrls(group,30));
+          const result=new Map(rows.map(row=>[row.path,row.error?null:row.signedUrl||null]));
+          if(generation===photoEpoch)for(const [path,url]of result){if(url)photos.set(path,{url,until:Date.now()+20000});}
+          return result;
+        });
+        for(const path of group){const pending=request.then(result=>result.get(path)||null).finally(()=>{if(pendingPhotos.get(path)===pending)pendingPhotos.delete(path);});pendingPhotos.set(path,pending);}
+      }
+      const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path));}));return result;
+    },
     async photoUrl(path) {
+      prunePhotos();
       if(!path)return null;
       const cached=photos.get(path);if(cached&&cached.until>Date.now())return cached.url;
-      const generation=photoEpoch;const url=unwrap(await client.storage.from('profile-photos').createSignedUrl(path,30)).signedUrl;
-      if(generation===photoEpoch){if(photos.size>200)photos.clear();photos.set(path,{url,until:Date.now()+20000});}return url;
+      if(pendingPhotos.has(path))return pendingPhotos.get(path);
+      const generation=photoEpoch;
+      const request=Promise.resolve().then(async()=>{
+        const url=unwrap(await client.storage.from('profile-photos').createSignedUrl(path,30)).signedUrl;
+        if(generation===photoEpoch){photos.set(path,{url,until:Date.now()+20000});}return url;
+      }).finally(()=>{if(pendingPhotos.get(path)===request)pendingPhotos.delete(path);});
+      pendingPhotos.set(path,request);return request;
     },
   };
 }

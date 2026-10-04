@@ -23,6 +23,7 @@
     "src/errors.js",
     "src/request.js",
     "src/photo.js",
+    "src/optimize-photo.js",
     "src/ui-refresh.js",
     "src/navigation.js",
     "src/avatar.js",

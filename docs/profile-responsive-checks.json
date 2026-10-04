@@ -1,0 +1,361 @@
+[
+  {
+    "screen": "detail",
+    "active": true,
+    "buttons": [
+      {
+        "bottom": 512,
+        "left": 12,
+        "right": 156,
+        "text": "Vedi altri profili",
+        "top": 464
+      },
+      {
+        "bottom": 512,
+        "left": 166,
+        "right": 308,
+        "text": "Mi Interessa",
+        "top": 464
+      }
+    ],
+    "overflow": false,
+    "viewport": [
+      320,
+      568
+    ]
+  },
+  {
+    "screen": "detail",
+    "active": true,
+    "buttons": [
+      {
+        "bottom": 584,
+        "left": 12,
+        "right": 176,
+        "text": "Vedi altri profili",
+        "top": 536
+      },
+      {
+        "bottom": 584,
+        "left": 186,
+        "right": 348,
+        "text": "Mi Interessa",
+        "top": 536
+      }
+    ],
+    "overflow": false,
+    "viewport": [
+      360,
+      640
+    ]
+  },
+  {
+    "screen": "detail",
+    "active": true,
+    "buttons": [
+      {
+        "bottom": 788,
+        "left": 12,
+        "right": 191,
+        "text": "Vedi altri profili",
+        "top": 740
+      },
+      {
+        "bottom": 788,
+        "left": 201,
+        "right": 378,
+        "text": "Mi Interessa",
+        "top": 740
+      }
+    ],
+    "overflow": false,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "screen": "detail",
+    "active": true,
+    "buttons": [
+      {
+        "bottom": 859,
+        "left": 12,
+        "right": 202,
+        "text": "Vedi altri profili",
+        "top": 811
+      },
+      {
+        "bottom": 859,
+        "left": 212,
+        "right": 400,
+        "text": "Mi Interessa",
+        "top": 811
+      }
+    ],
+    "overflow": false,
+    "viewport": [
+      412,
+      915
+    ]
+  },
+  {
+    "screen": "detail",
+    "active": true,
+    "buttons": [
+      {
+        "bottom": 338,
+        "left": 12,
+        "right": 418,
+        "text": "Vedi altri profili",
+        "top": 290
+      },
+      {
+        "bottom": 338,
+        "left": 428,
+        "right": 832,
+        "text": "Mi Interessa",
+        "top": 290
+      }
+    ],
+    "overflow": false,
+    "viewport": [
+      844,
+      390
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 316,
+        "left": 18,
+        "right": 302,
+        "text": "Modifica profilo",
+        "top": 268
+      },
+      {
+        "bottom": 372,
+        "left": 18,
+        "right": 302,
+        "text": "Salva l’app sul telefono",
+        "top": 324
+      },
+      {
+        "bottom": 428,
+        "left": 18,
+        "right": 302,
+        "text": "Esci dall’account",
+        "top": 380
+      },
+      {
+        "bottom": 484,
+        "left": 18,
+        "right": 302,
+        "text": "Elimina account",
+        "top": 436
+      }
+    ],
+    "overflow": false,
+    "tabTop": 499.6015625,
+    "viewport": [
+      320,
+      568
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 388,
+        "left": 18,
+        "right": 342,
+        "text": "Modifica profilo",
+        "top": 340
+      },
+      {
+        "bottom": 444,
+        "left": 18,
+        "right": 342,
+        "text": "Salva l’app sul telefono",
+        "top": 396
+      },
+      {
+        "bottom": 500,
+        "left": 18,
+        "right": 342,
+        "text": "Esci dall’account",
+        "top": 452
+      },
+      {
+        "bottom": 556,
+        "left": 18,
+        "right": 342,
+        "text": "Elimina account",
+        "top": 508
+      }
+    ],
+    "overflow": false,
+    "tabTop": 571.6015625,
+    "viewport": [
+      360,
+      640
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 592,
+        "left": 18,
+        "right": 372,
+        "text": "Modifica profilo",
+        "top": 544
+      },
+      {
+        "bottom": 648,
+        "left": 18,
+        "right": 372,
+        "text": "Salva l’app sul telefono",
+        "top": 600
+      },
+      {
+        "bottom": 704,
+        "left": 18,
+        "right": 372,
+        "text": "Esci dall’account",
+        "top": 656
+      },
+      {
+        "bottom": 760,
+        "left": 18,
+        "right": 372,
+        "text": "Elimina account",
+        "top": 712
+      }
+    ],
+    "overflow": false,
+    "tabTop": 775.6015625,
+    "viewport": [
+      390,
+      844
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 663,
+        "left": 18,
+        "right": 394,
+        "text": "Modifica profilo",
+        "top": 615
+      },
+      {
+        "bottom": 719,
+        "left": 18,
+        "right": 394,
+        "text": "Salva l’app sul telefono",
+        "top": 671
+      },
+      {
+        "bottom": 775,
+        "left": 18,
+        "right": 394,
+        "text": "Esci dall’account",
+        "top": 727
+      },
+      {
+        "bottom": 831,
+        "left": 18,
+        "right": 394,
+        "text": "Elimina account",
+        "top": 783
+      }
+    ],
+    "overflow": false,
+    "tabTop": 846.6015625,
+    "viewport": [
+      412,
+      915
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 90.6953125,
+        "left": 430,
+        "right": 826,
+        "text": "Modifica profilo",
+        "top": 46.6953125
+      },
+      {
+        "bottom": 140.6953125,
+        "left": 430,
+        "right": 826,
+        "text": "Salva l’app sul telefono",
+        "top": 96.6953125
+      },
+      {
+        "bottom": 190.6953125,
+        "left": 430,
+        "right": 826,
+        "text": "Esci dall’account",
+        "top": 146.6953125
+      },
+      {
+        "bottom": 240.6953125,
+        "left": 430,
+        "right": 826,
+        "text": "Elimina account",
+        "top": 196.6953125
+      }
+    ],
+    "overflow": false,
+    "tabTop": 321.6015625,
+    "viewport": [
+      844,
+      390
+    ]
+  },
+  {
+    "screen": "myprofile",
+    "buttons": [
+      {
+        "bottom": 90.6953125,
+        "left": 292,
+        "right": 550,
+        "text": "Modifica profilo",
+        "top": 46.6953125
+      },
+      {
+        "bottom": 140.6953125,
+        "left": 292,
+        "right": 550,
+        "text": "Salva l’app sul telefono",
+        "top": 96.6953125
+      },
+      {
+        "bottom": 190.6953125,
+        "left": 292,
+        "right": 550,
+        "text": "Esci dall’account",
+        "top": 146.6953125
+      },
+      {
+        "bottom": 240.6953125,
+        "left": 292,
+        "right": 550,
+        "text": "Elimina account",
+        "top": 196.6953125
+      }
+    ],
+    "overflow": false,
+    "tabTop": 251.6015625,
+    "viewport": [
+      568,
+      320
+    ]
+  }
+]

@@ -50,7 +50,12 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     $('interestBtn').disabled=!match&&(busy||Boolean(done));
     $('interestBtn').textContent=match?'Apri la Chat':done?'Interesse già inviato':'Mi Interessa';
   }
-  function openDetail(person){detail=person;$('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();}
+  function openDetail(person){
+    detail=person;const generation=epoch,account=session()?.user.id;
+    $('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person,{eager:true});$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
+    // A card is clickable before its photo is ready. Join that request and fill the detail too.
+    if(person.photo_path)void backend.photoUrl(person.photo_path).then(photo=>{if(!photo||detail!==person||generation!==epoch||session()?.user.id!==account)return;person.photo=photo;avatar($('dAvatar'),person,{eager:true});}).catch(()=>{});
+  }
   function closeDetail(){detail=null;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}

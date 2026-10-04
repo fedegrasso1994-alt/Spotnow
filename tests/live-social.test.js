@@ -4,7 +4,7 @@ import {createLiveSocial} from '../src/live-social.js';
 import {singleFlight,stableList} from '../src/ui-refresh.js';
 import {dom,Element,deferred,flush} from './helpers/dom.js';
 
-function setup(t, overrides={}){
+function setup(t, overrides={},avatar=()=>{}){
  const ui=dom();for(const id of ['venue','matches','chats','chat','match'])ui.screen(id);
  const report=new Element();report.className='report-link';ui.get('detailOverlay').append(report);
  const status=new Element();status.className='status';ui.get('chat').append(status);
@@ -14,7 +14,7 @@ function setup(t, overrides={}){
  let records=[{id:'match-a',person_id:'a',name:'Anna',age:24,venue_name:'Locale',photo_path:'a/photo',first_message_at:null}];
  const backend={matches:async()=>records,photoUrl:async()=>'/photo',messages:async()=>[{id:'msg',sender_id:'a',body:'Ciao'}],sendMessage:async()=>{},...overrides};
  let social;const go=id=>{ui.activate(id);social?.onScreen(id);};
- social=createLiveSocial({backend,go,showToast:()=>{},avatar:()=>{},profile:()=>({}),session:()=>({user:{id:'me'}}),onFirstMatch:()=>{},venueName:()=> 'Locale'});
+ social=createLiveSocial({backend,go,showToast:()=>{},avatar,profile:()=>({}),session:()=>({user:{id:'me'}}),onFirstMatch:()=>{},venueName:()=> 'Locale'});
  return {...ui,social,go,backend,setRecords:value=>{records=value;}};
 }
 
@@ -83,3 +83,13 @@ test('a match for another profile never enables the chat action on the selected 
  assert.equal(ui.get('dName').textContent,'Bea, 25');assert.equal(ui.get('interestBtn').textContent,'Interesse già inviato');assert.equal(ui.get('interestBtn').disabled,true);
 });
 test('an unmatched profile still offers Mi Interessa',async t=>{const ui=setup(t);ui.setRecords([]);ui.social.openDetail({id:'b',name:'Bea',age:25,venue_id:'place'});await flush();assert.equal(ui.get('interestBtn').textContent,'Mi Interessa');assert.equal(ui.get('interestBtn').disabled,false);});
+
+test('opening a Tribe card before its image is ready fills the enlarged photo when the request completes',async t=>{
+ const wait=deferred(),photos=[];const ui=setup(t,{photoUrl:()=>wait.promise},(el,p)=>{if(el.id==='dAvatar')photos.push(p.photo);});ui.setRecords([]);
+ ui.social.openDetail({id:'a',name:'Anna',age:24,photo_path:'a/photo',source:'tribe'});assert.equal(photos.at(-1),undefined);wait.resolve('/loaded-photo');await flush();assert.equal(photos.at(-1),'/loaded-photo');
+});
+test('a late detail photo never overwrites another person or repopulates a closed detail',async t=>{
+ const first=deferred(),second=deferred(),photos=[];const ui=setup(t,{photoUrl:path=>path==='a/photo'?first.promise:second.promise},(el,p)=>{if(el.id==='dAvatar')photos.push(p.photo);});ui.setRecords([]);
+ ui.social.openDetail({id:'a',name:'Anna',age:24,photo_path:'a/photo'});ui.social.openDetail({id:'b',name:'Bea',age:25,photo_path:'b/photo'});const count=photos.length;
+ first.resolve('/anna');await flush();assert.equal(photos.length,count);ui.social.closeDetail();second.resolve('/bea');await flush();assert.equal(photos.length,count);
+});
