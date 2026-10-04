@@ -278,7 +278,7 @@
 html,body{min-width:0}
 .stage{min-height:var(--app-height,100dvh)}
 .phone{height:min(840px,calc(var(--app-height,100dvh) - 56px))}
-.screen{overflow-x:hidden;overflow-y:auto;padding-top:max(18px,env(safe-area-inset-top,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.screen{overflow-x:hidden;overflow-y:auto;padding-bottom:max(22px,env(safe-area-inset-bottom,0px));padding-top:max(18px,env(safe-area-inset-top,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
 .screen>h1,.screen>h2,.screen>.sub,.screen>.privacy-note,.screen>.venue-head{flex-shrink:0}
 .tabscreen{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 .list{min-height:80px}
