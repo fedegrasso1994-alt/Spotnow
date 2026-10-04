@@ -148,3 +148,10 @@ test('opening another Tribe resets pagination and a late page never populates it
  const wait=deferred();let pages=0;const ui=await boot({ownCheckIn:async()=>null,tribes:async()=>[{id:'a',name:'A',member_count:200},{id:'b',name:'B',member_count:200}],locationPeoplePage:async(place,live,offset)=>{pages++;if(place==='a'&&offset)return wait.promise;return {items:[{id:place,name:place,age:25,photo_path:`${place}/photo`}],hasMore:true,total:200};}});
  ui.get('tribesList').children[0].onclick();await flush();ui.get('tribe').querySelector('.pager').children[2].onclick();await flush();ui.window.go('tribes');await flush();ui.get('tribesList').children[1].onclick();await flush();wait.resolve({items:[{id:'old',name:'old',age:25}],hasMore:false,total:200});await flush();assert.equal(ui.get('tribeGrid').children[0].dataset.rowKey,'b');assert.match(ui.get('tribe').querySelector('.page-label').textContent,/^1–/);assert.ok(pages>=3);
 });
+
+test('the first visible photos render before a slower remaining batch finishes',async()=>{
+ const tail=deferred(),people=Array.from({length:12},(_,i)=>({id:`fast-${i}`,name:`Persona ${i}`,age:25,photo_path:`fast-${i}/photo`})),groups=[];
+ const ui=await boot({ownCheckIn:async()=>null,locationPeoplePage:async()=>({items:people,hasMore:false,total:12}),photoUrls:paths=>{groups.push(paths);return paths.length===4?Promise.resolve(new Map(paths.map(path=>[path,'/ready']))):tail.promise;}});
+ ui.get('tribesList').children[0].onclick();await flush();const cards=ui.get('tribeGrid').children;assert.equal(cards[0].querySelector('img').src,'/ready');assert.equal(cards[3].querySelector('img').loading,'eager');assert.equal(cards[4].querySelector('img'),null);assert.deepEqual(groups.map(group=>group.length),[4,8]);
+ tail.resolve(new Map(people.slice(4).map(p=>[p.photo_path,'/later'])));await flush();assert.equal(cards[4].querySelector('img').src,'/later');
+});

@@ -11,7 +11,13 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   const pagers={matches:createPager($('matches'),offset=>changeMatchPage('matches',offset),{nextLabel:'Altri match'}),chats:createPager($('chats'),offset=>changeMatchPage('chats',offset),{nextLabel:'Altre chat'})};
   function changeMatchPage(screen,offset){matchOffset=offset;$(screen==='matches'?'matchesList':'chatsList').replaceChildren();go(screen);}
   async function matchPageRead(offset){if(backend.matchesPage)return backend.matchesPage(offset);const records=await backend.matches();return {items:records.slice(offset,offset+48),hasMore:records.length>offset+48,total:records.length};}
-  async function photosFor(records){const urls=backend.photoUrls?await backend.photoUrls(records.map(m=>m.photo_path)).catch(()=>new Map()):null;return Promise.all(records.map(async m=>({...m,photo:urls?urls.get(m.photo_path)||null:await backend.photoUrl(m.photo_path).catch(()=>null)})));}
+  async function photosFor(records,onReady=()=>{}){
+    const loaded=new Map();await Promise.all([records.slice(0,4),records.slice(4)].filter(group=>group.length).map(async group=>{
+      const urls=backend.photoUrls?await backend.photoUrls(group.map(m=>m.photo_path)).catch(()=>new Map()):null;
+      const items=await Promise.all(group.map(async m=>({...m,photo:urls?urls.get(m.photo_path)||null:await backend.photoUrl(m.photo_path).catch(()=>null)})));
+      for(const m of items)loaded.set(m.id,m);onReady(records.map(m=>loaded.get(m.id)||m));
+    }));return records.map(m=>loaded.get(m.id)||m);
+  }
   let chatBefore=null,chatMessages=[],historyExhausted=false;
   const historyControls=document.createElement('div');historyControls.className='chat-history-controls';historyControls.hidden=true;
   const older=document.createElement('button'),latest=document.createElement('button');for(const button of [older,latest]){button.className='btn btn-ghost';button.type='button';}
@@ -51,7 +57,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
         if(current?.id===selected&&chatVersion===version&&!available){current=null;if(['chat','match'].includes(active())){go('matches');showToast('Il match non è più disponibile.');}}
       }
       if(active()==='chat'&&current)await renderChat();
-      const loaded=await photosFor(matches);if(!valid())return;matches=loaded;syncDetailAction();
+      const loaded=await photosFor(matches,partial=>{if(valid()){matches=partial;if(['matches','chats'].includes(active()))void renderList(active());}});if(!valid())return;matches=loaded;syncDetailAction();
       if(current){const updated=matches.find(m=>m.id===current.id);if(updated){current={...current,...updated};if(active()==='chat')avatar($('cAvatar'),current);if(active()==='match')avatar($('mAvatarThem'),current);}}
       if(['matches','chats'].includes(active()))await renderList(active());
     }catch(error){if(valid()&&['matches','chats'].includes(active())){pagers[active()].update({offset:matchOffset,count:0,total:matchOffset,hasMore:false});if(!matches.length||loadedOffset!==matchOffset)hint(active()==='matches'?'matchesList':'chatsList','Connessione non disponibile. Tocca di nuovo la scheda per riprovare.');}}
@@ -62,7 +68,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     if(loadedOffset!==matchOffset){hint(id,'Caricamento…');pagers[screen].busy(true);return;}
     const entries=matches;pagers[screen].update({offset:matchOffset,count:entries.length,total:matchPage.total,hasMore:matchPage.hasMore});
     if(!entries.length)return hint(id,screen==='chats'?'Nessuna conversazione ancora.':"Ancora nessun match. Continua a guardare chi c'è ora.");
-    stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name]),create:m=>row(m,`Match a ${m.venue_name}`,openChat),update:(el,m)=>{avatar(el.querySelector('.avatar'),m);el.onclick=()=>openChat(m);}});
+    stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name]),create:m=>row(m,`Match a ${m.venue_name}`,openChat),update:(el,m)=>{avatar(el.querySelector('.avatar'),m,{eager:entries.slice(0,4).some(item=>item.id===m.id)});el.onclick=()=>openChat(m);}});
   }
   function showMatch(m){if(current)drafts.set(current.id,$('chatIn').value);current=m;avatar($('mAvatarMe'),profile());avatar($('mAvatarThem'),m);$('mText').textContent=`Tu e ${m.name} vi siete notati a vicenda.`;go('match');}
   function detailMatch(){return detail?(matches.find(m=>m.person_id===detail.id)||detailFound):null;}

@@ -5,7 +5,7 @@ const params=new URLSearchParams(location.search),delay=Number(params.get('delay
 const id=(prefix,n)=>`${prefix}000000-0000-0000-0000-${String(n).padStart(12,'0')}`;
 const metrics={users:10000,matches:2000,messages:20000,delayMs:delay,requests:0,photoRequests:0,activePhotos:0,peakPhotos:0,activeReads:0,peakReads:0,errors:0,longTasks:[],actions:0};
 let offline=false,slow=false;const blocked=new Set(),nonces=new Map(),interests=new Set();
-const picture='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="600" height="800" fill="#25594f"/><circle cx="300" cy="280" r="90" fill="#57c6a0"/><path d="M90 650q0-230 210-230t210 230" fill="#57c6a0"/></svg>');
+const picture='/tests/fixtures/load-avatar.svg';
 const users=Array.from({length:10000},(_,i)=>({id:id('1',i+1),name:`Utente ${String(i+1).padStart(6,'0')}`,age:25,gender:i%2?'F':'M',occupation:'Profilo fittizio',photo_path:`${id('1',i+1)}/photo.webp`,checked_in_at:new Date().toISOString(),expires_at:new Date(Date.now()+5400000).toISOString(),interest_sent:false}));
 const matches=users.slice(1,2001).map((p,i)=>({id:id('4',i+1),person_id:p.id,name:p.name,age:p.age,photo_path:p.photo_path,venue_name:'Luogo simulato',created_at:new Date(Date.now()-i*1000).toISOString()}));
 const messages=Array.from({length:20000},(_,i)=>({id:id('5',i+1),match_id:matches[0].id,sender_id:i%2?me:matches[0].person_id,body:`Messaggio fittizio ${i+1}`,created_at:new Date(Date.now()-2000000+i*100).toISOString()}));

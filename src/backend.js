@@ -1,3 +1,4 @@
+import {cachedPhoto,clearPhotoMemory} from './photo-memory.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
@@ -12,7 +13,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     pendingReads.set(key,{promise,controller,name});return promise;
   }
   const rpcRead=(name,args={})=>sharedRead(name,args,async signal=>unwrap(await cancelable(client.rpc(name,args),signal)));
-  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{photoEpoch++;photos.clear();pendingPhotos.clear();for(const read of pendingReads.values())read.controller.abort();pendingReads.clear();};
+  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{clearPhotoMemory();photoEpoch++;photos.clear();pendingPhotos.clear();for(const read of pendingReads.values())read.controller.abort();pendingReads.clear();};
   function prunePhotos(){const now=Date.now();for(const [path,cached]of photos)if(cached.until<=now)photos.delete(path);}
   function unwrap(result) {if(result.error) throw result.error;return result.data;}
   async function userId() {
@@ -97,7 +98,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     async report(personId,reason,details,alsoBlock,nonce){if(alsoBlock)clearPhotos();return unwrap(await client.rpc('report_profile',{target_user:personId,report_reason:reason,report_details:details,also_block:alsoBlock,client_nonce:nonce}));},
     async photoUrls(paths) {
       prunePhotos();
-      const unique=[...new Set(paths.filter(Boolean))],missing=unique.filter(path=>!photos.has(path)||photos.get(path).until<=Date.now());
+      const unique=[...new Set(paths.filter(Boolean))],missing=unique.filter(path=>!cachedPhoto(path)&&(!photos.has(path)||photos.get(path).until<=Date.now()));
       const generation=photoEpoch,storage=client.storage.from('profile-photos');
       // One authorized request per group rather than one round trip for every card.
       for(let start=0;start<missing.length;start+=100){
@@ -111,11 +112,12 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
         });
         for(const path of group){const pending=request.then(result=>result.get(path)||null).finally(()=>{if(pendingPhotos.get(path)===pending)pendingPhotos.delete(path);});pendingPhotos.set(path,pending);}
       }
-      const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path)?.catch(()=>null));}));return result;
+      const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,cachedPhoto(path)||(photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path)?.catch(()=>null)));}));return result;
     },
     async photoUrl(path) {
       prunePhotos();
       if(!path)return null;
+      const decoded=cachedPhoto(path);if(decoded)return decoded;
       const cached=photos.get(path);if(cached&&cached.until>Date.now())return cached.url;
       if(pendingPhotos.has(path))return pendingPhotos.get(path);
       const generation=photoEpoch;

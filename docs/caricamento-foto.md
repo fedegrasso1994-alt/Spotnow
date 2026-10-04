@@ -1,0 +1,13 @@
+# Caricamento delle foto — 4 ottobre 2026
+
+Corretto il ritardo che faceva attendere tutte le foto della pagina prima di mostrare quelle iniziali. Ora, Tribe, Match e Chat richiedono prima un gruppo di quattro foto; la risposta di questo gruppo aggiorna subito la schermata, indipendentemente dalle immagini successive. Le prime quattro immagini hanno priorità alta e caricamento immediato; quelle fuori vista mantengono il caricamento differito.
+
+Una foto già decodificata viene conservata come WebP in memoria nella stessa scheda del browser: ritornando alla griglia o aprendo un'altra schermata, i pixel disponibili non richiedono una nuova firma o un altro download. La memoria è limitata a 64 foto e 16 MiB, senza localStorage, IndexedDB o cache del service worker. Logout, cambio di sessione e blocco la svuotano e revocano gli URL Blob. Risultati di conversione tardivi non possono ripopolarla dopo il cambio account. Il file resta identificato dal percorso, quindi una nuova foto non riutilizza quella precedente.
+
+I link Supabase restano privati e con la stessa scadenza di 30 secondi. La memoria conserva soltanto pixel già ricevuti durante la sessione, come facevano già gli elementi immagine visualizzati. Le autorizzazioni delle nuove letture continuano a essere controllate dal server.
+
+Le nuove foto vengono ridotte proporzionalmente a un massimo di 1.024 pixel sul lato maggiore e codificate in WebP. Oltre 180 KiB viene tentata una seconda compressione; si usa il risultato soltanto se è supportato e più piccolo. Non è un limite di peso garantito per ogni immagine. Immagini piccole non vengono ingrandite. I file precedentemente caricati non vengono sovrascritti: il loro primo download può ancora risentire del peso dell'originale e della rete. La memoria migliora le visite successive all'interno della stessa sessione.
+
+Verifica: 126 test automatici passati, TypeScript, build e controllo della release. Test specifici per prima risposta veloce e seconda lenta, riuso senza firma, limite della memoria, revoca al logout e risposta tardiva dopo reset. Nel browser nativo la simulazione locale ha mostrato le prime quattro foto decodificate e, passando a un'altra Tribe, tutte e quattro provenivano da URL Blob in memoria; nessun errore di console rilevato. Le foto della simulazione sono SVG fittizie locali, quindi questa verifica non misura la velocità di una fotografia reale su rete mobile.
+
+Per ridurre anche il primo download di tutti i vecchi file serviranno miniature generate sul server o una conversione controllata degli originali esistenti. Questo intervento non rende pubblico il bucket e non presume servizi a pagamento di trasformazione immagini.

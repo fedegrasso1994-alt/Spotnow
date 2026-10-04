@@ -28,7 +28,14 @@ let selectedTribe=null,expiryTimer,liveOffset=0,tribeOffset=0;
 const livePager=createPager($('venue'),offset=>{liveOffset=offset;$('list').replaceChildren();go('venue');});
 const tribePager=createPager($('tribe'),offset=>{tribeOffset=offset;$('tribeGrid').replaceChildren();go('tribe');});
 async function peoplePage(place,live,offset){if(backend.locationPeoplePage)return backend.locationPeoplePage(place,live,offset);const rows=await backend.locationPeople(place,live);return {items:rows.slice(offset,offset+48),hasMore:rows.length>offset+48,total:rows.length};}
-async function withPhotos(people){const urls=backend.photoUrls?await backend.photoUrls(people.map(p=>p.photo_path)).catch(()=>new Map()):null;return Promise.all(people.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));}
+async function withPhotos(people,onReady=()=>{}){
+ const loaded=new Map();const groups=[people.slice(0,4),people.slice(4)].filter(group=>group.length);
+ await Promise.all(groups.map(async group=>{
+  const urls=backend.photoUrls?await backend.photoUrls(group.map(p=>p.photo_path)).catch(()=>new Map()):null;
+  const records=await Promise.all(group.map(async p=>({...p,photo:urls?urls.get(p.photo_path)||null:await photoFor(p.photo_path)})));
+  for(const p of records)loaded.set(p.id,p);onReady(people.map(p=>loaded.get(p.id)||p));
+ }));return people.map(p=>loaded.get(p.id)||p);
+}
 let awaitingQr=false,entryGeneration=0;
 let entering=false,suspended=false,deleting=false,statusChecking=false,photoSelection=0;
 let toastTimer;
@@ -139,8 +146,8 @@ const loadPeople=singleFlight(async(generation)=>{
       const face=document.createElement('div');face.className='avatar';const meta=document.createElement('div');meta.className='meta';
       const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;
       const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);return row;
-    },update:(row,person)=>{avatar(row.querySelector('.avatar'),person);row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
-    paint(people);const visible=await withPhotos(people);if(generation!==listGeneration)return;paint(visible);
+    },update:(row,person)=>{avatar(row.querySelector('.avatar'),person,{eager:people.slice(0,4).some(p=>p.id===person.id)});row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
+    paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
   }catch(error){if(generation===listGeneration){livePager.update({offset:liveOffset,count:0,total:liveOffset,hasMore:false});$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
 });
 const renderPeople=()=>loadPeople(listGeneration);
@@ -270,7 +277,7 @@ const loadTribe=singleFlight(async(generation)=>{
   if(!people.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
   const eagerIds=new Set(people.slice(0,4).map(p=>p.id));
   const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id)});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
-  paint(people);const visible=await withPhotos(people);if(generation!==listGeneration)return;paint(visible);
+  paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
  }catch(error){if(generation===listGeneration){tribePager.update({offset:tribeOffset,count:0,total:tribeOffset,hasMore:false});emptyList('tribeGrid',message(error));}}
 });
 const renderTribe=()=>loadTribe(listGeneration);
