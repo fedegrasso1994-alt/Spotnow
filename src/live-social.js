@@ -43,7 +43,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name]),create:m=>row(m,`Match a ${m.venue_name}`,openChat),update:(el,m)=>{avatar(el.querySelector('.avatar'),m);el.onclick=()=>openChat(m);}});
   }
   function showMatch(m){if(current)drafts.set(current.id,$('chatIn').value);current=m;avatar($('mAvatarMe'),profile());avatar($('mAvatarThem'),m);$('mText').textContent=`Tu e ${m.name} vi siete notati a vicenda.`;go('match');}
-  function openDetail(person){detail=person;avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;$('interestBtn').disabled=(person.interest_sent||sent.has(`${person.id}:${person.venue_id}`));$('interestBtn').textContent=(person.interest_sent||sent.has(`${person.id}:${person.venue_id}`))?'Interesse già inviato':'Mi interessa';detailModal.open();}
+  function openDetail(person){detail=person;$('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;$('interestBtn').disabled=(person.interest_sent||sent.has(`${person.id}:${person.venue_id}`));$('interestBtn').textContent=(person.interest_sent||sent.has(`${person.id}:${person.venue_id}`))?'Interesse già inviato':'Mi Interessa';detailModal.open();}
   function closeDetail(){detailModal.close();}
   async function expressInterest(){
     if(busy||!detail)return;const generation=epoch,person=detail;busy=true;$('interestBtn').disabled=true;

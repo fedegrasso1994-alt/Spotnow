@@ -225,3 +225,15 @@ Secondo passaggio pubblicato: `dpl_8uSMeVN27g1D4J58CFtxTngegA2E`, READY, dominio
 Foto lenta: iniziale visibile fino al caricamento riuscito. Rilascio definitivo Android: `dpl_ErwKD6wiR4ABcbtjQuP72dFvqrcr`, READY; 69 test, typecheck, build e controllo asset superati.
 
 Ripristino installazione richiesto dal proprietario: pulsante statico Salva l’app sul telefono nel profilo, stato già salvata visibile anziché rimozione del controllo; invito dopo il match riattivato una volta tramite flag versione v2. 71 test, build e typecheck superati. Deploy `dpl_AZbGHk1HcxKXEnsaFTkSyvoZE9Nx`, READY.
+
+## Revisione UX del 4 ottobre 2026
+
+- Scanner: richiesta fotocamera immediata; pulsante solo per riprovare dopo rifiuto/errore. La scansione invalida non crea un check-in.
+- Un nuovo ingresso nello scanner invalida recuperi della sessione e del vecchio check-in ancora in corso. Si esce soltanto con un QR appena acquisito; i token precedenti in sessionStorage non sono ingressi validi al riavvio.
+- Ora: nome del luogo più grande e pulsante verde “Scopri chi frequenta questo posto”, diretto alla Tribe del luogo corrente.
+- Corso di laurea/professione facoltativo, massimo 80 caratteri; persistito dal backend e restituito soltanto nella discovery già autorizzata. Migrazione 010 applicata in produzione.
+- Creazione profilo compatta: nome ed età affiancati; form completo verificato a 360 × 640. Scorrimento disponibile per tastiera, schermi più piccoli e testo ingrandito.
+- Foto propria grande, dettaglio profilo quasi a schermo intero, due azioni “Vedi altri profili” e “Mi Interessa”; segnalazione/blocco restano accessibili.
+- Tribe: schede dei luoghi più grandi e colorate; griglia con immagini a tutta scheda e nome sovrapposto, gap ridotto.
+- Verifiche: test di regressione per scanner automatico, rifiuto fotocamera, recupero lento sessione, QR fresco, CTA Tribe e persistenza/isolamento del nuovo campo.
+- La richiesta fotocamera e una scansione reale sul dispositivo Android devono essere confermate anche nel collaudo fisico; il browser desktop non sostituisce quel controllo.

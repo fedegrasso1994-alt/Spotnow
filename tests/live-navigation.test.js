@@ -11,15 +11,15 @@ import {dom,Element,flush,deferred} from './helpers/dom.js';
 
 const source=(await fs.readFile(new URL('../src/live.js',import.meta.url),'utf8')).replace(/^import .*\n/gm,'').replace(/const backend=connectBackend\([^\n]+\);/,'const backend=testBackend;').replace('export function onFirstMatch','function onFirstMatch');
 const html=await fs.readFile(new URL('../index.html',import.meta.url),'utf8');
-async function boot(overrides={},anonymous=false){
+async function boot(overrides={},anonymous=false,duringBoot){
  const ui=dom();for(const [,id]of html.matchAll(/id="([^"]+)"/g))ui.get(id);for(const id of ['intro','scan','camera','login','onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match','suspended'])ui.screen(id);
  for(const [id,cls]of [['intro','btn-primary'],['venue','addr'],['login','sub'],['onboarding','disp'],['onboarding','backlink']]){const el=new Element();el.className=cls;ui.get(id).append(el);}
- const session={user:{id:'me',is_anonymous:anonymous}};let callback;const assigned=[],intervals=[],storage=new Map();
+ const session={user:{id:'me',is_anonymous:anonymous}};let callback,scanner;const assigned=[],intervals=[],storage=new Map();
  const backend={session:async()=>session,onSessionChange:cb=>{callback=cb;},accountState:async()=> 'active',isSuspended:async()=>false,getProfile:async()=>({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'}),photoUrl:async()=>'/photo',ownCheckIn:async()=>({venue_id:'place',expires_at:new Date(Date.now()+600000).toISOString()}),getVenue:async()=>({id:'place',name:'Locale'}),locationPeople:async()=>[{id:'person',name:'Anna',age:25,photo_path:'person/photo',checked_in_at:new Date().toISOString(),expires_at:new Date(Date.now()+600000).toISOString()}],tribes:async()=>[{id:'place',name:'Locale',member_count:2,live_count:1}],googleLogin:async()=>({url:'https://accounts.google.com/oauth'}),linkGoogle:async()=>({url:'https://accounts.google.com/link'}),signOut:async()=>callback('SIGNED_OUT',null),...overrides};
  const window={addEventListener(type,handler){(this.listeners??={})[type]=handler;}};
- const context={renderAvatar,document:ui.document,window,testBackend:backend,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,validProfile,URL,URLSearchParams,Date,console,location:{search:'',href:'https://spot.example/',origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:()=>0,clearTimeout:()=>{},createVenueScanner:()=>({stop(){},open(){}}),setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
- vm.createContext(context);await vm.runInContext(`(async()=>{${source}})()`,context);await flush();
- return {...ui,window,backend,assigned,intervals,storage,callback};
+ const context={renderAvatar,document:ui.document,window,testBackend:backend,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,validProfile,URL,URLSearchParams,Date,console,location:{search:'',href:'https://spot.example/',origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:()=>0,clearTimeout:()=>{},createVenueScanner:options=>{scanner=options;return {stop(){},open(){}};},setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
+ vm.createContext(context);const running=vm.runInContext(`(async()=>{${source}})()`,context);if(duringBoot){await flush();await duringBoot({...ui,window});}await running;await flush();
+ return {...ui,window,backend,assigned,intervals,storage,callback,scanner};
 }
 test('background refresh preserves live row identity rather than showing loading every five seconds',async()=>{
  const ui=await boot();const row=ui.get('list').children[0];await ui.intervals[0]();await flush();assert.equal(ui.get('list').children[0],row);assert.equal(ui.get('list').children[0].className,'person');
@@ -54,7 +54,7 @@ test('signout clears profile fields and photo before another account can enter',
 });
 
 test('a slow former navigation cannot strand a newly opened Tribe in loading',async()=>{
- const first=deferred();let calls=0;const ui=await boot({tribes:()=>++calls===1?first.promise:Promise.resolve([{id:'place',name:'Locale',member_count:2,live_count:1}])});ui.window.go('tribes');await flush();ui.window.go('myprofile');ui.window.go('tribes');await flush();assert.equal(ui.get('tribesList').children[0].className,'person');first.resolve([]);await flush();assert.equal(ui.get('tribesList').children[0].className,'person');
+ const first=deferred();let calls=0;const ui=await boot({tribes:()=>++calls===1?first.promise:Promise.resolve([{id:'place',name:'Locale',member_count:2,live_count:1}])});ui.window.go('tribes');await flush();ui.window.go('myprofile');ui.window.go('tribes');await flush();assert.equal(ui.get('tribesList').children[0].className,'person tribe-place');first.resolve([]);await flush();assert.equal(ui.get('tribesList').children[0].className,'person tribe-place');
 });
 test('a signed-in first-time account without QR can create its profile instead of being trapped in intro',async()=>{
  const ui=await boot({getProfile:async()=>null});assert.equal(ui.document.querySelector('.screen.active').id,'onboarding');
@@ -63,3 +63,17 @@ test('a partially deleted account opens a recoverable deletion screen',async()=>
  const ui=await boot({accountState:async()=> 'deleting'});assert.equal(ui.document.querySelector('.screen.active').id,'deleting');
 });
 test('navigation cannot re-enable controls behind an already active dialog',async()=>{const ui=await boot();const dialog=ui.get('reportDialog');dialog.className='overlay active';ui.window.go('myprofile');assert.equal(ui.get('myprofile').inert,true);assert.equal(ui.get('tabbar').inert,true);});
+
+test('opening scanner during slow account recovery never enters yesterday’s venue',async()=>{
+ const wait=deferred();let reads=0;
+ const ui=await boot({getProfile:()=>wait.promise,ownCheckIn:async()=>{reads++;return null;}},false,async ui=>{ui.window.go('camera');wait.resolve({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'});});
+ assert.equal(ui.document.querySelector('.screen.active').id,'camera');assert.equal(reads,0);
+});
+test('only a freshly scanned QR exits scanner and performs check-in',async()=>{
+ let token;const ui=await boot({scanVenue:async value=>{token=value;return {venue_id:'place',expires_at:new Date(Date.now()+600000).toISOString()};}});
+ ui.window.go('camera');await flush();assert.equal(ui.document.querySelector('.screen.active').id,'camera');
+ await ui.scanner.onScan('fresh-token');await flush();assert.equal(token,'fresh-token');assert.equal(ui.document.querySelector('.screen.active').id,'venue');
+});
+test('Ora discovery button opens the Tribe of the current place',async()=>{
+ const ui=await boot();await ui.get('discoverTribeBtn').onclick();await flush();assert.equal(ui.document.querySelector('.screen.active').id,'tribe');assert.equal(ui.get('tribeTitle').textContent,'Locale');
+});

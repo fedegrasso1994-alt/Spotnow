@@ -217,3 +217,53 @@
 .network-banner{position:absolute;top:0;left:0;right:0;z-index:20;background:#513d13;color:#fff;padding:6px 12px;font-size:12px;text-align:center;pointer-events:none}
 @media(max-height:600px){.hero-card{height:120px;flex-shrink:0}.screen{padding-top:18px}.chat-head{flex-shrink:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Compact onboarding keeps the complete form together on common phone sizes. */
+#onboarding{padding:12px 20px 16px;gap:0}
+#onboarding .disp{margin-top:2px;font-size:30px}
+#onboarding .sub{font-size:12px;line-height:1.35;margin-top:4px}
+#onboarding .field{margin-top:9px;flex-shrink:0}
+#onboarding .field label{margin-bottom:4px;font-size:12px}
+#onboarding .field label span{font-weight:400}
+#onboarding .field input{padding:10px 12px;min-height:44px}
+#onboarding .photo-pick{margin-top:0;gap:12px}
+#onboarding .photo-circle{width:60px;height:60px;border-radius:14px}
+#onboarding .photo-btn-txt{font-size:11px}
+#onboarding .pref-options{margin-top:0}
+#onboarding .pref-btn{min-height:44px;padding:10px 6px}
+.profile-basics{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:10px;flex-shrink:0}
+#onboarding .spacer{min-height:12px}
+#onboarding #profileBtn{min-height:48px;padding:13px 16px;flex-shrink:0}
+.venue-head{align-items:flex-start;gap:10px;flex-shrink:0}
+.venue-head>div:first-child{min-width:0}
+.venue-head .name{font-family:var(--font-b);font-size:14px;color:var(--muted)}
+.venue-head .addr{font-family:var(--font-d);font-size:34px;line-height:1.05;color:var(--text);margin-top:6px;overflow-wrap:anywhere}
+.discover-tribe{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);border-radius:14px;font-size:14px;padding:14px;margin-top:14px;flex-shrink:0}
+.discover-tribe span{font-size:24px}
+.own-profile{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:18px;flex-shrink:0}
+#mpAvatar{width:100%;height:min(34dvh,300px);min-height:180px;border-radius:20px;background:var(--surface2);font-size:64px;overflow:hidden}
+#myprofile .btn{flex-shrink:0}
+#myprofile .spacer{min-height:16px}
+.person.tribe-place{min-height:138px;align-items:flex-end;padding:22px;border:1px solid #ffffff20;border-radius:22px;background:linear-gradient(135deg,#124d3b,#1d292d);position:relative}
+.person.tribe-place:nth-child(3n+2){background:linear-gradient(135deg,#753340,#2e2633)}
+.person.tribe-place:nth-child(3n){background:linear-gradient(135deg,#6b4a1f,#2c2922)}
+.person.tribe-place .nm{font-family:var(--font-d);font-size:30px;line-height:1.05}
+.person.tribe-place .tm{color:#eee;margin-top:8px;font-size:13px}
+.tribe-grid{gap:8px;margin-top:12px;align-content:start}
+.tribe-card{position:relative;background:var(--surface2)}
+.tribe-card .avatar{aspect-ratio:3/4;border-radius:16px;overflow:hidden}
+.tribe-card .nm{position:absolute;left:0;right:0;bottom:0;padding:30px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.8));font-size:16px;font-weight:700;overflow-wrap:anywhere}
+#detailOverlay .sheet{height:100%;max-height:100%;display:flex;flex-direction:column;gap:12px;padding:12px 12px max(12px,env(safe-area-inset-bottom));border-radius:0;overflow-y:auto}
+.detail-photo{position:relative;flex:1;min-height:180px;border-radius:20px;overflow:hidden;background:var(--surface2)}
+#detailOverlay #dAvatar{position:absolute;inset:0;width:100%;height:100%;border-radius:20px;margin:0;font-size:80px}
+.detail-caption{position:absolute;bottom:0;left:0;right:0;padding:50px 18px 16px;background:linear-gradient(transparent,rgba(0,0,0,.85));pointer-events:none}
+#detailOverlay .nm{font-size:34px}
+#detailOverlay .tm{margin:5px 0 0;color:#ddd;font-size:12px}
+#dOccupation{font-size:14px;margin-top:4px;overflow-wrap:anywhere}
+#dOccupation:empty{display:none}
+#detailOverlay .row{flex-shrink:0}
+#detailOverlay .row .btn{padding:14px 8px;font-size:14px;min-height:48px}
+#detailOverlay .report-link{margin:0;min-height:32px;flex-shrink:0}
+.tribe-grid{grid-auto-rows:max-content}
+.tribe-card{aspect-ratio:3/4;min-height:0}
+.tribe-card .avatar{position:absolute;inset:0;height:100%;aspect-ratio:auto}

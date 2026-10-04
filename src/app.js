@@ -56,12 +56,13 @@ function go(screen) {
   if(screen==='venue') renderList();
   if(screen==='matches') fillList('matchesList',state.matches,"Ancora nessun match. Continua a guardare chi c'è ora.",()=> 'Match a Locale demo',openChat);
   if(screen==='chats') fillList('chatsList',state.matches.filter(p=>p.messages.length),'Nessuna conversazione ancora.',p=>p.messages.at(-1).text,openChat);
-  if(screen==='myprofile') {avatar($('mpAvatar'),state.profile);$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni · Locale demo`;}
-  if(screen==='camera') setTimeout(()=>{if($('camera').classList.contains('active'))finishScan();},2600);
+  if(screen==='onboarding'){$('onboarding').querySelector('.disp').textContent=state.editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=state.editing?'Salva modifiche':'Entra';}
+  if(screen==='myprofile') {avatar($('mpAvatar'),state.profile);$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''} · Locale demo`;}
+  if(screen==='camera') showToast('Anteprima: tocca il riquadro per simulare una scansione QR.');
 }
 function finishScan() {go('scan');}
 function checkProfileValid() {
-  state.profile.name=$('inName').value.trim(); state.profile.age=Number($('inAge').value);
+  state.profile.occupation=$('inOccupation').value.trim();state.profile.name=$('inName').value.trim(); state.profile.age=Number($('inAge').value);
   $('ageError').classList.toggle('show',Boolean($('inAge').value) && (!Number.isInteger(state.profile.age)||state.profile.age<18));
 }
 function trySaveProfile() {
@@ -78,11 +79,11 @@ function handlePhoto(event) {
   if(!file.type.startsWith('image/')||file.size>8*1024*1024)return showToast('Scegli una foto fino a 8 MB.');
   const reader=new FileReader(); reader.onload=()=>{state.profile.photo=reader.result;avatar($('photoCircle'),state.profile);};reader.readAsDataURL(file);
 }
-function editProfile() {state.editing=true;go('onboarding');}
+function editProfile() {state.editing=true;$('inName').value=state.profile.name;$('inAge').value=state.profile.age||'';$('inOccupation').value=state.profile.occupation||'';avatar($('photoCircle'),state.profile);go('onboarding');}
 function openDetail(person) {
-  state.detail=person;avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;
+  state.detail=person;$('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;
   $('dTime').textContent=`Check-in ${person.checkedIn} minuti fa · Locale demo`;
-  $('interestBtn').disabled=Boolean(person.sent);$('interestBtn').textContent=person.sent?'Interesse già inviato':'Mi interessa';
+  $('interestBtn').disabled=Boolean(person.sent);$('interestBtn').textContent=person.sent?'Interesse già inviato':'Mi Interessa';
   $('detailOverlay').classList.add('active');
 }
 function closeDetail() {$('detailOverlay').classList.remove('active');}
@@ -118,7 +119,7 @@ function reportPerson(){if(!state.detail)return;block(state.detail);closeDetail(
 function blockFromChat(){if(!state.chat)return;block(state.chat);state.chat=null;go('matches');showToast('Profilo bloccato nella demo.');}
 function renderDemoTribes(){
  $('tribesList').replaceChildren();
- for(const name of ['Locale demo','Campus demo']){const card=document.createElement('button');card.className='person';card.style.color='var(--text)';card.textContent=`${name} · ${people.length} membri`;card.onclick=()=>{selectedDemoTribe=name;go('tribe');};$('tribesList').append(card);}
+ for(const name of ['Locale demo','Campus demo']){const card=document.createElement('button');card.className='person tribe-place';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const title=document.createElement('div');title.className='nm';title.textContent=name;const count=document.createElement('div');count.className='tm';count.textContent=`${people.length} membri`;meta.append(title,count);card.append(meta);card.onclick=()=>{selectedDemoTribe=name;go('tribe');};$('tribesList').append(card);}
 }
 function renderDemoTribe(){
  $('tribeTitle').textContent=selectedDemoTribe;$('tribeCount').textContent=`${people.length} membri · i presenti ora sono nella sezione Ora`;$('tribeGrid').replaceChildren();
@@ -133,3 +134,5 @@ Object.assign(window,{go,finishScan,checkProfileValid,trySaveProfile,setPref,set
 if(new URLSearchParams(location.search).get('preview')==='tribes'){
  demoAccount=true;Object.assign(state.profile,{name:'Alex',age:28,gender:'M',preference:'ALL',photo:null});go('tribes');
 }
+
+$('discoverTribeBtn').onclick=()=>{selectedDemoTribe='Locale demo';go('tribe');};

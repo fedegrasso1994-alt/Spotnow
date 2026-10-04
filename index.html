@@ -115,8 +115,8 @@
     <!-- 2. PROFILE CREATION -->
     <section class="screen" data-screen="onboarding" id="onboarding">
       <button class="backlink" onclick="go('scan')">← Indietro</button>
-      <h2 class="disp" style="margin-top:18px">Crea il tuo profilo</h2>
-      <p class="sub">Una foto e pochi dati. Dopo il check-in sarai visibile anche ai membri della Tribe del luogo.</p>
+      <h2 class="disp">Crea il tuo profilo</h2>
+      <p class="sub">Una foto e pochi dati per farti riconoscere nel locale e nella sua Tribe.</p>
       <div class="field">
         <label>La tua foto</label>
         <div class="photo-pick">
@@ -125,7 +125,7 @@
           <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="handlePhoto(event)">
         </div>
       </div>
-      <div class="field">
+      <div class="profile-basics"><div class="field">
         <label for="inName">Nome</label>
         <input id="inName" maxlength="60" autocomplete="given-name" placeholder="Es. Marco" oninput="checkProfileValid()">
       </div>
@@ -133,6 +133,10 @@
         <label for="inAge">Età</label>
         <input id="inAge" type="number" min="18" max="120" step="1" inputmode="numeric" aria-describedby="ageError" placeholder="Es. 27" oninput="checkProfileValid()">
         <div class="field-error" id="ageError">Inserisci un’età intera da 18 a 120 anni</div>
+      </div>
+      </div><div class="field">
+        <label for="inOccupation">Corso di laurea / professione <span>(facoltativo)</span></label>
+        <input id="inOccupation" maxlength="80" placeholder="Es. Economia, architetto…" oninput="checkProfileValid()">
       </div>
       <div class="field">
         <label>Sei</label>
@@ -150,7 +154,7 @@
         </div>
       </div>
       <div class="spacer"></div>
-      <button class="btn btn-primary" id="profileBtn" onclick="trySaveProfile()">Vai dentro</button>
+      <button class="btn btn-primary" id="profileBtn" onclick="trySaveProfile()">Entra</button>
     </section>
 
     <!-- 3. VENUE / WHO'S HERE NOW -->
@@ -163,6 +167,7 @@
         <div class="pill"><span class="dot"></span><span id="countPill">8 ora</span></div>
       </div>
       <p class="privacy-note">Scopri chi è qui ora e chi frequenta i tuoi stessi posti.</p>
+      <button class="btn discover-tribe" id="discoverTribeBtn">Scopri chi frequenta questo posto <span aria-hidden="true">↗</span></button>
       <div class="list" id="list"></div>
     </section>
 
@@ -183,8 +188,8 @@
     <!-- MY PROFILE -->
     <section class="screen tabscreen" data-screen="myprofile" id="myprofile">
       <h2 class="disp">Il tuo profilo</h2>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:34px">
-        <div class="avatar" id="mpAvatar" style="width:96px;height:96px;font-size:34px"></div>
+      <div class="own-profile">
+        <div class="avatar" id="mpAvatar"></div>
         <div style="text-align:center">
           <div id="mpName" style="font-family:var(--font-d);font-size:26px"></div>
           <div class="sub" id="mpMeta" style="margin-top:2px"></div>
@@ -198,12 +203,12 @@
     <!-- 4. DETAIL OVERLAY -->
     <div class="overlay" id="detailOverlay">
       <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dName">
-        <div class="avatar" id="dAvatar"></div>
-        <div class="nm" id="dName"></div>
-        <div class="tm" id="dTime"></div>
+        <div class="detail-photo"><div class="avatar" id="dAvatar"></div>
+          <div class="detail-caption"><div class="nm" id="dName"></div><div id="dOccupation"></div><div class="tm" id="dTime"></div></div>
+        </div>
         <div class="row">
-          <button class="btn btn-ghost" onclick="closeDetail()">Continua a guardare</button>
-          <button class="btn btn-primary" id="interestBtn" onclick="expressInterest()">Mi interessa</button>
+          <button class="btn btn-ghost" onclick="closeDetail()">Vedi altri profili</button>
+          <button class="btn btn-primary" id="interestBtn" onclick="expressInterest()">Mi Interessa</button>
         </div>
         <button class="report-link" onclick="reportPerson()">Segnala o blocca questo profilo</button>
       </div>
@@ -219,7 +224,7 @@
       <p class="sub" id="mText"></p>
       <p class="sub" style="font-size:12.5px;margin-top:8px">Il match resta disponibile. Iniziate la conversazione quando volete.</p>
       <div class="row">
-        <button class="btn btn-ghost" onclick="go('venue')">Continua a guardare</button>
+        <button class="btn btn-ghost" onclick="go('venue')">Vedi altri profili</button>
         <button class="btn btn-primary" onclick="matchStartChat()">Inizia la conversazione</button>
       </div>
     </section>

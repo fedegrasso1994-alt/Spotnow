@@ -6,7 +6,7 @@ export function createVenueScanner({screen,onScan,onBack}) {
   const finder=screen.querySelector('.viewfinder');
   const video=document.createElement('video');video.playsInline=true;video.muted=true;video.className='qr-video';finder.prepend(video);
   const hint=screen.querySelector('.camhint');hint.setAttribute('role','status');
-  const start=document.createElement('button');start.className='btn btn-primary btn-sm';start.style.marginTop='16px';start.textContent='Attiva fotocamera';
+  const start=document.createElement('button');start.className='btn btn-primary btn-sm';start.style.marginTop='16px';start.textContent='Riprova fotocamera';
   const back=document.createElement('button');back.className='backlink';back.style.marginTop='18px';back.textContent='← Indietro';back.onclick=()=>{stop();onBack();};screen.append(start,back);
   let scanner,active=false,processing=false,generation=0;
   function stop(){generation++;active=false;scanner?.destroy();scanner=null;video.srcObject=null;start.hidden=false;}
@@ -24,5 +24,5 @@ export function createVenueScanner({screen,onScan,onBack}) {
     catch{if(attempt!==generation)return;stop();hint.textContent='Fotocamera non disponibile. Puoi usare la fotocamera del telefono e aprire il link del QR.';}
   }
   start.onclick=activate;
-  return {open(){hint.textContent='Attiva la fotocamera e inquadra il QR del locale.';},stop};
+  return {open(){if(!active&&!processing)void activate();},stop};
 }

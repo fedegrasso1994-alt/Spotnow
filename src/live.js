@@ -14,8 +14,10 @@ const $=id=>document.getElementById(id);
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY});
 const state={profile:{name:'',age:0,gender:null,preference:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
 const qrFromUrl=new URLSearchParams(location.search).get('venue');
-let pendingQr=qrFromUrl||sessionStorage.getItem('spot-pending-qr');
+// OAuth/email redirects carry the current QR in their URL; a stored old token is never an ingress.
+let pendingQr=qrFromUrl;
 let selectedTribe=null,expiryTimer;
+let awaitingQr=false,entryGeneration=0;
 let entering=false,suspended=false,deleting=false,statusChecking=false,photoSelection=0;
 let toastTimer;
 let listGeneration=0,accountGeneration=0,booting=true;
@@ -31,6 +33,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
   listGeneration++;
+  if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
   if(screen==='scan'&&!state.venue)screen='intro';
@@ -48,36 +51,38 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe')void renderTribe();
   social.onScreen(screen);
-  if(screen==='onboarding'){const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Vai dentro';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':pendingQr?'scan':'intro');void refreshOwnPhoto();}
-  if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile);$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.venue?' · '+state.venue.name:''}`;}
+  if(screen==='onboarding'){const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':pendingQr?'scan':'intro');void refreshOwnPhoto();}
+  if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile);$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''}${state.venue?' · '+state.venue.name:''}`;}
 }
 function syncForm() {
-  $('inName').value=state.profile.name;$('inAge').value=state.profile.age||'';avatar($('photoCircle'),state.profile);
+  $('inOccupation').value=state.profile.occupation||'';$('inName').value=state.profile.name;$('inAge').value=state.profile.age||'';avatar($('photoCircle'),state.profile);
   document.querySelectorAll('#onboarding .pref-btn').forEach(button=>{
     const action=button.getAttribute('onclick');
     const key=action.includes('setGender')?'gender':'preference';
     button.classList.toggle('selected',action.includes(`'${state.profile[key]}'`));
   });
 }
-const loadAccount=singleFlight(async(generation)=>{
+const loadAccount=singleFlight(async(key)=>{
+  const generation=accountGeneration,entry=entryGeneration;
+  const current=()=>generation===accountGeneration&&entry===entryGeneration&&!awaitingQr;
   const account=state.session?.user.id;
-  if(!state.session||state.session.user.is_anonymous){if(pendingQr)await previewVenue();else go('intro');return;}
+  if(!state.session||state.session.user.is_anonymous){if(!current())return;if(pendingQr)await previewVenue();else go('intro');return;}
   if(await checkAccountStatus())return;
   const profile=await backend.getProfile();
-  if(generation!==accountGeneration)return;
+  if(!current())return;
   if(!profile){syncForm();go('onboarding',{replace:true});return;}
   const photo=await photoFor(profile.photo_path);
-  if(generation!==accountGeneration||state.session?.user.id!==account)return;
-  state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path};
+  if(!current()||state.session?.user.id!==account)return;
+  state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path,occupation:profile.occupation||''};
   syncForm();
-  if(pendingQr){await performCheckin(generation);return;}
+  if(pendingQr){await performCheckin(generation,entry);return;}
   const checkin=await backend.ownCheckIn();
-  if(generation!==accountGeneration)return;state.checkin=checkin;
+  if(!current())return;state.checkin=checkin;
   if(state.checkin){
-    const venue=await backend.getVenue(state.checkin.venue_id);if(generation!==accountGeneration)return;state.venue=venue;go(new Date(state.checkin.expires_at)>new Date()?'venue':'tribes');
+    const venue=await backend.getVenue(state.checkin.venue_id);if(!current())return;state.venue=venue;go(new Date(state.checkin.expires_at)>new Date()?'venue':'tribes');
   } else {state.checkin=null;go('myprofile');showToast('Inquadra il QR del locale per vedere chi c’è ora.');}
 });
-const hydrate=()=>loadAccount(accountGeneration);
+const hydrate=()=>loadAccount(`${accountGeneration}:${entryGeneration}`);
 async function checkAccountStatus(){
   if(!state.session)return false;
   const generation=accountGeneration;
@@ -89,15 +94,15 @@ async function checkAccountStatus(){
   return next;
 }
 createSuspensionScreen({onCheck:async()=>{const blocked=await checkAccountStatus();if(!blocked)await hydrate();return blocked;},onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick()});
-async function performCheckin(generation=accountGeneration) {
+async function performCheckin(generation=accountGeneration,entry=entryGeneration) {
   if(!pendingQr)return go('myprofile');
   const token=pendingQr;const checkin=await backend.scanVenue(token);
-  if(generation!==accountGeneration)return;state.checkin=checkin;
+  if(generation!==accountGeneration||entry!==entryGeneration||awaitingQr)return;state.checkin=checkin;
   if(pendingQr===token){pendingQr=null;sessionStorage.removeItem('spot-pending-qr');
     const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);
   }
   // Remove the token after use; opening the app again must not renew a check-in.
-  const venue=await backend.getVenue(checkin.venue_id);if(generation!==accountGeneration)return;state.venue=venue;
+  const venue=await backend.getVenue(checkin.venue_id);if(generation!==accountGeneration||entry!==entryGeneration||awaitingQr)return;state.venue=venue;
   $('list').replaceChildren();go('venue',{replace:true});
 }
 const loadPeople=singleFlight(async(generation)=>{
@@ -127,7 +132,7 @@ const loadPeople=singleFlight(async(generation)=>{
 });
 const renderPeople=()=>loadPeople(listGeneration);
 function checkProfileValid() {
-  state.profile.name=$('inName').value.trim();state.profile.age=Number($('inAge').value);
+  state.profile.occupation=$('inOccupation').value.trim();state.profile.name=$('inName').value.trim();state.profile.age=Number($('inAge').value);
   $('ageError').classList.toggle('show',Boolean($('inAge').value)&&(!Number.isInteger(state.profile.age)||state.profile.age<18||state.profile.age>120));
 }
 function select(value,element,key) {state.profile[key]=value;Array.from(element.parentElement.children).forEach(el=>el.classList.toggle('selected',el===element));}
@@ -177,7 +182,7 @@ async function enterApp(){
   finally{entering=false;introButton.disabled=false;}
 }
 const introButton=$('intro').querySelector('.btn-primary');introButton.textContent='Inquadra il QR Code';introButton.onclick=()=>go('camera');
-const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{pendingQr=token;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else await previewVenue();},onBack:()=>go('intro')});
+const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{awaitingQr=false;entryGeneration++;pendingQr=token;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
 const social=createLiveSocial({backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,venueName:()=>state.venue?.name||''});
@@ -189,7 +194,7 @@ Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhot
 const navigation=createNavigation({onNavigate:async route=>{
  const generation=accountGeneration,view=listGeneration;const current=()=>generation===accountGeneration&&view===listGeneration;
  if(route.screen==='chat'){await social.restoreChat(route.matchId,current);return;}
- if(route.screen==='tribe'){const tribes=await backend.tribes();if(!current())return;selectedTribe=tribes.find(t=>t.id===route.tribeId);if(!selectedTribe)return go('tribes',{replace:true});}
+ if(route.screen==='tribe'){const tribes=await backend.tribes();if(!current()||awaitingQr)return;selectedTribe=tribes.find(t=>t.id===route.tribeId);if(!selectedTribe)return go('tribes',{replace:true});}
  go(route.screen,{fromHistory:true});
 }});
 window.addEventListener('popstate',event=>{Promise.resolve(navigation.back(event)).catch(error=>{go('tribes',{replace:true});showToast(message(error));});});
@@ -233,10 +238,14 @@ const loadTribes=singleFlight(async(generation)=>{
   const tribes=await backend.tribes();if(generation!==listGeneration)return;
   tribes.sort((a,b)=>Number(b.id===state.venue?.id)-Number(a.id===state.venue?.id)||a.name.localeCompare(b.name));
   $('tribesList').replaceChildren();if(!tribes.length)return emptyList('tribesList','Inquadra il QR di un luogo per entrare nella sua Tribe.');
-  for(const tribe of tribes){const card=document.createElement('button');card.className='person';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const name=document.createElement('div');name.className='nm';name.textContent=tribe.name;const count=document.createElement('div');count.className='tm';count.textContent=`${memberLabel(tribe.member_count)} · ${tribe.live_count} qui ora`;meta.append(name,count);card.append(meta);card.onclick=()=>{if(selectedTribe?.id!==tribe.id)$('tribeGrid').replaceChildren();selectedTribe=tribe;go('tribe');};$('tribesList').append(card);}
+  for(const tribe of tribes){const card=document.createElement('button');card.className='person tribe-place';card.style.color='var(--text)';card.style.textAlign='left';const meta=document.createElement('div');meta.className='meta';const name=document.createElement('div');name.className='nm';name.textContent=tribe.name;const count=document.createElement('div');count.className='tm';count.textContent=`${memberLabel(tribe.member_count)} · ${tribe.live_count} qui ora`;meta.append(name,count);card.append(meta);card.onclick=()=>{if(selectedTribe?.id!==tribe.id)$('tribeGrid').replaceChildren();selectedTribe=tribe;go('tribe');};$('tribesList').append(card);}
  }catch(error){if(generation===listGeneration)emptyList('tribesList',message(error));}
 });
 const renderTribes=()=>loadTribes(listGeneration);
+$('discoverTribeBtn').onclick=async()=>{
+ const place=state.venue;if(!place)return go('tribes');const generation=listGeneration;
+ try{const tribes=await backend.tribes();if(generation!==listGeneration)return;const tribe=tribes.find(t=>t.id===place.id);if(!tribe)return showToast('Inquadra il QR di questo luogo per entrare nella sua Tribe.');if(selectedTribe?.id!==tribe.id)$('tribeGrid').replaceChildren();selectedTribe=tribe;go('tribe');}catch(error){showToast(message(error));}
+};
 const loadTribe=singleFlight(async(generation)=>{
  if(generation!==listGeneration)return;if(!selectedTribe)return go('tribes');const place=selectedTribe;
  $('tribeTitle').textContent=place.name;$('tribeCount').textContent=`${memberLabel(place.member_count)} · i presenti ora sono nella sezione Ora`;

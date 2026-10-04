@@ -54,7 +54,7 @@ export function createBackend(client) {
       const id=await userId();
       if(!profile.photo.startsWith(`${id}/`))throw new Error('Carica la foto prima di salvare.');
       return unwrap(await client.from('profiles').upsert({id,name:profile.name.trim(),age:profile.age,
-        gender:profile.gender,preference:profile.preference,photo_path:profile.photo,updated_at:new Date().toISOString()}).select().single());
+        gender:profile.gender,preference:profile.preference,occupation:(profile.occupation||'').trim(),photo_path:profile.photo,updated_at:new Date().toISOString()}).select().single());
     },
     async ownCheckIn(){return unwrap(await client.from('checkins').select('*').eq('user_id',await userId()).maybeSingle());},
     async getVenue(id){return unwrap(await client.from('venues').select('id,name,address').eq('id',id).single());},
