@@ -1,5 +1,5 @@
 /** Session-only decoded pixels. Never persist private photos in browser storage. */
-const entries=new Map(),pending=new Set(),leases=new Map(),retired=new Set();let bytes=0,epoch=0;
+const entries=new Map(),pending=new Set(),leases=new Map(),retired=new Set(),warming=new Map();let bytes=0,epoch=0;
 const MAX_BYTES=16*1024*1024,MAX_IMAGES=64;
 export function cachedPhoto(path){const entry=entries.get(path);if(!entry)return null;entries.delete(path);entries.set(path,entry);return entry.url;}
 function retire(url){if(leases.has(url))retired.add(url);else URL.revokeObjectURL(url);}
@@ -9,7 +9,7 @@ export function retainPhotoSource(url){
  const generation=epoch;leases.set(url,(leases.get(url)||0)+1);let released=false;
  return ()=>{if(released||generation!==epoch)return;released=true;const count=(leases.get(url)||1)-1;if(count)leases.set(url,count);else{leases.delete(url);if(retired.delete(url))URL.revokeObjectURL(url);}};
 }
-export function clearPhotoMemory(){epoch++;for(const entry of entries.values())URL.revokeObjectURL(entry.url);for(const url of retired)URL.revokeObjectURL(url);entries.clear();pending.clear();leases.clear();retired.clear();bytes=0;}
+export function clearPhotoMemory(){epoch++;for(const job of warming.values())job.cancel();warming.clear();for(const entry of entries.values())URL.revokeObjectURL(entry.url);for(const url of retired)URL.revokeObjectURL(url);entries.clear();pending.clear();leases.clear();retired.clear();bytes=0;}
 /** A request belongs to the session in which it started, including detached avatars. */
 export function rememberPhotoForSession(path){const generation=epoch;return image=>{if(generation===epoch)rememberPhoto(path,image);};}
 export function rememberPhoto(path,image){
@@ -29,8 +29,12 @@ export function rememberPhoto(path,image){
 
 /** Warm only a few authorized thumbnails; a reset invalidates late image callbacks. */
 export function preloadPhoto(path,url){
- if(!path||!url||cachedPhoto(path)||typeof Image==='undefined')return;
- const generation=epoch,image=new Image();image.crossOrigin='anonymous';image.decoding='async';
- image.onload=()=>{if(generation===epoch)rememberPhoto(path,image);image.onload=null;image.onerror=null;};
- image.onerror=()=>{image.onload=null;image.onerror=null;};image.src=url;
+ if(!path||!url||cachedPhoto(path)||typeof Image==='undefined')return Promise.resolve();
+ if(warming.has(path))return warming.get(path).promise;
+ const generation=epoch,image=new Image();image.crossOrigin='anonymous';image.decoding='async';let resolve,finished=false;
+ const promise=new Promise(done=>resolve=done);
+ const finish=()=>{if(finished)return;finished=true;clearTimeout(timer);if(warming.get(path)?.promise===promise)warming.delete(path);resolve();};
+ const timer=setTimeout(finish,20000);warming.set(path,{promise,cancel:finish});
+ const ready=()=>{if(!finished&&generation===epoch)rememberPhoto(path,image);finish();};
+ image.onload=()=>{if(typeof image.decode==='function')image.decode().then(ready,finish);else ready();};image.onerror=finish;image.src=url;return promise;
 }

@@ -18,4 +18,4 @@ App locale http://127.0.0.1:4173/; demo isolata con dati fittizi http://127.0.0.
 
 Piano: [docs/piano-revisioni-completo.md](docs/piano-revisioni-completo.md). Evidenze e limiti: [docs/revisione-adversariale.md](docs/revisione-adversariale.md). Procedure: [docs/operazioni-pilota.md](docs/operazioni-pilota.md).
 
-Migrazioni 001–012 e funzioni `delete-account` e `photo-assets` mantengono autorizzazione server e verifica JWT. La verifica POST non distruttiva è distinta dalla cancellazione reale. Installazione e fotocamera su telefoni fisici, account eliminabile, configurazioni operative e documenti da validare prima del lancio sono tracciati nel rapporto; non sono dichiarati superati dai test desktop.
+Migrazioni 001–013 e funzioni `delete-account` e `photo-assets` mantengono autorizzazione server e verifica JWT. La verifica POST non distruttiva è distinta dalla cancellazione reale. Installazione e fotocamera su telefoni fisici, account eliminabile, configurazioni operative e documenti da validare prima del lancio sono tracciati nel rapporto; non sono dichiarati superati dai test desktop.

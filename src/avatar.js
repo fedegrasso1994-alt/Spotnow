@@ -35,7 +35,8 @@ export function renderAvatar(element,profile,{eager=false,thumbnail=false,progre
  Object.assign(image.style,{position:'absolute',inset:'0',width:'100%',height:'100%',objectFit:'cover',borderRadius:'inherit',background:'var(--surface2)',opacity:'0'});
  listeners.set(image,{onLoad,onError});
  const release=retainPhotoSource(photo);let timer;const cleanup=()=>{clearTimeout(timer);release();};cleanups.set(image,cleanup);
- image.onload=()=>{if(image.parentElement!==element)return;cleanup();image.dataset.decoded='true';image.style.opacity='1';for(const old of images())if(old!==image&&(!progressive||Number(old.dataset.quality)<=quality))removeImage(old);if(path&&!/^data:/.test(photo))remember(image);listeners.get(image)?.onLoad?.();};
+ const reveal=()=>{if(image.parentElement!==element)return;cleanup();image.dataset.decoded='true';image.style.opacity='1';for(const old of images())if(old!==image&&(!progressive||Number(old.dataset.quality)<=quality))removeImage(old);if(path&&!/^data:/.test(photo))remember(image);listeners.get(image)?.onLoad?.();};
+ image.onload=()=>{if(image.parentElement!==element)return;if(typeof image.decode==='function')image.decode().then(reveal,()=>image.onerror());else reveal();};
  image.onerror=()=>{if(image.parentElement!==element)return;removeImage(image);element.dataset.avatarReady='';listeners.get(image)?.onError?.();};
  element.append(image);image.src=photo;if(timeoutMs)timer=setTimeout(()=>{if(!image.dataset.decoded)image.onerror();},timeoutMs);
 }

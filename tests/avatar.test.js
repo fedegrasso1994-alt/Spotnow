@@ -42,3 +42,12 @@ test('opening another profile never retains the previous person as a fallback',t
  const ui=setup();t.after(ui.restore);const face=ui.get('face');renderAvatar(face,{photo_path:'a/full',photo:'/a'},{progressive:true});const old=face.children[0];old.onload();
  renderAvatar(face,{photo_path:'b/full',photo:'/b'},{progressive:true});assert.ok(!face.children.includes(old));old.onload();assert.equal(face.children[0].src,'/b');
 });
+
+test('full image bytes do not remove the visible thumbnail before decode finishes',async t=>{
+ const {deferred,flush}=await import('./helpers/dom.js');const ui=setup();t.after(ui.restore);const face=ui.get('face'),p={photo_path:'decode/full',thumbnail_path:'decode/thumb',photo:'/thumb'};
+ renderAvatar(face,p,{thumbnail:true,progressive:true});const thumb=face.children.at(-1);thumb.onload();renderAvatar(face,{...p,photo:'/full'},{progressive:true});const full=face.children.at(-1),decode=deferred();full.decode=()=>decode.promise;full.onload();assert.ok(face.children.includes(thumb));assert.equal(full.style.opacity,'0');decode.resolve();await flush();assert.deepEqual(face.children,[full]);assert.equal(full.style.opacity,'1');
+});
+test('failed full decode keeps the previous image and enables recovery',async t=>{
+ const {flush}=await import('./helpers/dom.js');const ui=setup();t.after(ui.restore);const face=ui.get('face'),p={photo_path:'failure/full',thumbnail_path:'failure/thumb',photo:'/thumb'};let errors=0;
+ renderAvatar(face,p,{thumbnail:true,progressive:true});const thumb=face.children.at(-1);thumb.onload();renderAvatar(face,{...p,photo:'/full'},{progressive:true,onError:()=>errors++});const full=face.children.at(-1);full.decode=()=>Promise.reject(Error('decode'));full.onload();await flush();assert.deepEqual(face.children,[thumb]);assert.equal(errors,1);
+});

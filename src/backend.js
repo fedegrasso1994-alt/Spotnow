@@ -5,7 +5,7 @@ import { createRequestQueue } from './request-queue.js';
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
 export function createBackend(client,{readTimeoutMs=15000}={}) {
   const prefetched=new Map();
-  const photoQueue=createRequestQueue(4),readQueue=createRequestQueue(6),pendingReads=new Map();
+  const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
   function sharedRead(name,args,work){
     const key=JSON.stringify([name,args]);if(pendingReads.has(key))return pendingReads.get(key).promise;
@@ -59,7 +59,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
       const extensions={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
       if(!extensions[file.type]||file.size>8*1024*1024||!file.size)throw new Error('Usa una foto JPG, PNG o WebP fino a 8 MB.');
       const id=await userId(),path=`${id}/${crypto.randomUUID()}.${extensions[file.type]}`;
-      const uploads=[client.storage.from('profile-photos').upload(path,file,{contentType:file.type,upsert:false})];if(variants?.thumbnail)uploads.push(client.storage.from('profile-photos').upload(path+'.thumb.jpg',variants.thumbnail,{contentType:'image/jpeg',upsert:false}));for(const result of await Promise.all(uploads))unwrap(result);
+      const uploads=[client.storage.from('profile-photos').upload(path,file,{contentType:file.type,upsert:false})];if(variants?.thumbnail)uploads.push(client.storage.from('profile-photos').upload(path+'.thumb.jpg',variants.thumbnail,{contentType:'image/jpeg',upsert:false}));if(variants?.detail)uploads.push(client.storage.from('profile-photos').upload(path+'.detail.jpg',variants.detail,{contentType:'image/jpeg',upsert:false}));for(const result of await Promise.all(uploads))unwrap(result);
       return path;
     },
     async saveProfile(profile) {
@@ -96,6 +96,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     });},
     cancelDiscoveryReads(keepPlace=null){for(const [key,read]of pendingReads)if(['location_people_page','location_people_photos_page'].includes(read.name)&&read.args.place!==keepPlace){read.controller.abort();pendingReads.delete(key);}},
     async prefetchTribe(place){if(prefetched.get(place)?.until>Date.now())return;const generation=photoEpoch,page=await this.locationPeoplePage(place,false,0);if(generation!==photoEpoch)return;prefetched.set(place,{page,until:Date.now()+4000});const paths=page.items.slice(0,4).map(p=>p.thumbnail_path||p.photo_path),urls=await this.photoUrls(paths);if(generation===photoEpoch)for(const path of paths)preloadPhoto(path,urls.get(path));},
+    async prefetchDetailPhotos(people){const generation=photoEpoch,paths=people.slice(0,4).map(p=>p.detail_path).filter(Boolean);if(!paths.length)return;const urls=await this.photoUrls(paths);if(generation===photoEpoch)await Promise.all(paths.map(path=>detailQueue.run(()=>generation===photoEpoch?preloadPhoto(path,urls.get(path)):undefined)));},
     async ensurePhotoAssets(path){return unwrap(await client.functions.invoke('photo-assets',{body:{photo_path:path}}));},
     async sendMessage(matchId,text,nonce){return unwrap(await client.rpc('send_message',{target_match:matchId,message_text:text,client_nonce:nonce}));},
     async block(personId){clearPhotos();return unwrap(await client.rpc('block_profile',{target_user:personId}));},

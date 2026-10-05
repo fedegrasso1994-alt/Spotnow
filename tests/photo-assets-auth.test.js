@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {rea
 const source=stripTypeScriptTypes(await readFile('supabase/functions/photo-assets/index.ts','utf8')).replace(/^import .*;$/mg,'');
 function endpoint({valid=true,anonymous=false}={}){
  let handler;const calls=[],admin={auth:{getUser:async token=>{calls.push(['auth',token]);return {data:{user:valid?{id:'caller',is_anonymous:anonymous}:null},error:valid?null:{}};}},storage:{from:()=>{throw Error('Unexpected private storage access');}}};
- const reader={rpc:async name=>{calls.push(['rpc',name]);return name==='photo_asset_status'?{data:[{thumbnail_path:'caller/current.thumb.jpg'}]}:{error:{code:'42501'}};},from:()=>({select:()=>({eq:()=>({single:async()=>({data:{photo_path:'caller/current'}})})})})};
+ const reader={rpc:async name=>{calls.push(['rpc',name]);return name==='photo_asset_status'?{data:[{thumbnail_path:'caller/current.thumb.jpg',detail_path:'caller/current.detail.jpg'}]}:{error:{code:'42501'}};},from:()=>({select:()=>({eq:()=>({single:async()=>({data:{photo_path:'caller/current'}})})})})};
  vm.runInNewContext(source,{Deno:{env:{get:name=>name==='SUPABASE_SERVICE_ROLE_KEY'?'service':'public'},serve:f=>handler=f},createClient:(_url,key)=>key==='service'?admin:reader,Response,Request,console});return {handler,calls};
 }
 const request=body=>new Request('https://test',{method:'POST',headers:{Authorization:'Bearer user-token'},body:JSON.stringify(body)});

@@ -3,7 +3,7 @@ import {createDetailPhoto} from '../src/detail-photo.js';import {renderAvatar,cl
 function setup(t,backend){const ui=dom(),old={document:globalThis.document,setTimeout:globalThis.setTimeout,clearTimeout:globalThis.clearTimeout};const timers=new Map();let id=0;globalThis.document=ui.document;globalThis.setTimeout=(fn)=>{timers.set(++id,fn);return id;};globalThis.clearTimeout=n=>timers.delete(n);clearPhotoMemory();t.after(()=>{clearPhotoMemory();Object.assign(globalThis,old);});const face=ui.get('face'),status=ui.get('status');return {...ui,face,status,timers,controller:createDetailPhoto({backend,avatar:renderAvatar,clearAvatar,element:face,status})};}
 const record={id:'a',name:'Anna',photo_path:'a/full',thumbnail_path:'a/thumb',photo:'/thumb'};
 test('original decode upgrades the detail without clearing its thumbnail or mutating grid data',async t=>{
- const pending=deferred();const ui=setup(t,{photoUrl:()=>pending.promise});ui.controller.open(record);const thumb=ui.face.children.at(-1);thumb.onload();pending.resolve('/original');await flush();const full=ui.face.children.at(-1);assert.ok(ui.face.children.includes(thumb));assert.equal(ui.status.hidden,false);full.onload();assert.deepEqual(ui.face.children,[full]);assert.equal(ui.status.hidden,true);assert.equal(record.photo,'/thumb');
+ const pending=deferred();const ui=setup(t,{photoUrl:()=>pending.promise});ui.controller.open(record);const thumb=ui.face.children.at(-1);thumb.onload();pending.resolve('/original');await flush();const full=ui.face.children.at(-1);assert.ok(ui.face.children.includes(thumb));assert.equal(ui.status.hidden,true);full.onload();assert.deepEqual(ui.face.children,[full]);assert.equal(ui.status.hidden,true);assert.equal(record.photo,'/thumb');
 });
 test('failed original renews its URL automatically while the decoded fallback stays visible',async t=>{
  const requests=[];const ui=setup(t,{photoUrl:async(path,options)=>{requests.push(options);return '/original-'+requests.length;}});ui.controller.open(record);const thumb=ui.face.children.at(-1);thumb.onload();await flush();ui.face.children.at(-1).onerror();assert.ok(ui.face.children.includes(thumb));const retry=[...ui.timers.values()].at(-1);ui.timers.clear();retry();await flush();const full=ui.face.children.at(-1);assert.equal(full.src,'/original-2');assert.equal(requests[1].refresh,true);full.onload();assert.equal(ui.status.hidden,true);
@@ -26,5 +26,9 @@ test('retries are bounded and a failed full download exposes an explicit retry w
 });
 
 test('a stalled full image times out without removing the loaded thumbnail',async t=>{
- const ui=setup(t,{photoUrl:async()=>'/stalled'});ui.controller.open(record);const thumb=ui.face.children.at(-1);thumb.onload();await flush();const full=ui.face.children.at(-1);const timeout=[...ui.timers.values()].at(-1);timeout();assert.ok(ui.face.children.includes(thumb));assert.ok(!ui.face.children.includes(full));assert.equal(ui.status.hidden,false);assert.ok(ui.timers.size>0);
+ const ui=setup(t,{photoUrl:async()=>'/stalled'});ui.controller.open(record);const thumb=ui.face.children.at(-1);thumb.onload();await flush();const full=ui.face.children.at(-1);const timeout=[...ui.timers.values()].at(-1);timeout();assert.ok(ui.face.children.includes(thumb));assert.ok(!ui.face.children.includes(full));assert.equal(ui.status.hidden,true);assert.ok(ui.timers.size>0);
+});
+
+test('detail uses the authorized HD derivative instead of downloading the heavy original',async t=>{
+ const requests=[];const ui=setup(t,{photoUrl:async path=>{requests.push(path);return '/hd';}});const source={...record,detail_path:'a/full.detail.jpg'};ui.controller.open(source);await flush();assert.equal(requests[0],source.detail_path);assert.equal(source.photo_path,'a/full');assert.equal(ui.status.hidden,true);assert.equal(ui.face.children.at(-1).src,'/hd');
 });

@@ -28,6 +28,7 @@ const liveCheckin=()=>Boolean(state.checkin&&Date.parse(state.checkin.expires_at
 let selectedTribe=null,expiryTimer,liveOffset=0,tribeOffset=0;
 const livePager=createPager($('venue'),offset=>{liveOffset=offset;$('list').replaceChildren();go('venue');});
 const tribePager=createPager($('tribe'),offset=>{tribeOffset=offset;$('tribeGrid').replaceChildren();go('tribe');});
+const detailWarmer=typeof IntersectionObserver==='undefined'?null:new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting&&activeScreen()==='tribe'){detailWarmer.unobserve(entry.target);const path=entry.target.dataset.detailPath;if(path&&backend.prefetchDetailPhotos)void backend.prefetchDetailPhotos([{detail_path:path}]).catch(()=>{});}},{root:$('tribe'),rootMargin:'180px'});
 async function peoplePage(place,live,offset){if(backend.locationPeoplePage)return backend.locationPeoplePage(place,live,offset);const rows=await backend.locationPeople(place,live);return {items:rows.slice(offset,offset+48),hasMore:rows.length>offset+48,total:rows.length};}
 async function withPhotos(people,onReady=()=>{}){
  const loaded=new Map();const groups=[people.slice(0,4),people.slice(4)].filter(group=>group.length);
@@ -54,6 +55,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   else if(suspended)screen='suspended';
   listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
+  if(screen!=='tribe')detailWarmer?.disconnect();
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
   if(screen==='scan'&&!state.venue)screen='intro';
@@ -148,7 +150,7 @@ const loadPeople=singleFlight(async(generation)=>{
       const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;
       const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);return row;
     },update:(row,person)=>{avatar(row.querySelector('.avatar'),person,{eager:people.slice(0,4).some(p=>p.id===person.id),thumbnail:true});row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
-    paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
+    paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);if(backend.prefetchDetailPhotos)void backend.prefetchDetailPhotos(visible).catch(()=>{});
   }catch(error){if(generation===listGeneration){livePager.update({offset:liveOffset,count:0,total:liveOffset,hasMore:false});$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
 });
 const renderPeople=()=>loadPeople(listGeneration);
@@ -279,7 +281,7 @@ const loadTribe=singleFlight(async(generation)=>{
   tribePager.update({offset:tribeOffset,count:people.length,total:page.total,hasMore:page.hasMore});
   if(!people.length)return emptyList('tribeGrid','Ancora nessun profilo disponibile nella Tribe.');
   const eagerIds=new Set(people.slice(0,4).map(p=>p.id));
-  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id),thumbnail:true});card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
+  const paint=visible=>stableList($('tribeGrid'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{const card=document.createElement('button');card.className='tribe-card';const face=document.createElement('div');face.className='avatar';const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;card.append(face,name);return card;},update:(card,person)=>{avatar(card.querySelector('.avatar'),person,{eager:eagerIds.has(person.id),thumbnail:true});card.dataset.detailPath=person.detail_path||'';card.onpointerenter=card.onfocus=()=>{if(backend.prefetchDetailPhotos)void backend.prefetchDetailPhotos([person]).catch(()=>{});};detailWarmer?.observe(card);card.onclick=()=>social.openDetail({...person,source:'tribe',venue_id:place.id,venue_name:place.name});}});
   paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
  }catch(error){if(generation===listGeneration){tribePager.update({offset:tribeOffset,count:0,total:tribeOffset,hasMore:false});emptyList('tribeGrid',message(error));}}
 });

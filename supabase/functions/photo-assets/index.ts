@@ -29,7 +29,7 @@ async function decodeJpeg(bytes){
  jpegDecoder??=WebAssembly.compile(Uint8Array.from(atob(jpegWasm),c=>c.charCodeAt(0))).then(module=>new WebAssembly.Instance(module).exports);
  const w=await jpegDecoder,ptr=w.walloc(bytes.length);new Uint8Array(w.memory.buffer,ptr,bytes.length).set(bytes);
  // Decode at reduced resolution instead of allocating a 25 MP phone photograph.
- const frame=w.decode(ptr,bytes.length,480,480);if(frame<2)throw Error('JPEG decode failed');
+ const frame=w.decode(ptr,bytes.length,1600,1600);if(frame<2)throw Error('JPEG decode failed');
  try{
   const width=w.decode_width(frame),height=w.decode_height(frame),format=w.decode_format(frame),buffer=w.decode_buffer(frame),raw=new Uint8Array(w.memory.buffer,buffer,w.wlen()),data=new Uint8Array(width*height*4);
   for(let i=0;i<width*height;i++){for(let c=0;c<3;c++)data[i*4+c]=format===0?raw[i]:format===1?raw[i*3+c]:255*(1-raw[i*4+c]/255)*(1-raw[i*4+3]/255);data[i*4+3]=255;}
@@ -56,9 +56,9 @@ async function variants(bytes:Uint8Array){
   }
   return {width,height,data};
  };
- const thumbnail=jpeg.encode(resize(480),78).data,tiny=jpeg.encode(resize(120),65).data;
+ const detail=jpeg.encode(resize(1600),85).data,thumbnail=jpeg.encode(resize(480),78).data,tiny=jpeg.encode(resize(120),65).data;
  if(tiny.length>11000)throw Error('Preview too large');
- return {thumbnail,preview:'data:image/jpeg;base64,'+btoa(String.fromCharCode(...tiny))};
+ return {detail,thumbnail,preview:'data:image/jpeg;base64,'+btoa(String.fromCharCode(...tiny))};
 }
 const headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type'};
 Deno.serve(async request=>{
@@ -81,12 +81,12 @@ Deno.serve(async request=>{
    path=body.photo_path;if(typeof path!=='string'||!path.startsWith(auth.data.user.id+'/')||path.length>250)return reply({error:'Foto non autorizzata'},403);
    reader=createClient(url,publicKey,{global:{headers:{Authorization:'Bearer '+token}},auth:{persistSession:false,autoRefreshToken:false}});
    const own=await reader.from('profiles').select('photo_path').eq('id',auth.data.user.id).single();if(own.error||own.data.photo_path!==path)return reply({error:'Foto non disponibile'},403);
-   const status=await reader.rpc('photo_asset_status',{path});if(status.error)throw status.error;if(status.data?.[0]?.thumbnail_path)return reply({ready:true});
+   const status=await reader.rpc('photo_asset_status',{path});if(status.error)throw status.error;if(status.data?.[0]?.thumbnail_path&&status.data?.[0]?.detail_path)return reply({ready:true});
   }
   stage='download';const download=await reader.storage.from('profile-photos').download(path);if(download.error)throw download.error;if(!download.data.size||download.data.size>8*1024*1024)return reply({error:'Formato non supportato'},400);
-  stage='encode';const asset=await variants(new Uint8Array(await download.data.arrayBuffer())),thumbnail=path+'.thumb.jpg';
-  stage='upload';const upload=await admin.storage.from('profile-photos').upload(thumbnail,asset.thumbnail,{contentType:'image/jpeg',upsert:true,cacheControl:'3600'});if(upload.error)throw upload.error;
-  stage='save';const saved=await admin.rpc('store_photo_assets',{path,preview_text:asset.preview,thumbnail});if(saved.error)throw saved.error;
-  return reply({ready:true,remaining,thumbnail_bytes:asset.thumbnail.length,preview_bytes:asset.preview.length});
+  stage='encode';const asset=await variants(new Uint8Array(await download.data.arrayBuffer())),thumbnail=path+'.thumb.jpg',detail=path+'.detail.jpg';
+  stage='upload';for(const [name,pixels]of [[thumbnail,asset.thumbnail],[detail,asset.detail]]){const upload=await admin.storage.from('profile-photos').upload(name,pixels,{contentType:'image/jpeg',upsert:true,cacheControl:'3600'});if(upload.error)throw upload.error;}
+  stage='save';const saved=await admin.rpc('store_photo_assets_hd',{path,preview_text:asset.preview,thumbnail,detail});if(saved.error)throw saved.error;
+  return reply({ready:true,remaining,detail_bytes:asset.detail.length,thumbnail_bytes:asset.thumbnail.length,preview_bytes:asset.preview.length});
  }catch(error){console.error('Photo assets stage',stage,error instanceof Error?error.message:(error as any)?.code);return reply({error:'Preparazione foto non riuscita. Riprova.',stage},500);}
 });

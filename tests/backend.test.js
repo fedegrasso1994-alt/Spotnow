@@ -99,3 +99,9 @@ test('same-account token refresh preserves signed photo cache; account switch cl
 test('failed photo retry explicitly obtains a fresh signature',async()=>{
  let signed=0;const api=createBackend({storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'/photo-'+(++signed)}})})}});assert.equal(await api.photoUrl('a/photo'),'/photo-1');assert.equal(await api.photoUrl('a/photo',{refresh:true}),'/photo-2');
 });
+
+test('HD preload starts only two downloads at once and never requests heavy originals',async t=>{
+ const old=globalThis.Image;const {clearPhotoMemory}=await import('../src/photo-memory.js');clearPhotoMemory();const images=[],paths=[];globalThis.Image=class{constructor(){images.push(this);}set src(value){this.url=value;}};t.after(()=>{clearPhotoMemory();globalThis.Image=old;});
+ const api=createBackend({storage:{from:()=>({createSignedUrls:async requested=>{paths.push(...requested);return {data:requested.map(path=>({path,signedUrl:'/private/'+path}))};}})}});
+ const pending=api.prefetchDetailPhotos(Array.from({length:8},(_,i)=>({photo_path:`${i}/original`,detail_path:`${i}/hd`})));for(let i=0;i<20;i++)await Promise.resolve();assert.equal(images.length,2);assert.deepEqual(paths,['0/hd','1/hd','2/hd','3/hd']);images[0].onload();images[1].onload();for(let i=0;i<20;i++)await Promise.resolve();assert.equal(images.length,4);images[2].onload();images[3].onload();await pending;
+});

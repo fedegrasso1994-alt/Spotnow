@@ -3,14 +3,15 @@ export function createDetailPhoto({backend,avatar,clearAvatar,element,status}){
  let version=0,person=null,retryTimer;
  const current=()=>person;
  function stop(){version++;clearTimeout(retryTimer);person=null;status.hidden=true;clearAvatar(element);}
- function open(record){
+ function open(source){
+  const record={...source,photo_path:source.detail_path||source.photo_path};
   stop();person=record;const request=version;
   const valid=()=>request===version&&current()===record;
-  status.hidden=false;status.disabled=true;status.textContent='Caricamento foto HD…';
+  status.hidden=true;status.disabled=true;
   avatar(element,record,{eager:true,thumbnail:Boolean(record.thumbnail_path),progressive:true,timeoutMs:20000});
   const loaded=()=>{if(valid()){status.hidden=true;clearTimeout(retryTimer);}};
   async function load(attempt=0){
-   if(!valid())return;status.hidden=false;status.disabled=true;status.textContent='Caricamento foto HD…';
+   if(!valid())return;status.hidden=true;status.disabled=true;
    const failed=()=>{if(!valid())return;if(attempt<2){retryTimer=setTimeout(()=>void load(attempt+1),500*(attempt+1));}else{status.disabled=false;status.textContent='Riprova foto HD';}};
    try{
     const photo=await backend.photoUrl(record.photo_path,{refresh:attempt>0});if(!valid())return;if(!photo)return failed();
