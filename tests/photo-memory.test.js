@@ -21,3 +21,10 @@ test('Tribe warming actually downloads only the first four thumbnails and a logo
 test('a late load in a detached avatar cannot repopulate the photo memory after logout',async t=>{
  const {renderAvatar}=await import('../src/avatar.js'),{dom}=await import('./helpers/dom.js');clearPhotoMemory();const ui=dom(),face=ui.get('face'),row=ui.get('row'),list=ui.get('list'),callbacks=[];row.append(face);list.append(row);renderAvatar(face,{photo_path:'former/photo',photo:'/private-url'});const loading=face.querySelector('img');Object.assign(loading,image(callbacks));list.replaceChildren();clearPhotoMemory();loading.onload();assert.equal(callbacks.length,0);assert.equal(cachedPhoto('former/photo'),null);t.after(clearPhotoMemory);
 });
+
+test('eviction cannot revoke a cached image during detail decode but logout always revokes it',async()=>{
+ const {retainPhotoSource}=await import('../src/photo-memory.js');clearPhotoMemory();const callbacks=[];rememberPhoto('shown/full',image(callbacks));callbacks[0](new Blob(['pixels']));const url=cachedPhoto('shown/full'),release=retainPhotoSource(url);
+ for(let i=0;i<65;i++){const c=[];rememberPhoto(`${i}/new`,image(c));c[0](new Blob(['new']));}
+ assert.equal(cachedPhoto('shown/full'),null);assert.equal(await (await fetch(url)).text(),'pixels');release();await assert.rejects(fetch(url));
+ const c=[];rememberPhoto('logout/full',image(c));c[0](new Blob(['private']));const privateUrl=cachedPhoto('logout/full'),held=retainPhotoSource(privateUrl);clearPhotoMemory();await assert.rejects(fetch(privateUrl));held();
+});

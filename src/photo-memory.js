@@ -1,22 +1,29 @@
 /** Session-only decoded pixels. Never persist private photos in browser storage. */
-const entries=new Map(),pending=new Set();let bytes=0,epoch=0;
+const entries=new Map(),pending=new Set(),leases=new Map(),retired=new Set();let bytes=0,epoch=0;
 const MAX_BYTES=16*1024*1024,MAX_IMAGES=64;
 export function cachedPhoto(path){const entry=entries.get(path);if(!entry)return null;entries.delete(path);entries.set(path,entry);return entry.url;}
-export function clearPhotoMemory(){epoch++;for(const entry of entries.values())URL.revokeObjectURL(entry.url);entries.clear();pending.clear();bytes=0;}
+function retire(url){if(leases.has(url))retired.add(url);else URL.revokeObjectURL(url);}
+/** Do not revoke a cached Blob while a newly opened detail is decoding it. */
+export function retainPhotoSource(url){
+ if(!Array.from(entries.values()).some(entry=>entry.url===url)&&!retired.has(url))return ()=>{};
+ const generation=epoch;leases.set(url,(leases.get(url)||0)+1);let released=false;
+ return ()=>{if(released||generation!==epoch)return;released=true;const count=(leases.get(url)||1)-1;if(count)leases.set(url,count);else{leases.delete(url);if(retired.delete(url))URL.revokeObjectURL(url);}};
+}
+export function clearPhotoMemory(){epoch++;for(const entry of entries.values())URL.revokeObjectURL(entry.url);for(const url of retired)URL.revokeObjectURL(url);entries.clear();pending.clear();leases.clear();retired.clear();bytes=0;}
 /** A request belongs to the session in which it started, including detached avatars. */
 export function rememberPhotoForSession(path){const generation=epoch;return image=>{if(generation===epoch)rememberPhoto(path,image);};}
 export function rememberPhoto(path,image){
  if(!path||entries.has(path)||pending.has(path)||!image.naturalWidth||!image.naturalHeight)return;
  const generation=epoch;pending.add(path);
  try{
-  const canvas=image.ownerDocument.createElement('canvas'),scale=Math.min(1,1280/Math.max(image.naturalWidth,image.naturalHeight));
+  const canvas=image.ownerDocument.createElement('canvas'),scale=Math.min(1,2048/Math.max(image.naturalWidth,image.naturalHeight));
   canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
   const context=canvas.getContext('2d');if(!context){pending.delete(path);return;}context.drawImage(image,0,0,canvas.width,canvas.height);
   canvas.toBlob(blob=>{
    if(generation!==epoch)return;pending.delete(path);if(!blob||blob.size>MAX_BYTES||entries.has(path))return;
-   while(entries.size>=MAX_IMAGES||bytes+blob.size>MAX_BYTES){const key=entries.keys().next().value,entry=entries.get(key);URL.revokeObjectURL(entry.url);bytes-=entry.size;entries.delete(key);}
+   while(entries.size>=MAX_IMAGES||bytes+blob.size>MAX_BYTES){const key=entries.keys().next().value,entry=entries.get(key);retire(entry.url);bytes-=entry.size;entries.delete(key);}
    entries.set(path,{url:URL.createObjectURL(blob),size:blob.size});bytes+=blob.size;
-  },'image/webp',.82);
+  },'image/webp',.92);
  }catch{pending.delete(path);/* Unsupported canvas/CORS retains the normal authorized image. */}
 }
 

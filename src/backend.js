@@ -14,7 +14,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     pendingReads.set(key,{promise,controller,name,args});return promise;
   }
   const rpcRead=(name,args={})=>sharedRead(name,args,async signal=>unwrap(await cancelable(client.rpc(name,args),signal)));
-  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0;const clearPhotos=()=>{clearPhotoMemory();prefetched.clear();photoEpoch++;photos.clear();pendingPhotos.clear();for(const read of pendingReads.values())read.controller.abort();pendingReads.clear();};
+  const photos=new Map(),pendingPhotos=new Map();let photoEpoch=0,sessionOwner;const clearPhotos=()=>{clearPhotoMemory();prefetched.clear();photoEpoch++;photos.clear();pendingPhotos.clear();for(const read of pendingReads.values())read.controller.abort();pendingReads.clear();};
   function prunePhotos(){const now=Date.now();for(const [path,cached]of photos)if(cached.until<=now)photos.delete(path);}
   function unwrap(result) {if(result.error) throw result.error;return result.data;}
   async function userId() {
@@ -41,7 +41,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
       if(!result?.url)throw new Error('Google non ha restituito il collegamento di accesso. Riprova.');
       return result;
     },
-    onSessionChange(callback){return client.auth.onAuthStateChange((event,session)=>{clearPhotos();callback(event,session);}).data.subscription;},
+    onSessionChange(callback){return client.auth.onAuthStateChange((event,session)=>{const owner=session?.user?.id||null;if(event==='SIGNED_OUT'||(sessionOwner!==undefined&&sessionOwner!==owner))clearPhotos();sessionOwner=owner;callback(event,session);}).data.subscription;},
     async requestCode({email,phone,redirectTo}) {
       if(Boolean(email)===Boolean(phone))throw new Error('Indica email oppure telefono.');
       unwrap(await client.auth.signInWithOtp(email?{email,...(redirectTo?{options:{emailRedirectTo:redirectTo}}:{})}:{phone}));
@@ -118,10 +118,11 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
       }
       const result=new Map();await Promise.all(unique.map(async path=>{result.set(path,cachedPhoto(path)||(photos.get(path)?.until>Date.now()?photos.get(path).url:await pendingPhotos.get(path)?.catch(()=>null)));}));return result;
     },
-    async photoUrl(path) {
+    async photoUrl(path,{refresh=false}={}) {
       prunePhotos();
       if(!path)return null;
       const decoded=cachedPhoto(path);if(decoded)return decoded;
+      if(refresh)photos.delete(path);
       const cached=photos.get(path);if(cached&&cached.until>Date.now())return cached.url;
       if(pendingPhotos.has(path))return pendingPhotos.get(path);
       const generation=photoEpoch;

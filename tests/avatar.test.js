@@ -29,3 +29,16 @@ test('metadata preview is visible before signing, survives a failed thumbnail an
  const ui=setup();t.after(ui.restore);const face=ui.get('face'),profile={name:'Anna',photo_path:'a/full',thumbnail_path:'a/full.thumb.jpg',photo_preview:'data:image/jpeg;base64,YQ=='};renderAvatar(face,profile,{thumbnail:true});assert.equal(face.children[0].src,profile.photo_preview);
  renderAvatar(face,{...profile,photo:'/slow-thumb'},{thumbnail:true});let image=face.children.at(-1);assert.equal(face.children.length,2);image.onerror();assert.equal(face.children[0].src,profile.photo_preview);renderAvatar(face,{...profile,photo:'/retry'},{thumbnail:true});image=face.children.at(-1);assert.equal(image.src,'/retry');image.onload();assert.equal(face.children.length,1);assert.equal(face.children[0],image);renderAvatar(face,profile,{thumbnail:true});assert.equal(face.children[0],image);
 });
+
+
+test('detail upgrade keeps decoded thumbnail until the original loads and preserves it on failure',t=>{
+ const ui=setup();t.after(ui.restore);const face=ui.get('face'),p={name:'Anna',photo_path:'a/full',thumbnail_path:'a/thumb',photo_preview:'data:image/jpeg;base64,YQ==',photo:'/thumb'};
+ renderAvatar(face,p,{eager:true,thumbnail:true,progressive:true});const thumb=face.children.at(-1);thumb.onload();
+ renderAvatar(face,{...p,photo:'/original'},{eager:true,progressive:true});const original=face.children.at(-1);
+ assert.ok(face.children.includes(thumb));assert.equal(thumb.style.opacity,'1');original.onerror();assert.ok(face.children.includes(thumb));
+ renderAvatar(face,{...p,photo:'/retry'},{eager:true,progressive:true});const retry=face.children.at(-1);retry.onload();assert.deepEqual(face.children,[retry]);assert.equal(retry.src,'/retry');
+});
+test('opening another profile never retains the previous person as a fallback',t=>{
+ const ui=setup();t.after(ui.restore);const face=ui.get('face');renderAvatar(face,{photo_path:'a/full',photo:'/a'},{progressive:true});const old=face.children[0];old.onload();
+ renderAvatar(face,{photo_path:'b/full',photo:'/b'},{progressive:true});assert.ok(!face.children.includes(old));old.onload();assert.equal(face.children[0].src,'/b');
+});

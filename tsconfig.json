@@ -31,6 +31,7 @@
     "src/pagination.js",
     "src/avatar.js",
     "src/photo-memory.js",
-    "src/viewport.js"
+    "src/viewport.js",
+    "src/detail-photo.js"
   ]
 }

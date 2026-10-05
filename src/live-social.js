@@ -1,3 +1,5 @@
+import {createDetailPhoto} from './detail-photo.js';
+import {clearAvatar} from './avatar.js';
 import { modalController } from './modal.js';
 import { userMessage } from './errors.js';
 import { singleFlight, stableList } from './ui-refresh.js';
@@ -25,6 +27,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function syncHistory(){historyControls.hidden=!chatBefore&&chatMessages.length<100;older.hidden=historyExhausted||chatMessages.length<100;latest.hidden=!chatBefore;}
   function changeHistory(before){chatBefore=before;chatVersion++;chatSignature='';historyExhausted=false;void renderChat().catch(()=>showToast('Non riesco a caricare i messaggi. Puoi riprovare.'));}
   older.onclick=()=>{if(!older.disabled&&chatMessages[0]?.created_at)changeHistory({created_at:chatMessages[0].created_at,id:chatMessages[0].id});};latest.onclick=()=>changeHistory(null);
+  const detailPhoto=createDetailPhoto({backend,avatar,clearAvatar,element:$('dAvatar'),status:$('detailPhotoStatus')});
   const detailModal=modalController($('detailOverlay'),{firstFocus:$('interestBtn'),onEscape:()=>closeDetail()});
   const active=()=>document.querySelector('.screen.active')?.id;
   function hint(id,text){const p=document.createElement('p');p.className='empty-hint';p.textContent=text;$(id).replaceChildren(p);}
@@ -80,12 +83,11 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   }
   function openDetail(person){
     detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
-    $('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person,{eager:true,thumbnail:Boolean(person.thumbnail_path)});$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
+    $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
     if(detailChecking)void backend.matchWith(person.id).then(match=>{if(detail!==person||generation!==epoch)return;detailFound=match;}).catch(()=>{}).finally(()=>{if(detail===person&&generation===epoch){detailChecking=false;syncDetailAction();}});
-    // A card is clickable before its photo is ready. Join that request and fill the detail too.
-    if(person.photo_path)void backend.photoUrl(person.photo_path).then(photo=>{if(!photo||detail!==person||generation!==epoch||session()?.user.id!==account)return;person.photo=photo;avatar($('dAvatar'),person,{eager:true});}).catch(()=>{});
+
   }
-  function closeDetail(){detail=null;detailFound=null;detailChecking=false;detailModal.close();}
+  function closeDetail(){detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();

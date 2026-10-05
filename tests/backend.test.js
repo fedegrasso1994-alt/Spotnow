@@ -91,3 +91,11 @@ test('signing another photo never discards a large Tribe cache and causes anothe
  let grouped=0;const storage={createSignedUrls:async paths=>{grouped++;return {data:paths.map(path=>({path,signedUrl:`/signed/${path}`,error:null}))};},createSignedUrl:async()=>({data:{signedUrl:'/own'}})};
  const api=createBackend({storage:{from:()=>storage}}),paths=Array.from({length:250},(_,i)=>`person-${i}/photo`);await api.photoUrls(paths);assert.equal(grouped,3);await api.photoUrl('me/photo');await api.photoUrls(paths);assert.equal(grouped,3);
 });
+
+test('same-account token refresh preserves signed photo cache; account switch clears it',async()=>{
+ let notify,signed=0;const api=createBackend({auth:{onAuthStateChange:cb=>{notify=cb;return {data:{subscription:{}}};}},storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'/photo-'+(++signed)}})})}});
+ api.onSessionChange(()=>{});notify('INITIAL_SESSION',{user:{id:'a'}});assert.equal(await api.photoUrl('a/photo'),'/photo-1');notify('TOKEN_REFRESHED',{user:{id:'a'}});assert.equal(await api.photoUrl('a/photo'),'/photo-1');notify('SIGNED_IN',{user:{id:'b'}});assert.equal(await api.photoUrl('b/photo'),'/photo-2');
+});
+test('failed photo retry explicitly obtains a fresh signature',async()=>{
+ let signed=0;const api=createBackend({storage:{from:()=>({createSignedUrl:async()=>({data:{signedUrl:'/photo-'+(++signed)}})})}});assert.equal(await api.photoUrl('a/photo'),'/photo-1');assert.equal(await api.photoUrl('a/photo',{refresh:true}),'/photo-2');
+});
