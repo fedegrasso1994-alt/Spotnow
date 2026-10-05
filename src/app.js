@@ -148,3 +148,5 @@ if(new URLSearchParams(location.search).get('preview')==='responsive'){
  state.matches=[{...person,createdAt:Date.now(),messages:[{from:'them',text:'Ciao! Questa è una conversazione dimostrativa.'},{from:'me',text:'UnaParolaMoltoLunga'.repeat(12)}]}];
  go('venue');
 }
+
+if(document.getElementById("boot")?.classList.contains("active"))go("intro");

@@ -294,8 +294,9 @@ setInterval(()=>{if(document.hidden)return;if($('venue').classList.contains('act
 setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;statusChecking=true;try{const wasSuspended=suspended;if(!await checkAccountStatus()&&wasSuspended)await hydrate();}catch{/* Retry on the next poll; server authorization remains authoritative. */}finally{statusChecking=false;}},15000);
 function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople();}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
 document.addEventListener('visibilitychange',resume);window.addEventListener('online',resume);
-try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr)restoreDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr)await previewVenue();}
-catch(error){if(!awaitingQr)go('intro',{replace:true});showToast(message(error));}finally{booting=false;}
+$('retryBootBtn').onclick=()=>location.reload();
+try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr)restoreDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr)await previewVenue();else if(!awaitingQr)go('intro',{replace:true});}
+catch(error){if(!awaitingQr){go('boot',{replace:true});$('bootStatus').textContent=message(error);$('retryBootBtn').hidden=false;}}finally{booting=false;}
 
 const returnedUrl=new URL(location.href);const hashParams=new URLSearchParams(returnedUrl.hash.slice(1));
 const oauthError=returnedUrl.searchParams.get('error_description')||hashParams.get('error_description');

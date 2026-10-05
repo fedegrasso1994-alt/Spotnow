@@ -346,3 +346,7 @@ html,body{min-width:0}
 .page-label{font-size:11px;text-align:center;color:var(--muted)}
 .chat-history-controls{display:flex;gap:8px;flex-shrink:0;margin-bottom:6px}
 .chat-history-controls .btn{width:auto;min-height:44px;font-size:12px;padding:8px 12px;flex:1;min-width:0}
+
+/* The entry flow stays hidden until the persisted session has been resolved. */
+.boot-screen{justify-content:center;align-items:center;text-align:center;gap:16px}
+.boot-screen [hidden]{display:none}

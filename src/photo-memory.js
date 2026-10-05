@@ -3,6 +3,8 @@ const entries=new Map(),pending=new Set();let bytes=0,epoch=0;
 const MAX_BYTES=16*1024*1024,MAX_IMAGES=64;
 export function cachedPhoto(path){const entry=entries.get(path);if(!entry)return null;entries.delete(path);entries.set(path,entry);return entry.url;}
 export function clearPhotoMemory(){epoch++;for(const entry of entries.values())URL.revokeObjectURL(entry.url);entries.clear();pending.clear();bytes=0;}
+/** A request belongs to the session in which it started, including detached avatars. */
+export function rememberPhotoForSession(path){const generation=epoch;return image=>{if(generation===epoch)rememberPhoto(path,image);};}
 export function rememberPhoto(path,image){
  if(!path||entries.has(path)||pending.has(path)||!image.naturalWidth||!image.naturalHeight)return;
  const generation=epoch;pending.add(path);

@@ -14,8 +14,9 @@ import {photoVariants} from '../src/photo-variants.js';
 const source=(await fs.readFile(new URL('../src/live.js',import.meta.url),'utf8')).replace(/^import .*\n/gm,'').replace(/const backend=connectBackend\([^\n]+\);/,'const backend=testBackend;').replace('export function onFirstMatch','function onFirstMatch');
 const html=await fs.readFile(new URL('../index.html',import.meta.url),'utf8');
 async function boot(overrides={},anonymous=false,duringBoot,options={}){
- const ui=dom();for(const [,id]of html.matchAll(/id="([^"]+)"/g))ui.get(id);for(const id of ['intro','scan','camera','login','onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match','suspended'])ui.screen(id);
+ const ui=dom();for(const [,id]of html.matchAll(/id="([^"]+)"/g))ui.get(id);for(const id of ['boot','intro','scan','camera','login','onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match','suspended'])ui.screen(id);
  for(const [id,cls]of [['intro','btn-primary'],['venue','addr'],['login','sub'],['onboarding','disp'],['onboarding','backlink']]){const el=new Element();el.className=cls;ui.get(id).append(el);}
+ ui.activate('boot');
  const session={user:{id:'me',is_anonymous:anonymous}};let callback,scanner;const assigned=[],intervals=[],storage=new Map(),drafts=options.drafts||new Map();
  const backend={session:async()=>session,onSessionChange:cb=>{callback=cb;},accountState:async()=> 'active',isSuspended:async()=>false,getProfile:async()=>({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'}),photoUrl:async()=>'/photo',ownCheckIn:async()=>({venue_id:'place',expires_at:new Date(Date.now()+600000).toISOString()}),getVenue:async()=>({id:'place',name:'Locale'}),locationPeople:async()=>[{id:'person',name:'Anna',age:25,photo_path:'person/photo',checked_in_at:new Date().toISOString(),expires_at:new Date(Date.now()+600000).toISOString()}],tribes:async()=>[{id:'place',name:'Locale',member_count:2,live_count:1}],googleLogin:async()=>({url:'https://accounts.google.com/oauth'}),linkGoogle:async()=>({url:'https://accounts.google.com/link'}),signOut:async()=>callback('SIGNED_OUT',null),...overrides};
  const window={addEventListener(type,handler){(this.listeners??={})[type]=handler;}};
@@ -160,4 +161,35 @@ test('the first visible photos render before a slower remaining batch finishes',
 
 test('account change during photo variant generation cannot upload the former account photo',async()=>{
  const wait=deferred();let uploads=0;const ui=await boot({uploadPhoto:async()=>{uploads++;return 'me/new';}},false,undefined,{photoVariants:()=>wait.promise});ui.window.editProfile();await ui.window.handlePhoto({target:{files:[{type:'image/jpeg',size:100}]}});const saving=ui.window.trySaveProfile();await flush();ui.callback('SIGNED_OUT',null);wait.resolve(null);await saving;assert.equal(uploads,0);assert.equal(ui.document.querySelector('.screen.active').id,'intro');
+});
+
+
+test('slow persisted session never flashes QR entry before opening the account',async()=>{
+ const wait=deferred();
+ const ui=await boot({session:()=>wait.promise},false,async ui=>{
+  assert.equal(ui.document.querySelector('.screen.active').id,'boot');
+  wait.resolve({user:{id:'me',is_anonymous:false}});
+ });
+ assert.equal(ui.document.querySelector('.screen.active').id,'venue');
+});
+test('slow profile recovery stays on neutral startup until Tribe is available',async()=>{
+ const wait=deferred();
+ const ui=await boot({getProfile:()=>wait.promise,ownCheckIn:async()=>null},false,async ui=>{
+  assert.equal(ui.document.querySelector('.screen.active').id,'boot');
+  wait.resolve({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'});
+ });
+ assert.equal(ui.document.querySelector('.screen.active').id,'tribes');
+});
+test('account recovery failure offers retry without showing QR entry',async()=>{
+ const ui=await boot({getProfile:async()=>{throw Error('Failed to fetch');}});
+ assert.equal(ui.document.querySelector('.screen.active').id,'boot');
+ assert.equal(ui.get('retryBootBtn').hidden,false);
+ assert.match(ui.get('bootStatus').textContent,/Connessione/);
+});
+test('a signed-out visitor sees QR entry only after session resolution',async()=>{
+ const wait=deferred();
+ const ui=await boot({session:()=>wait.promise},false,async ui=>{
+  assert.equal(ui.document.querySelector('.screen.active').id,'boot');wait.resolve(null);
+ });
+ assert.equal(ui.document.querySelector('.screen.active').id,'intro');
 });

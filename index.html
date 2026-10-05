@@ -19,8 +19,14 @@
 <div class="stage">
   <div class="phone" id="phone">
 
+    <section class="screen active boot-screen" id="boot" aria-label="Apertura di Spot Now">
+      <p class="eyebrow">Spot Now</p>
+      <p class="sub" id="bootStatus" role="status" aria-live="polite">Apertura in corso…</p>
+      <button class="btn btn-primary" id="retryBootBtn" hidden>Riprova</button>
+    </section>
+
     <!-- INTRO -->
-    <section class="screen active" data-screen="intro" id="intro">
+    <section class="screen" data-screen="intro" id="intro">
       <p class="eyebrow">Spot Now</p>
       <div class="hero-card">
         <svg viewBox="0 0 340 190" width="100%" height="100%" role="img">
