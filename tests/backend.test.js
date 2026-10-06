@@ -105,3 +105,9 @@ test('HD preload starts only two downloads at once and never requests heavy orig
  const api=createBackend({storage:{from:()=>({createSignedUrls:async requested=>{paths.push(...requested);return {data:requested.map(path=>({path,signedUrl:'/private/'+path}))};}})}});
  const pending=api.prefetchDetailPhotos(Array.from({length:8},(_,i)=>({photo_path:`${i}/original`,detail_path:`${i}/hd`})));for(let i=0;i<20;i++)await Promise.resolve();assert.equal(images.length,2);assert.deepEqual(paths,['0/hd','1/hd','2/hd','3/hd']);images[0].onload();images[1].onload();for(let i=0;i<20;i++)await Promise.resolve();assert.equal(images.length,4);images[2].onload();images[3].onload();await pending;
 });
+
+test('SEC-01: legacy peopleHere uses the explicit public projection RPC',async()=>{
+ let rpc;const rows=[{id:'peer',name:'Anna',age:24,gender:'F',photo_path:'peer/photo'}];
+ const api=createBackend({auth:{getUser:async()=>({data:{user:{id:'me'}}})},from:()=>{throw Error('Other profiles must use a minimized RPC');},rpc:async name=>{rpc=name;return {data:rows};}});
+ assert.deepEqual(await api.peopleHere(),rows);assert.equal(rpc,'visible_profiles');
+});

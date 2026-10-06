@@ -81,8 +81,8 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     async deleteAccount(){const data=unwrap(await client.functions.invoke('delete-account',{body:{confirm:true}}));if(data?.deleted!==true)throw new Error('Cancellazione non completata. Riprova.');},
     async checkDeletion(){return unwrap(await client.functions.invoke('delete-account',{body:{dry_run:true}}));},
     async peopleHere() {
-      const id=await userId();
-      return unwrap(await client.from('profiles').select('id,name,age,gender,photo_path').neq('id',id));
+      await userId();
+      return unwrap(await client.rpc('visible_profiles'));
     },
     async expressInterest(personId,place){return unwrap(await client.rpc('send_spot',{target_user:personId,place}));},
     async matches(){return unwrap(await client.rpc('my_matches'));},
