@@ -4,7 +4,7 @@ import { singleFlight, stableList } from './ui-refresh.js';
 import './admin.css';
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY,storageKey:'spot-now-moderator-session'});
 const phone=document.getElementById('phone');phone.replaceChildren();phone.classList.add('admin-panel');
-document.title='Spot Now — Moderazione';
+document.title='Soma — Moderazione';
 function element(tag,text,className){const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;return el;}
 const title=element('h1','Moderazione','disp');const note=element('p','Accesso riservato ai gestori autorizzati. Le azioni vengono registrate.','sub');
 const login=element('button','Accedi con Google','btn btn-primary');

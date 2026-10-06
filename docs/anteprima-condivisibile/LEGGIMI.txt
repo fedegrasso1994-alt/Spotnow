@@ -1,0 +1,11 @@
+Soma — anteprima condivisibile
+
+Apri Soma-anteprima.html con un doppio clic nel browser.
+Il file include stile, font, icona e demo JavaScript; funziona senza server locale e senza connessione.
+
+Per provare il flusso: Inquadra il QR Code → tocca per simulare la scansione → Entra → Continua con Google (demo) → crea un profilo di prova con una foto. Poi esplora Ora, Tribe, Match, Chat e Profilo.
+Accesso e risposte della chat sono simulati; nessun account reale viene creato e nessun dato è inviato a un backend. I dati di prova si perdono ricaricando la pagina. La foto che scegli resta nella pagina.
+
+Per ChatGPT: allega direttamente Soma-anteprima.html e chiedi una revisione di interfaccia e flussi. Se vuoi un parere visivo senza esecuzione dell'HTML, allega anche Soma-schermata-iniziale.png.
+
+È la demo con dati fittizi, non una copia del servizio online o del suo database. Non include login Google reale, scanner camera, notifiche push o installazione PWA reale. La grafica dell'app è quella attuale.

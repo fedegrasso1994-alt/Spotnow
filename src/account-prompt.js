@@ -11,7 +11,7 @@ export function createAccountPrompt({onGoogle,isAnonymous=()=>true,googleEnabled
   function close(){overlay.classList.remove('active');previousFocus?.focus();}
   function open(){if(!isAnonymous())return;previousFocus=document.activeElement;status.textContent='';overlay.classList.add('active');google.focus();}
   google.onclick=async()=>{
-    if(!googleEnabled){status.textContent='Il collegamento Google sarà disponibile a breve. Puoi continuare a usare Spot Now.';return;}
+    if(!googleEnabled){status.textContent='Il collegamento Google sarà disponibile a breve. Puoi continuare a usare Soma.';return;}
     google.disabled=true;status.textContent='Apertura di Google…';
     try{await onGoogle();}catch(error){status.textContent=error?.code==='identity_already_exists'?'Questo account Google è già collegato a un altro profilo. Il profilo attuale resta disponibile qui.':'Non riesco ad aprire Google. Riprova tra poco: il tuo profilo è ancora disponibile qui.';}finally{google.disabled=false;}
   };

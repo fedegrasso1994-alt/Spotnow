@@ -141,14 +141,14 @@ const loadPeople=singleFlight(async(generation)=>{
     const people=page.items;
     if(!people.length&&liveOffset){liveOffset=0;go('venue',{replace:true});return;}
     livePager.update({offset:liveOffset,count:people.length,total:page.total,hasMore:page.hasMore});$('countPill').textContent=`${page.total} ora`;
-    clearTimeout(expiryTimer);const nextExpiry=Math.min(Date.parse(state.checkin.expires_at),...people.map(p=>Date.parse(p.expires_at)).filter(Number.isFinite));
+    clearTimeout(expiryTimer);const nextExpiry=Date.parse(state.checkin.expires_at);
     expiryTimer=setTimeout(()=>{if($('venue').classList.contains('active'))void renderPeople();},Math.max(1,nextExpiry-Date.now()));
     if(!people.length)return emptyList('list','Sei tra i primi qui. I profili compariranno quando altre persone entreranno.');
-    const paint=visible=>stableList($('list'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age,Math.floor((Date.now()-Date.parse(p.checked_in_at))/60000)]),create:person=>{
+    const paint=visible=>stableList($('list'),visible,{key:p=>p.id,signature:p=>JSON.stringify([p.name,p.age]),create:person=>{
       const row=document.createElement('button');row.className='person';row.style.color='var(--text)';row.style.textAlign='left';
       const face=document.createElement('div');face.className='avatar';const meta=document.createElement('div');meta.className='meta';
       const name=document.createElement('div');name.className='nm';name.textContent=`${person.name}, ${person.age}`;
-      const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent=`Check-in ${Math.max(0,Math.floor((Date.now()-Date.parse(person.checked_in_at))/60000))} min fa`;meta.append(name,subtitle);row.append(face,meta);return row;
+      const subtitle=document.createElement('div');subtitle.className='tm';subtitle.textContent='Qui ora';meta.append(name,subtitle);row.append(face,meta);return row;
     },update:(row,person)=>{avatar(row.querySelector('.avatar'),person,{eager:people.slice(0,4).some(p=>p.id===person.id),thumbnail:true});row.onclick=()=>social.openDetail({...person,venue_id:state.venue.id,venue_name:state.venue.name,source:'live'});}});
     paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);if(backend.prefetchDetailPhotos)void backend.prefetchDetailPhotos(visible).catch(()=>{});
   }catch(error){if(generation===listGeneration){livePager.update({offset:liveOffset,count:0,total:liveOffset,hasMore:false});$('countPill').textContent='—';if(!$('list').querySelector('.person'))emptyList('list',message(error));}}
@@ -305,5 +305,5 @@ const oauthError=returnedUrl.searchParams.get('error_description')||hashParams.g
 if(oauthError){
  for(const key of ['error','error_code','error_description'])returnedUrl.searchParams.delete(key);
  if(hashParams.has('error'))returnedUrl.hash='';history.replaceState(null,'',returnedUrl);
- go('login');$('loginStatus').textContent=/already linked|already exists/i.test(oauthError)?'Questo Google è già collegato a un account Spot Now. Usa “Continua con Google” per accedere a quello esistente.':'Accesso Google non completato. Riprova.';
+ go('login');$('loginStatus').textContent=/already linked|already exists/i.test(oauthError)?'Questo Google è già collegato a un account Soma. Usa “Continua con Google” per accedere a quello esistente.':'Accesso Google non completato. Riprova.';
 }

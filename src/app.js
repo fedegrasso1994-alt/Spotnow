@@ -43,7 +43,7 @@ function fillList(id, entries, empty, subtitle, action) {
 function renderList() {
   const entries=visiblePeople(people.filter(p=>p.checkedIn<90),state.profile.preference);
   $('countPill').textContent=`${entries.length} ora`;
-  fillList('list',entries,'Nessuno corrisponde alle tue preferenze qui ora.',p=>`Check-in ${p.checkedIn} min fa`,openDetail);
+  fillList('list',entries,'Nessuno corrisponde alle tue preferenze qui ora.',()=> 'Qui ora',openDetail);
 }
 function go(screen) {
   if(screen==='onboarding'&&!demoAccount)screen='login';
@@ -83,7 +83,7 @@ function handlePhoto(event) {
 function editProfile() {state.editing=true;$('inName').value=state.profile.name;$('inAge').value=state.profile.age||'';$('inOccupation').value=state.profile.occupation||'';avatar($('photoCircle'),state.profile);go('onboarding');}
 function openDetail(person) {
   state.detail=person;$('dOccupation').textContent=person.occupation||'';avatar($('dAvatar'),person);$('dName').textContent=`${person.name}, ${person.age}`;
-  $('dTime').textContent=`Check-in ${person.checkedIn} minuti fa · Locale demo`;
+  $('dTime').textContent='Qui ora · Locale demo';
   const match=state.matches.find(m=>m.id===person.id);$('interestBtn').disabled=!match&&Boolean(person.sent);$('interestBtn').textContent=match?'Apri la Chat':person.sent?'Interesse già inviato':'Mi Interessa';
   $('detailOverlay').classList.add('active');
 }

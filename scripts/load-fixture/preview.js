@@ -1,6 +1,6 @@
 import {createBackend} from '/src/backend.js';
 import {setupViewport} from '/src/viewport.js';
-setupViewport();document.title='Spot Now · simulazione locale 10.000 utenti';
+setupViewport();document.title='Soma · simulazione locale 10.000 utenti';
 const params=new URLSearchParams(location.search),delay=Number(params.get('delay')||200),me='10000000-0000-0000-0000-000000000001',venue='20000000-0000-0000-0000-000000000001';
 const id=(prefix,n)=>`${prefix}0000000-0000-0000-0000-${String(n).padStart(12,'0')}`;
 const metrics={users:10000,matches:2000,messages:20000,delayMs:delay,requests:0,photoRequests:0,activePhotos:0,peakPhotos:0,activeReads:0,peakReads:0,errors:0,longTasks:[],actions:0};

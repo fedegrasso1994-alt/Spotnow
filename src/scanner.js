@@ -15,7 +15,7 @@ export function createVenueScanner({screen,onScan,onBack}) {
     const instance=new QrScanner(video,async result=>{
       if(attempt!==generation||!active||processing)return;
       const token=venueTokenFromQr(result.data,location.origin);
-      if(!token){hint.textContent='Questo codice non è un QR Spot Now valido.';return;}
+      if(!token){hint.textContent='Questo codice non è un QR Soma valido.';return;}
       processing=true;stop();
       try{await onScan(token);}catch{hint.textContent='Non riesco ad aprire questo locale. Riprova o apri il QR con la fotocamera del telefono.';}finally{processing=false;}
     },{preferredCamera:'environment',returnDetailedScanResult:true,maxScansPerSecond:5,onDecodeError:()=>{}});

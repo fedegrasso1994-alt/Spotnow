@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Spot Now</title>
+<title>Soma</title>
 <meta name="theme-color" content="#14151a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Spot Now">
+<meta name="apple-mobile-web-app-title" content="Soma">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="icon" href="/icons/icon-192.png" type="image/png">
@@ -19,15 +19,15 @@
 <div class="stage">
   <div class="phone" id="phone">
 
-    <section class="screen active boot-screen" id="boot" aria-label="Apertura di Spot Now">
-      <p class="eyebrow">Spot Now</p>
+    <section class="screen active boot-screen" id="boot" aria-label="Apertura di Soma">
+      <p class="eyebrow">Soma</p>
       <p class="sub" id="bootStatus" role="status" aria-live="polite">Apertura in corso…</p>
       <button class="btn btn-primary" id="retryBootBtn" hidden>Riprova</button>
     </section>
 
     <!-- INTRO -->
     <section class="screen" data-screen="intro" id="intro">
-      <p class="eyebrow">Spot Now</p>
+      <p class="eyebrow">Soma</p>
       <div class="hero-card">
         <svg viewBox="0 0 340 190" width="100%" height="100%" role="img">
           <title>Due persone si notano a vicenda in mezzo alla folla di un locale</title>
@@ -71,7 +71,7 @@
 
     <!-- 0. CAMERA / QR SCAN -->
     <section class="screen" data-screen="camera" id="camera" onclick="finishScan()">
-      <p class="eyebrow">Spot Now</p>
+      <p class="eyebrow">Soma</p>
       <div class="viewfinder">
         <div class="corner tl"></div><div class="corner tr"></div>
         <div class="corner bl"></div><div class="corner br"></div>
@@ -102,11 +102,11 @@
 
     <section class="screen" id="login">
       <button class="backlink" onclick="go('intro')"><span class="nav-arrow" aria-hidden="true">←</span> Indietro</button>
-      <h2 class="disp" style="margin-top:26px">Entra in Spot Now</h2>
+      <h2 class="disp" style="margin-top:26px">Entra in Soma</h2>
       <p class="sub">Accedi e ritrova il tuo profilo e le tue Tribe quando torni.</p>
       <button class="btn btn-primary" id="googleLoginBtn" style="margin-top:20px">Continua con Google</button>
       <button class="btn btn-ghost" id="existingAccountBtn" style="margin-top:10px" hidden>Conserva il profilo temporaneo</button>
-      <p class="sub" id="existingAccountNote" style="font-size:12px" hidden>Continua con Google per accedere o creare il tuo account Spot Now. Se avevi un profilo temporaneo, usa “Conserva il profilo temporaneo” per collegarlo a un nuovo account Google. L’accesso normale non trasferisce i dati del profilo temporaneo.</p>
+      <p class="sub" id="existingAccountNote" style="font-size:12px" hidden>Continua con Google per accedere o creare il tuo account Soma. Se avevi un profilo temporaneo, usa “Conserva il profilo temporaneo” per collegarlo a un nuovo account Google. L’accesso normale non trasferisce i dati del profilo temporaneo.</p>
       <form id="emailForm">
         <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="La tua email"></div>
         <button class="btn btn-primary" style="margin-top:22px" id="requestCodeBtn" type="submit">Ricevi l’email di accesso</button>
