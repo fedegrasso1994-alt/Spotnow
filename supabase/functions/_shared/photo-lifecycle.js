@@ -22,11 +22,11 @@ export async function purgePhotoSet(admin,path){
 /** An uncertain write can reconcile automatically only after ALL immutable byte effects match. */
 export async function reconcilePhotoSet(admin,set){
  if(set.writer!=='unknown')return false;
- if(!set.manifest&&set.evidence==='INTENT_PROTOCOL_V1'){const r=await admin.rpc('reconcile_photo_writer',{path:set.photo_path,lease:set.lease_token,evidence_code:'NO_WRITE_INTENT_FENCED'});return !r.error;}
+ if(!set.manifest&&set.evidence==='INTENT_PROTOCOL_V1'){const r=await admin.rpc('reconcile_photo_writer',{path:set.photo_path,lease:set.lease_token,evidence_code:'NO_WRITE_INTENT_FENCED'});if(r.error&&!/PHOTO_EVIDENCE|PHOTO_ACTIVE_WRITER/.test(String(r.error.message)))throw new Error('PHOTO02_RPC');return !r.error;}
  if(!Array.isArray(set.manifest)||set.manifest.length!==3)return false;
  const storage=admin.storage.from('profile-photos');
  for(const item of set.manifest){const r=await storage.download(item.path);if(r.error||!r.data||r.data.size!==item.bytes||r.data.size>4194304)return false;const bytes=new Uint8Array(await r.data.arrayBuffer());if(await sha(bytes)!==item.sha)return false;}
- unwrap(await admin.rpc('reconcile_photo_writer',{path:set.photo_path,lease:set.lease_token,evidence_code:'ALL_IMMUTABLE_OBJECTS_CONFIRMED'}));return true;
+ const reconciled=await admin.rpc('reconcile_photo_writer',{path:set.photo_path,lease:set.lease_token,evidence_code:'ALL_IMMUTABLE_OBJECTS_CONFIRMED'});if(reconciled.error&&/PHOTO_ACTIVE_WRITER/.test(String(reconciled.error.message)))return false;unwrap(reconciled);return true;
 }
 /** No owner ids from an end-user request: caller passes only JWT-verified owner or service queue. */
 export async function cleanupPhotoAccount(admin,id){
