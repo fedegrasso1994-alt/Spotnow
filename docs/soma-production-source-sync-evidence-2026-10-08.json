@@ -1,0 +1,220 @@
+{
+  "date": "2026-10-08",
+  "scope": "GitHub synchronization only; no runtime changes or deploy",
+  "branch": "main",
+  "initialLocalAndRemoteCommit": "4cd4bf413bbeeb1401806ada6516395a6ae02446",
+  "productionRuntimeSourceCommit": "a607ff8b5e28eb730720a0e0b2885583c494e15b",
+  "commitsBeforeThisReport": [
+    {
+      "sha": "03b45fe8aa4234e616f35e9c091318036198ab46",
+      "message": "docs: record approved pre-pilot founder decisions"
+    },
+    {
+      "sha": "a5b796a55c1c0741930fd2d092f6fe871b07e734",
+      "message": "docs(photo01): record staging preflight and bounded-memory benchmark"
+    },
+    {
+      "sha": "a607ff8b5e28eb730720a0e0b2885583c494e15b",
+      "message": "feat(photo01): version deployed authoritative bounded-memory photo pipeline"
+    },
+    {
+      "sha": "aed43fd40719c993b66a157c276834d7d2eb1848",
+      "message": "docs(photo01): record production rollout and oversize verification"
+    },
+    {
+      "sha": "ed9ed7038e75a7d5057dffad8d1ed41eb8e09ff4",
+      "message": "docs: record legacy photo dry-run and authorized account cleanup"
+    }
+  ],
+  "previouslyUnsyncedFiles": [
+    "docs/soma-legacy-cleanup-2026-10-08.md",
+    "docs/soma-legacy-cleanup-evidence-2026-10-08.json",
+    "docs/soma-photo01-bounded-memory-benchmark-2026-10-06.md",
+    "docs/soma-photo01-bounded-memory-evidence-2026-10-06.json",
+    "docs/soma-photo01-implementation-2026-10-07.md",
+    "docs/soma-photo01-implementation-evidence-2026-10-07.json",
+    "docs/soma-photo01-legacy-dry-run-2026-10-08.md",
+    "docs/soma-photo01-legacy-dry-run-evidence-2026-10-08.json",
+    "docs/soma-photo01-oversize-production-evidence-2026-10-07.json",
+    "docs/soma-photo01-oversize-production-verification-2026-10-07.md",
+    "docs/soma-photo01-production-rollout-2026-10-07.md",
+    "docs/soma-photo01-production-rollout-evidence-2026-10-07.json",
+    "docs/soma-photo01-staging-preflight-2026-10-06.md",
+    "docs/soma-pre-pilot-decision-sheet-2026-10-06.md",
+    "scripts/build-photo-jpeg-encoder.mjs",
+    "scripts/build-photo-staging-probe.mjs",
+    "scripts/build-photo-wasm.mjs",
+    "scripts/bundle-photo-edge.mjs",
+    "src/backend.js",
+    "src/errors.js",
+    "src/live.js",
+    "src/photo-contract.js",
+    "src/photo-upload.js",
+    "src/photo.js",
+    "supabase/functions/_shared/photo-jpeg-encoder.js",
+    "supabase/functions/_shared/photo-jpeg-validation.js",
+    "supabase/functions/_shared/photo-png.js",
+    "supabase/functions/_shared/photo-processing.js",
+    "supabase/functions/_shared/photo-upload.js",
+    "supabase/functions/_shared/photo-wasm.js",
+    "supabase/functions/_shared/photo-worker.js",
+    "supabase/functions/delete-account/index.ts",
+    "supabase/functions/photo-assets/LICENSE-pako.txt",
+    "supabase/functions/photo-assets/README.md",
+    "supabase/functions/photo-assets/index.ts",
+    "supabase/functions/photo-normalize-jpeg/index.ts",
+    "supabase/functions/photo-normalize-png/index.ts",
+    "supabase/functions/photo-normalize-webp/index.ts",
+    "supabase/migrations/016_authoritative_photo_uploads.sql",
+    "tests/account-deletion.test.js",
+    "tests/helpers/database.js",
+    "tests/live-navigation.test.js",
+    "tests/load-scaling.test.js",
+    "tests/photo-assets-auth.test.js",
+    "tests/photo-assets.test.js",
+    "tests/photo-authority.test.js",
+    "tests/photo-processing.test.js",
+    "tests/photo-upload.test.js",
+    "tests/profile-preference-privacy.test.js",
+    "tests/reliability.test.js",
+    "tests/tribe-database.test.js",
+    "tsconfig.json",
+    "types/deno.d.ts",
+    "types/photo-codecs.d.ts"
+  ],
+  "publicArtifactComparison": {
+    "base": "https://spot-now-alpha.vercel.app",
+    "checked": "2026-10-08T07:19:06.317Z",
+    "results": [
+      {
+        "path": "/assets/admin-DxZvZi95.js",
+        "sha256": "4744236b7145c6ecdc52f507a2d58b381d21840e954e0c9ef713a15dd0132849"
+      },
+      {
+        "path": "/assets/admin-uREc_AXi.css",
+        "sha256": "cc5bba867afa186b0e3988403826eb1ea5766f799dd075b5b27758ae6a185776"
+      },
+      {
+        "path": "/assets/app-DEIdsxVe.js",
+        "sha256": "e4c7f5c0baa2504928039f3aa390510084254702ce4bc272fd7d781af13dbe97"
+      },
+      {
+        "path": "/assets/domain-BD1OD849.js",
+        "sha256": "b345034a303386e4eed49a887e2d7883ad454ea48e73ec2d8dcd3e1c230dc053"
+      },
+      {
+        "path": "/assets/index-BzYwi14q.css",
+        "sha256": "54826ba7dc68e1718fdc704b730db3dbc3dca94b13fad778dd079d0f82edada1"
+      },
+      {
+        "path": "/assets/index-DoWEiFzx.js",
+        "sha256": "a17a28768842d3109a9b1379c290bda9d776a341e76dffcaeb160d4b6526e6b5"
+      },
+      {
+        "path": "/assets/install-app-Bu95iobc.js",
+        "sha256": "a4ab4f31994532c97154386253985b43dac8245b61445728773da703baec18ca"
+      },
+      {
+        "path": "/assets/install-app-hBKtSbm8.js",
+        "sha256": "d396d6f93272f1d7b652b9fa36772223a1edb38390f7e6da2440316f80c0d5fc"
+      },
+      {
+        "path": "/assets/live-BgWTKgcf.js",
+        "sha256": "11403e67565aab4849ba85b4619c70aca8d55a8c15bad8982037a592710f0a88"
+      },
+      {
+        "path": "/assets/preload-helper-DjzSQ1t3.js",
+        "sha256": "66c990b6727d220a346b45d00ee48d433c8d59ef03fbf8b91c6cdadeeadfdf3f"
+      },
+      {
+        "path": "/assets/qr-scanner-worker.min-CJaXo3yu.js",
+        "sha256": "b157457419e0a544694c3b10a6affcb0846da74d89c328178726722ef8f85f67"
+      },
+      {
+        "path": "/assets/ui-refresh-BSj19Qsz.js",
+        "sha256": "bbf15e9055d126ddb093aaf8cd79734284f59ce034cfff546536bd73e7c01c4e"
+      },
+      {
+        "path": "/icons/apple-touch-icon.png",
+        "sha256": "447fcf2be8c0c775aa499b868e7bcd0464345848dbd3275d0793acbaa490211d"
+      },
+      {
+        "path": "/icons/icon-192.png",
+        "sha256": "75641056ecc7e86ff4bf8df639c35c7ef40e96b7ac52b018919b876e19c19d24"
+      },
+      {
+        "path": "/icons/icon-512.png",
+        "sha256": "28230d67a5e24d1ece3f56bc513db744a4c0a3a5a683ab9301ea93babe69930a"
+      },
+      {
+        "path": "/icons/icon-maskable-512.png",
+        "sha256": "28230d67a5e24d1ece3f56bc513db744a4c0a3a5a683ab9301ea93babe69930a"
+      },
+      {
+        "path": "/index.html",
+        "sha256": "054013d081a411a7a28171312bd3a3a398a5ef6ba41d0541b27e42bbff7ed3ee"
+      },
+      {
+        "path": "/manifest.webmanifest",
+        "sha256": "28f91ce6772396b17a24ec392a31f95f3f783a1a1d93ea2ed94e42d67ccff0a7"
+      },
+      {
+        "path": "/offline.html",
+        "sha256": "9a480d80a5932c8b061a2a67f7e9048feabf4792dc04e22c08cdf294ec4e402e"
+      },
+      {
+        "path": "/sw.js",
+        "sha256": "b4931a734340363fa914d0ed4edbe7c7e2421420f12399a6c35e372e3256b8e3"
+      }
+    ]
+  },
+  "edgeComparison": [
+    {
+      "function": "photo-assets",
+      "sha256": "82bd8bdcf6eef9b34880b2514c091007f23b940698cbb802f22726eac9df3376",
+      "exactMatch": true
+    },
+    {
+      "function": "delete-account",
+      "sha256": "aa8dc6800f14e480b19c6e5a35cf3241af934b283a0ba1ef74d2f40dc4a79f71",
+      "exactMatch": true
+    },
+    {
+      "function": "photo-normalize-jpeg",
+      "sha256": "47699a64469bf770dbd81e258a8bfd6d007b7eba8fd99f15dc03f21bc206892d",
+      "exactMatch": true
+    },
+    {
+      "function": "photo-normalize-png",
+      "sha256": "d5abceaa9c8bc7f50c87952a3eb68420574872b90fd7824e5aab034165885038",
+      "exactMatch": true
+    },
+    {
+      "function": "photo-normalize-webp",
+      "sha256": "7995661917fec9d3c8cc0fd9311d9a0ac9545bf3b288310c03bb5881d0339c28",
+      "exactMatch": true
+    }
+  ],
+  "schemaComparison": {
+    "compared": [
+      "functions",
+      "policies",
+      "columns",
+      "rls",
+      "bucket",
+      "migration016"
+    ],
+    "match": true,
+    "migration016Sha256": "41dc5d3983d23027e9e5d231726098cec99daa6d3dc9927ea9a746e496169e22"
+  },
+  "tests": {
+    "pass": 188,
+    "fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "cleanup": "operational Auth/DB/Storage deletion; aggregate report versioned; no deletion migration or private identifiers committed",
+  "excluded": "ignored .local, credentials, sessions, real photos, DB dumps, dist and node_modules",
+  "photo02Started": false,
+  "publicationTransport": "GitHub connector; Git CLI push lacks credentials; fast-forward leased update"
+}
