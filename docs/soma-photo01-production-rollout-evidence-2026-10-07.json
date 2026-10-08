@@ -1,0 +1,170 @@
+{
+  "date": "2026-10-07",
+  "scope": "PHOTO-01 production rollout only",
+  "productionRef": "qlucwdjcjomwyziegxrn",
+  "stagingRef": "zjinjtkekmaqtxsuyvho",
+  "migration": "016_authoritative_photo_uploads.sql",
+  "migrationSHA256": "41dc5d3983d23027e9e5d231726098cec99daa6d3dc9927ea9a746e496169e22",
+  "deploymentId": "dpl_CBB5C8SDuxM92KxkthHHpUrZMcQN",
+  "productionURL": "https://spot-now-alpha.vercel.app/",
+  "immutableURL": "https://spot-5syr8i7ok-fedegrasso1994-1482.vercel.app",
+  "alignment": {
+    "functions": true,
+    "policies": true,
+    "columns": true,
+    "rls": true,
+    "bucket": true,
+    "migration016": true
+  },
+  "photoSmoke": [
+    {
+      "test": "legacy processing disabled / reference unchanged",
+      "pass": true
+    },
+    {
+      "test": "valid JPEG upload / publication / canonical assets",
+      "pass": true
+    },
+    {
+      "test": "valid PNG upload / publication / canonical assets",
+      "pass": true
+    },
+    {
+      "test": "valid WebP upload / publication / canonical assets",
+      "pass": true
+    },
+    {
+      "test": "corrupt file rejects / existing photo preserved",
+      "pass": true
+    },
+    {
+      "test": "retry after error / successful idempotent retry",
+      "pass": true
+    },
+    {
+      "test": "above side/pixel limit rejects",
+      "pass": true
+    },
+    {
+      "test": "existing photo replacement / original retained",
+      "pass": true
+    },
+    {
+      "test": "raw Storage publication denied",
+      "pass": true
+    },
+    {
+      "test": "direct normalizer denied to user",
+      "pass": true
+    },
+    {
+      "test": "service backfill disabled",
+      "pass": true
+    },
+    {
+      "test": "delete-account fixture has new canonical assets",
+      "pass": true
+    }
+  ],
+  "socialSmoke": [
+    {
+      "test": "QR venue preview",
+      "pass": true
+    },
+    {
+      "test": "QR check-in and 90-minute session",
+      "pass": true
+    },
+    {
+      "test": "Ora / LOC-01",
+      "pass": true
+    },
+    {
+      "test": "SEC-01 peer profile RLS",
+      "pass": true
+    },
+    {
+      "test": "private peer photo access",
+      "pass": true
+    },
+    {
+      "test": "Tribe membership and existing offline-only discovery filter",
+      "pass": true
+    },
+    {
+      "test": "Spot and reciprocal Match",
+      "pass": true
+    },
+    {
+      "test": "Chat send/read",
+      "pass": true
+    }
+  ],
+  "expirySmoke": [
+    {
+      "test": "expired synthetic peer excluded from Ora and remains in Tribe",
+      "pass": true
+    },
+    {
+      "test": "QR renewal retains 90 minutes",
+      "pass": true
+    }
+  ],
+  "deleteSmoke": [
+    {
+      "test": "alice account deletion / Auth / Storage / profile cleanup",
+      "pass": true
+    },
+    {
+      "test": "bob account deletion / Auth / Storage / profile cleanup",
+      "pass": true
+    },
+    {
+      "test": "isolated synthetic venue removed",
+      "pass": true
+    }
+  ],
+  "publicArtifacts": {
+    "pass": true,
+    "indexMatchesBuild": true,
+    "assetsChecked": 3,
+    "pwaName": "Soma"
+  },
+  "controls": {
+    "test_venue_remaining": 0,
+    "test_accounts_remaining": 0,
+    "legacy_normalization_jobs": 0,
+    "original_profile_fingerprint": "f8c28fa0e51219bdf382afe7bdfe09f0",
+    "test_photo_registry_remaining": 0
+  },
+  "oversizeTransport": {
+    "bytes": 8388609,
+    "result": "INCONCLUSIVE_TRANSPORT",
+    "attempts": [
+      "Supabase SDK fetch error without HTTP response",
+      "HTTPS explicit request timeout after 60 seconds"
+    ],
+    "safeServer413NotObserved": true
+  },
+  "testSuite": {
+    "pass": 185,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "rollback": {
+    "mode": "pause_new_uploads_preserve_016_and_validated_assets",
+    "artifactSHA256": "b7ba9fcc3ecd881bf596349bc92ae783eccbc7c42d5ef5524f680f304d3be30b",
+    "rehearsal": {
+      "pass": true,
+      "newUploadsPaused": true,
+      "currentReferencePreserved": true,
+      "tribePreserved": true,
+      "rawFallback": false,
+      "stageOnly": true
+    }
+  },
+  "legacyNormalizationEnabled": false,
+  "photo02Started": false,
+  "logs": "No OOM or worker-limit events observed in inspected JPEG/PNG/WebP and upload logs; log inspection is not exhaustive."
+}

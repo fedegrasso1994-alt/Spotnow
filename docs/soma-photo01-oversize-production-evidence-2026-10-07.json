@@ -1,0 +1,201 @@
+{
+  "date": "2026-10-07",
+  "scope": "PHOTO-01 oversize production verification only",
+  "bytes": 8388609,
+  "limit": 8388608,
+  "productionRef": "qlucwdjcjomwyziegxrn",
+  "directEndpoint": "https://qlucwdjcjomwyziegxrn.supabase.co/functions/v1/photo-assets",
+  "probes": {
+    "expect": {
+      "mode": "expect",
+      "length": 8388609,
+      "start": "2026-10-07T18:03:29.388Z",
+      "requestId": "fb6d895a-4d3f-478e-98fc-1babe0261da9",
+      "events": [
+        {
+          "event": "tls-connected",
+          "ms": 240
+        },
+        {
+          "event": "continue",
+          "ms": 345
+        },
+        {
+          "event": "finish",
+          "ms": 16067
+        }
+      ],
+      "error": {
+        "code": "Error",
+        "message": "transport timeout 45s"
+      },
+      "ms": 61077,
+      "sent": 8388609
+    },
+    "length": {
+      "mode": "length",
+      "length": 8388609,
+      "start": "2026-10-07T18:09:54.747Z",
+      "requestId": "e6d9c728-ae41-4fee-9a33-59d6149b2841",
+      "events": [
+        {
+          "event": "tls-connected",
+          "ms": 150
+        },
+        {
+          "event": "finish",
+          "ms": 6010
+        }
+      ],
+      "status": 503,
+      "headers": {
+        "content-length": "0",
+        "cf-ray": "a46edc0f0d880e43-MXP",
+        "server": "cloudflare",
+        "sb-request-id": "01a1178e-dc9f-701b-bff8-cd5c5c0e7a63",
+        "x-served-by": "base/server"
+      },
+      "body": "",
+      "ms": 166236,
+      "sent": 8388609
+    },
+    "chunked": {
+      "mode": "chunked",
+      "length": 8388609,
+      "start": "2026-10-07T18:13:35.178Z",
+      "requestId": "e68c3818-7684-496e-982b-417dc68ec8c5",
+      "events": [
+        {
+          "event": "tls-connected",
+          "ms": 154
+        },
+        {
+          "event": "finish",
+          "ms": 56503
+        }
+      ],
+      "status": 503,
+      "headers": {
+        "content-length": "0",
+        "cf-ray": "a46ee170f89cedd2-MXP",
+        "server": "cloudflare",
+        "sb-request-id": "01a11792-fecf-7bc8-9b3f-e874dc305bb1",
+        "x-served-by": "base/server"
+      },
+      "body": "",
+      "ms": 216867,
+      "sent": 8388609
+    }
+  },
+  "applicationLogs": [
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "e68c3818-7684-496e-982b-417dc68ec8c5",
+      "event": "read_reject",
+      "code": "SIZE",
+      "status": 413
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "e68c3818-7684-496e-982b-417dc68ec8c5",
+      "event": "response_created",
+      "status": 413
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "e68c3818-7684-496e-982b-417dc68ec8c5",
+      "event": "read_start",
+      "declared": "8388609",
+      "max": 8388608
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "e68c3818-7684-496e-982b-417dc68ec8c5",
+      "event": "received"
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "619ab2e8-ba86-4f05-93be-634bb4bca88b",
+      "event": "response_created",
+      "status": 200
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "619ab2e8-ba86-4f05-93be-634bb4bca88b",
+      "event": "read_success",
+      "bytes": 53129
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "619ab2e8-ba86-4f05-93be-634bb4bca88b",
+      "event": "read_start",
+      "declared": "53129",
+      "max": 8388608
+    },
+    {
+      "tag": "PHOTO01_OVERSIZE_DIAG",
+      "nonce": "619ab2e8-ba86-4f05-93be-634bb4bca88b",
+      "event": "received"
+    }
+  ],
+  "observedApplicationReject": {
+    "status": 413,
+    "code": "SIZE",
+    "beforeJobCreation": true,
+    "beforeDecode": true
+  },
+  "applicationErrorBodyBySource": {
+    "code": "SIZE",
+    "error": "Usa una foto fino a 8 MiB."
+  },
+  "applicationErrorBodyObservedOnWire": false,
+  "oversizeStateUnchanged": true,
+  "postTrueChunkedStateUnchanged": true,
+  "retry": {
+    "pass": true,
+    "retryMs": 2266,
+    "validUploadReady": true,
+    "previousProfileUnchanged": true,
+    "objects": 6,
+    "clientOverLimitBlocked": true
+  },
+  "restoredEndpointRetryAndCleanup": {
+    "pass": true,
+    "retryMs": 3475,
+    "profilePublication": true,
+    "cleanup": true
+  },
+  "cleanup": {
+    "test_jobs_remaining": 0,
+    "test_objects_remaining": 0,
+    "test_accounts_remaining": 0,
+    "test_registry_remaining": 0,
+    "real_profile_fingerprint": "f8c28fa0e51219bdf382afe7bdfe09f0",
+    "legacy_normalization_jobs": 0
+  },
+  "productionSourceRestored": true,
+  "restoredSourceSHA256": "82bd8bdcf6eef9b34880b2514c091007f23b940698cbb802f22726eac9df3376",
+  "runtimeSourceChange": false,
+  "limitsChanged": false,
+  "legacyNormalizationEnabled": false,
+  "photo02Started": false,
+  "testSuite": {
+    "pass": 187,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "conclusion": "Data rejection is verified fail-safe and normal app client rejects before sending. Direct oversized HTTP response delivery is not deterministic; app creates 413, observed relay path returns empty 503/reset/timeout. Internal provider subcomponent cannot be distinguished with exposed logs.",
+  "upstreamIssue": "https://github.com/supabase/supabase/issues/39287",
+  "correlatedProviderDetail": {
+    "logId": "59a5c436-14c7-49f5-8e86-9f2cc2d51939",
+    "requestId": "01a11792-fecf-7bc8-9b3f-e874dc305bb1",
+    "sameAsWireSbRequestId": true,
+    "runtime": "supabase-edge-runtime-1.77.0 (compatible with Deno v2.1.4)",
+    "executionId": "ef41a7eb-c8b2-429e-8462-9dfa5541e930",
+    "region": "eu-central-2",
+    "applicationCode": "SIZE",
+    "applicationStatus": 413,
+    "wireStatus": 503
+  }
+}
