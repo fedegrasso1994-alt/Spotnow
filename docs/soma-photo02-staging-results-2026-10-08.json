@@ -1,0 +1,152 @@
+{
+  "date": "2026-10-08",
+  "environment": "staging only",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "production_changed": false,
+  "main_baseline": "d80b113aabd6d304d92e5ff27b3f04147136ec2e",
+  "implementation_source": "3f49b6c64710efa74d0fcc4a7bf9b459d3125254",
+  "automated": {
+    "tests": 213,
+    "pass": 213,
+    "fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "staging_groups": [
+    {
+      "name": "service auth, anon/user denied, dry-run read-only",
+      "result": "PASS",
+      "ms": 3741
+    },
+    {
+      "name": "real JPEG upload/profile publish/three immutable copies/cache60",
+      "result": "PASS",
+      "ms": 5316
+    },
+    {
+      "name": "corrupt upload leaves current intact; valid retry",
+      "result": "PASS",
+      "ms": 2407
+    },
+    {
+      "name": "QR/Ora/Tribe/Spot/match/chat and expiry regression",
+      "result": "PASS",
+      "ms": 1293
+    },
+    {
+      "name": "real Postgres concurrent upload admission",
+      "result": "PASS",
+      "ms": 1191
+    },
+    {
+      "name": "two real replacements serialized; read survives and grace protects old",
+      "result": "PASS",
+      "ms": 4782
+    },
+    {
+      "name": "draft expiry, max2 ready, interrupted purge/token fence, metadata7days",
+      "result": "PASS",
+      "ms": 5596
+    },
+    {
+      "name": "concurrent quota reservation; no unlimited accumulation",
+      "result": "PASS",
+      "ms": 2245
+    },
+    {
+      "name": "unknown write/timeouts/late Storage write/upload+delete barrier",
+      "result": "PASS",
+      "ms": 5701
+    },
+    {
+      "name": "active writer cannot reconcile; fenced no-intent recovery",
+      "result": "PASS",
+      "ms": 3408
+    },
+    {
+      "name": "real partial terminal failure/retry after intermediate Storage error",
+      "result": "PASS",
+      "ms": 2872
+    },
+    {
+      "name": "collector execute twice, missing/untracked anomalies without unsafe delete",
+      "result": "PASS",
+      "ms": 6796
+    },
+    {
+      "name": "account delete recursively removes copies/refs, queue complete, no residuals",
+      "result": "PASS",
+      "ms": 8205
+    },
+    {
+      "name": "pre-existing staging current profiles unaffected",
+      "result": "PASS",
+      "ms": 725
+    }
+  ],
+  "recovery": {
+    "missingReplay": "PASS",
+    "recursiveObjects": 110,
+    "lostAuthResponse": "PASS",
+    "queueRetryWithoutUserJWT": "PASS",
+    "doubleCleanup": "PASS",
+    "residualObjects": 0
+  },
+  "scheduler": {
+    "actual_http_status": 200,
+    "purged_retired": "PASS",
+    "current_protected": "PASS",
+    "pause_resume": "PASS",
+    "final_active": false
+  },
+  "fixtures": {
+    "owners": 13,
+    "remaining_auth_users": 0,
+    "remaining_storage_objects": 0,
+    "unfinished_sets": 0,
+    "completed_account_queue": 13,
+    "temporary_controls_removed": true
+  },
+  "final_health": {
+    "baselineProfilesPreserved": 3,
+    "collector": {
+      "completed": 0,
+      "reconciled": 0,
+      "pending": 3,
+      "failed": 0,
+      "metadata_removed": 0,
+      "anomalies": {
+        "missing": 0,
+        "untracked": 1
+      }
+    }
+  },
+  "limits": {
+    "grace_seconds": 300,
+    "draft_seconds": 86400,
+    "quota_bytes": 134217728,
+    "ready_drafts": 2,
+    "http_cache_seconds": 60,
+    "metadata_days": 7
+  },
+  "not_measured": [
+    "Cloud collector peak RSS",
+    "Large-scale load and latency benchmark",
+    "Physical Android/iPhone browser testing in this task"
+  ],
+  "gate": "NO-GO immediate production; see staging report",
+  "artifact_hashes_generated_final": {
+    "photo-assets": "1140766652bdc3434eb0840e396e4440635176bb0731d38dfcfbe35f6840a65f",
+    "delete-account": "da05f393c5a1d9adb44c4ca27a95ce29e4dcadb8162194ce3e39d6c565e287dd",
+    "photo-lifecycle": "f52ae67f4f6f2779b2e5a7f0a97219fb3e46b4a8d4fac69f5939b1dc8ea98495",
+    "photo-normalize-jpeg": "47699a64469bf770dbd81e258a8bfd6d007b7eba8fd99f15dc03f21bc206892d",
+    "photo-normalize-png": "d5abceaa9c8bc7f50c87952a3eb68420574872b90fd7824e5aab034165885038",
+    "photo-normalize-webp": "7995661917fec9d3c8cc0fd9311d9a0ac9545bf3b288310c03bb5881d0339c28"
+  },
+  "deployed_source_commits": {
+    "photo-assets": "e7d698b70e08173452b94ce67c2b5457f137d104",
+    "delete-account": "e7d698b70e08173452b94ce67c2b5457f137d104",
+    "photo-lifecycle": "3f49b6c64710efa74d0fcc4a7bf9b459d3125254",
+    "migration_017": "fac9287e6b78150f50d0e8cc29726705924c1597"
+  }
+}
