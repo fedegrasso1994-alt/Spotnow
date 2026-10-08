@@ -14,7 +14,7 @@ test('SEC-01 SELF: own full profile, first INSERT and UPSERT RETURNING keep pref
  assert.equal((await db.query('select * from public.profiles where id=$1',[a])).rows[0].preference,'ALL');
  const upsert=(await db.query(`insert into public.profiles(id,name,age,gender,preference,photo_path) values($1,'Anna',24,'F','M',$2) on conflict(id) do update set preference=excluded.preference returning *`,[a,`${a}/a.png`])).rows[0];assert.equal(upsert.preference,'M');
  await db.query("update public.profiles set preference='F' where id=$1 returning *",[a]);assert.equal((await db.query('select preference from public.profiles')).rows[0].preference,'F');
- const d='10000000-0000-0000-0000-000000000004';await admin(db);await db.query('insert into auth.users(id) values($1)',[d]);await db.query("insert into storage.objects(bucket_id,name) values('profile-photos',$1)",[`${d}/d.png`]);await asUser(db,d);
+ const d='10000000-0000-0000-0000-000000000004';await admin(db);await db.query('insert into auth.users(id) values($1)',[d]);await db.query("insert into spot_private.validated_photos(photo_path,user_id,preview,canonical_sha,canonical_bytes,source_format,source_width,source_height) values($1,$2,'data:image/jpeg;base64,YQ==',repeat('a',64),1,'JPEG',1,1)",[d+'/d.png',d]);await db.query("insert into storage.objects(bucket_id,name) values('profile-photos',$1)",[`${d}/d.png`]);await asUser(db,d);
  const inserted=(await db.query(`insert into public.profiles(id,name,age,gender,preference,photo_path) values($1,'Demo',22,'M','ALL',$2) returning *`,[d,`${d}/d.png`])).rows[0];assert.equal(inserted.preference,'ALL');
 });
 
@@ -54,7 +54,7 @@ test('SEC-01 discovery: all M/F/ALL filters remain server-side in Ora and Tribe;
 test('SEC-01 compatibility: Spot, Match, Chat, private photo APIs, Report and Block expose no preference',async t=>{
  const db=await database();t.after(()=>db.close());await seed(db);
  const path=`${b}/b.png`,preview='data:image/jpeg;base64,YQ==';
- await asUser(db,b);await db.query('select public.check_in($1)',[q]);await db.query('select public.save_my_photo_preview($1,$2)',[path,preview]);
+ await asUser(db,b);await db.query('select public.check_in($1)',[q]);await assert.rejects(db.query('select public.save_my_photo_preview($1,$2)',[path,preview]));
  await asUser(db,a);await db.query('select public.check_in($1)',[q]);assert.equal((await db.query('select name from storage.objects where name=$1',[path])).rows.length,1);
  const photo=(await db.query('select * from public.photo_asset_status($1)',[path])).rows;assert.equal(photo.length,1);noPrivateFields(photo);
  await db.query('select public.send_spot($1,$2)',[b,v]);await asUser(db,b);const match=(await db.query('select public.send_spot($1,$2) as id',[a,v])).rows[0].id;assert.ok(match);

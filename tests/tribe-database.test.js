@@ -17,6 +17,7 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  const a='10000000-0000-0000-0000-000000000001',b='10000000-0000-0000-0000-000000000002',c='10000000-0000-0000-0000-000000000003';
  const v='20000000-0000-0000-0000-000000000001',w='20000000-0000-0000-0000-000000000002',q='30000000-0000-0000-0000-000000000001',r='30000000-0000-0000-0000-000000000002';
  await db.exec(`insert into auth.users values('${a}',false),('${b}',false),('${c}',true);
+ insert into spot_private.validated_photos(photo_path,user_id,preview,canonical_sha,canonical_bytes,source_format,source_width,source_height) values('${a}/a.png','${a}','data:image/jpeg;base64,YQ==',repeat('a',64),1,'PNG',1,1),('${b}/b.png','${b}','data:image/jpeg;base64,YQ==',repeat('a',64),1,'PNG',1,1),('${c}/c.png','${c}','data:image/jpeg;base64,YQ==',repeat('a',64),1,'PNG',1,1);
  insert into public.profiles values('${a}','Anna',24,'F','ALL','${a}/a.png',now()),('${b}','Luca',26,'M','ALL','${b}/b.png',now()),('${c}','Anon',25,'M','ALL','${c}/c.png',now());
  insert into public.venues(id,name,address) values('${v}','Gym','Test'),('${w}','Campus','Test');insert into spot_private.venue_codes values('${v}','${q}'),('${w}','${r}');`);
  const asUser=async id=>db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);`);

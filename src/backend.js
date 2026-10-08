@@ -1,4 +1,5 @@
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
+import {createPhotoUpload} from './photo-upload.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
@@ -55,20 +56,14 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
       const id=await userId();
       return unwrap(await client.from('profiles').select('*').eq('id',id).maybeSingle());
     },
-    async uploadPhoto(file,variants=null) {
-      const extensions={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
-      if(!extensions[file.type]||file.size>8*1024*1024||!file.size)throw new Error('Usa una foto JPG, PNG o WebP fino a 8 MB.');
-      const id=await userId(),path=`${id}/${crypto.randomUUID()}.${extensions[file.type]}`;
-      const uploads=[client.storage.from('profile-photos').upload(path,file,{contentType:file.type,upsert:false})];if(variants?.thumbnail)uploads.push(client.storage.from('profile-photos').upload(path+'.thumb.jpg',variants.thumbnail,{contentType:'image/jpeg',upsert:false}));if(variants?.detail)uploads.push(client.storage.from('profile-photos').upload(path+'.detail.jpg',variants.detail,{contentType:'image/jpeg',upsert:false}));for(const result of await Promise.all(uploads))unwrap(result);
-      return path;
-    },
+    uploadPhoto:createPhotoUpload(client,userId),
     async saveProfile(profile) {
       if(!validProfile(profile)||profile.age>120||profile.name.trim().length>60)throw new Error('Completa il profilo con una foto e dati validi.');
       const id=await userId();
       if(!profile.photo.startsWith(`${id}/`))throw new Error('Carica la foto prima di salvare.');
       const saved=unwrap(await client.from('profiles').upsert({id,name:profile.name.trim(),age:profile.age,
         gender:profile.gender,preference:profile.preference,occupation:(profile.occupation||'').trim(),photo_path:profile.photo,updated_at:new Date().toISOString()}).select().single());
-      if(profile.photoPreview)unwrap(await client.rpc('save_my_photo_preview',{path:profile.photo,preview_text:profile.photoPreview}));return saved;
+      return saved;
     },
     async ownCheckIn(){return unwrap(await client.from('checkins').select('*').eq('user_id',await userId()).maybeSingle());},
     async getVenue(id){return unwrap(await client.from('venues').select('id,name,address').eq('id',id).single());},

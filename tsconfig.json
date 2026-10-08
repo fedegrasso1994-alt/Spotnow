@@ -32,6 +32,14 @@
     "src/avatar.js",
     "src/photo-memory.js",
     "src/viewport.js",
-    "src/detail-photo.js"
+    "src/detail-photo.js",
+    "src/photo-contract.js",
+    "src/photo-upload.js",
+    "supabase/functions/_shared/*.js",
+    "supabase/functions/photo-assets/index.ts",
+    "supabase/functions/photo-normalize-jpeg/index.ts",
+    "supabase/functions/photo-normalize-png/index.ts",
+    "supabase/functions/photo-normalize-webp/index.ts",
+    "types/photo-codecs.d.ts"
   ]
 }

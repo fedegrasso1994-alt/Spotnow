@@ -1,5 +1,7 @@
+import {PhotoError} from './photo-contract.js';
 /** User-facing errors never expose SQL, credentials or raw provider internals. */
 export function userMessage(error) {
+  if(error instanceof PhotoError)return error.message;
   const text=String(error?.message||'');
   if(error?.code==='PGRST205'||error?.code==='PGRST202')return 'Questa funzione è in aggiornamento. Riprova tra poco.';
   if(/rate limit|limit reached|too many/i.test(text))return 'Troppe richieste. Attendi qualche minuto e riprova.';

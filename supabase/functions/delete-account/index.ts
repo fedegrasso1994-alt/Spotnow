@@ -17,6 +17,10 @@ Deno.serve(async request=>{
  if(body?.confirm!==true)return reply({error:'Conferma richiesta'},400);
  const started=await admin.rpc('begin_account_deletion',{target_user:id});
  if(started.error)return reply({error:'Cancellazione non avviata. Riprova.'},500);
+ // Quiesce photo jobs before purging UID objects; a lease outlives bounded uploads.
+ const barrier=await admin.rpc('photo_deletion_barrier',{target_user:id});
+ if(barrier.error)return reply({error:'Cancellazione non avviata. Riprova.'},503);
+ if(barrier.data===true)return reply({error:'Preparazione foto ancora in corso. Attendi un minuto e riprova.'},409);
  // Never accept a user id from the request. Remove only the authenticated user's files.
  let previousPage='';
  while(true){

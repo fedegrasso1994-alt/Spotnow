@@ -37,6 +37,7 @@ test('over 1,000 profiles remain reachable through deterministic pages without d
  const db=await database();try{
  await seed(db);const {a,v,q}=ids;await asUser(db,a);await db.query(`select public.check_in('${q}')`);await admin(db);
  await db.exec(`insert into auth.users select ('60000000-0000-0000-0000-'||lpad(n::text,12,'0'))::uuid,false from generate_series(1,1200) n;
+ insert into spot_private.validated_photos(photo_path,user_id,preview,canonical_sha,canonical_bytes,source_format,source_width,source_height) select id::text||'/photo',id,'data:image/jpeg;base64,YQ==',repeat('a',64),1,'JPEG',1,1 from auth.users where id::text like '60000000%';
  insert into public.profiles(id,name,age,gender,preference,photo_path) select id,'Stesso nome',25,'F','ALL',id::text||'/photo' from auth.users where id::text like '60000000%';
  insert into spot_private.tribe_memberships select id,'${v}',now() from public.profiles where id::text like '60000000%';`);await asUser(db,a);
  const found=[];for(let offset=0;offset<1200;offset+=48){const page=(await db.query(`select * from public.location_people_page('${v}',false,49,${offset})`)).rows;assert.equal(Number(page[0].total_count),1200);found.push(...page.slice(0,48).map(p=>p.id));}assert.equal(found.length,1200);assert.equal(new Set(found).size,1200);

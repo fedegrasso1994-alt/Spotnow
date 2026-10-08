@@ -24,5 +24,5 @@ test('profile validates age, name, preference and an already uploaded photo inde
 
 test('image upload rejects an HTML file renamed to JPEG',async()=>{
  const {validatePhoto}=await import('../src/photo.js');const renamed=new Blob(['<html><script>bad</script>'],{type:'image/jpeg'});await assert.rejects(validatePhoto(renamed),/foto JPG/);
- const valid=new Blob([new Uint8Array([255,216,255,224,0,16])],{type:'image/jpeg'});assert.equal(await validatePhoto(valid),valid);
+ const {default:jpeg}=await import('jpeg-js');const valid=new Blob([jpeg.encode({width:2,height:2,data:new Uint8Array(16).fill(255)},80).data],{type:'image/jpeg'});assert.equal(await validatePhoto(valid),valid);await assert.rejects(validatePhoto(new Blob([new Uint8Array([255,216,255,224,0,16])],{type:'image/jpeg'})));
 });

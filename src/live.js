@@ -1,7 +1,5 @@
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
-import { photoVariants } from './photo-variants.js';
-import { optimizePhoto } from './optimize-photo.js';
 import { userMessage } from './errors.js';
 import { createNavigation } from './navigation.js';
 import { createPager } from './pagination.js';
@@ -175,9 +173,9 @@ async function trySaveProfile() {
   try {
     // Preserve the uploaded path on retries, so a transient DB error does not upload twice.
     const draft={...state.profile},file=state.photoFile;
-    if(file){const optimized=await optimizePhoto(file);if(generation!==accountGeneration)return;const variants=await photoVariants(optimized);if(generation!==accountGeneration||selection!==photoSelection)return;const path=await backend.uploadPhoto(optimized,variants);draft.photoPreview=variants?.preview;if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPreview=draft.photoPreview;state.profile.photoPath=path;state.photoFile=null;}
+    if(file){const path=await backend.uploadPhoto(file);if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPath=path;state.photoFile=null;}
     await backend.saveProfile({...draft,photo:draft.photoPath});
-    if(generation===accountGeneration&&backend.ensurePhotoAssets)void backend.ensurePhotoAssets(draft.photoPath).catch(()=>{});
+    if(generation===accountGeneration&&!file&&backend.ensurePhotoAssets)await backend.ensurePhotoAssets(draft.photoPath).catch(()=>{});
     if(generation!==accountGeneration)return;
     await hydrate();
   }catch(error){if(generation===accountGeneration)showToast(message(error));}

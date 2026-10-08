@@ -1,0 +1,709 @@
+{
+  "project": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "production_changed": false,
+  "tests": {
+    "total": 184,
+    "pass": 184,
+    "fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "native_initial": [
+    {
+      "kind": "jpeg",
+      "file": "jpeg-12mp.jpg",
+      "status": 200,
+      "client_ms": 3617,
+      "elapsed_ms": 347,
+      "source": {
+        "format": "JPEG",
+        "width": 4000,
+        "height": 3000
+      },
+      "detail_bytes": 488290
+    },
+    {
+      "kind": "jpeg",
+      "file": "jpeg-progressive-12mp.jpg",
+      "status": 422,
+      "client_ms": 1915,
+      "code": "TIME",
+      "error": "Questa foto richiede troppo tempo per essere preparata. Scegli una versione pi\u00f9 piccola.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "jpeg",
+      "file": "jpeg-noise-progressive-12mp.jpg",
+      "status": 200,
+      "client_ms": 23488,
+      "elapsed_ms": 1163,
+      "source": {
+        "format": "JPEG",
+        "width": 4000,
+        "height": 3000
+      },
+      "detail_bytes": 425993
+    },
+    {
+      "kind": "jpeg",
+      "file": "jpeg-12mp-8mib.jpg",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "kind": "jpeg",
+      "file": "jpeg-24mp.jpg",
+      "status": 422,
+      "client_ms": 9575,
+      "code": "PIXELS",
+      "error": "La foto \u00e8 troppo grande: JPG/PNG fino a 12 MP, WebP fino a 6 MP e lato massimo 8192 px.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "png",
+      "file": "png-12mp-8.png",
+      "status": 200,
+      "client_ms": 3346,
+      "elapsed_ms": 448,
+      "source": {
+        "format": "PNG",
+        "width": 4000,
+        "height": 3000
+      },
+      "detail_bytes": 517294
+    },
+    {
+      "kind": "png",
+      "file": "png-rgba-12mp-8.png",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "kind": "png",
+      "file": "png-24mp-8.png",
+      "status": 422,
+      "client_ms": 1669,
+      "code": "PIXELS",
+      "error": "La foto \u00e8 troppo grande: JPG/PNG fino a 12 MP, WebP fino a 6 MP e lato massimo 8192 px.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "png",
+      "file": "png-24mp-16.png",
+      "status": 422,
+      "client_ms": 25071,
+      "code": "PIXELS",
+      "error": "La foto \u00e8 troppo grande: JPG/PNG fino a 12 MP, WebP fino a 6 MP e lato massimo 8192 px.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "png",
+      "file": "pathological.png",
+      "status": 422,
+      "client_ms": 709,
+      "code": "INVALID",
+      "error": "Questa foto \u00e8 danneggiata o non supportata. Scegli un\u2019altra immagine.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "png",
+      "file": "corrupt.png",
+      "status": 422,
+      "client_ms": 253,
+      "code": "INVALID",
+      "error": "Questa foto \u00e8 danneggiata o non supportata. Scegli un\u2019altra immagine.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "png",
+      "file": "png-12mp-8-8mib.png",
+      "status": 200,
+      "client_ms": 15337,
+      "elapsed_ms": 670,
+      "source": {
+        "format": "PNG",
+        "width": 4000,
+        "height": 3000
+      },
+      "detail_bytes": 517294
+    },
+    {
+      "kind": "png",
+      "file": "metadata-small-bomb.png",
+      "status": 200,
+      "client_ms": 1956,
+      "elapsed_ms": 462,
+      "source": {
+        "format": "PNG",
+        "width": 4000,
+        "height": 3000
+      },
+      "detail_bytes": 517294
+    },
+    {
+      "kind": "webp",
+      "file": "webp-6mp.webp",
+      "status": 200,
+      "client_ms": 2398,
+      "elapsed_ms": 323,
+      "source": {
+        "format": "WebP",
+        "width": 3000,
+        "height": 2000
+      },
+      "detail_bytes": 215723
+    },
+    {
+      "kind": "webp",
+      "file": "webp-lossless-6mp.webp",
+      "status": 200,
+      "client_ms": 4777,
+      "elapsed_ms": 319,
+      "source": {
+        "format": "WebP",
+        "width": 3000,
+        "height": 2000
+      },
+      "detail_bytes": 305504
+    },
+    {
+      "kind": "webp",
+      "file": "webp-12mp.webp",
+      "status": 422,
+      "client_ms": 615,
+      "code": "PIXELS",
+      "error": "La foto \u00e8 troppo grande: JPG/PNG fino a 12 MP, WebP fino a 6 MP e lato massimo 8192 px.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "webp",
+      "file": "webp-24mp.webp",
+      "status": 422,
+      "client_ms": 739,
+      "code": "PIXELS",
+      "error": "La foto \u00e8 troppo grande: JPG/PNG fino a 12 MP, WebP fino a 6 MP e lato massimo 8192 px.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "webp",
+      "file": "animated.webp",
+      "status": 422,
+      "client_ms": 345,
+      "code": "ANIMATED",
+      "error": "Le immagini animate non sono supportate. Scegli una foto statica.",
+      "detail_bytes": null
+    }
+  ],
+  "native_retry": [
+    {
+      "kind": "jpeg",
+      "file": "jpeg-progressive-12mp.jpg",
+      "status": 422,
+      "client_ms": 2584,
+      "code": "TIME",
+      "error": "Questa foto richiede troppo tempo per essere preparata. Scegli una versione pi\u00f9 piccola.",
+      "detail_bytes": null
+    },
+    {
+      "kind": "jpeg",
+      "file": "jpeg-12mp-8mib.jpg",
+      "status": 0,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "kind": "png",
+      "file": "png-rgba-12mp-8.png",
+      "status": 0,
+      "error": "fetch failed"
+    }
+  ],
+  "transport_alternative": [
+    {
+      "kind": "jpeg",
+      "file": "jpeg-12mp-8mib.jpg",
+      "exit": 0,
+      "http": "200 36.121785",
+      "stderr": "",
+      "elapsed_ms": 351,
+      "detail_bytes": 488290
+    },
+    {
+      "kind": "png",
+      "file": "png-rgba-12mp-8.png",
+      "exit": 0,
+      "http": "200 16.904214",
+      "stderr": "",
+      "elapsed_ms": 561,
+      "detail_bytes": 300873
+    }
+  ],
+  "reuse": [
+    {
+      "kind": "JPEG",
+      "status": 200,
+      "reuse": [
+        {
+          "name": "valid",
+          "status": "PASS",
+          "linear": 1179648,
+          "before": {
+            "rss": 0,
+            "heapTotal": 11837440,
+            "heapUsed": 10281096,
+            "external": 11619613
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24255296,
+            "external": 12694779
+          }
+        },
+        {
+          "name": "corrupt",
+          "status": "REJECT SAFE",
+          "code": "INVALID",
+          "linear": 1179648,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24255968,
+            "external": 12694779
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24262608,
+            "external": 12694779
+          }
+        },
+        {
+          "name": "valid-after-failure",
+          "status": "PASS",
+          "linear": 1179648,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24263128,
+            "external": 12694779
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41476096,
+            "heapUsed": 38985784,
+            "external": 12704500
+          }
+        },
+        {
+          "name": "invalid",
+          "status": "REJECT SAFE",
+          "code": "FORMAT",
+          "linear": 1179648,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41476096,
+            "heapUsed": 38764936,
+            "external": 12704500
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41476096,
+            "heapUsed": 38766952,
+            "external": 12704500
+          }
+        },
+        {
+          "name": "valid-again",
+          "status": "PASS",
+          "linear": 1179648,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41476096,
+            "heapUsed": 38767472,
+            "external": 12704500
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 40689664,
+            "heapUsed": 37985120,
+            "external": 12696116
+          }
+        }
+      ]
+    },
+    {
+      "kind": "PNG",
+      "status": 200,
+      "reuse": [
+        {
+          "name": "valid",
+          "status": "PASS",
+          "linear": 0,
+          "before": {
+            "rss": 0,
+            "heapTotal": 11837440,
+            "heapUsed": 9557048,
+            "external": 11619613
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27312128,
+            "heapUsed": 24041976,
+            "external": 11646704
+          }
+        },
+        {
+          "name": "corrupt",
+          "status": "REJECT SAFE",
+          "code": "INVALID",
+          "linear": 0,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27312128,
+            "heapUsed": 24042648,
+            "external": 11646704
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27312128,
+            "heapUsed": 24062536,
+            "external": 11646704
+          }
+        },
+        {
+          "name": "valid-after-failure",
+          "status": "PASS",
+          "linear": 0,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27312128,
+            "heapUsed": 24063056,
+            "external": 11646704
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38936824,
+            "external": 11574313
+          }
+        },
+        {
+          "name": "invalid",
+          "status": "REJECT SAFE",
+          "code": "FORMAT",
+          "linear": 0,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38937344,
+            "external": 11574313
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 39200872,
+            "external": 11574313
+          }
+        },
+        {
+          "name": "valid-again",
+          "status": "PASS",
+          "linear": 0,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38948008,
+            "external": 11574313
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 55115776,
+            "heapUsed": 53296528,
+            "external": 11666275
+          }
+        }
+      ]
+    },
+    {
+      "kind": "WebP",
+      "status": 200,
+      "reuse": [
+        {
+          "name": "valid",
+          "status": "PASS",
+          "linear": 16777216,
+          "before": {
+            "rss": 0,
+            "heapTotal": 11837440,
+            "heapUsed": 9540336,
+            "external": 11619613
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24477288,
+            "external": 28447597
+          }
+        },
+        {
+          "name": "corrupt",
+          "status": "REJECT SAFE",
+          "code": "INVALID",
+          "linear": 16777216,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24477960,
+            "external": 28447597
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24484272,
+            "external": 28447597
+          }
+        },
+        {
+          "name": "valid-after-failure",
+          "status": "PASS",
+          "linear": 16777216,
+          "before": {
+            "rss": 0,
+            "heapTotal": 27049984,
+            "heapUsed": 24484792,
+            "external": 28447597
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38736096,
+            "external": 28310910
+          }
+        },
+        {
+          "name": "invalid",
+          "status": "REJECT SAFE",
+          "code": "FORMAT",
+          "linear": 16777216,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38736616,
+            "external": 28310910
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38747672,
+            "external": 28310910
+          }
+        },
+        {
+          "name": "valid-again",
+          "status": "PASS",
+          "linear": 16777216,
+          "before": {
+            "rss": 0,
+            "heapTotal": 41213952,
+            "heapUsed": 38748192,
+            "external": 28310910
+          },
+          "after": {
+            "rss": 0,
+            "heapTotal": 54591488,
+            "heapUsed": 52696560,
+            "external": 28336840
+          }
+        }
+      ]
+    }
+  ],
+  "e2e": [
+    {
+      "step": "upload",
+      "status": 200,
+      "ms": 3955,
+      "ready": true
+    },
+    {
+      "step": "pre-profile-authorized",
+      "pass": true
+    },
+    {
+      "step": "upload",
+      "status": 200,
+      "ms": 3101,
+      "ready": true
+    },
+    {
+      "step": "idempotent-retry",
+      "pass": true
+    },
+    {
+      "step": "publish-profile",
+      "pass": true
+    },
+    {
+      "step": "server-assets",
+      "pass": true
+    },
+    {
+      "step": "canonical-object",
+      "variant": "canonical",
+      "bytes": 53113,
+      "jpeg": true
+    },
+    {
+      "step": "canonical-object",
+      "variant": ".detail.jpg",
+      "bytes": 53113,
+      "jpeg": true
+    },
+    {
+      "step": "canonical-object",
+      "variant": ".thumb.jpg",
+      "bytes": 5338,
+      "jpeg": true
+    },
+    {
+      "step": "direct-raw-denied",
+      "pass": true
+    },
+    {
+      "step": "forged-profile-denied",
+      "pass": true
+    },
+    {
+      "step": "service-only-denied",
+      "pass": true
+    },
+    {
+      "step": "upload",
+      "status": 422,
+      "ms": 2395,
+      "code": "INVALID",
+      "error": "Questa foto \u00e8 danneggiata o non supportata. Scegli un\u2019altra immagine."
+    },
+    {
+      "step": "failed-photo-preserves-profile",
+      "pass": true
+    },
+    {
+      "step": "legacy-normalization",
+      "label": "alice",
+      "status": 200,
+      "ready": true,
+      "published": true
+    },
+    {
+      "step": "legacy-original-retained",
+      "label": "alice",
+      "pass": true
+    },
+    {
+      "step": "legacy-normalization",
+      "label": "bob",
+      "status": 200,
+      "ready": true,
+      "published": true
+    },
+    {
+      "step": "legacy-original-retained",
+      "label": "bob",
+      "pass": true
+    }
+  ],
+  "frontend_adapter": [
+    {
+      "type": "image/jpeg",
+      "published": true,
+      "serverAssets": true
+    },
+    {
+      "type": "image/png",
+      "published": true,
+      "serverAssets": true
+    },
+    {
+      "type": "image/webp",
+      "published": true,
+      "serverAssets": true
+    }
+  ],
+  "concurrency_deletion_barrier": [
+    {
+      "step": "synthetic-onboarding",
+      "pass": true
+    },
+    {
+      "step": "concurrent-upload",
+      "statuses": [
+        409,
+        200
+      ],
+      "codes": [
+        "BUSY",
+        "OK"
+      ]
+    },
+    {
+      "step": "pathological-safe",
+      "status": 422,
+      "code": "INVALID"
+    },
+    {
+      "step": "deletion-in-flight-barrier",
+      "pass": true
+    }
+  ],
+  "deletion": {
+    "deleted": true,
+    "objectsRemaining": 0,
+    "authUserRemoved": true,
+    "stageOnly": true
+  },
+  "journeys": {
+    "project": "https://zjinjtkekmaqtxsuyvho.supabase.co",
+    "passed": [
+      "two synthetic venues",
+      "SEC-01 peer direct profile read denied",
+      "QR check-in and own 90-minute timestamps",
+      "Ora discovery with LOC-01 null peer timestamps and HD photo",
+      "peer HD signed photo download",
+      "Tribe membership",
+      "reciprocal Spot and Match",
+      "Chat send and peer read",
+      "peer raw presence inaccessible"
+    ],
+    "at": "2026-10-07T16:13:01.393Z"
+  },
+  "artifacts_sha256": {
+    "delete-account.ts": "aa8dc6800f14e480b19c6e5a35cf3241af934b283a0ba1ef74d2f40dc4a79f71",
+    "photo01-verification.ts": "cc6d506a8a583bfe2b1b668ffbd67e82ec39fdec93946b76c1691321e86a94e8",
+    "photo-normalize-png.ts": "d5abceaa9c8bc7f50c87952a3eb68420574872b90fd7824e5aab034165885038",
+    "photo-normalize-jpeg.ts": "47699a64469bf770dbd81e258a8bfd6d007b7eba8fd99f15dc03f21bc206892d",
+    "photo-assets.ts": "ea2272387af453d5ef67c4d8c9c33e3445487d5506d5eb176e8e15913bffa1a0",
+    "photo-normalize-webp.ts": "7995661917fec9d3c8cc0fd9311d9a0ac9545bf3b288310c03bb5881d0339c28"
+  },
+  "adversarial_final": [
+    {
+      "kind": "jpeg",
+      "label": "false SOF geometry",
+      "status": 422,
+      "code": "INVALID"
+    },
+    {
+      "kind": "webp",
+      "label": "false canvas geometry",
+      "status": 422,
+      "code": "INVALID"
+    },
+    {
+      "kind": "png",
+      "label": "12MP 16-bit",
+      "status": 422,
+      "code": "DEPTH"
+    }
+  ]
+}

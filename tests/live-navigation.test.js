@@ -159,8 +159,8 @@ test('the first visible photos render before a slower remaining batch finishes',
 });
 
 
-test('account change during photo variant generation cannot upload the former account photo',async()=>{
- const wait=deferred();let uploads=0;const ui=await boot({uploadPhoto:async()=>{uploads++;return 'me/new';}},false,undefined,{photoVariants:()=>wait.promise});ui.window.editProfile();await ui.window.handlePhoto({target:{files:[{type:'image/jpeg',size:100}]}});const saving=ui.window.trySaveProfile();await flush();ui.callback('SIGNED_OUT',null);wait.resolve(null);await saving;assert.equal(uploads,0);assert.equal(ui.document.querySelector('.screen.active').id,'intro');
+test('account change during server photo processing cannot publish into the new session',async()=>{
+ const wait=deferred();let uploads=0,saves=0;const ui=await boot({uploadPhoto:async()=>{uploads++;return wait.promise;},saveProfile:async()=>saves++});ui.window.editProfile();await ui.window.handlePhoto({target:{files:[{type:'image/jpeg',size:100}]}});const saving=ui.window.trySaveProfile();await flush();ui.callback('SIGNED_OUT',null);wait.resolve('me/new');await saving;assert.equal(uploads,1);assert.equal(saves,0);assert.equal(ui.document.querySelector('.screen.active').id,'intro');
 });
 
 
