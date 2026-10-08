@@ -1,0 +1,517 @@
+{
+  "date": "2026-10-08",
+  "scope": "read-only production legacy-photo dry-run",
+  "summary": {
+    "currentLegacy": 10,
+    "inputCompatible": 7,
+    "normalizable": 7,
+    "failed": 3,
+    "active": 5,
+    "alreadyCanonicalShape": 1,
+    "additionalOriginalCandidates": 2,
+    "additionalOriginalNormalizable": 2,
+    "missingCurrentObjects": 0,
+    "totalStorageObjects": 22,
+    "unreferencedObjects": 2,
+    "ownerlessObjects": 0,
+    "staleAssets": 0,
+    "currentAssetsMissingVariants": 0,
+    "eligibleAutomaticallyNormalizable": 2,
+    "eligibleFailures": 3,
+    "policyIneligible": 5,
+    "authoritativelyValidatedCurrent": 0,
+    "failureCategories": {
+      "MPF_MULTIPICTURE": 3,
+      "additional_PIXEL_LIMIT": 2
+    },
+    "metadata-bearingCurrentExcludingAPP0": 7
+  },
+  "eligibility": {
+    "deleting_current_legacy": 0,
+    "anonymous_current_legacy": 5,
+    "suspended_current_legacy": 0
+  },
+  "photos": [
+    {
+      "label": "L001",
+      "current": true,
+      "active": false,
+      "objectPresent": true,
+      "size": 1676,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "PNG",
+        "width": 200,
+        "height": 200,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [],
+        "colorType": 2,
+        "interlaced": false,
+        "pixels": 40000
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 2627,
+      "output": {
+        "width": 200,
+        "height": 200,
+        "bytes": 5510,
+        "thumbnailBytes": 4798,
+        "previewBytes": 2156,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L002",
+      "current": true,
+      "active": false,
+      "objectPresent": true,
+      "size": 73194,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "JPEG",
+        "width": 738,
+        "height": 1600,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [
+          "APP0"
+        ],
+        "progressive": true,
+        "pixels": 1180800
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 936,
+      "output": {
+        "width": 738,
+        "height": 1600,
+        "bytes": 119598,
+        "thumbnailBytes": 19161,
+        "previewBytes": 2287,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": true,
+      "ruleViolations": []
+    },
+    {
+      "label": "L003",
+      "current": true,
+      "active": true,
+      "objectPresent": true,
+      "size": 3744352,
+      "headerCompatible": false,
+      "normalizable": false,
+      "header": {
+        "format": "JPEG",
+        "width": 4284,
+        "height": 5712,
+        "precision": 8,
+        "channels": 3,
+        "animation": null,
+        "metadata": [
+          "APP0",
+          "EXIF",
+          "MPF",
+          "APP2",
+          "ICC",
+          "APP10"
+        ],
+        "progressive": false,
+        "pixels": 24470208,
+        "animationNote": "MPF/multipicture marker; temporal animation not established"
+      },
+      "failure": "ANIMATED",
+      "status": 422,
+      "ruleViolations": [
+        "MPF_MULTIPICTURE",
+        "PIXEL_LIMIT"
+      ]
+    },
+    {
+      "label": "L004",
+      "current": true,
+      "active": false,
+      "objectPresent": true,
+      "size": 1727,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "PNG",
+        "width": 200,
+        "height": 200,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [],
+        "colorType": 2,
+        "interlaced": false,
+        "pixels": 40000
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 575,
+      "output": {
+        "width": 200,
+        "height": 200,
+        "bytes": 5580,
+        "thumbnailBytes": 4774,
+        "previewBytes": 2172,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L005",
+      "current": true,
+      "active": true,
+      "objectPresent": true,
+      "size": 333658,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "JPEG",
+        "width": 1342,
+        "height": 1790,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [
+          "APP0",
+          "EXIF",
+          "APP13"
+        ],
+        "progressive": false,
+        "pixels": 2402180
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 1600,
+      "output": {
+        "width": 1200,
+        "height": 1600,
+        "bytes": 295796,
+        "thumbnailBytes": 52311,
+        "previewBytes": 5239,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L006",
+      "current": true,
+      "active": true,
+      "objectPresent": true,
+      "size": 30784,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "WebP",
+        "width": 576,
+        "height": 1024,
+        "precision": 8,
+        "channels": 4,
+        "animation": false,
+        "metadata": [
+          "ICCP"
+        ],
+        "pixels": 589824,
+        "channelInterpretation": "4 denotes RGBA decoder output, not proof of source alpha"
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 2732,
+      "output": {
+        "width": 576,
+        "height": 1024,
+        "bytes": 73863,
+        "thumbnailBytes": 20074,
+        "previewBytes": 2387,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L007",
+      "current": true,
+      "active": true,
+      "objectPresent": true,
+      "size": 4292863,
+      "headerCompatible": false,
+      "normalizable": false,
+      "header": {
+        "format": "JPEG",
+        "width": 5712,
+        "height": 4284,
+        "precision": 8,
+        "channels": 3,
+        "animation": null,
+        "metadata": [
+          "APP0",
+          "EXIF",
+          "XMP",
+          "MPF",
+          "APP2",
+          "ICC",
+          "APP10"
+        ],
+        "progressive": false,
+        "pixels": 24470208,
+        "animationNote": "MPF/multipicture marker; temporal animation not established"
+      },
+      "failure": "ANIMATED",
+      "status": 422,
+      "ruleViolations": [
+        "MPF_MULTIPICTURE",
+        "PIXEL_LIMIT"
+      ]
+    },
+    {
+      "label": "L008",
+      "current": true,
+      "active": true,
+      "objectPresent": true,
+      "size": 1820708,
+      "headerCompatible": false,
+      "normalizable": false,
+      "header": {
+        "format": "JPEG",
+        "width": 2316,
+        "height": 3088,
+        "precision": 8,
+        "channels": 3,
+        "animation": null,
+        "metadata": [
+          "APP0",
+          "EXIF",
+          "XMP",
+          "MPF",
+          "APP2",
+          "ICC",
+          "APP10"
+        ],
+        "progressive": false,
+        "pixels": 7151808,
+        "animationNote": "MPF/multipicture marker; temporal animation not established"
+      },
+      "failure": "ANIMATED",
+      "status": 422,
+      "ruleViolations": [
+        "MPF_MULTIPICTURE"
+      ]
+    },
+    {
+      "label": "L009",
+      "current": true,
+      "active": false,
+      "objectPresent": true,
+      "size": 740253,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "JPEG",
+        "width": 1376,
+        "height": 768,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [
+          "APP0",
+          "APP11"
+        ],
+        "progressive": false,
+        "pixels": 1056768
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 1539,
+      "output": {
+        "width": 1376,
+        "height": 768,
+        "bytes": 256089,
+        "thumbnailBytes": 44675,
+        "previewBytes": 3872,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L010",
+      "current": true,
+      "active": false,
+      "objectPresent": true,
+      "size": 327242,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "JPEG",
+        "width": 1365,
+        "height": 768,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [
+          "APP0",
+          "ICC"
+        ],
+        "progressive": false,
+        "pixels": 1048320
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 909,
+      "output": {
+        "width": 1365,
+        "height": 768,
+        "bytes": 93342,
+        "thumbnailBytes": 14239,
+        "previewBytes": 1737,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L011",
+      "current": false,
+      "active": false,
+      "objectPresent": true,
+      "size": 706438,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "JPEG",
+        "width": 3264,
+        "height": 1836,
+        "precision": 8,
+        "channels": 3,
+        "animation": false,
+        "metadata": [
+          "APP0",
+          "EXIF",
+          "ICC"
+        ],
+        "progressive": false,
+        "pixels": 5992704
+      },
+      "orientation": 8,
+      "workerStatus": 200,
+      "processingMs": 2896,
+      "output": {
+        "width": 900,
+        "height": 1600,
+        "bytes": 173641,
+        "thumbnailBytes": 20899,
+        "previewBytes": 2394,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    },
+    {
+      "label": "L012",
+      "current": false,
+      "active": false,
+      "objectPresent": true,
+      "size": 441773,
+      "headerCompatible": true,
+      "normalizable": true,
+      "header": {
+        "format": "PNG",
+        "width": 800,
+        "height": 800,
+        "precision": 8,
+        "channels": 4,
+        "animation": false,
+        "metadata": [
+          "pHYs",
+          "iTXt"
+        ],
+        "colorType": 6,
+        "interlaced": false,
+        "pixels": 640000
+      },
+      "orientation": 1,
+      "workerStatus": 200,
+      "processingMs": 2014,
+      "output": {
+        "width": 800,
+        "height": 800,
+        "bytes": 77060,
+        "thumbnailBytes": 25037,
+        "previewBytes": 2588,
+        "metadata": [
+          "APP0"
+        ]
+      },
+      "alreadyCanonicalShape": false,
+      "ruleViolations": []
+    }
+  ],
+  "stateVerification": {
+    "entireInventoryExactlyUnchanged": true,
+    "fingerprints": {
+      "storage": "63a496f68c1b41edf1407bd6c4b50173",
+      "profiles": "f8c28fa0e51219bdf382afe7bdfe09f0",
+      "photo_tables": "d9a473323cf3a7f84136d661a4aa672c"
+    },
+    "noPersistentImageOutput": true,
+    "noRealPhotoReplacements": true,
+    "noNormalizingEndpointInvoked": true,
+    "directFormatWorkersInvoked": 9,
+    "workerSuccesses": 9,
+    "workerFailures": 0,
+    "headerRejectionsBeforeDecode": 3
+  },
+  "procedureReview": {
+    "oldReferencePreservedUntilCanonicalReady": true,
+    "CASPublication": true,
+    "readyRetryIdempotent": true,
+    "maxAttempts": 3,
+    "failedLeaseSeconds": 45,
+    "partialPrivateObjectsPossible": true,
+    "originalsRetainedAfterSuccess": true,
+    "unreferencedOutputsPossibleOnCASLoss": true,
+    "batchSkipFailureCursorMissing": true,
+    "deleteBarrierPresent": true,
+    "realPhotoDeletionRaceNotTested": true
+  },
+  "verification": {
+    "testsPassed": 188,
+    "testsFailed": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "decision": "NO-GO for real normalization using current procedure",
+  "photo02Started": false,
+  "legacyNormalizationEnabled": false,
+  "productionRuntimeChanges": false,
+  "newProviders": false
+}
