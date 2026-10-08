@@ -11,6 +11,7 @@ begin
  if action='expire_lease' then update spot_private.photo_upload_jobs set lease_until=clock_timestamp()-interval '1 second' where user_id=target_user;
  elsif action='expire_draft' then update spot_private.photo_lifecycle_sets set not_before=clock_timestamp()-interval '1 second' where user_id=target_user and state='ready' and photo_path=path;
  elsif action='expire_grace' then update spot_private.photo_lifecycle_sets set not_before=clock_timestamp()-interval '1 second' where user_id=target_user and state='retired';
+ elsif action='expire_account_claim' then update spot_private.photo_cleanup_accounts set claim_until=clock_timestamp()-interval '1 second' where user_id=target_user;
  elsif action='expire_claim' then update spot_private.photo_lifecycle_sets set claim_until=clock_timestamp()-interval '1 second' where user_id=target_user and photo_path=path;
  elsif action='age_metadata' then update spot_private.photo_lifecycle_sets set completed_at=clock_timestamp()-make_interval(days=>amount::integer) where user_id=target_user and state='purged';
  elsif action='quota' then update spot_private.photo_lifecycle_sets set reserved_bytes=amount where user_id=target_user and state='current';
