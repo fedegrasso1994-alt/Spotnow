@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-08",
+  "checkedAt": "2026-10-08T11:52:29.511953+00:00",
+  "baseline": "f477c393479511a9870d88ad96b4d4769de94212",
+  "phase": "audit/design only",
+  "inventory": {
+    "production": {
+      "jobs": 1,
+      "assets": 1,
+      "legacy": 0,
+      "objects": 3,
+      "deleting": 0,
+      "profiles": 1,
+      "validated": 1,
+      "processing": 0,
+      "stale_assets": 0,
+      "orphan_objects": 0,
+      "missing_current": 0,
+      "active_processing": 0,
+      "missing_registered_objects": 0,
+      "available_scheduler_extensions": [
+        "pg_cron",
+        "pg_net",
+        "supabase_vault"
+      ],
+      "installed_scheduler_extensions": [
+        "supabase_vault"
+      ]
+    },
+    "staging": {
+      "jobs": 14,
+      "assets": 13,
+      "legacy": 2,
+      "objects": 40,
+      "deleting": 0,
+      "profiles": 3,
+      "validated": 11,
+      "processing": 2,
+      "stale_assets": 10,
+      "orphan_objects": 7,
+      "missing_current": 0,
+      "active_processing": 0,
+      "missing_registered_objects": 0,
+      "available_scheduler_extensions": [
+        "pg_cron",
+        "pg_net",
+        "supabase_vault"
+      ],
+      "installed_scheduler_extensions": [
+        "supabase_vault"
+      ]
+    }
+  },
+  "inventoryMethod": "SQL metadata SELECT only; orphan_objects is candidate count excluding current profiles, current job paths and validation registry; does not authorize deletion; no image bytes read",
+  "tests": {
+    "existing": 188,
+    "pass": 188,
+    "fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "newPhoto02TestsExecuted": false
+  },
+  "cloudMutations": false,
+  "runtimeMutations": false,
+  "migrationCreated": false,
+  "productionRollout": false,
+  "status": "GO for policy-neutral implementation and staging; founder policy choices and successful race/staging proof required before production"
+}
