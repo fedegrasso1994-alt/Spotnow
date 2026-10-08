@@ -41,13 +41,14 @@ export async function cleanupPhotoAccount(admin,id){
   unwrap(await admin.rpc('finish_photo_account_cleanup',{target_user:id,token}));return true;
  }catch{await admin.rpc('fail_photo_account_cleanup',{target_user:id,token,code:'STORAGE'});throw new Error('PHOTO02_RETRY');}
 }
-export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)=>{}}){return async request=>{
+export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)=>{}}){let active=false;return async request=>{
  const reply=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
  if(request.method!=='POST')return reply({code:'METHOD'},405);
  const token=request.headers.get('Authorization')?.replace(/^Bearer\s+/i,'');
  if(!serviceKey||!token)return reply({code:'AUTH'},403);
  if(token!==serviceKey){let allowed=false;try{allowed=await authorize?.(token)===true;}catch{}if(!allowed)return reply({code:'AUTH'},403);}
  let body;try{body=await request.json();}catch{return reply({code:'INVALID'},400);}
+ if(active)return reply({code:'BUSY'},409);active=true;
  try{const inventory=unwrap(await admin.rpc('photo_lifecycle_inventory'));
  if(body.dry_run!==false)return reply({dry_run:true,sets:inventory.sets,accounts:inventory.accounts});
  const summary={completed:0,reconciled:0,pending:0,failed:0,metadata_removed:0,anomalies:unwrap(await admin.rpc('scan_photo_lifecycle'))};
@@ -55,5 +56,5 @@ export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)
  const candidates=unwrap(await admin.rpc('photo_cleanup_candidates'));for(const set of candidates){try{if(await purgePhotoSet(admin,set.photo_path))summary.completed++;}catch{summary.failed++;}}
  for(const account of inventory.accounts){try{if(await cleanupPhotoAccount(admin,account.user_id))summary.completed++;else summary.pending++;}catch{summary.failed++;}}
  summary.metadata_removed=unwrap(await admin.rpc('photo_metadata_purge'));log({tag:'PHOTO02',...summary});return reply(summary);
-}catch{log({tag:'PHOTO02',code:'DATABASE',failed:1});return reply({code:'RETRY'},503);}
+}catch{log({tag:'PHOTO02',code:'DATABASE',failed:1});return reply({code:'RETRY'},503);}finally{active=false;}
 };}
