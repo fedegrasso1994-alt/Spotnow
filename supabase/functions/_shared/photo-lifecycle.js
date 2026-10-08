@@ -51,7 +51,7 @@ export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)
  try{const inventory=unwrap(await admin.rpc('photo_lifecycle_inventory'));
  if(body.dry_run!==false)return reply({dry_run:true,sets:inventory.sets,accounts:inventory.accounts});
  const summary={completed:0,reconciled:0,pending:0,failed:0,metadata_removed:0,anomalies:unwrap(await admin.rpc('scan_photo_lifecycle'))};
- for(const set of inventory.sets.filter(s=>s.writer==='unknown')){try{if(await reconcilePhotoSet(admin,set))summary.reconciled++;else summary.pending++;}catch{summary.failed++;}}
+ for(const set of inventory.sets.filter(s=>s.writer==='unknown')){try{unwrap(await admin.rpc('photo_reconciliation_checked',{path:set.photo_path}));if(await reconcilePhotoSet(admin,set))summary.reconciled++;else summary.pending++;}catch{summary.failed++;}}
  const candidates=unwrap(await admin.rpc('photo_cleanup_candidates'));for(const set of candidates){try{if(await purgePhotoSet(admin,set.photo_path))summary.completed++;}catch{summary.failed++;}}
  for(const account of inventory.accounts){try{if(await cleanupPhotoAccount(admin,account.user_id))summary.completed++;else summary.pending++;}catch{summary.failed++;}}
  summary.metadata_removed=unwrap(await admin.rpc('photo_metadata_purge'));log({tag:'PHOTO02',...summary});return reply(summary);

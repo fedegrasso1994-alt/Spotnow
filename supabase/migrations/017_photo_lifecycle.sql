@@ -110,8 +110,15 @@ end $$;
 create or replace function public.photo_deletion_barrier(target_user uuid) returns boolean language sql stable security definer set search_path='' as $$
  select exists(select 1 from spot_private.photo_lifecycle_sets where user_id=target_user and writer='unknown') or exists(select 1 from spot_private.photo_upload_jobs where user_id=target_user and status in('processing','failed') and lease_until>clock_timestamp());
 $$;
+alter table spot_private.photo_cleanup_accounts add column claim_token uuid,add column claim_until timestamptz,add column retries integer not null default 0;
+alter table spot_private.photo_lifecycle_sets add column last_attempt_at timestamptz;
+create function public.photo_reconciliation_checked(path text) returns void language sql security definer set search_path='' as $$
+ update spot_private.photo_lifecycle_sets set last_attempt_at=clock_timestamp() where photo_path=path and writer='unknown';
+$$;
+revoke all on function public.photo_reconciliation_checked(text) from public,anon,authenticated;
+grant execute on function public.photo_reconciliation_checked(text) to service_role;
 create function public.photo_lifecycle_inventory() returns jsonb language sql stable security definer set search_path='' as $$
- select jsonb_build_object('sets',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from (select * from spot_private.photo_lifecycle_sets where state not in('current','purged') order by created_at,photo_path limit 100) s),'accounts',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from (select * from spot_private.photo_cleanup_accounts where state<>'completed' order by created_at limit 20) a));
+ select jsonb_build_object('sets',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from (select * from spot_private.photo_lifecycle_sets where state not in('current','purged') order by coalesce(last_attempt_at,created_at),photo_path limit 100) s),'accounts',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from (select * from spot_private.photo_cleanup_accounts where state='pending' and (claim_until is null or claim_until<=clock_timestamp()) and not public.photo_deletion_barrier(user_id) order by created_at limit 20) a));
 $$;
 create function public.claim_photo_cleanup(path text) returns jsonb language plpgsql security definer set search_path='' as $$
 declare s spot_private.photo_lifecycle_sets;token uuid:=gen_random_uuid();
@@ -144,6 +151,7 @@ begin
  if evidence_code not in('ALL_IMMUTABLE_OBJECTS_CONFIRMED','TERMINAL_STORAGE_RESPONSES_CONFIRMED','NO_WRITE_INTENT_FENCED') then raise exception 'PHOTO_EVIDENCE';end if;
  select * into s from spot_private.photo_lifecycle_sets where photo_path=path;perform spot_private.photo_owner_lock(s.user_id);
  if s.lease_token<>lease or s.writer<>'unknown' then raise exception 'PHOTO_RECONCILE';end if;
+ if evidence_code<>'NO_WRITE_INTENT_FENCED' and exists(select 1 from spot_private.photo_upload_jobs j where j.photo_path=path and j.status='processing' and j.lease_until>clock_timestamp()) then raise exception 'PHOTO_ACTIVE_WRITER';end if;
  if evidence_code='NO_WRITE_INTENT_FENCED' and (s.manifest is not null or s.evidence is distinct from 'INTENT_PROTOCOL_V1' or exists(select 1 from spot_private.photo_upload_jobs j where j.photo_path=path and j.lease_until>clock_timestamp())) then raise exception 'PHOTO_EVIDENCE';end if;
  if evidence_code='ALL_IMMUTABLE_OBJECTS_CONFIRMED' and (select count(distinct name) from storage.objects where bucket_id='profile-photos' and name in(path,path||'.detail.jpg',path||'.thumb.jpg'))<>3 then raise exception 'PHOTO_EVIDENCE';end if;
  update spot_private.photo_lifecycle_sets set writer='settled',state='failed',not_before=clock_timestamp(),evidence=evidence_code where photo_path=path;
@@ -153,11 +161,10 @@ declare n bigint;
 begin
  delete from spot_private.photo_lifecycle_sets where state='purged' and completed_at<clock_timestamp()-interval '7 days';get diagnostics n=row_count;
  delete from spot_private.photo_cleanup_accounts where state='completed' and completed_at<clock_timestamp()-interval '7 days';
- update spot_private.photo_upload_accounts a set starts=array(select t from unnest(a.starts) t where t>clock_timestamp()-interval '1 hour');
+ update spot_private.photo_upload_accounts a set starts=array(select t from unnest(a.starts) t where t>clock_timestamp()-interval '1 hour') where exists(select 1 from unnest(a.starts) t where t<=clock_timestamp()-interval '1 hour');
  return n;
 end $$;
 
-alter table spot_private.photo_cleanup_accounts add column claim_token uuid,add column claim_until timestamptz,add column retries integer not null default 0;
 create function public.photo_cleanup_candidates() returns jsonb language sql stable security definer set search_path='' as $$
  select coalesce(jsonb_agg(to_jsonb(s)),'[]') from (select photo_path from spot_private.photo_lifecycle_sets where writer='settled' and state in('writing','ready','retired','failed','purging') and coalesce(not_before,'infinity')<=clock_timestamp() and (claim_until is null or claim_until<=clock_timestamp()) order by not_before,photo_path limit 20) s;
 $$;
