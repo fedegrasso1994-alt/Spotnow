@@ -9,7 +9,7 @@ export async function writePhotoSet(admin,id,job,images){
  unwrap(await admin.rpc('photo_write_receipt',{target_user:id,path:job.photo_path,lease:job.lease_token,terminal}));
  if(results.some(r=>r.status==='rejected'||r.value.error))throw new Error('PHOTO02_WRITE');
 }
-async function absent(storage,path){const result=await storage.download(path);if(!result.error)return false;return [404,400].includes(Number(result.error.statusCode))&&/not found|does not exist/i.test(String(result.error.message));}
+async function absent(storage,path){const result=await storage.info(path);if(!result.error)return false;return [404,400].includes(Number(result.error.statusCode))&&/not found|does not exist/i.test(String(result.error.message));}
 /** Exact known manifest only; SQL rechecks lease, writer and references after removal. */
 export async function purgePhotoSet(admin,path){
  const task=unwrap(await admin.rpc('claim_photo_cleanup',{path}));if(!task)return false;
