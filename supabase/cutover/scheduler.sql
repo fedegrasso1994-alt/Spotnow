@@ -14,7 +14,7 @@ begin
  command:=format('select net.http_post(url:=%L,headers:=jsonb_build_object(''Content-Type'',''application/json'',''Authorization'',''Bearer ''||(select decrypted_secret from vault.decrypted_secrets where name=%L)),body:='' {"dry_run":false}''::jsonb,timeout_milliseconds:=60000);','https://'||project_ref||'.supabase.co/functions/v1/photo-lifecycle',secret_name);
  select jobid into job from cron.job where cron.job.jobname=schedule_name;
  if job is null then select cron.schedule(schedule_name,'* * * * *',command)into job;else perform cron.alter_job(job,command:=command);end if;
- perform cron.alter_job(job,active:=enabled);update spot_private.photo_cutover_control set scheduler_enabled=enabled where singleton;return job;
+ perform cron.alter_job(job,active:=enabled);update spot_private.photo_cutover_control set scheduler_enabled=enabled,execute_enabled=case when enabled then execute_enabled else false end where singleton;return job;
 end$$;
 revoke all on function public.photo_cutover_scheduler_configure(text,boolean) from public,anon,authenticated;grant execute on function public.photo_cutover_scheduler_configure(text,boolean) to service_role;
 notify pgrst,'reload schema';commit;
