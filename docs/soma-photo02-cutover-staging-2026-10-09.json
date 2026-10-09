@@ -1,0 +1,101 @@
+{
+  "task": "PHOTO-02 cutover barrier",
+  "date": "2026-10-09",
+  "scope": "staging only; no production mutations; no merge main",
+  "runtime_canary_release": "a16e0e4d1d7165668d1c833bf354e8b67e7ee3cb",
+  "implementation_commit": "c59c49a2b7032e23f6877d49f203c1eceee4d715",
+  "automated_tests": {
+    "total": 235,
+    "passed": 235,
+    "cutover_specific": 12,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "staging_baseline": {
+    "auth": 3,
+    "profiles": 3,
+    "storage_objects": 39,
+    "review_writers": 3,
+    "auth_fingerprint_unchanged": true,
+    "profile_fingerprint_unchanged": true,
+    "storage_fingerprint_unchanged": true
+  },
+  "canary": {
+    "auth_created_deleted": 2,
+    "photos_created": 4,
+    "storage_objects_created_removed": 12,
+    "venue_created_deleted": 1,
+    "checks": [
+      {
+        "name": "real paused upload; old entrypoints fail closed",
+        "result": "PASS",
+        "at": "2026-10-09T17:37:18.186Z"
+      },
+      {
+        "name": "scheduler default OFF, auth binding, idempotent configure",
+        "result": "PASS",
+        "at": "2026-10-09T17:37:21.464Z"
+      },
+      {
+        "name": "real JPEG publish, replace, preserve old under pause; retry",
+        "result": "PASS",
+        "at": "2026-10-09T17:38:02.687Z"
+      },
+      {
+        "name": "QR/Ora/Tribe/Spot/match/chat regression with synthetic owners",
+        "result": "PASS",
+        "at": "2026-10-09T17:38:04.863Z"
+      },
+      {
+        "name": "real account delete complete; canary smoke proof",
+        "result": "PASS",
+        "at": "2026-10-09T17:38:07.872Z"
+      },
+      {
+        "name": "actual authenticated cron/HTTP cleanup; old purged current preserved",
+        "result": "PASS",
+        "at": "2026-10-09T17:42:39.064Z"
+      },
+      {
+        "name": "scheduler OFF immediate execute gate; admission retry still works",
+        "result": "PASS",
+        "at": "2026-10-09T17:42:42.328Z"
+      },
+      {
+        "name": "delete final canary; no physical fixture residuals",
+        "result": "PASS",
+        "at": "2026-10-09T17:42:44.096Z"
+      }
+    ]
+  },
+  "postgres_rehearsal": {
+    "migrations": [
+      "001-016",
+      "prepare.sql",
+      "017",
+      "018",
+      "019"
+    ],
+    "result": "PASS",
+    "storage_catalog": "synthetic; actual Edge/Storage tested separately",
+    "temporary_schemas_removed": true,
+    "metadata_retention": "PASS on real PostgreSQL, concluded records removed; uncertain writer preserved"
+  },
+  "final_control": {
+    "phase": "OPEN",
+    "execute_enabled": false,
+    "scheduler_enabled": false,
+    "cleanup_all": false,
+    "smoke_approved": true,
+    "existing_unknown": 3,
+    "legacy_unknown": 0,
+    "legacy_inflight": 0,
+    "deletions_pending": 0
+  },
+  "artifact_sha256": {
+    "photo-assets": "ac5ffd1dc8d70af5db846cb4a1a37fdf46d97dcaf63f9d278662caf424a8168a",
+    "delete-account": "abde4f3a2f6669103743ad80d0a4c19fb7e183b7e15f3eff747c7a22a5e67314",
+    "photo-lifecycle": "b58a8fa3e99bebc5364acdd4999471ae2d906196a95741185f30ae6f72e39f15"
+  },
+  "decision": "GO to new read-only production preflight; no production rollout authorized by this result"
+}
