@@ -14,7 +14,7 @@ function endpoint(valid=true,storageFails=false,barrier=false){
 }
 test('account deletion validates JWT and ignores a forged target user',async()=>{
  const {handler,calls}=endpoint();const response=await handler(new Request('https://test',{method:'POST',headers:{Authorization:'Bearer token'},body:JSON.stringify({user_id:'victim',confirm:true})}));
- assert.equal(response.status,200);assert.deepEqual(calls.map(x=>JSON.parse(JSON.stringify(x))),[['auth','token'],['begin_account_deletion',{target_user:'caller'}],['photo_deletion_barrier',{target_user:'caller'}],['claim_photo_account_cleanup',{target_user:'caller'}],['list','caller'],['remove',['caller/photo.png']],['list','caller'],['list','caller'],['prepare_account_deletion',{target_user:'caller'}],['getUser','caller'],['delete','caller'],['finish_photo_account_cleanup',{target_user:'caller',token:'claim'}]]);
+ assert.equal(response.status,200);assert.deepEqual(calls.map(x=>JSON.parse(JSON.stringify(x))),[['auth','token'],['photo02_begin_account_deletion',{target_user:'caller'}],['photo_deletion_barrier',{target_user:'caller'}],['claim_photo_account_cleanup',{target_user:'caller'}],['list','caller'],['remove',['caller/photo.png']],['list','caller'],['list','caller'],['prepare_account_deletion',{target_user:'caller'}],['getUser','caller'],['delete','caller'],['finish_photo_account_cleanup',{target_user:'caller',token:'claim'}]]);
 });
 test('invalid or absent sessions cannot delete accounts',async()=>{
  const e=endpoint(false);assert.equal((await e.handler(new Request('https://test',{method:'POST',headers:{Authorization:'Bearer invalid'}}))).status,401);assert.equal(e.calls.length,1);

@@ -28,7 +28,7 @@ test('paged discovery and matches preserve every permission, exclusion and histo
  await asUser(db,c);assert.equal((await db.query(`select * from public.my_matches_page(1,0,'${m.id}',null)`)).rows.length,0);
  await admin(db);await db.exec(`insert into public.blocks values('${b}','${a}',now())`);await asUser(db,a);assert.equal((await equivalent()).length,0);assert.equal((await db.query('select * from public.my_matches_page()')).rows.length,0);
  await admin(db);await db.exec(`delete from public.blocks;insert into spot_private.suspensions(user_id,reason) values('${b}','Test')`);await asUser(db,a);assert.equal((await equivalent()).length,0);
- await admin(db);await db.exec(`delete from spot_private.suspensions;insert into spot_private.account_deletions(user_id) values('${b}')`);await asUser(db,a);assert.equal((await equivalent()).length,0);
+ await admin(db);await db.exec(`delete from spot_private.suspensions;select public.photo02_begin_account_deletion('${b}')`);await asUser(db,a);assert.equal((await equivalent()).length,0);
  await admin(db);await db.exec(`delete from spot_private.account_deletions;update auth.users set is_anonymous=true where id='${b}'`);await asUser(db,a);assert.equal((await equivalent()).length,0);
  await admin(db);await db.exec(`set role anon`);await assert.rejects(db.query(`select * from public.location_people_page('${v}',false,49,0)`));await assert.rejects(db.query('select * from public.my_matches_page()'));
  }finally{await db.close();}

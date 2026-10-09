@@ -16,7 +16,8 @@ Deno.serve(async request=>{
  try{body=await request.json();}catch{return reply({error:'Conferma richiesta'},400);}
  if(body?.dry_run===true)return reply({authenticated:true,deletionStarted:false});
  if(body?.confirm!==true)return reply({error:'Conferma richiesta'},400);
- const started=await admin.rpc('begin_account_deletion',{target_user:id});
+ const started=await admin.rpc('photo02_begin_account_deletion',{target_user:id});
+ if(started.error&&String(started.error.message).includes('PHOTO_PAUSED'))return reply({error:'Aggiornamento in corso. Riprova tra poco.'},503);
  if(started.error)return reply({error:'Cancellazione non avviata. Riprova.'},500);
  // Quiesce photo jobs before purging UID objects; a lease outlives bounded uploads.
  const barrier=await admin.rpc('photo_deletion_barrier',{target_user:id});

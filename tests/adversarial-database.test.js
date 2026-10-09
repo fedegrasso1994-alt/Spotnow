@@ -36,10 +36,10 @@ test('adversarial PostgreSQL matrix: isolation, replay, mutations and deletion q
  await assert.rejects(db.query(`insert into storage.objects(bucket_id,name) values('profile-photos','${b}/blocked.png')`));
  await assert.rejects(db.query(`select public.check_in('${q}')`));
  await asUser(db,a);await db.query(`select public.moderate_report('${report}','revoke','Test')`);
- await admin(db);await db.query(`select public.begin_account_deletion('${b}')`);
+ await admin(db);await db.query(`select public.photo02_begin_account_deletion('${b}')`);
  await asUser(db,b);assert.equal((await db.query('select public.my_account_state() as state')).rows[0].state,'deleting');await assert.rejects(db.query(`select public.check_in('${q}')`));
  await asUser(db,a);assert.equal((await db.query('select * from public.my_matches()')).rows.length,0);assert.equal((await db.query(`select * from public.location_people('${v}',true)`)).rows.length,0);
- assert.equal((await db.query(`select * from public.venue_preview('${q}')`)).rows[0].member_count,1);await assert.rejects(db.query(`select public.begin_account_deletion('${c}')`));
+ assert.equal((await db.query(`select * from public.venue_preview('${q}')`)).rows[0].member_count,1);await assert.rejects(db.query(`select public.photo02_begin_account_deletion('${c}')`));
  await admin(db);await db.query(`select public.prepare_account_deletion('${b}')`);await db.query(`delete from auth.users where id='${b}'`);
  for(const table of ['matches','messages'])assert.equal((await db.query(`select * from public.${table}`)).rows.length,0);
  for(const table of ['reports','moderation_audit','account_deletions'])assert.equal((await db.query(`select * from spot_private.${table}`)).rows.length,0);

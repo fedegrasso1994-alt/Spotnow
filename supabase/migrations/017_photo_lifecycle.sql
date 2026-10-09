@@ -1,4 +1,6 @@
 begin;
+-- Mandatory server fence; never migrate while unclassified PHOTO-01 effects remain.
+select public.photo_cutover_assert_drained();
 -- PHOTO-02: private durable lifecycle; survives Auth cascade until confirmed purge.
 create table spot_private.photo_lifecycle_sets (
  photo_path text primary key,user_id uuid not null,request_id uuid,lease_token uuid,
@@ -19,7 +21,7 @@ create index photo_lifecycle_owner on spot_private.photo_lifecycle_sets(user_id,
 insert into spot_private.photo_lifecycle_sets(photo_path,user_id,state,writer,reserved_bytes,not_before)
  select v.photo_path,v.user_id,case when exists(select 1 from public.profiles p where p.photo_path=v.photo_path) then 'current' else 'ready' end,'settled',9437184,clock_timestamp()+interval '24 hours' from spot_private.validated_photos v;
 insert into spot_private.photo_lifecycle_sets(photo_path,user_id,request_id,lease_token,state,writer,not_before,error_code)
- select j.photo_path,j.user_id,j.request_id,j.lease_token,case when j.status='ready' then 'ready' else 'failed' end,case when j.status='ready' then 'settled' else 'unknown' end,clock_timestamp()+interval '24 hours','PRE017' from spot_private.photo_upload_jobs j on conflict(photo_path) do update set request_id=excluded.request_id,lease_token=excluded.lease_token;
+ select j.photo_path,j.user_id,j.request_id,j.lease_token,case when j.status='ready' then 'ready' else 'failed' end,case when j.status='ready' or exists(select 1 from spot_private.photo_cutover_attempts a where a.path=j.photo_path and a.lease=j.lease_token and a.writer='settled') then 'settled' else 'unknown' end,clock_timestamp()+interval '24 hours','PRE017' from spot_private.photo_upload_jobs j on conflict(photo_path) do update set request_id=excluded.request_id,lease_token=excluded.lease_token;
 create function spot_private.photo_owner_lock(owner_id uuid) returns void language sql volatile set search_path='' as $$select pg_advisory_xact_lock(hashtextextended(owner_id::text,17));$$;
 alter function public.begin_photo_upload(uuid,uuid,text,text) rename to photo01_begin_photo_upload;
 alter function public.finish_photo_upload(uuid,uuid,uuid,text,text,integer,text,integer,integer) rename to photo01_finish_photo_upload;

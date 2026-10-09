@@ -1,13 +1,14 @@
+import {cutoverExecuteAllowed} from './photo-cutover.js';
 import {reviewSnapshot,recordPendingReview} from './photo-review.js';
 /** PHOTO-02 orchestration. No decoder, raw originals, or client authorization changes. */
 const unwrap=result=>{if(result.error)throw new Error('PHOTO02_RPC');return result.data;};
 const sha=async bytes=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
-export async function writePhotoSet(admin,id,job,images){
+export async function writePhotoSet(admin,id,job,images,names={intent:'photo_write_intent',receipt:'photo_write_receipt'}){
  const manifest=[];for(const [path,bytes] of images)manifest.push({path,bytes:bytes.length,sha:await sha(bytes)});
- unwrap(await admin.rpc('photo_write_intent',{target_user:id,path:job.photo_path,lease:job.lease_token,write_manifest:manifest}));
+ unwrap(await admin.rpc(names.intent,{target_user:id,path:job.photo_path,lease:job.lease_token,write_manifest:manifest}));
  const results=await Promise.allSettled(images.map(([path,data])=>admin.storage.from('profile-photos').upload(path,data,{contentType:'image/jpeg',upsert:false,cacheControl:'60'})));
  const terminal=results.every(r=>r.status==='fulfilled'&&(!r.value.error||[400,401,403,409,413,415,422].includes(Number(r.value.error.statusCode))));
- unwrap(await admin.rpc('photo_write_receipt',{target_user:id,path:job.photo_path,lease:job.lease_token,terminal}));
+ unwrap(await admin.rpc(names.receipt,{target_user:id,path:job.photo_path,lease:job.lease_token,terminal}));
  if(results.some(r=>r.status==='rejected'||r.value.error))throw new Error('PHOTO02_WRITE');
 }
 async function absent(storage,path){const result=await storage.info(path);if(!result.error)return false;return [404,400].includes(Number(result.error.statusCode))&&/not found|does not exist/i.test(String(result.error.message));}
@@ -52,6 +53,7 @@ export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)
  if(active)return reply({code:'BUSY'},409);active=true;
  try{const inventory=unwrap(await admin.rpc('photo_lifecycle_inventory'));
  if(body.dry_run!==false)return reply({dry_run:true,sets:inventory.sets,accounts:inventory.accounts,review:await reviewSnapshot(admin)});
+ if(!await cutoverExecuteAllowed(admin))return reply({code:'PAUSED'},503);
  const summary={completed:0,reconciled:0,pending:0,reviewed:0,review_total:0,failed:0,metadata_removed:0,anomalies:unwrap(await admin.rpc('scan_photo_lifecycle'))};
  for(const set of inventory.sets.filter(s=>s.writer==='unknown'&&s.state!=='review')){try{unwrap(await admin.rpc('photo_reconciliation_checked',{path:set.photo_path}));if(await reconcilePhotoSet(admin,set))summary.reconciled++;else if(await recordPendingReview(admin,set.photo_path))summary.reviewed++;else summary.pending++;}catch{summary.failed++;}}
  const candidates=unwrap(await admin.rpc('photo_cleanup_candidates'));for(const set of candidates){try{if(await purgePhotoSet(admin,set.photo_path))summary.completed++;}catch{summary.failed++;}}
