@@ -12,7 +12,7 @@ create function public.photo02_begin_account_deletion(target_user uuid) returns 
 end$$;
 create function spot_private.photo_cutover_cleanup_allowed(owner_id uuid,account_cleanup boolean default false) returns boolean language plpgsql security definer set search_path='' as $$declare c spot_private.photo_cutover_control;begin
  perform spot_private.photo_cutover_lock();select * into c from spot_private.photo_cutover_control where singleton;
- return (c.phase='OPEN' and c.smoke_epoch=c.epoch or c.phase='CANARY' and owner_id=any(c.canary_users)) and (account_cleanup or c.execute_enabled);
+ return (c.phase='OPEN' and c.smoke_epoch=c.epoch and (account_cleanup or c.cleanup_all or owner_id=any(c.canary_users)) or c.phase='CANARY' and owner_id=any(c.canary_users)) and (account_cleanup or c.execute_enabled);
 end$$;
 -- Insert gate BEFORE owner locks; existing publication/purge locks and proofs remain unchanged.
 do $gate$ declare def text;begin
@@ -25,6 +25,13 @@ do $gate$ declare def text;begin
  if position('perform spot_private.photo_owner_lock(target_user);' in def)=0 then raise exception 'PHOTO_GATE_SOURCE_CHANGED';end if;
  execute replace(def,'perform spot_private.photo_owner_lock(target_user);','if not spot_private.photo_cutover_cleanup_allowed(target_user,true) then return null;end if;perform spot_private.photo_owner_lock(target_user);');
 end $gate$;
+-- Scope BEFORE LIMIT: baseline candidates cannot starve or leak into a canary collector.
+create or replace function public.photo_lifecycle_inventory() returns jsonb language sql stable security definer set search_path='' as $$
+ select jsonb_build_object('sets',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from (select s.* from spot_private.photo_lifecycle_sets s cross join spot_private.photo_cutover_control c where c.singleton and (c.cleanup_all or s.user_id=any(c.canary_users)) and s.state not in('current','purged') order by coalesce(s.last_attempt_at,s.created_at),s.photo_path limit 100) s),'accounts',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from (select a.* from spot_private.photo_cleanup_accounts a cross join spot_private.photo_cutover_control c where c.singleton and (c.cleanup_all or a.user_id=any(c.canary_users)) and a.state='pending' and (a.claim_until is null or a.claim_until<=clock_timestamp()) and not public.photo_deletion_barrier(a.user_id) order by a.created_at limit 20) a));
+$$;
+create or replace function public.photo_cleanup_candidates() returns jsonb language sql stable security definer set search_path='' as $$
+ select coalesce(jsonb_agg(to_jsonb(s)),'[]') from (select s.photo_path from spot_private.photo_lifecycle_sets s cross join spot_private.photo_cutover_control c where c.singleton and (c.cleanup_all or s.user_id=any(c.canary_users)) and s.writer='settled' and s.state in('writing','ready','retired','failed','purging') and coalesce(s.not_before,'infinity')<=clock_timestamp() and (s.claim_until is null or s.claim_until<=clock_timestamp()) order by s.not_before,s.photo_path limit 20) s;
+$$;
 create function public.photo_cutover_execute_permit() returns boolean language sql stable security definer set search_path='' as $$select execute_enabled and (phase='CANARY' or phase='OPEN' and smoke_epoch=epoch) from spot_private.photo_cutover_control where singleton$$;
 -- Current/unknown cutover metadata survives; concluded copies obey the existing 7-day policy.
 alter function public.photo_metadata_purge() rename to photo02_metadata_purge_before_cutover;
