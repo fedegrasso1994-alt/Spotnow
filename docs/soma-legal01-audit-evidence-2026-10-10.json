@@ -1,0 +1,1951 @@
+{
+  "audit": "LEGAL-01 / PRIVACY-BY-DESIGN",
+  "phase": "ANALYSIS_ONLY",
+  "date": "2026-10-10",
+  "baseline": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "productionReadOnly": true,
+  "noPersonalContentsRead": true,
+  "noCredentialsRead": true,
+  "cupido": {
+    "implemented": false,
+    "source": "Founder confirmation 2026-10-10",
+    "futureOnly": true
+  },
+  "summary": {
+    "tables": 28,
+    "public": 6,
+    "private": 22,
+    "rlsDisabled": [],
+    "privateReadable": [],
+    "functions": 98,
+    "anonCallable": [
+      "public.venue_preview"
+    ],
+    "checkinConstraint": "CHECK ((expires_at = (checked_in_at + '01:30:00'::interval)))",
+    "activityWindow": null,
+    "expiredCheckins": 1,
+    "accounts": 1,
+    "profiles": 1,
+    "photoObjects": 3,
+    "legacyPhotos": 0
+  },
+  "catalog": {
+    "fk": [
+      {
+        "table": "matches",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_a) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "matches",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_b) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "matches",
+        "target": "venues",
+        "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)"
+      },
+      {
+        "table": "blocks",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (blocker_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "blocks",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (blocked_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.interests",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.interests",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.interests",
+        "target": "venues",
+        "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)"
+      },
+      {
+        "table": "profiles",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.venue_codes",
+        "target": "venues",
+        "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "checkins",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "checkins",
+        "target": "venues",
+        "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)"
+      },
+      {
+        "table": "messages",
+        "target": "matches",
+        "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "messages",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.reports",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (reporter_id) REFERENCES profiles(id)"
+      },
+      {
+        "table": "spot_private.reports",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (target_id) REFERENCES profiles(id)"
+      },
+      {
+        "table": "spot_private.suspensions",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)"
+      },
+      {
+        "table": "spot_private.moderators",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+      },
+      {
+        "table": "spot_private.moderation_audit",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id)"
+      },
+      {
+        "table": "spot_private.moderation_audit",
+        "target": "spot_private.reports",
+        "definition": "FOREIGN KEY (report_id) REFERENCES spot_private.reports(id)"
+      },
+      {
+        "table": "spot_private.tribe_memberships",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.tribe_memberships",
+        "target": "venues",
+        "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)"
+      },
+      {
+        "table": "spot_private.account_deletions",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.photo_assets",
+        "target": "profiles",
+        "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.photo_legacy",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.photo_upload_accounts",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.photo_upload_jobs",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "table": "spot_private.validated_photos",
+        "target": "auth.users",
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      }
+    ],
+    "rls": [
+      {
+        "rls": true,
+        "table": "venue_codes",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "venues",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "messages",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "blocks",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "interests",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "matches",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "reports",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "moderators",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "moderation_audit",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "suspensions",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "profiles",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "tribe_settings",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "tribe_memberships",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_lifecycle_anomalies",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "checkins",
+        "schema": "public",
+        "anon_select": false,
+        "auth_select": true
+      },
+      {
+        "rls": true,
+        "table": "account_deletions",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_assets",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_legacy",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_upload_accounts",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_upload_jobs",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "validated_photos",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_cutover_control",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_cutover_attempts",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_cutover_deletions",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_cutover_audit",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_lifecycle_sets",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_cleanup_accounts",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      },
+      {
+        "rls": true,
+        "table": "photo_review_audit",
+        "schema": "spot_private",
+        "anon_select": false,
+        "auth_select": false
+      }
+    ],
+    "bucket": {
+      "mime": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "limit": 8388608,
+      "private": true
+    },
+    "photos": 3,
+    "control": {
+      "epoch": 6,
+      "phase": "OPEN",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": true,
+      "execute_enabled": true,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": true
+    },
+    "accounts": 1,
+    "checkins": 1,
+    "policies": [
+      {
+        "qual": null,
+        "check": "false",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "policy": "photos_insert_own",
+        "schema": "storage",
+        "command": "INSERT"
+      },
+      {
+        "qual": "((bucket_id = 'profile-photos'::text) AND spot_private.can_view_photo(name))",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "policy": "photos_read_allowed",
+        "schema": "storage",
+        "command": "SELECT"
+      },
+      {
+        "qual": "active",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "venues",
+        "policy": "venues_read",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "qual": "spot_private.can_use_match(match_id)",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "messages",
+        "policy": "messages_read",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "qual": null,
+        "check": "((blocker_id = auth.uid()) AND spot_private.can_write_profile())",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "blocks",
+        "policy": "blocks_insert_own",
+        "schema": "public",
+        "command": "INSERT"
+      },
+      {
+        "qual": "(blocker_id = ( SELECT auth.uid() AS uid))",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "blocks",
+        "policy": "blocks_delete_own",
+        "schema": "public",
+        "command": "DELETE"
+      },
+      {
+        "qual": "(blocker_id = ( SELECT auth.uid() AS uid))",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "blocks",
+        "policy": "blocks_read_own",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "qual": "spot_private.can_use_match(id)",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "matches",
+        "policy": "matches_read",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "qual": "((id = auth.uid()) AND spot_private.can_write_profile())",
+        "check": "((id = auth.uid()) AND spot_private.can_write_profile() AND spot_private.can_publish_photo(id, photo_path))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "profiles",
+        "policy": "profiles_update",
+        "schema": "public",
+        "command": "UPDATE"
+      },
+      {
+        "qual": null,
+        "check": "((id = auth.uid()) AND spot_private.can_write_profile() AND spot_private.can_publish_photo(id, photo_path))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "profiles",
+        "policy": "profiles_insert",
+        "schema": "public",
+        "command": "INSERT"
+      },
+      {
+        "qual": "(id = ( SELECT auth.uid() AS uid))",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "profiles",
+        "policy": "profiles_read",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "qual": "(user_id = ( SELECT auth.uid() AS uid))",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "checkins",
+        "policy": "checkins_read_own",
+        "schema": "public",
+        "command": "SELECT"
+      }
+    ],
+    "profiles": 1,
+    "functions": [
+      {
+        "args": "target uuid",
+        "hash": "edcb3650d76ee99ec1b023fa60a2bd33",
+        "name": "photo_account_active",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "87df0f52b38c9374fcf80d43df129f27",
+        "name": "enforce_photo_publication",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, preview_text text, thumbnail text, detail text",
+        "hash": "6eaf398ded2e30b8c93d05a1827789f9",
+        "name": "store_photo_assets_hd",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "a8f50620cd37834cab68d24ded8cad73",
+        "name": "attach_validated_photo",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target uuid, path text",
+        "hash": "6f84cbb369dcb6cdcc61e43cd434749e",
+        "name": "can_publish_photo",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "b430d470091b923d169010df96a3c1c0",
+        "name": "photo_processing_authorized",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": false,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "bb4123cd97f742a0b061ba7688634744",
+        "name": "photo_deletion_barrier",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target uuid, place uuid",
+        "hash": "7d949e109861fb0242c5fa32ea0a9400",
+        "name": "can_discover",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target uuid",
+        "hash": "3cc9a2b4421efbbbf081d4bb0e1f1d69",
+        "name": "can_use_match",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target uuid",
+        "hash": "59e27bf6b003772baec4aae3368fc2c8",
+        "name": "can_view_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "object_name text",
+        "hash": "50b692cb30804e7de3df15f9b36f949f",
+        "name": "photo01_can_view_photo",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "47f1fc668d7d2d1315492583cafdb746",
+        "name": "express_interest",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "6ebe9de57b37de6b951b6fe1ed08f629",
+        "name": "my_matches",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid, moderation_reason text",
+        "hash": "a2c98ddd68eba1f35d2e0d4c729b996a",
+        "name": "suspend_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "264a61b7f02e4cd9f87fc6fedfb9afd7",
+        "name": "my_account_status",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid, report_reason text, report_details text, also_block boolean",
+        "hash": "5256a63adc35237baf224c54e37301b0",
+        "name": "report_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "9743d06efdf98bbc64c8a871b929d22b",
+        "name": "is_moderator",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_match uuid, message_text text",
+        "hash": "de2522a3bc61e15a37673fb98945e5ea",
+        "name": "send_message",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "c908ab01095ff6803149a93b03bf7737",
+        "name": "moderation_reports",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_report uuid, moderation_action text, moderation_note text",
+        "hash": "c172637434b5154e038d46c6f93d2b11",
+        "name": "moderate_report",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "qr_token uuid",
+        "hash": "628aabd82410952fe8577b95250656a2",
+        "name": "check_in",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "person uuid, place uuid",
+        "hash": "f1d85148e71d300e5275651a70dfbab2",
+        "name": "tribe_member",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "a27ee3a677241a5787ac73f1600a10bd",
+        "name": "has_account",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "qr_token uuid",
+        "hash": "e026c976776c33789da7a438493f6369",
+        "name": "venue_preview",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": true,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid, place uuid",
+        "hash": "d0320a765cba56e12b42499d71b1ff21",
+        "name": "send_spot",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "a8bdfbfa3b0e5ccd0de72609346cd0f3",
+        "name": "prepare_account_deletion",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "4717e2120396ae0df09757d1a51ef1ed",
+        "name": "my_account_state",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "9429448790a4b32263bd0749ccfee4dd",
+        "name": "can_write_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "8dbe7815be5c1a16d00062b8f79758d6",
+        "name": "begin_account_deletion",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_match uuid, message_text text, client_nonce uuid",
+        "hash": "434b3b937258432be0f05af404513770",
+        "name": "send_message",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "dc65eb66bf26721c9172848ce4964eb2",
+        "name": "block_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid, report_reason text, report_details text, also_block boolean, client_nonce uuid",
+        "hash": "3389d5fbf69d38a347665d4be3fc5bce",
+        "name": "report_profile",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "1fed58f9c1da7daa51a4b5198510d444",
+        "name": "my_tribes",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "place uuid, live boolean",
+        "hash": "a5d009a76da0d6724f68c5fac8cee868",
+        "name": "location_people",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "page_size integer, page_offset integer, requested_match uuid, requested_person uuid",
+        "hash": "22069f08b0e8bf4f35addf521fc6ed10",
+        "name": "my_matches_page",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "path text",
+        "hash": "f2ba6ccd4adf80ae80044aede41186e6",
+        "name": "photo_asset_status",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "path text, preview_text text, thumbnail text",
+        "hash": "606d16bd4757126eb5c2f10a846020f2",
+        "name": "store_photo_assets",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "79ef3a7cea478b0f5d1f1bafeb1aae76",
+        "name": "pending_photo_assets",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, preview_text text",
+        "hash": "e7d9a9c997ad2a1fce3d226cfed60b98",
+        "name": "save_my_photo_preview",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "place uuid, live boolean, page_size integer, page_offset integer",
+        "hash": "e3f7bb18c78c2312aa2e556b88f2f0a8",
+        "name": "location_people_photos_page",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "page_size integer, page_offset integer, requested_match uuid, requested_person uuid",
+        "hash": "75e677495e9f2f4a85c09c7c8da98a12",
+        "name": "my_matches_photos_page",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "place uuid, live boolean, page_size integer, page_offset integer",
+        "hash": "c845001f192a1c832b1140e87a5d1b67",
+        "name": "location_people_page",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "8160d788e86382903488b661925ef3ec",
+        "name": "visible_profiles",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+        "hash": "3010bd6c8730021cfce015846887df50",
+        "name": "photo01_begin_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, previous_path text",
+        "hash": "35ffc0b2d1ae86aa5dcabe7957e55ca8",
+        "name": "publish_normalized_photo",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "e4afbed4d6e809ef5dd27815bd9beaa7",
+        "name": "pending_photo_normalization",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, path text",
+        "hash": "a7c73e3644fd06002870b9efadb4f0cb",
+        "name": "photo_needs_normalization",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, lease_token uuid",
+        "hash": "0012ae53fe14ba946dbf97b4baae4d49",
+        "name": "photo_upload_lease_active",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "394427a3742a1501878c0c8af87f1b54",
+        "name": "photo_cutover_stop_cron",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "exclusive boolean",
+        "hash": "8548bc70e43de8231a9af0f6aa06aa6d",
+        "name": "photo_cutover_lock",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": false,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "owner_id uuid, protocol text",
+        "hash": "6f61aac95c8dddb0d955569c6aaebff5",
+        "name": "photo_cutover_admit",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "d9c675c7847cbf61db6e995e4b96422a",
+        "name": "photo_cutover_job_guard",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "c9d3bd5a9228ad81ede2586b970002da",
+        "name": "photo_cutover_profile_guard",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "e37a66c7497b1c09d6d59dcb63e87f07",
+        "name": "photo_cutover_delete_guard",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "4aab92e9653d73d32b170b05bf5720fc",
+        "name": "photo_cutover_auth_deleted",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+        "hash": "37b5dcf9a77ed520855a4775e922d00f",
+        "name": "photo_cutover_bridge_begin",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "object_name text",
+        "hash": "e90815c0551e8eb72f1d1f05e48cb901",
+        "name": "can_view_photo",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": true
+      },
+      {
+        "args": "",
+        "hash": "936b80da6f977a5b2bec305e968e9d63",
+        "name": "photo_cutover_status",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "e5350822539aa87963e95e067dba8222",
+        "name": "photo_cutover_assert_drained",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, path text, lease uuid, write_manifest jsonb",
+        "hash": "4a883045cf483e01fc42bab319c5b7b1",
+        "name": "photo_cutover_bridge_intent",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, path text, lease uuid, terminal boolean",
+        "hash": "f8b49321f36a48b8112cde662a459162",
+        "name": "photo_cutover_bridge_receipt",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, lease uuid, operator_id text, evidence_code text, evidence_ref text",
+        "hash": "bc57f558400348c125ac6f2a92e69980",
+        "name": "photo_cutover_resolve",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "action text, operator_id text, evidence_ref text, release_sha text, canary_users uuid[]",
+        "hash": "fd1cf13f6b31c9cedd3bfa4094ff93ff",
+        "name": "photo_cutover_set",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "fa31f7841c4e83ab79fbad725b24d67b",
+        "name": "photo_cleanup_candidates",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, lease_token uuid, preview_text text, canonical_sha text, canonical_bytes integer, source_format text, source_width integer, source_height integer",
+        "hash": "eea4d88ed29b7a5ee310e6fc297b4aa0",
+        "name": "photo01_finish_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, lease_token uuid",
+        "hash": "2f62bcb9aea199707da6f3dc4ffa09fd",
+        "name": "fail_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, token uuid, code text",
+        "hash": "43df4aa2a865c184b76e40f161b38821",
+        "name": "photo_cleanup_failure",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+        "hash": "9976eed9f0844d3950fb1161acfddb6f",
+        "name": "photo02_begin_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text",
+        "hash": "508b6396c7b3f4ce3576d95167f5f632",
+        "name": "photo_reconciliation_checked",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "a77eea1da7c27959faa3cde2b6c9ac75",
+        "name": "claim_photo_account_cleanup",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, token uuid",
+        "hash": "8773f661fd2809dcec100d14b110e6d3",
+        "name": "finish_photo_account_cleanup",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, token uuid, code text",
+        "hash": "f946ba3125eab9d2bf4454b655ea1438",
+        "name": "fail_photo_account_cleanup",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "6e037a725330146afb65ac0dc5c7ce57",
+        "name": "scan_photo_lifecycle",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "owner_id uuid",
+        "hash": "163ff042e5ce1e805664bfe03a855456",
+        "name": "photo_owner_lock",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": false,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "630f8646cb87db0d16aa91caa6419bf5",
+        "name": "photo_lifecycle_publish",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, expected_lease uuid, operation_id uuid, reason text, evidence_ref text, operator_id text, exempt_quota boolean",
+        "hash": "3f9a4d9ebf0f327bf9dc66ebacca0c0e",
+        "name": "photo_review_hold",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, path text, lease uuid, terminal boolean",
+        "hash": "2f11713e929aebbdb0184e2b2bba792d",
+        "name": "photo_write_receipt",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, lease_token uuid, preview_text text, canonical_sha text, canonical_bytes integer, source_format text, source_width integer, source_height integer",
+        "hash": "6c222ad8d1f27ac1b51caa0cc236b65a",
+        "name": "finish_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "owner_id uuid, account_cleanup boolean",
+        "hash": "2501dd70c08d71563c89e4197594b730",
+        "name": "photo_cutover_cleanup_allowed",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "spot_private",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "b2c3a2eff33a98627b0b5593456c98f3",
+        "name": "photo02_metadata_purge_before_review",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid",
+        "hash": "86faafaf4d680f09854a0129523d1a46",
+        "name": "photo02_begin_account_deletion",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "dd3be5d8f58af7b712f24016824192a3",
+        "name": "photo_cutover_runtime_ready",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, path text, lease uuid, write_manifest jsonb",
+        "hash": "e47126c7ff7fa55b7789be8f6f16fd6b",
+        "name": "photo_write_intent",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, token uuid",
+        "hash": "409f0af564f47b9ecf98689e486d9462",
+        "name": "finish_photo_cleanup",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text",
+        "hash": "2996662cd86fd7128be92d35dafadbb9",
+        "name": "claim_photo_cleanup",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "7303c689417240e0e1711f0aaa12c5e8",
+        "name": "photo_cutover_execute_permit",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, lease uuid, evidence_code text",
+        "hash": "e2a4e527ee601fcf7e1bcc6df1431684",
+        "name": "photo02_reconcile_writer_before_review",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "041522076399222bbd0013ac753e069b",
+        "name": "photo_lifecycle_inventory",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, expected_lease uuid, operation_id uuid, evidence_code text, evidence_ref text, operator_id text",
+        "hash": "a69dbad7a8da43d0c1a56e3985079426",
+        "name": "photo_review_resolve",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text",
+        "hash": "d183e861bc11ab30a8fe4d6c78929203",
+        "name": "photo_reconciliation_pending",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "da881740cccc2eb690283f603495d370",
+        "name": "photo_review_inventory",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, lease uuid, evidence_code text",
+        "hash": "d3ea3b1db0dcb14adfefe368cfea580c",
+        "name": "reconcile_photo_writer",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "4932d847163c825cfed140b5ee30dc9d",
+        "name": "photo02_metadata_purge_before_cutover",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text",
+        "hash": "3991d4739d0d57f53d075382eb899937",
+        "name": "photo_orphan_candidate",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "path text, operation_id uuid, evidence_ref text, operator_id text",
+        "hash": "67b6ac8975ea6859d27671c09f3de526",
+        "name": "photo_orphan_removed",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+        "hash": "c5520cc36a0a9d0800f36868ad020db0",
+        "name": "begin_photo_upload",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "",
+        "hash": "39fff7733c393e6b453fae4d05e65fe6",
+        "name": "photo_metadata_purge",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      },
+      {
+        "args": "project_ref text, enabled boolean",
+        "hash": "3d602cffb0b21d1d0154d3eff244dbfe",
+        "name": "photo_cutover_scheduler_configure",
+        "config": [
+          "search_path=\"\""
+        ],
+        "schema": "public",
+        "definer": true,
+        "anon_execute": false,
+        "auth_execute": false
+      }
+    ],
+    "checked_at": "2026-10-10T17:28:10.771853+00:00",
+    "memberships": 1,
+    "legacy_photos": 0,
+    "profile_checks": [
+      "CHECK (((age >= 18) AND (age <= 120)))",
+      "CHECK ((photo_path ~~ ((id)::text || '/%'::text)))",
+      "CHECK ((gender = ANY (ARRAY['M'::text, 'F'::text])))",
+      "CHECK (((char_length(TRIM(BOTH FROM name)) >= 1) AND (char_length(TRIM(BOTH FROM name)) <= 60)))",
+      "CHECK ((char_length(occupation) <= 80))",
+      "CHECK ((preference = ANY (ARRAY['M'::text, 'F'::text, 'ALL'::text])))"
+    ],
+    "activity_window": null,
+    "expired_checkins": 1,
+    "checkin_constraint": "CHECK ((expires_at = (checked_in_at + '01:30:00'::interval)))",
+    "auth_metadata_columns": [
+      {
+        "type": "json",
+        "table": "audit_log_entries",
+        "column": "payload"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "audit_log_entries",
+        "column": "created_at"
+      },
+      {
+        "type": "character varying",
+        "table": "audit_log_entries",
+        "column": "ip_address"
+      },
+      {
+        "type": "text",
+        "table": "identities",
+        "column": "provider_id"
+      },
+      {
+        "type": "text",
+        "table": "identities",
+        "column": "provider"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "identities",
+        "column": "created_at"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "identities",
+        "column": "updated_at"
+      },
+      {
+        "type": "text",
+        "table": "identities",
+        "column": "email"
+      },
+      {
+        "type": "character varying",
+        "table": "refresh_tokens",
+        "column": "token"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "refresh_tokens",
+        "column": "created_at"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "refresh_tokens",
+        "column": "updated_at"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "sessions",
+        "column": "created_at"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "sessions",
+        "column": "updated_at"
+      },
+      {
+        "type": "text",
+        "table": "sessions",
+        "column": "user_agent"
+      },
+      {
+        "type": "inet",
+        "table": "sessions",
+        "column": "ip"
+      },
+      {
+        "type": "text",
+        "table": "sessions",
+        "column": "refresh_token_hmac_key"
+      },
+      {
+        "type": "bigint",
+        "table": "sessions",
+        "column": "refresh_token_counter"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "email"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "email_confirmed_at"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "confirmation_token"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "recovery_token"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "email_change_token_new"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "email_change"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "email_change_sent_at"
+      },
+      {
+        "type": "jsonb",
+        "table": "users",
+        "column": "raw_app_meta_data"
+      },
+      {
+        "type": "jsonb",
+        "table": "users",
+        "column": "raw_user_meta_data"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "created_at"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "updated_at"
+      },
+      {
+        "type": "text",
+        "table": "users",
+        "column": "phone"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "phone_confirmed_at"
+      },
+      {
+        "type": "text",
+        "table": "users",
+        "column": "phone_change"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "phone_change_token"
+      },
+      {
+        "type": "timestamp with time zone",
+        "table": "users",
+        "column": "phone_change_sent_at"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "email_change_token_current"
+      },
+      {
+        "type": "smallint",
+        "table": "users",
+        "column": "email_change_confirm_status"
+      },
+      {
+        "type": "character varying",
+        "table": "users",
+        "column": "reauthentication_token"
+      }
+    ],
+    "discovery_definitions": {
+      "my_tribes": "CREATE OR REPLACE FUNCTION public.my_tribes()\n RETURNS TABLE(id uuid, name text, address text, member_count bigint, live_count bigint)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select v.id,v.name,v.address,\n (select count(*) from spot_private.tribe_memberships other join auth.users u on u.id=other.user_id where other.venue_id=v.id and not u.is_anonymous and (settings.activity_window is null or other.last_checkin_at>now()-settings.activity_window) and not exists(select 1 from spot_private.account_deletions d where d.user_id=u.id) and not exists(select 1 from spot_private.suspensions s where s.user_id=u.id and s.revoked_at is null)),\n (select count(*) from public.checkins c join auth.users u on u.id=c.user_id where c.venue_id=v.id and c.expires_at>now() and not u.is_anonymous and not exists(select 1 from spot_private.account_deletions d where d.user_id=u.id) and not exists(select 1 from spot_private.suspensions s where s.user_id=u.id and s.revoked_at is null))\n from spot_private.tribe_memberships mine join public.venues v on v.id=mine.venue_id cross join spot_private.tribe_settings settings\n where mine.user_id=auth.uid() and spot_private.has_account() and v.active and (settings.activity_window is null or mine.last_checkin_at>now()-settings.activity_window) order by v.name,v.id;\n$function$\n",
+      "venue_preview": "CREATE OR REPLACE FUNCTION public.venue_preview(qr_token uuid)\n RETURNS TABLE(id uuid, name text, address text, live_count bigint, member_count bigint)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select v.id,v.name,v.address,\n (select count(*) from public.checkins c join auth.users u on u.id=c.user_id where c.venue_id=v.id and c.expires_at>now() and not u.is_anonymous and not exists(select 1 from spot_private.account_deletions d where d.user_id=u.id) and not exists(select 1 from spot_private.suspensions s where s.user_id=u.id and s.revoked_at is null)),\n (select count(*) from spot_private.tribe_memberships member join auth.users u on u.id=member.user_id where member.venue_id=v.id and not u.is_anonymous and (settings.activity_window is null or member.last_checkin_at>now()-settings.activity_window) and not exists(select 1 from spot_private.account_deletions d where d.user_id=u.id) and not exists(select 1 from spot_private.suspensions s where s.user_id=u.id and s.revoked_at is null))\n from public.venues v join spot_private.venue_codes codes on codes.venue_id=v.id cross join spot_private.tribe_settings settings where codes.qr_token=venue_preview.qr_token and v.active;\n$function$\n",
+      "location_people": "CREATE OR REPLACE FUNCTION public.location_people(place uuid, live boolean)\n RETURNS TABLE(id uuid, name text, age integer, gender text, photo_path text, checked_in_at timestamp with time zone, expires_at timestamp with time zone, interest_sent boolean, occupation text)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n if not spot_private.has_account() or not spot_private.tribe_member(auth.uid(),place) then raise exception 'Accesso alla Tribe negato' using errcode='42501'; end if;\n if live and not exists(select 1 from public.checkins c where c.user_id=auth.uid() and c.venue_id=place and c.expires_at>now()) then return; end if;\n return query select p.id,p.name,p.age,p.gender,p.photo_path,\n null::timestamptz,null::timestamptz,\n exists(select 1 from spot_private.interests i where i.sender_id=auth.uid() and i.recipient_id=p.id and i.venue_id=place),p.occupation\n from spot_private.tribe_memberships m join public.profiles p on p.id=m.user_id\n left join public.checkins c on c.user_id=p.id and c.venue_id=place\n where m.venue_id=place and spot_private.can_discover(p.id,place)\n and (coalesce(c.expires_at>now(),false)=live) order by p.name,p.id;\nend $function$\n",
+      "visible_profiles": "CREATE OR REPLACE FUNCTION public.visible_profiles()\n RETURNS TABLE(id uuid, name text, age integer, gender text, photo_path text)\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\n select p.id,p.name,p.age,p.gender,p.photo_path\n from public.profiles p\n where p.id<>auth.uid() and spot_private.can_view_profile(p.id);\n$function$\n",
+      "moderation_reports": "CREATE OR REPLACE FUNCTION public.moderation_reports()\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n if not public.is_moderator() then raise exception 'Access denied' using errcode='42501'; end if;\n return coalesce((select jsonb_agg(row_to_json(r)) from (\n select r.id,r.target_id,p.name as target_name,r.reason,r.details,r.created_at,r.status,\n exists(select 1 from spot_private.suspensions s where s.user_id=r.target_id and s.revoked_at is null) as suspended\n from spot_private.reports r join public.profiles p on p.id=r.target_id\n order by r.created_at desc limit 100\n ) r),'[]'::jsonb);\nend $function$\n",
+      "location_people_page": "CREATE OR REPLACE FUNCTION public.location_people_page(place uuid, live boolean, page_size integer DEFAULT 49, page_offset integer DEFAULT 0)\n RETURNS TABLE(id uuid, name text, age integer, gender text, photo_path text, checked_in_at timestamp with time zone, expires_at timestamp with time zone, interest_sent boolean, occupation text, total_count bigint)\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare me uuid:=auth.uid(); preference_filter text; activity interval;\nbegin\n if not spot_private.has_account() or not spot_private.tribe_member(me,place) then raise exception 'Accesso alla Tribe negato' using errcode='42501'; end if;\n if live and not exists(select 1 from public.checkins c where c.user_id=me and c.venue_id=place and c.expires_at>now()) then return; end if;\n select p.preference into preference_filter from public.profiles p where p.id=me;\n select settings.activity_window into activity from spot_private.tribe_settings settings where settings.singleton;\n return query with visible as materialized (\n select p.id,p.name,p.age,p.gender,p.photo_path,p.occupation,c.checked_in_at,c.expires_at\n from spot_private.tribe_memberships member join public.profiles p on p.id=member.user_id join auth.users u on u.id=p.id\n left join public.checkins c on c.user_id=p.id and c.venue_id=place\n where member.venue_id=place and p.id<>me and not u.is_anonymous\n and (activity is null or member.last_checkin_at>now()-activity)\n and (preference_filter='ALL' or preference_filter=p.gender)\n and (coalesce(c.expires_at>now(),false)=live)\n and not exists(select 1 from spot_private.account_deletions d where d.user_id=p.id)\n and not exists(select 1 from spot_private.suspensions s where s.user_id=p.id and s.revoked_at is null)\n and not exists(select 1 from public.blocks b where (b.blocker_id=me and b.blocked_id=p.id) or (b.blocker_id=p.id and b.blocked_id=me))\n ),page as (\n select v.*,count(*) over() as full_count from visible v order by v.name,v.id limit least(101,greatest(1,coalesce(page_size,49))) offset greatest(0,coalesce(page_offset,0))\n ) select p.id,p.name,p.age,p.gender,p.photo_path,\n null::timestamptz,null::timestamptz,\n exists(select 1 from spot_private.interests i where i.sender_id=me and i.recipient_id=p.id and i.venue_id=place),p.occupation,p.full_count from page p order by p.name,p.id;\nend $function$\n",
+      "prepare_account_deletion": "CREATE OR REPLACE FUNCTION public.prepare_account_deletion(target_user uuid)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$\nbegin\n delete from spot_private.moderation_audit a where a.actor_id=target_user or a.report_id in(\n select r.id from spot_private.reports r where r.reporter_id=target_user or r.target_id=target_user);\n delete from spot_private.reports where reporter_id=target_user or target_id=target_user;\n delete from spot_private.suspensions where user_id=target_user;\n delete from spot_private.moderators where user_id=target_user;\nend $function$\n"
+    }
+  },
+  "publicSite": {
+    "url": "https://spot-now-alpha.vercel.app/",
+    "status": 200,
+    "headers": {
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "set-cookie": null
+    },
+    "title": "Soma",
+    "externalUrls": [
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com",
+      "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap"
+    ],
+    "assetRefs": [
+      "/assets/index-4iCUUhTs.js",
+      "/assets/preload-helper-DjzSQ1t3.js",
+      "/assets/index-BzYwi14q.css"
+    ],
+    "privacyLink": false
+  },
+  "validation": {
+    "tests": "235/235 PASS",
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "limits": [
+    "No production personal messages/photo/preference read",
+    "No cloud abuse/load/deletion test this task",
+    "Provider contract acceptance/access/MFA/backup/log-retention configuration not verified",
+    "No legal basis or DPIA conclusion selected"
+  ]
+}
