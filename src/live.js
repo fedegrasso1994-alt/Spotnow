@@ -1,3 +1,4 @@
+import {createPrivacyControls} from './privacy-phase1.js';
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
 import { userMessage } from './errors.js';
@@ -13,6 +14,8 @@ import { createSuspensionScreen } from './suspension-screen.js';
 
 const $=id=>document.getElementById(id);
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY});
+const privacyEnabled=typeof backend.privacyState==='function';
+let privacy=null;
 const state={profile:{name:'',age:0,gender:null,preference:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
 const qrFromUrl=new URLSearchParams(location.search).get('venue');
 // OAuth/email redirects carry the current QR in their URL; a stored old token is never an ingress.
@@ -51,6 +54,7 @@ function emptyList(id,text) {const p=document.createElement('p');p.className='em
 function go(screen,{replace=false,fromHistory=false}={}) {
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
+  else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&privacy?.state?.age_status!=='eligible'&&['onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
   listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
   if(screen!=='tribe')detailWarmer?.disconnect();
@@ -89,7 +93,9 @@ const loadAccount=singleFlight(async(key)=>{
   const account=state.session?.user.id;
   if(!state.session||state.session.user.is_anonymous){if(!current())return;if(pendingQr)await previewVenue();else go('intro');return;}
   if(await checkAccountStatus())return;
+  if(privacyEnabled){const ps=await privacy.refresh();if(!current())return;if(ps.age_status!=='eligible'){social.reset();go('privacy',{replace:true});return;}}
   const profile=await backend.getProfile();
+  if(privacyEnabled&&!profile){state.profile.age=privacy.state.declared_age||0;if(privacy.state.consent_status!=='active'){go('privacy',{replace:true});return;}}
   if(!current())return;
   if(!profile){if(pendingQr){await previewVenue();if(!current())return;restoredDraft=false;rememberDraft();syncForm();go('onboarding',{replace:true});}else{syncForm();go('intro',{replace:true});}return;}
   const photo=state.profile.photoPath===profile.photo_path?state.profile.photo:null;
@@ -114,6 +120,7 @@ async function checkAccountStatus(){
   if(deleting){social.reset();installPrompt.close();go('deleting',{replace:true});return true;}
   if(next){suspended=true;social.reset();installPrompt.close();document.querySelectorAll('.overlay.active').forEach(el=>el.classList.remove('active'));go('suspended');}
   else suspended=false;
+  if(!next&&privacyEnabled){const ps=await privacy.refresh();if(generation!==accountGeneration)return false;if(ps.age_status!=='eligible'){social.reset();go('privacy',{replace:true});return true;}}
   return next;
 }
 createSuspensionScreen({onCheck:async()=>{const blocked=await checkAccountStatus();if(!blocked)await hydrate();return blocked;},onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick()});
@@ -167,7 +174,7 @@ async function handlePhoto(event) {
 async function trySaveProfile() {
   if(state.saving)return;checkProfileValid();
   if(!state.profile.photo&&!state.profile.photoPath)return showToast('Carica una foto per continuare.');
-  if(!validProfile(state.profile))return showToast('Inserisci nome (1–60 caratteri), età intera da 18 a 120 anni e genere.');
+  if(!validProfile(state.profile,{allowMissingPreference:privacyEnabled}))return showToast('Inserisci nome (1–60 caratteri), età intera da 18 a 120 anni e genere.');
   const generation=accountGeneration,selection=photoSelection;
   state.saving=true;$('profileBtn').disabled=true;
   try {
@@ -286,6 +293,7 @@ const loadTribe=singleFlight(async(generation)=>{
 const renderTribe=()=>loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
 deleteAccountButtonSetup();
+if(privacyEnabled)privacy=createPrivacyControls({backend,onContinue:()=>hydrate(),onRestricted:()=>go('privacy'),onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick(),onRevoke:async()=>{state.profile.preference=null;backend.clearPrivacyCaches?.();social.reset();syncForm();await hydrate();showToast('Consenso revocato. Preferenza cancellata; match e chat esistenti conservati.');}});
 function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('profileActions').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}

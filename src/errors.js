@@ -3,6 +3,8 @@ import {PhotoError} from './photo-contract.js';
 export function userMessage(error) {
   if(error instanceof PhotoError)return error.message;
   const text=String(error?.message||'');
+  if(/AGE_REQUIRED|AGE_INVALID|AGE_AUTH/.test(text))return 'Conferma di avere almeno 18 anni per continuare.';
+  if(/CONSENT_|PRIVACY_REQUIRED/.test(text))return 'Conferma il consenso dating per vedere profili o inviare nuovi Spot. Puoi gestirlo nel tuo profilo.';
   if(error?.code==='PGRST205'||error?.code==='PGRST202')return 'Questa funzione è in aggiornamento. Riprova tra poco.';
   if(/rate limit|limit reached|too many/i.test(text))return 'Troppe richieste. Attendi qualche minuto e riprova.';
   if(/not authorized|email address/i.test(text))return 'Controlla l’indirizzo email o usa Continua con Google.';

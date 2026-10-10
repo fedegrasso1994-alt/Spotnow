@@ -13,7 +13,7 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  create table storage.objects(id uuid default gen_random_uuid(),bucket_id text,name text,metadata jsonb default '{}'::jsonb,created_at timestamptz default now(),updated_at timestamptz default now());
  alter table storage.objects enable row level security;grant usage on schema storage to authenticated;grant select,insert on storage.objects to authenticated;
  create function storage.foldername(text) returns text[] language sql immutable as $$select string_to_array($1,'/')$$;`);
- for(const f of (await readdir('supabase/migrations')).sort()){if(f.startsWith('017_')){await db.exec(await readFile('supabase/cutover/prepare.sql','utf8'));await db.exec("update spot_private.photo_cutover_control set phase='DRAINING'");}await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));}
+ for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))<=19).sort()){if(f.startsWith('017_')){await db.exec(await readFile('supabase/cutover/prepare.sql','utf8'));await db.exec("update spot_private.photo_cutover_control set phase='DRAINING'");}await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));}
  await db.exec("update spot_private.photo_cutover_control set phase='OPEN',smoke_epoch=epoch,execute_enabled=true,cleanup_all=true");
  const a='10000000-0000-0000-0000-000000000001',b='10000000-0000-0000-0000-000000000002',c='10000000-0000-0000-0000-000000000003';
  const v='20000000-0000-0000-0000-000000000001',w='20000000-0000-0000-0000-000000000002',q='30000000-0000-0000-0000-000000000001',r='30000000-0000-0000-0000-000000000002';
@@ -22,6 +22,8 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  insert into public.profiles values('${a}','Anna',24,'F','ALL','${a}/a.png',now()),('${b}','Luca',26,'M','ALL','${b}/b.png',now()),('${c}','Anon',25,'M','ALL','${c}/c.png',now());
  insert into public.venues(id,name,address) values('${v}','Gym','Test'),('${w}','Campus','Test');insert into spot_private.venue_codes values('${v}','${q}'),('${w}','${r}');`);
  const asUser=async id=>db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);`);
+ for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20).sort())await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
+ for(const [id,age]of [[a,24],[b,26]]){await asUser(id);await db.query('select attest_adult($1,true,$2,gen_random_uuid())',[age,'adult-v1']);const challenge=(await db.query('select dating_consent_challenge() c')).rows[0].c;await db.query('select accept_dating_consent($1,gen_random_uuid())',[challenge.token]);await db.query("update profiles set preference='ALL' where id=$1",[id]);}
  const count=async live=>(await db.query(`select * from public.location_people('${v}',${live})`)).rows;
  await asUser(a);await db.query(`select public.check_in('${q}')`);await db.query(`select public.check_in('${q}')`);
  await asUser(b);await db.query(`select public.check_in('${q}')`);

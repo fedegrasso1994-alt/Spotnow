@@ -1,5 +1,6 @@
 import { boundedFetch } from './request.js';
 import { createClient } from '@supabase/supabase-js';
+import {privacyPhaseEnabled} from './privacy-phase1.js';
 import { createBackend } from './backend.js';
 
 // Loaded by the future production bundle, never by the unconfigured static demo.
@@ -17,5 +18,5 @@ export function connectBackend({url,publicKey,storageKey}) {
     catch {throw new Error('Chiave pubblica non valida.');}
     if(payload.role!=='anon')throw new Error('Usa la chiave anon, non service_role.');
   } else if(!publicKey.startsWith('sb_publishable_'))throw new Error('Chiave pubblica non valida.');
-  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}));
+  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env)});
 }

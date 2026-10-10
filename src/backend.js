@@ -1,10 +1,11 @@
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
 import {createPhotoUpload} from './photo-upload.js';
+import {createPrivacyApi} from './privacy-phase1.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false}={}) {
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
@@ -24,6 +25,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     return data.user.id;
   }
   return {
+    ...(privacyEnabled?createPrivacyApi(client):{}),
     async session(){return unwrap(await client.auth.getSession()).session;},
     async accountState(){return rpcRead('my_account_state');},
     async isSuspended(){return unwrap(await client.rpc('my_account_status'));},
@@ -51,6 +53,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
       if(Boolean(email)===Boolean(phone)||!token.trim())throw new Error('Inserisci il codice ricevuto.');
       return unwrap(await client.auth.verifyOtp(email?{email,token,type:'email'}:{phone,token,type:'sms'}));
     },
+    clearPrivacyCaches:clearPhotos,
     async signOut(){clearPhotos();unwrap(await client.auth.signOut());},
     async getProfile() {
       const id=await userId();
@@ -58,7 +61,7 @@ export function createBackend(client,{readTimeoutMs=15000}={}) {
     },
     uploadPhoto:createPhotoUpload(client,userId),
     async saveProfile(profile) {
-      if(!validProfile(profile)||profile.age>120||profile.name.trim().length>60)throw new Error('Completa il profilo con una foto e dati validi.');
+      if(!validProfile(profile,{allowMissingPreference:privacyEnabled})||profile.age>120||profile.name.trim().length>60)throw new Error('Completa il profilo con una foto e dati validi.');
       const id=await userId();
       if(!profile.photo.startsWith(`${id}/`))throw new Error('Carica la foto prima di salvare.');
       const saved=unwrap(await client.from('profiles').upsert({id,name:profile.name.trim(),age:profile.age,
