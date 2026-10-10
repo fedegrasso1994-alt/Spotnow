@@ -1,0 +1,621 @@
+{
+  "date": "2026-10-10",
+  "projectRef": "qlucwdjcjomwyziegxrn",
+  "mode": "READ ONLY; repeatable-read snapshots, catalog SELECT and source/public artifact reads only",
+  "referenceCommit": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+  "mainCommit": "d80b113aabd6d304d92e5ff27b3f04147136ec2e",
+  "observedAt": "2026-10-10T07:28:11.19872+00:00",
+  "productionChanges": false,
+  "counts": {
+    "jobs": 1,
+    "assets": 1,
+    "legacy": 0,
+    "accounts": 1,
+    "deleting": 0,
+    "profiles": 1,
+    "validated": 1,
+    "storage_bytes": 368181,
+    "current_photos": 1,
+    "jobs_by_status": {
+      "ready": 1
+    },
+    "storage_objects": 3,
+    "active_processing": 0
+  },
+  "integrity": {
+    "orphan_objects": 0,
+    "missing_current": 0,
+    "unsafe_job_paths": 0,
+    "missing_asset_objects": 0,
+    "profile_without_account": 0,
+    "assets_without_validated": 0,
+    "pre017_unknown_candidates": 0,
+    "validated_without_account": 0,
+    "missing_registered_objects": 0,
+    "profile_without_registered_photo": 0
+  },
+  "cutover_preflight": {
+    "retry_jobs": 0,
+    "019_present": false,
+    "all_buckets": [
+      {
+        "bucket": "profile-photos",
+        "objects": 3
+      }
+    ],
+    "failed_jobs": 0,
+    "storage_rls": true,
+    "max_attempts": 1,
+    "cache_controls": [
+      "max-age=3600"
+    ],
+    "rename_targets": {
+      "spot_private.photo01_can_view_photo(text)": false,
+      "public.photo02_metadata_purge_before_review()": false,
+      "public.photo02_metadata_purge_before_cutover()": false,
+      "public.photo01_begin_photo_upload(uuid,uuid,text,text)": false,
+      "public.photo02_reconcile_writer_before_review(text,uuid,text)": false,
+      "public.photo01_finish_photo_upload(uuid,uuid,uuid,text,text,integer,text,integer,integer)": false
+    },
+    "bootstrap_present": false,
+    "processing_expired": 0,
+    "begin_source_marker": true,
+    "available_extensions": [
+      {
+        "name": "pg_net",
+        "installed": false
+      },
+      {
+        "name": "pg_cron",
+        "installed": false
+      },
+      {
+        "name": "supabase_vault",
+        "installed": true
+      }
+    ],
+    "storage_content_types": [
+      "image/jpeg"
+    ],
+    "unpublished_validated": 0,
+    "canonical_size_mismatch": 0,
+    "ready_without_validation": 0
+  },
+  "schema": {
+    "reference": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+    "objects": [
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "table",
+        "name": "spot_private.photo_cutover_control",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "table",
+        "name": "spot_private.photo_cutover_attempts",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "table",
+        "name": "spot_private.photo_cutover_deletions",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "table",
+        "name": "spot_private.photo_cutover_audit",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "index",
+        "name": "photo_cutover_attempt_owner",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_lock",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_admit",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_job_guard",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "trigger",
+        "name": "aa_photo_cutover_job",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_profile_guard",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "trigger",
+        "name": "aa_photo_cutover_profile",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_delete_guard",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "trigger",
+        "name": "aa_photo_cutover_delete",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_auth_deleted",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "constraint trigger",
+        "name": "photo_cutover_auth_deleted",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_status",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_assert_drained",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_bridge_begin",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_bridge_intent",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_bridge_receipt",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_resolve",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_stop_cron",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/prepare.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_set",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "table",
+        "name": "spot_private.photo_lifecycle_sets",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "table",
+        "name": "spot_private.photo_cleanup_accounts",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "index",
+        "name": "photo_lifecycle_due",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "index",
+        "name": "photo_lifecycle_owner",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "spot_private.photo_owner_lock",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.begin_photo_upload",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.fail_photo_upload",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo02_begin_photo_upload",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_write_intent",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_write_receipt",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.finish_photo_upload",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "spot_private.photo_lifecycle_publish",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "trigger",
+        "name": "lifecycle_publication",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.begin_account_deletion",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_deletion_barrier",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_reconciliation_checked",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_lifecycle_inventory",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.claim_photo_cleanup",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.finish_photo_cleanup",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.reconcile_photo_writer",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_metadata_purge",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_cleanup_candidates",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.photo_cleanup_failure",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.claim_photo_account_cleanup",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.finish_photo_account_cleanup",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.fail_photo_account_cleanup",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "spot_private.can_view_photo",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "table",
+        "name": "spot_private.photo_lifecycle_anomalies",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/017_photo_lifecycle.sql",
+        "kind": "function",
+        "name": "public.scan_photo_lifecycle",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "table",
+        "name": "spot_private.photo_review_audit",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "index",
+        "name": "photo_review_audit_path",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_review_hold",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.reconcile_photo_writer",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_review_resolve",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_reconciliation_checked",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_reconciliation_pending",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_lifecycle_inventory",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_review_inventory",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.begin_photo_upload",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_metadata_purge",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_orphan_candidate",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/018_photo_review.sql",
+        "kind": "function",
+        "name": "public.photo_orphan_removed",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_runtime_ready",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo02_begin_photo_upload",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo02_begin_account_deletion",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "spot_private.photo_cutover_cleanup_allowed",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo_lifecycle_inventory",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo_cleanup_candidates",
+        "replace": true
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_execute_permit",
+        "replace": false
+      },
+      {
+        "file": "supabase/migrations/019_photo_cutover.sql",
+        "kind": "function",
+        "name": "public.photo_metadata_purge",
+        "replace": false
+      },
+      {
+        "file": "supabase/cutover/scheduler.sql",
+        "kind": "function",
+        "name": "public.photo_cutover_scheduler_configure",
+        "replace": false
+      }
+    ],
+    "unexpected_collisions": [],
+    "baseline_unchanged": {
+      "functions": true,
+      "policies": true,
+      "columns": true,
+      "rls": true,
+      "indexes": true,
+      "constraints": true,
+      "photo_triggers": true,
+      "bucket": true,
+      "extensions": true
+    },
+    "rename_targets_absent": true,
+    "source_marker_matches": true,
+    "current_bootstrap_installed": false,
+    "current_019_installed": false
+  },
+  "supplemental": {
+    "roles": [
+      "anon",
+      "authenticated",
+      "service_role"
+    ],
+    "db_create": true,
+    "server_version": "17.11",
+    "cutover_indexes": [],
+    "ready_confirmed": 1,
+    "originals_or_extra_objects": 0,
+    "auth_cutover_trigger_collision": false
+  },
+  "edgeSources": [
+    {
+      "function": "photo-assets",
+      "sha256": "82bd8bdcf6eef9b34880b2514c091007f23b940698cbb802f22726eac9df3376",
+      "matchesPreviousVerifiedProduction": true
+    },
+    {
+      "function": "delete-account",
+      "sha256": "aa8dc6800f14e480b19c6e5a35cf3241af934b283a0ba1ef74d2f40dc4a79f71",
+      "matchesPreviousVerifiedProduction": true
+    },
+    {
+      "function": "photo-normalize-jpeg",
+      "sha256": "47699a64469bf770dbd81e258a8bfd6d007b7eba8fd99f15dc03f21bc206892d",
+      "matchesPreviousVerifiedProduction": true
+    },
+    {
+      "function": "photo-normalize-png",
+      "sha256": "d5abceaa9c8bc7f50c87952a3eb68420574872b90fd7824e5aab034165885038",
+      "matchesPreviousVerifiedProduction": true
+    },
+    {
+      "function": "photo-normalize-webp",
+      "sha256": "7995661917fec9d3c8cc0fd9311d9a0ac9545bf3b288310c03bb5881d0339c28",
+      "matchesPreviousVerifiedProduction": true
+    }
+  ],
+  "publicArtifacts": {
+    "matched": 20,
+    "checked": 20
+  },
+  "checks": {
+    "testsPassed": 235,
+    "testsTotal": 235,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "writers": {
+    "PHOTO01_admitted_processing": 0,
+    "expired_processing": 0,
+    "failed": 0,
+    "retry": 0,
+    "ready": 1,
+    "ready_confirmed": 1,
+    "prospective_unknown_at_bootstrap": 0,
+    "pending_deletes": 0,
+    "pending_publications": 0,
+    "PHOTO02_ledger_installed": false
+  },
+  "decision": "GO for controlled production rollout using tested sequence and mandatory live entry/stop gates; rollout not executed",
+  "limitations": [
+    "No mutating production RPC/Edge smoke invoked",
+    "Storage integrity checked against catalog/registered metadata; real photo bytes not downloaded",
+    "Preflight does not freeze production; recheck/drain after admission OFF required",
+    "Cached old client ignores restart:true for expired nonce: controlled error; reload/reselect File may be needed",
+    "Already delivered max-age3600 cached pixels are not revocable"
+  ],
+  "finalObservedAt": "2026-10-10T07:41:50.200776+00:00",
+  "unchangedDuringReadOnlyPreflight": true
+}
