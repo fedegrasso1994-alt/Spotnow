@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-10",
+  "project": "zjinjtkekmaqtxsuyvho",
+  "tests": {
+    "total": 257,
+    "pass": 257,
+    "fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "live_passed": [
+    "AGE A missing/bypass/17/18",
+    "CONSENT A missing/accept/owner-only",
+    "AGE B missing/bypass/17/18",
+    "CONSENT B missing/accept/owner-only",
+    "PHOTO01/02 JPEG onboarding/replacement",
+    "QR Ora Tribe Spot match chat",
+    "revocation/double revoke/preference NULL/chat preserved/stale challenge",
+    "real Postgres renew vs purge race",
+    "retention dry-run/purge/replay/Tribe invariant/active photo",
+    "real revoke vs Spot race, no match creation without consent",
+    "real message vs inactive chat purge race",
+    "moderation authorization and report review are independent of dating consent",
+    "DELETE A restricted/consent-independent/photo/social/cascade",
+    "DELETE B restricted/consent-independent/photo/social/cascade"
+  ],
+  "additional_live_checks": [
+    "UI 17/18, explicit unchecked consent rejection, revoke and existing chat",
+    "Expired challenge / past operation purge with current proof preservation"
+  ],
+  "final_staging": {
+    "accounts": 3,
+    "profiles": 3,
+    "scheduler": {
+      "runs": 2,
+      "active": false,
+      "http200": 2,
+      "latest200": "2026-10-10T19:40:00.026838+00:00"
+    },
+    "fixture_auth": 0,
+    "rls_disabled": 0,
+    "fixture_venue": 0,
+    "new_uncertain": 0,
+    "photo_control": {
+      "epoch": 6,
+      "phase": "PAUSED",
+      "attempts": [
+        {
+          "reason": "UNCLASSIFIED_PREPARE",
+          "writer": "unknown",
+          "protocol": "EXISTING",
+          "age_seconds": 95095
+        },
+        {
+          "reason": "UNCLASSIFIED_PREPARE",
+          "writer": "unknown",
+          "protocol": "EXISTING",
+          "age_seconds": 95095
+        },
+        {
+          "reason": "UNCLASSIFIED_PREPARE",
+          "writer": "unknown",
+          "protocol": "EXISTING",
+          "age_seconds": 95095
+        }
+      ],
+      "release_sha": "492144417c7b286f15c4f3e8a267a89aadc3fadf",
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 3,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "privacy_state": {
+      "paused": true,
+      "policies": [
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "interests",
+          "duration": "90 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "empty_matches",
+          "duration": "90 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "closed_reports",
+          "duration": "180 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "diagnostic_logs",
+          "duration": "7 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "security_logs",
+          "duration": "30 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "technical_receipts",
+          "duration": "7 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 1,
+          "category": "released_safety_metadata",
+          "duration": "180 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 3,
+          "category": "inactive_chats",
+          "duration": "1 year",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 3,
+          "category": "privacy_operation_metadata",
+          "duration": "7 days",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 3,
+          "category": "expired_consent_challenges",
+          "duration": "24:00:00",
+          "validation": "DESIGN_ONLY"
+        },
+        {
+          "enabled": false,
+          "version": 3,
+          "category": "checkins",
+          "duration": "24:00:00",
+          "validation": "DESIGN_ONLY"
+        }
+      ],
+      "overdue_holds": 0,
+      "checkins_past_24h": 2
+    },
+    "current_photos": 3,
+    "review_writers": 3,
+    "fixture_storage": 0,
+    "missing_current": 0,
+    "storage_objects": 39,
+    "visit_timestamps": 0,
+    "fixture_api_removed": true,
+    "unreferenced_storage": 0,
+    "fixture_active_ledger": 0,
+    "fixture_private_proofs": 0,
+    "fixture_reserved_bytes": 0,
+    "baseline_photos_unchanged": true
+  },
+  "scheduler": {
+    "auth": "PASS",
+    "before": {
+      "runs": 0,
+      "active": false,
+      "http200": 0,
+      "latest200": null
+    },
+    "started": "2026-10-10T19:38:37.485Z",
+    "active": {
+      "runs": 0,
+      "active": true,
+      "http200": 0,
+      "latest200": null
+    },
+    "after": {
+      "runs": 2,
+      "active": true,
+      "http200": 2,
+      "latest200": "2026-10-10T19:40:00.026838+00:00"
+    },
+    "final": {
+      "runs": 2,
+      "active": false,
+      "http200": 2,
+      "latest200": "2026-10-10T19:40:00.026838+00:00"
+    },
+    "result": "PASS"
+  },
+  "production_modified": false,
+  "fixture_credentials_included": false
+}
