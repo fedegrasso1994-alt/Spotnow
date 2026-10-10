@@ -1,7 +1,8 @@
 begin;
 -- PLACEHOLDER versions are allowed only in the explicit staging configuration.
 create table spot_private.privacy_environment(singleton boolean primary key check(singleton),environment text not null check(environment in('staging','production')));
-insert into spot_private.privacy_environment values(true,'staging');
+-- Fail-safe in every newly migrated project. Staging activation requires its signed service ref.
+insert into spot_private.privacy_environment values(true,'production');
 create table spot_private.consent_versions(version text primary key,purpose text not null default 'dating_preferences',text_content text not null,text_hash text not null,status text not null check(status in('placeholder','validated')),required boolean not null default false);
 insert into spot_private.consent_versions select 'dating-staging-v1','dating_preferences',t,md5(t),'placeholder',true from (values('PLACEHOLDER — NON VALIDATO — SOLO TEST: acconsento esplicitamente all’uso delle mie preferenze dating per discovery e matching.')) x(t);
 create unique index consent_one_required on spot_private.consent_versions(required) where required;
@@ -108,4 +109,12 @@ create function spot_private.immutable_consent_text()returns trigger language pl
  if (new.version,new.purpose,new.text_content,new.text_hash) is distinct from (old.version,old.purpose,old.text_content,old.text_hash) then raise exception 'CONSENT_VERSION_IMMUTABLE';end if;return new;end $$;
 create trigger consent_text_immutable before update on spot_private.consent_versions for each row execute function spot_private.immutable_consent_text();
 revoke all on function spot_private.immutable_consent_text()from public,anon,authenticated;
+create function public.privacy_staging_enable(project_ref text)returns void language plpgsql security definer set search_path='' as $$
+declare claims jsonb:=coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb;
+begin
+ if project_ref is distinct from 'zjinjtkekmaqtxsuyvho' or claims->>'role' is distinct from 'service_role' or claims->>'ref' is distinct from project_ref then raise exception 'STAGING_PROJECT_REQUIRED' using errcode='42501';end if;
+ update spot_private.privacy_environment set environment='staging'where singleton;
+end $$;
+revoke all on function public.privacy_staging_enable(text)from public,anon,authenticated;
+grant execute on function public.privacy_staging_enable(text)to service_role;
 notify pgrst,'reload schema';commit;

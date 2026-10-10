@@ -23,6 +23,7 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  insert into public.venues(id,name,address) values('${v}','Gym','Test'),('${w}','Campus','Test');insert into spot_private.venue_codes values('${v}','${q}'),('${w}','${r}');`);
  const asUser=async id=>db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);`);
  for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20).sort())await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
+ await db.exec("select set_config('request.jwt.claims','{\"role\":\"service_role\",\"ref\":\"zjinjtkekmaqtxsuyvho\"}',false);select privacy_staging_enable('zjinjtkekmaqtxsuyvho');");
  for(const [id,age]of [[a,24],[b,26]]){await asUser(id);await db.query('select attest_adult($1,true,$2,gen_random_uuid())',[age,'adult-v1']);const challenge=(await db.query('select dating_consent_challenge() c')).rows[0].c;await db.query('select accept_dating_consent($1,gen_random_uuid())',[challenge.token]);await db.query("update profiles set preference='ALL' where id=$1",[id]);}
  const count=async live=>(await db.query(`select * from public.location_people('${v}',${live})`)).rows;
  await asUser(a);await db.query(`select public.check_in('${q}')`);await db.query(`select public.check_in('${q}')`);

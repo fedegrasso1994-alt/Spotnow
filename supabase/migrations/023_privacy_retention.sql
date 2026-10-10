@@ -1,7 +1,7 @@
 begin;
 -- Design defaults, OFF. Not a legal retention policy or a production activation.
 create table spot_private.retention_policies(category text primary key,duration interval not null check(duration>interval '0'),enabled boolean not null default false,version bigint not null default 1,validation text not null default 'DESIGN_ONLY',batch_size integer not null default 100 check(batch_size between 1 and 500));
-insert into spot_private.retention_policies(category,duration)values('checkins',interval '24 hours'),('interests',interval '90 days'),('empty_matches',interval '90 days'),('inactive_chats',interval '12 months'),('closed_reports',interval '180 days'),('diagnostic_logs',interval '7 days'),('security_logs',interval '30 days'),('technical_receipts',interval '7 days'),('released_safety_metadata',interval '180 days');
+insert into spot_private.retention_policies(category,duration)values('checkins',interval '24 hours'),('interests',interval '90 days'),('empty_matches',interval '90 days'),('inactive_chats',interval '12 months'),('closed_reports',interval '180 days'),('diagnostic_logs',interval '7 days'),('security_logs',interval '30 days'),('privacy_operation_metadata',interval '7 days'),('expired_consent_challenges',interval '24 hours'),('technical_receipts',interval '7 days'),('released_safety_metadata',interval '180 days');
 create table spot_private.retention_control(singleton boolean primary key check(singleton),paused boolean not null default true);
 insert into spot_private.retention_control values(true,true);
 create table spot_private.safety_holds(id uuid primary key default gen_random_uuid(),category text not null,target text not null,case_reference text not null,reason_code text not null check(reason_code in('MODERATION','INCIDENT','ABUSE','APPEAL')),created_at timestamptz not null default clock_timestamp(),review_at timestamptz not null,released_at timestamptz,check(review_at>created_at));
@@ -29,29 +29,38 @@ begin
  select * into rule from spot_private.retention_policies where retention_policies.category=retention_candidates.category;
  if not found then raise exception 'RETENTION_CATEGORY';end if;
  if category='checkins' then
- return query select c.user_id::text from public.checkins c where c.expires_at<=now() and not spot_private.retention_held(category,c.user_id::text)order by c.expires_at,c.user_id limit rule.batch_size;
+ return query select c.user_id::text from public.checkins c where c.expires_at<=now() and not spot_private.retention_held(retention_candidates.category,c.user_id::text)order by c.expires_at,c.user_id limit rule.batch_size;
  elsif category='interests' then
  return query select i.sender_id::text||'/'||i.recipient_id::text||'/'||i.venue_id::text from spot_private.interests i where i.created_at<=now()-rule.duration
  and not exists(select 1 from spot_private.interests r where r.sender_id=i.recipient_id and r.recipient_id=i.sender_id and r.venue_id=i.venue_id)
  and not exists(select 1 from public.matches m where m.user_a=least(i.sender_id,i.recipient_id) and m.user_b=greatest(i.sender_id,i.recipient_id))
- and not spot_private.retention_held(category,i.sender_id::text||'/'||i.recipient_id::text||'/'||i.venue_id::text)order by i.created_at limit rule.batch_size;
+ and not spot_private.retention_held(retention_candidates.category,i.sender_id::text||'/'||i.recipient_id::text||'/'||i.venue_id::text)order by i.created_at limit rule.batch_size;
  elsif category in('empty_matches','inactive_chats') then
  return query select m.id::text from public.matches m where
  (category='empty_matches' and m.created_at<=now()-rule.duration and m.first_message_at is null and not exists(select 1 from public.messages x where x.match_id=m.id)
  or category='inactive_chats' and exists(select 1 from public.messages x where x.match_id=m.id) and (select max(x.created_at) from public.messages x where x.match_id=m.id)<=now()-rule.duration)
- and not spot_private.retention_held(category,m.id::text)
+ and not spot_private.retention_held(retention_candidates.category,m.id::text)
  and not spot_private.retention_held('matches',m.id::text)
  and not exists(select 1 from spot_private.reports r where r.closed_at is null and (r.target_id in(m.user_a,m.user_b) or r.reporter_id in(m.user_a,m.user_b)))
  order by m.created_at limit rule.batch_size;
  elsif category='closed_reports' then
- return query select r.id::text from spot_private.reports r where r.closed_at<=now()-rule.duration and r.status<>'pending' and not spot_private.retention_held(category,r.id::text)
+ return query select r.id::text from spot_private.reports r where r.closed_at<=now()-rule.duration and r.status<>'pending' and not spot_private.retention_held(retention_candidates.category,r.id::text)
  and not exists(select 1 from spot_private.suspensions s where s.user_id=r.target_id and s.revoked_at is null)order by r.closed_at limit rule.batch_size;
+ elsif category='privacy_operation_metadata' then
+ return query select x.target from (
+ select 'age/'||e.user_id::text||'/'||e.operation_id::text target,e.created_at from spot_private.age_events e
+ where e.created_at<=now()-rule.duration and exists(select 1 from spot_private.age_events newer where newer.user_id=e.user_id and (newer.created_at,newer.operation_id)>(e.created_at,e.operation_id))
+ union all select 'consent/'||e.user_id::text||'/'||e.operation_id::text,e.created_at from spot_private.consent_events e
+ where e.created_at<=now()-rule.duration and exists(select 1 from spot_private.consent_events newer where newer.user_id=e.user_id and (newer.created_at,newer.operation_id)>(e.created_at,e.operation_id))
+ )x where not spot_private.retention_held(retention_candidates.category,x.target) order by x.created_at limit rule.batch_size;
+ elsif category='expired_consent_challenges' then
+ return query select c.user_id::text||'/'||c.token::text from spot_private.consent_challenges c where c.expires_at<=now()-rule.duration order by c.expires_at limit rule.batch_size;
  elsif category='technical_receipts' then
  return query select r.operation_id::text from spot_private.retention_runs r where r.completed_at<=now()-rule.duration order by r.completed_at limit rule.batch_size;
  elsif category='released_safety_metadata' then
  return query select h.id::text from spot_private.safety_holds h where h.released_at<=now()-rule.duration order by h.released_at limit rule.batch_size;
  else
- return query select l.id::text from spot_private.privacy_logs l where l.category=retention_candidates.category and l.created_at<=now()-rule.duration and not spot_private.retention_held(category,l.id::text)order by l.created_at limit rule.batch_size;
+ return query select l.id::text from spot_private.privacy_logs l where l.category=retention_candidates.category and l.created_at<=now()-rule.duration and not spot_private.retention_held(retention_candidates.category,l.id::text)order by l.created_at limit rule.batch_size;
  end if;
 end $$;
 create function public.privacy_retention_run(category text,operation_id uuid,dry_run boolean default true)returns jsonb language plpgsql security definer set search_path='' as $$
@@ -72,6 +81,8 @@ begin
  for c in select * from spot_private.retention_candidates(category)loop
  n:=n+1;if dry_run then continue;end if;
  if category='checkins' then perform spot_private.photo_owner_lock(c.target::uuid);
+ elsif category='privacy_operation_metadata' then parts:=string_to_array(c.target,'/');perform spot_private.photo_owner_lock(parts[2]::uuid);
+ elsif category='expired_consent_challenges' then parts:=string_to_array(c.target,'/');perform spot_private.photo_owner_lock(parts[1]::uuid);
  elsif category='interests' then parts:=string_to_array(c.target,'/');perform spot_private.retention_pair_lock(parts[1]::uuid,parts[2]::uuid);
  elsif category='closed_reports' then perform 1 from spot_private.reports where id=c.target::uuid for update;
  elsif category in('empty_matches','inactive_chats') then select * into m from public.matches where id=c.target::uuid;perform spot_private.retention_pair_lock(m.user_a,m.user_b);perform 1 from public.matches where id=m.id for update;
@@ -82,6 +93,10 @@ begin
  elsif category='interests' then delete from spot_private.interests where sender_id=parts[1]::uuid and recipient_id=parts[2]::uuid and venue_id=parts[3]::uuid;
  elsif category in('empty_matches','inactive_chats') then delete from public.matches where id=c.target::uuid;
  elsif category='closed_reports' then delete from spot_private.moderation_audit where report_id=c.target::uuid;delete from spot_private.reports where id=c.target::uuid;
+ elsif category='privacy_operation_metadata' then
+ if parts[1]='age' then delete from spot_private.age_events where age_events.user_id=parts[2]::uuid and age_events.operation_id=parts[3]::uuid;
+ else delete from spot_private.consent_events where consent_events.user_id=parts[2]::uuid and consent_events.operation_id=parts[3]::uuid;end if;
+ elsif category='expired_consent_challenges' then delete from spot_private.consent_challenges where user_id=parts[1]::uuid and token=parts[2]::uuid;
  elsif category='technical_receipts' then delete from spot_private.retention_runs where retention_runs.operation_id=c.target::uuid;
  elsif category='released_safety_metadata' then delete from spot_private.safety_hold_audit where hold_id=c.target::uuid;delete from spot_private.safety_holds where id=c.target::uuid;
  else delete from spot_private.privacy_logs where id=c.target::uuid;end if;
@@ -92,7 +107,7 @@ begin
 end $$;
 create function public.privacy_retention_config(category text default null,duration interval default null,enabled boolean default null,paused boolean default null)returns void language plpgsql security definer set search_path='' as $$begin
  perform pg_advisory_xact_lock(hashtextextended('privacy-retention',23));
- if paused is not null then update spot_private.retention_control set paused=privacy_retention_config.paused;end if;
+ if paused is not null then update spot_private.retention_control set paused=privacy_retention_config.paused where singleton;end if;
  if category is not null then
  if not exists(select 1 from spot_private.retention_policies where retention_policies.category=privacy_retention_config.category) then raise exception 'RETENTION_CATEGORY';end if;
  update spot_private.retention_policies set duration=coalesce(privacy_retention_config.duration,retention_policies.duration),enabled=coalesce(privacy_retention_config.enabled,retention_policies.enabled),version=version+1 where retention_policies.category=privacy_retention_config.category;
@@ -125,4 +140,19 @@ end $$;
 revoke all on function public.privacy_prior_moderate_report(uuid,text,text)from public,anon,authenticated,service_role;
 revoke all on function public.moderate_report(uuid,text,text)from public,anon;
 grant execute on function public.moderate_report(uuid,text,text)to authenticated;
+create table spot_private.safety_evidence(hold_id uuid primary key references spot_private.safety_holds(id)on delete cascade,report_reason text not null,report_status text not null,archived_at timestamptz not null default clock_timestamp());
+alter table spot_private.safety_evidence enable row level security;
+revoke all on spot_private.safety_evidence from public,anon,authenticated;
+alter function public.prepare_account_deletion(uuid)rename to privacy_prior_prepare_account_deletion;
+create function public.prepare_account_deletion(target_user uuid)returns void language plpgsql security definer set search_path='' as $$begin
+ perform pg_advisory_xact_lock(hashtextextended('privacy-retention',23));perform spot_private.photo_owner_lock(target_user);
+ -- Only explicit held cases: preserve categorical reason/status, never report details/chat/names/preferences.
+ insert into spot_private.safety_evidence(hold_id,report_reason,report_status)
+ select h.id,r.reason,r.status from spot_private.safety_holds h join spot_private.reports r on h.target=r.id::text
+ where h.category in('closed_reports','reports')and h.released_at is null and target_user in(r.reporter_id,r.target_id)
+ on conflict(hold_id)do nothing;
+ perform public.privacy_prior_prepare_account_deletion(target_user);
+end $$;
+revoke all on function public.privacy_prior_prepare_account_deletion(uuid),public.prepare_account_deletion(uuid)from public,anon,authenticated,service_role;
+grant execute on function public.prepare_account_deletion(uuid)to service_role;
 notify pgrst,'reload schema';commit;
