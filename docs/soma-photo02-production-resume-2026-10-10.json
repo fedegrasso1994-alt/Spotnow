@@ -1,0 +1,136 @@
+{
+  "result": "NO_GO_PENDING_REMAINING_SMOKES",
+  "code_commit": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+  "migration_reapplied": false,
+  "runtime_changed": false,
+  "network": {
+    "sandbox": "ENOTFOUND for Supabase, supabase.com and github.com",
+    "authorized_unsandboxed": "DNS and HTTPS PASS",
+    "authenticated_auth_api_storage": "PASS",
+    "production_config_change": false
+  },
+  "smoke_results": [
+    {
+      "name": "paused runtime and legacy contracts fail closed",
+      "result": "PASS",
+      "at": "2026-10-10T08:15:03.273Z",
+      "data": {
+        "paused": 503,
+        "collectorOff": 503
+      }
+    },
+    {
+      "name": "JPEG upload, publish, read canonical variants",
+      "result": "PASS",
+      "at": "2026-10-10T08:15:55.591Z",
+      "data": {
+        "status": 200,
+        "oldPreserved": false
+      }
+    },
+    {
+      "name": "PNG upload, publish, read canonical variants",
+      "result": "PASS",
+      "at": "2026-10-10T08:15:58.366Z",
+      "data": {
+        "status": 200,
+        "oldPreserved": true
+      }
+    },
+    {
+      "name": "WebP upload, publish, read canonical variants",
+      "result": "PASS",
+      "at": "2026-10-10T08:16:00.536Z",
+      "data": {
+        "status": 200,
+        "oldPreserved": true
+      }
+    },
+    {
+      "name": "invalid file, retry and idempotency",
+      "result": "PASS",
+      "at": "2026-10-10T08:16:03.050Z",
+      "data": {
+        "invalid": 422,
+        "retry": 200
+      }
+    },
+    {
+      "name": "synthetic QR, Ora, Tribe, Spot, match and chat",
+      "result": "FAIL",
+      "at": "2026-10-10T08:16:04.732Z",
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(people.some(x=>x.id===B.id))\n"
+    }
+  ],
+  "diagnosis": {
+    "at": "2026-10-10T08:17:38.030Z",
+    "readOnly": true,
+    "active": {
+      "count": 1,
+      "syntheticPeerIncluded": true,
+      "noPresenceTimestamps": true
+    },
+    "offline": {
+      "count": 0,
+      "syntheticPeerIncluded": false,
+      "noPresenceTimestamps": true
+    },
+    "tribe": {
+      "found": true,
+      "memberCount": 2,
+      "liveCount": 2
+    }
+  },
+  "final": {
+    "states": {
+      "failed": 1,
+      "current": 3,
+      "retired": 3
+    },
+    "control": {
+      "epoch": 4,
+      "phase": "PAUSED",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "missing": 0,
+    "objects": 18,
+    "orphans": 0,
+    "accounts": 3,
+    "profiles": 3,
+    "unknown_review": 0,
+    "pending_cleanup": 0,
+    "scheduler_active": 0,
+    "quota_owner_count": 3,
+    "quota_max_reserved": 13807598,
+    "synthetic_accounts": 2,
+    "photo_fingerprint_real": "481b0f016cdb54faae1218e1442fc4e5",
+    "storage_fingerprint_real": "dac9a189fe97289fac5d32823e72726b"
+  },
+  "remaining": [
+    "Spot",
+    "match",
+    "chat",
+    "delete account",
+    "quota boundary",
+    "cleanup idempotency and real grace",
+    "scheduler authenticated execution and eligibility",
+    "global cleanup review",
+    "post-scheduler"
+  ],
+  "checks": {
+    "test_pass": 235,
+    "test_fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "harness_syntax": "PASS"
+  },
+  "main_merged": false
+}
