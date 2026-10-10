@@ -1,0 +1,260 @@
+{
+  "status": "DONE",
+  "scope": "PHOTO-02 operational closure only",
+  "date": "2026-10-10",
+  "mergeCommit": "cfdd3cc83d767a693caac8c09d1932c07125558d",
+  "mergePR": "https://github.com/fedegrasso1994-alt/Spotnow/pull/1",
+  "harnessCommit": "72b19bbb6afc0945e6a22b425a423bce91fb790b",
+  "deployedRuntimeCommit": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+  "epoch": 6,
+  "openAt": "2026-10-10T10:13:47.524Z",
+  "schedulerAt": "2026-10-10T10:15:11.974Z",
+  "tests": [
+    {
+      "name": "New epoch CANARY with only tracked synthetic owners; global admission closed",
+      "pass": true,
+      "at": "2026-10-10T10:12:09.589Z",
+      "data": {
+        "epoch": 6
+      }
+    },
+    {
+      "name": "Current epoch publish/replace, old photo preserved and invalid retry",
+      "pass": true,
+      "at": "2026-10-10T10:12:53.031Z",
+      "data": {
+        "invalid": 422,
+        "valid": 200,
+        "previousPreserved": true
+      }
+    },
+    {
+      "name": "Fresh Profile/Ora/Tribe/photo/Spot/match/chat end-to-end",
+      "pass": true,
+      "at": "2026-10-10T10:12:54.527Z",
+      "data": {
+        "journeys": 7,
+        "idempotentMessage": true
+      }
+    },
+    {
+      "name": "Real synthetic delete and server approval in epoch6",
+      "pass": true,
+      "at": "2026-10-10T10:12:55.885Z",
+      "data": {
+        "serverApproved": true
+      }
+    },
+    {
+      "name": "OPEN upload/replace/read/retry; legacy writer remains blocked",
+      "pass": true,
+      "at": "2026-10-10T10:13:51.955Z",
+      "data": {
+        "upload": 200,
+        "replace": true,
+        "retrySamePath": true,
+        "legacyBlocked": true
+      }
+    },
+    {
+      "name": "Remove synthetic E via normal delete account",
+      "pass": true,
+      "at": "2026-10-10T10:14:15.957Z",
+      "data": {
+        "deleted": true
+      }
+    },
+    {
+      "name": "Remove synthetic F via normal delete account",
+      "pass": true,
+      "at": "2026-10-10T10:14:17.867Z",
+      "data": {
+        "deleted": true
+      }
+    },
+    {
+      "name": "Reviewed global dry run; global cleanup safe and idempotent",
+      "pass": true,
+      "at": "2026-10-10T10:14:46.227Z",
+      "data": {
+        "global": true,
+        "currentProtected": true,
+        "idempotent": true
+      }
+    }
+  ],
+  "precheck": {
+    "bytes": 368181,
+    "states": {
+      "purged": 11,
+      "current": 1
+    },
+    "control": {
+      "epoch": 6,
+      "phase": "PAUSED",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "missing": 0,
+    "objects": 3,
+    "orphans": 0,
+    "accounts": 1,
+    "profiles": 1,
+    "cron_runs": [
+      {
+        "runid": 1,
+        "status": "succeeded",
+        "end_time": "2026-10-10T09:11:00.142335+00:00",
+        "start_time": "2026-10-10T09:11:00.114624+00:00",
+        "return_message": "1 row"
+      }
+    ],
+    "processing": 0,
+    "quota_over": 0,
+    "cleanup_all": false,
+    "charged_quota": 9469184,
+    "net_responses": [
+      {
+        "id": 1,
+        "body": {
+          "failed": 0,
+          "pending": 0,
+          "reviewed": 0,
+          "anomalies": {
+            "missing": 0,
+            "untracked": 0
+          },
+          "completed": 1,
+          "reconciled": 0,
+          "review_total": 1,
+          "metadata_removed": 0
+        },
+        "created": "2026-10-10T09:11:00.150603+00:00",
+        "error_msg": null,
+        "timed_out": false,
+        "status_code": 200
+      }
+    ],
+    "unknown_review": 0,
+    "pending_cleanup": 0,
+    "scheduler_active": 0,
+    "synthetic_accounts": 0,
+    "real_photo_fingerprint": "481b0f016cdb54faae1218e1442fc4e5",
+    "purged_reserved_nonzero": 0,
+    "real_storage_fingerprint": "1da7f863e3fdf3b4b541c0ce876246da"
+  },
+  "final": {
+    "bytes": 368181,
+    "states": {
+      "purged": 17,
+      "current": 1
+    },
+    "control": {
+      "epoch": 6,
+      "phase": "OPEN",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": true,
+      "execute_enabled": true,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": true
+    },
+    "missing": 0,
+    "objects": 3,
+    "orphans": 0,
+    "accounts": 1,
+    "profiles": 1,
+    "cron_runs": [
+      {
+        "runid": 2,
+        "status": "succeeded",
+        "end_time": "2026-10-10T10:16:00.168668+00:00",
+        "start_time": "2026-10-10T10:16:00.144007+00:00",
+        "return_message": "1 row"
+      },
+      {
+        "runid": 1,
+        "status": "succeeded",
+        "end_time": "2026-10-10T09:11:00.142335+00:00",
+        "start_time": "2026-10-10T09:11:00.114624+00:00",
+        "return_message": "1 row"
+      }
+    ],
+    "processing": 0,
+    "quota_over": 0,
+    "cleanup_all": true,
+    "charged_quota": 9469184,
+    "net_responses": [
+      {
+        "id": 2,
+        "body": {
+          "failed": 0,
+          "pending": 0,
+          "reviewed": 0,
+          "anomalies": {
+            "missing": 0,
+            "untracked": 0
+          },
+          "completed": 0,
+          "reconciled": 0,
+          "review_total": 0,
+          "metadata_removed": 0
+        },
+        "created": "2026-10-10T10:16:00.177508+00:00",
+        "error_msg": null,
+        "timed_out": false,
+        "status_code": 200
+      },
+      {
+        "id": 1,
+        "body": {
+          "failed": 0,
+          "pending": 0,
+          "reviewed": 0,
+          "anomalies": {
+            "missing": 0,
+            "untracked": 0
+          },
+          "completed": 1,
+          "reconciled": 0,
+          "review_total": 1,
+          "metadata_removed": 0
+        },
+        "created": "2026-10-10T09:11:00.150603+00:00",
+        "error_msg": null,
+        "timed_out": false,
+        "status_code": 200
+      }
+    ],
+    "unknown_review": 0,
+    "pending_cleanup": 0,
+    "scheduler_active": 1,
+    "synthetic_accounts": 0,
+    "real_photo_fingerprint": "481b0f016cdb54faae1218e1442fc4e5",
+    "purged_reserved_nonzero": 0,
+    "real_storage_fingerprint": "1da7f863e3fdf3b4b541c0ce876246da"
+  },
+  "realPhotoUnchanged": true,
+  "fixturesRemoved": true,
+  "validation": {
+    "tests": "235/235 PASS",
+    "build": "PASS",
+    "typecheck": "PASS",
+    "runtimeDiffFromDeployed": "NONE"
+  },
+  "noMigrations": true,
+  "noFunctionDeploys": true,
+  "noPhoto01Changes": true,
+  "remainingAnomalies": [],
+  "rollback": "scheduler configure false then photo_cutover_set pause; no PHOTO01 writer or destructive schema rollback"
+}
