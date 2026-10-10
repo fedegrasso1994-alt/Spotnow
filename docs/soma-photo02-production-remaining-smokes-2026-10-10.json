@@ -1,0 +1,196 @@
+{
+  "result": "NO_GO_REOPEN_PENDING_ACTUAL_CRON_TICK",
+  "runtime_changed": false,
+  "migrations_reapplied": false,
+  "code_commit": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+  "remaining_smokes": [
+    {
+      "name": "Profile/Ora/Tribe/real photo reads after fresh sessions",
+      "result": "PASS",
+      "at": "2026-10-10T08:47:09.788Z",
+      "data": {
+        "photoCopiesRead": 3,
+        "tribeMembers": 2
+      }
+    },
+    {
+      "name": "Spot/match/chat persistence and idempotent retry after session refresh",
+      "result": "PASS",
+      "at": "2026-10-10T08:47:10.554Z",
+      "data": {
+        "messagesWithSameNonce": 1
+      }
+    },
+    {
+      "name": "Concurrent reservation serialized; owned no-write failure settled",
+      "result": "PASS",
+      "at": "2026-10-10T08:48:16.424Z",
+      "data": {
+        "accepted": 1,
+        "rejected": 1,
+        "terminalEvidence": "This controller never submitted any Storage write or intent"
+      }
+    },
+    {
+      "name": "Two ready drafts allowed; third refused without overwriting current",
+      "result": "PASS",
+      "at": "2026-10-10T08:48:19.732Z",
+      "data": {
+        "ready": 2,
+        "third": 409,
+        "code": "BUSY"
+      }
+    },
+    {
+      "name": "Explicit synthetic review hold is observable and not claimable",
+      "result": "PASS",
+      "at": "2026-10-10T08:49:11.812Z",
+      "data": {
+        "manualHoldIdempotent": true,
+        "synthetic": true
+      }
+    },
+    {
+      "name": "Authenticated collector and scheduler gate while globally closed",
+      "result": "PASS",
+      "at": "2026-10-10T08:49:14.242Z",
+      "data": {
+        "schedulerActivationBlocked": true
+      }
+    },
+    {
+      "name": "Scoped cleanup concurrent/repeated; current and fresh drafts protected",
+      "result": "PASS",
+      "at": "2026-10-10T08:49:20.664Z",
+      "data": {
+        "statuses": [
+          200,
+          200
+        ],
+        "repeatedCompleted": 0
+      }
+    },
+    {
+      "name": "Execution pause and scoped resume without scheduler activation",
+      "result": "PASS",
+      "at": "2026-10-10T08:49:22.452Z",
+      "data": {
+        "paused": 503,
+        "resumed": 200
+      }
+    },
+    {
+      "name": "Delete B through app backend: Auth/profile/Storage/social removed",
+      "result": "PASS",
+      "at": "2026-10-10T08:49:42.379Z",
+      "data": {
+        "authRemoved": true,
+        "profileRemoved": true,
+        "storagePrefixEmpty": true,
+        "socialRemoved": true
+      }
+    }
+  ],
+  "quota_boundary": {
+    "limit_bytes": 134217728,
+    "exact_boundary_reserved": 134217728,
+    "plus_one_rejected": true,
+    "retry_no_duplicate_reservation": true,
+    "method": "synthetic-owner reservation pressure in PostgreSQL transaction; full rollback; no Storage writes"
+  },
+  "delete_proof": {
+    "review": 0,
+    "control": {
+      "epoch": 4,
+      "phase": "CANARY",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "missing": 0,
+    "objects": 6,
+    "orphans": 0,
+    "unknown": 0,
+    "deleted_fixture": {
+      "auth": 0,
+      "jobs": 0,
+      "assets": 0,
+      "matches": 0,
+      "objects": 0,
+      "profile": 0,
+      "messages": 0,
+      "interests": 0,
+      "validated": 0,
+      "active_ledger": 0,
+      "reserved_bytes": 0,
+      "queue_completed": true,
+      "tribe_memberships": 0,
+      "unsettled_attempts": 0
+    },
+    "scheduler_active": 0,
+    "scheduler_configured": true,
+    "photo_fingerprint_real": "481b0f016cdb54faae1218e1442fc4e5",
+    "storage_fingerprint_real": "dac9a189fe97289fac5d32823e72726b"
+  },
+  "scheduler_proof": {
+    "idempotentOff": true,
+    "wrongProjectDenied": true,
+    "activationBeforeOpenDenied": true,
+    "actualCronTick": "NOT_RUN: OPEN required, global admission reopening prohibited"
+  },
+  "final": {
+    "jobs": {
+      "ready": 2
+    },
+    "states": {
+      "purged": 8,
+      "current": 2
+    },
+    "control": {
+      "epoch": 5,
+      "phase": "PAUSED",
+      "attempts": [],
+      "release_sha": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "missing": 0,
+    "objects": 6,
+    "orphans": 0,
+    "accounts": 2,
+    "profiles": 2,
+    "scheduler_runs": 0,
+    "unknown_review": 0,
+    "pending_cleanup": 0,
+    "scheduler_active": 0,
+    "purge_retries_max": 1,
+    "quota_max_charged": 9469184,
+    "synthetic_accounts": 1,
+    "quota_charged_total": 10553786,
+    "photo_fingerprint_real": "481b0f016cdb54faae1218e1442fc4e5",
+    "purged_reserved_nonzero": 0,
+    "storage_fingerprint_real": "dac9a189fe97289fac5d32823e72726b",
+    "scheduler_correct_endpoint": true
+  },
+  "checks": {
+    "tests_passed": 235,
+    "tests_failed": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "harness_syntax": "PASS"
+  },
+  "go_admission": false,
+  "go_global_cleanup_scheduler": false,
+  "main_merged": false
+}

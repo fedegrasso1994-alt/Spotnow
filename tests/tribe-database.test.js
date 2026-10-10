@@ -10,10 +10,11 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
  create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
- create table storage.objects(id uuid default gen_random_uuid(),bucket_id text,name text);
+ create table storage.objects(id uuid default gen_random_uuid(),bucket_id text,name text,metadata jsonb default '{}'::jsonb,created_at timestamptz default now(),updated_at timestamptz default now());
  alter table storage.objects enable row level security;grant usage on schema storage to authenticated;grant select,insert on storage.objects to authenticated;
  create function storage.foldername(text) returns text[] language sql immutable as $$select string_to_array($1,'/')$$;`);
- for(const f of (await readdir('supabase/migrations')).sort())await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
+ for(const f of (await readdir('supabase/migrations')).sort()){if(f.startsWith('017_')){await db.exec(await readFile('supabase/cutover/prepare.sql','utf8'));await db.exec("update spot_private.photo_cutover_control set phase='DRAINING'");}await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));}
+ await db.exec("update spot_private.photo_cutover_control set phase='OPEN',smoke_epoch=epoch,execute_enabled=true,cleanup_all=true");
  const a='10000000-0000-0000-0000-000000000001',b='10000000-0000-0000-0000-000000000002',c='10000000-0000-0000-0000-000000000003';
  const v='20000000-0000-0000-0000-000000000001',w='20000000-0000-0000-0000-000000000002',q='30000000-0000-0000-0000-000000000001',r='30000000-0000-0000-0000-000000000002';
  await db.exec(`insert into auth.users values('${a}',false),('${b}',false),('${c}',true);

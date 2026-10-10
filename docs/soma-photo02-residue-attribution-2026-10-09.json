@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-09",
+  "scope": "Read-only attribution and proposed cleanup; staging only",
+  "production_changed": false,
+  "data_mutated": false,
+  "scheduler_active": false,
+  "cases": [
+    {
+      "case": "W1",
+      "provenance": "CONFIRMED_SYNTHETIC_TEST",
+      "operational_disposition": "REVIEW_UNRESOLVED_WRITER",
+      "historical_owner_label": "preprofile",
+      "original_manifest_owner_match": true,
+      "synthetic_auth_metadata_match": true,
+      "input_sha_matches_verified_fixture": true,
+      "fixture": "pathological.png",
+      "job_status": "processing",
+      "lease_until_utc": "2026-10-07T15:50:33.490727+00:00",
+      "ledger_bootstrap_error": "PRE017",
+      "references": {
+        "case": "W1",
+        "legacy_refs": 0,
+        "current_refs": 0,
+        "manifest_refs": 0,
+        "job_legacy_refs": 0,
+        "path_object_count": 0,
+        "current_owner_present": 1
+      },
+      "cleanup": "NOT_READY: independently reconcile terminal/no-write effects before purge"
+    },
+    {
+      "case": "W2",
+      "provenance": "CONFIRMED_SYNTHETIC_TEST",
+      "operational_disposition": "REVIEW_UNRESOLVED_WRITER",
+      "historical_owner_label": "preprofile",
+      "original_manifest_owner_match": true,
+      "synthetic_auth_metadata_match": true,
+      "input_sha_matches_verified_fixture": true,
+      "fixture": "pathological.png",
+      "job_status": "processing",
+      "lease_until_utc": "2026-10-07T15:51:52.062779+00:00",
+      "ledger_bootstrap_error": "PRE017",
+      "references": {
+        "case": "W2",
+        "legacy_refs": 0,
+        "current_refs": 0,
+        "manifest_refs": 0,
+        "job_legacy_refs": 0,
+        "path_object_count": 0,
+        "current_owner_present": 1
+      },
+      "cleanup": "NOT_READY: independently reconcile terminal/no-write effects before purge"
+    },
+    {
+      "case": "W3",
+      "provenance": "CONFIRMED_SYNTHETIC_TEST",
+      "operational_disposition": "REVIEW_UNRESOLVED_WRITER",
+      "historical_owner_label": "preprofile",
+      "original_manifest_owner_match": true,
+      "synthetic_auth_metadata_match": true,
+      "input_sha_matches_verified_fixture": true,
+      "fixture": "pathological.png",
+      "job_status": "failed",
+      "lease_until_utc": "2026-10-07T15:54:34.210008+00:00",
+      "ledger_bootstrap_error": "PRE017",
+      "references": {
+        "case": "W3",
+        "legacy_refs": 0,
+        "current_refs": 0,
+        "manifest_refs": 0,
+        "job_legacy_refs": 0,
+        "path_object_count": 0,
+        "current_owner_present": 1
+      },
+      "cleanup": "NOT_READY: independently reconcile terminal/no-write effects before purge"
+    },
+    {
+      "case": "O1",
+      "provenance": "CONFIRMED_SYNTHETIC_TEST",
+      "operational_disposition": "CLEANUP_CANDIDATE_AFTER_RECHECK",
+      "historical_owner_label": "preprofile",
+      "original_manifest_path_match": true,
+      "download_sha_matches_original_fixture": true,
+      "original_object_created_at_utc": "2026-10-06T19:40:55.907564+00:00",
+      "references": {
+        "case": "O1",
+        "legacy_refs": 0,
+        "current_refs": 0,
+        "manifest_refs": 0,
+        "job_legacy_refs": 0,
+        "path_object_count": 1,
+        "current_owner_present": 1
+      },
+      "cleanup": "Proposed exact-object Storage API removal; preserve account/current photo"
+    }
+  ],
+  "proof": {
+    "orphan": {
+      "bytes": 53129,
+      "sha": "58afc1beaf131da9709abe3eee0aef9bd1f2a1b933783f9ab11e70f6d277d23e",
+      "matchesOriginalSyntheticFile": true
+    },
+    "pathologicalFixture": {
+      "bytes": 326207,
+      "sha": "8b4fb619b3dbc70de2cb138d7e592f8f76f900de75815118a210ce8121255341",
+      "header": "PNG 1x1 RGB8; payload expansion inconsistent",
+      "rejection": "INVALID",
+      "encoderCalls": 0
+    },
+    "readOnly": true
+  },
+  "limitations": [
+    "No request-specific terminal trace was recovered for W1/W2/W3",
+    "Local fixture rejection does not prove historical writer termination",
+    "No review state was written into the database"
+  ],
+  "sources": {
+    "baseline_script_sha256": "203896ee242e6ebc8bca1b26babc3e6cf81587eb36181baafff238a42b5bacb6",
+    "bounded_manifest_sha256": "470f76c3a6e98a38cfe3d723dc5d41279dff32bfe37962c128dc717ae3574167",
+    "baseline_script": "/private/tmp/soma-staging-baseline.mjs",
+    "private_account_manifest": "/private/tmp/soma-staging-accounts.json",
+    "fixture_manifest": "/private/tmp/soma-bounded/fixtures.json",
+    "test_scenarios": [
+      "/private/tmp/photo01-e2e-stage.mjs",
+      "/private/tmp/photo01-e2e-stage-results.json"
+    ],
+    "private_target_mapping": ".local/photo02-residue-review/targets-private.json"
+  }
+}

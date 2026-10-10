@@ -6,10 +6,10 @@ test('user cannot backfill/select another account and canonical compatibility ca
 test('internal codec endpoints never accept anonymous or user tokens',async()=>{let decoded=0;const worker=photoWorker({process:async()=>decoded++},{serviceKey:'service'});for(const auth of['','Bearer user','Bearer wrong'])assert.equal((await worker(new Request('https://test',{method:'POST',headers:{Authorization:auth},body:'x'}))).status,403);assert.equal(decoded,0);});
 
 test('malformed upload releases lease using SDK thenable without catch and preserves rejection response',async()=>{
- const calls=[];const admin={auth:{getUser:async()=>({data:{user:{id:'caller',is_anonymous:false}}})},rpc:(name)=>({then(resolve){calls.push(name);resolve({data:name==='begin_photo_upload'?{photo_path:'caller/test.jpg',lease_token:'lease'}:null,error:null});}})};
+ const calls=[];const admin={auth:{getUser:async()=>({data:{user:{id:'caller',is_anonymous:false}}})},rpc:(name)=>({then(resolve){calls.push(name);resolve({data:name==='photo02_begin_photo_upload'?{photo_path:'caller/test.jpg',lease_token:'lease'}:null,error:null});}})};
  const handler=photoUploadHandler({admin,url:'https://test',serviceKey:'service'});
  const r=await handler(new Request('https://test',{method:'POST',headers:{Authorization:'Bearer user','X-Photo-Request-Id':'40000000-0000-4000-8000-000000000001'},body:'not-an-image'}));
- assert.equal(r.status,422);assert.equal((await r.json()).code,'FORMAT');assert.deepEqual(calls,['begin_photo_upload','fail_photo_upload']);
+ assert.equal(r.status,422);assert.equal((await r.json()).code,'FORMAT');assert.deepEqual(calls,['photo02_begin_photo_upload','photo_write_receipt','fail_photo_upload']);
  const again=await handler(new Request('https://test',{method:'POST'}));assert.equal(again.status,401);
 });
 

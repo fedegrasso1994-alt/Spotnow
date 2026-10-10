@@ -1,0 +1,61 @@
+{
+  "projectRef": "zjinjtkekmaqtxsuyvho",
+  "orphanDeleted": 1,
+  "orphanBytes": 53129,
+  "orphansReferences": 0,
+  "currentPhotoPreserved": true,
+  "profilePreserved": true,
+  "accountPreserved": true,
+  "reviewCount": 3,
+  "reviewChargedBytes": 0,
+  "reviewObjects": 0,
+  "reviewAutomaticRetry": false,
+  "reviewAutomaticPurge": false,
+  "reviewDiagnostics": true,
+  "holdAndOrphanReplay": "PASS",
+  "normalConcurrentAdmission": "PASS",
+  "freshUploadObjectsRemoved": 6,
+  "doubleCleanup": "PASS",
+  "collector": [
+    {
+      "completed": 0,
+      "reconciled": 0,
+      "pending": 0,
+      "reviewed": 0,
+      "review_total": 3,
+      "failed": 0,
+      "metadata_removed": 0,
+      "anomalies": {
+        "missing": 0,
+        "untracked": 0
+      }
+    },
+    {
+      "completed": 0,
+      "reconciled": 0,
+      "pending": 0,
+      "reviewed": 0,
+      "review_total": 3,
+      "failed": 0,
+      "metadata_removed": 0,
+      "anomalies": {
+        "missing": 0,
+        "untracked": 0
+      }
+    }
+  ],
+  "scheduler": "paused",
+  "sameOwnerAdmissionTransactionalRollback": "PASS",
+  "manualResolveTransactionalRollback": "PASS",
+  "tests": {
+    "total": 223,
+    "passed": 223,
+    "newReviewTests": 10
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "migration": "018_photo_review.sql",
+  "productionModified": false,
+  "photo01RuntimeModified": false,
+  "recommendation": "GO for controlled production rollout with independent production preflight; no rollout performed"
+}

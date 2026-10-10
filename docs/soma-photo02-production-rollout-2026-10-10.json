@@ -1,0 +1,77 @@
+{
+  "result": "STOP_BEFORE_CANARY",
+  "project_ref": "qlucwdjcjomwyziegxrn",
+  "code_commit": "ad27260be84e1f51d1b9f5678a4dd36422be5f29",
+  "branch": "photo02-staging",
+  "repository_head_before_rollout": "c781c014ed0b292a6094700fb2ffd36fbdf898d9",
+  "frontend_deployment": "https://spot-fvk26hbbu-fedegrasso1994-1482.vercel.app/",
+  "completed": [
+    "frontend compatible deployment and public artifact check",
+    "bootstrap PAUSED",
+    "bridge PHOTO01 deploy",
+    "close and assert_drained SCHEMA_LOCKED",
+    "migration017 and current-photo fingerprint verification",
+    "migration018",
+    "migration019",
+    "photo-assets PHOTO02 deployment",
+    "delete-account PHOTO02 deployment",
+    "new photo-lifecycle deployment",
+    "scheduler SQL installed without activation"
+  ],
+  "blocked": [
+    "live authenticated canary",
+    "admission reopen",
+    "global cleanup execution",
+    "scheduler configure and activation",
+    "post-scheduler verification"
+  ],
+  "failure": {
+    "component": "operator runner DNS resolution",
+    "code": "ENOTFOUND",
+    "hostname": "qlucwdjcjomwyziegxrn.supabase.co",
+    "point": "synthetic Auth createUser before canary setup",
+    "application_status": null,
+    "application_response": null,
+    "provider_outage_proven": false
+  },
+  "tests": {
+    "automatic": {
+      "passed": 235,
+      "failed": 0
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "public_frontend": "PASS",
+    "production_smoke": "NOT_RUN"
+  },
+  "final_safe_state": {
+    "states": {
+      "current": 1
+    },
+    "control": {
+      "epoch": 3,
+      "phase": "PAUSED",
+      "attempts": [],
+      "release_sha": null,
+      "legacy_unknown": 0,
+      "smoke_approved": null,
+      "execute_enabled": false,
+      "legacy_inflight": 0,
+      "existing_unknown": 0,
+      "deletions_pending": 0,
+      "scheduler_enabled": false
+    },
+    "missing": 0,
+    "objects": 3,
+    "orphans": 0,
+    "accounts": 1,
+    "profiles": 1,
+    "unknown_review": 0,
+    "pending_cleanup": 0,
+    "scheduler_active": 0,
+    "photo_fingerprint": "481b0f016cdb54faae1218e1442fc4e5",
+    "storage_fingerprint": "dac9a189fe97289fac5d32823e72726b"
+  },
+  "main_merged": false,
+  "rollback": "Post017: admission OFF, execute/scheduler OFF, compatible PHOTO02 code; no PHOTO01 writer or destructive schema rollback"
+}

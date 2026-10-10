@@ -1,3 +1,4 @@
+import {cleanupPhotoAccount} from '../_shared/photo-lifecycle.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 const headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type'};
 Deno.serve(async request=>{
@@ -15,26 +16,13 @@ Deno.serve(async request=>{
  try{body=await request.json();}catch{return reply({error:'Conferma richiesta'},400);}
  if(body?.dry_run===true)return reply({authenticated:true,deletionStarted:false});
  if(body?.confirm!==true)return reply({error:'Conferma richiesta'},400);
- const started=await admin.rpc('begin_account_deletion',{target_user:id});
+ const started=await admin.rpc('photo02_begin_account_deletion',{target_user:id});
+ if(started.error&&String(started.error.message).includes('PHOTO_PAUSED'))return reply({error:'Aggiornamento in corso. Riprova tra poco.'},503);
  if(started.error)return reply({error:'Cancellazione non avviata. Riprova.'},500);
  // Quiesce photo jobs before purging UID objects; a lease outlives bounded uploads.
  const barrier=await admin.rpc('photo_deletion_barrier',{target_user:id});
  if(barrier.error)return reply({error:'Cancellazione non avviata. Riprova.'},503);
  if(barrier.data===true)return reply({error:'Preparazione foto ancora in corso. Attendi un minuto e riprova.'},409);
- // Never accept a user id from the request. Remove only the authenticated user's files.
- let previousPage='';
- while(true){
-  const listing=await admin.storage.from('profile-photos').list(id,{limit:100});
-  if(listing.error)return reply({error:'Cancellazione foto non riuscita. Riprova.'},500);
-  if(!listing.data.length)break;
-  const page=listing.data.map(file=>file.name).join('\n');
-  if(page===previousPage)return reply({error:'Cancellazione foto incompleta. Riprova.'},500);previousPage=page;
-  const removal=await admin.storage.from('profile-photos').remove(listing.data.map(file=>`${id}/${file.name}`));
-  if(removal.error)return reply({error:'Cancellazione foto non riuscita. Riprova.'},500);
- }
- const cleanup=await admin.rpc('prepare_account_deletion',{target_user:id});
- if(cleanup.error)return reply({error:'Cancellazione non riuscita. Riprova.'},500);
- const deletion=await admin.auth.admin.deleteUser(id);
- if(deletion.error)return reply({error:'Cancellazione account non riuscita. Riprova.'},500);
+ try{if(!await cleanupPhotoAccount(admin,id))return reply({error:'Cancellazione in preparazione. Riprova tra poco.'},409);}catch{return reply({error:'Cancellazione in corso. Riprova tra poco.'},503);}
  return reply({deleted:true});
 });
