@@ -28,6 +28,16 @@ UI componente RIGHTS, backend stub dichiarato, nessun account/email reale: panne
 
 **Limite browser:** l'automazione in-app non ha restituito l'evento/file del download Blob (timeout); anche verifica alternativa del link non ha consentito ispezione file. Non segnato PASS download reale. Usato link esplicito invece di avvio automatico dopo rete; rimane necessario test download Chrome/Android/Safari/iPhone con sessione sintetica staging. Nessuna prova di malfunzionamento globale dedotta dal limite dell'automazione. Fixture HTML ignorata e rimossa; screenshot sintetico locale disponibile, non dati personali.
 
+## Probe HTTP e impedimento al collaudo autenticato
+
+`2026-10-11`: il resolver OS del runner (`dns.lookup`) restituisce ENOTFOUND per il solo host staging; `dns.resolve4` risolve lo stesso hostname. Supabase.com/GitHub risolvono normalmente. Il probe HTTPS con lookup DNS diretto, **senza cambiare hostname, TLS o provider**, verifica Auth health HTTP200 e RPC senza sessione HTTP401/code42501. Non è un workaround applicativo né una modifica infrastrutturale.
+
+Tentativo di creazione sessione anonima sintetica: Auth restituisce `anonymous_provider_disabled`. **Zero account creati**, zero upload, zero cambi gate. Le impostazioni Auth non sono state cambiate. La revisione automatica ha rifiutato l'apertura della pagina API keys staging per rischio di esposizione dei segreti amministrativi; nessun segreto amministrativo letto o percorso alternativo privilegiato usato. Serve predisposizione manuale di due sessioni sintetiche oppure autorizzazione esplicita all'accesso amministrativo del solo staging prima di quel collaudo. Non inviare credenziali in chat.
+
+`scripts/rights-staging-smoke.mjs probe`: riproducibile e read-only, allowlist esatta staging, public key dal file locale già esistente, nessuna chiave amministrativa. Modalità `smoke`/`cleanup` preparate, **NON ESEGUITE**: richiedono un manifest locale privato con due sessioni sintetiche (`rights_fixture:true`) predisposte e, per delete, canary PHOTO02 limitato a quei due owner. Il runner non crea account, non apre admission, non configura Auth, non deploya. Non usarlo su utenti reali. `smoke` attende fixture restricted/revoked e testa 15 sezioni, owner boundary e guards; `cleanup` usa solo il normale endpoint, richiede marker e identity corrispondenti e prova accesso negato dopo delete. Non dimostra ancora rimozione bytes Storage o flussi core cloud.
+
+Il risultato HTTP positivo senza JWT **non sostituisce** la prova con JWT né il download su dispositivo. Restano NO-GO produzione/chiusura completa.
+
 ## Aperture prima di GO finale
 
 1. Ricevere seguito del task dopo “internal security”. Implementazione limitata ai requisiti disponibili, non assume fasi/test assenti.
@@ -49,7 +59,10 @@ Rollback candidato: flag OFF e revoca/drop solaRPC024, senza perdita dati; non t
 - `.env.example` (flag default false)
 - `tests/user-rights.test.js`
 - `tests/staging/rights-fixtures.sql`
+- `scripts/rights-staging-smoke.mjs` (probe read-only passato; smoke autenticato pendente)
 - `docs/soma-rights01-inventory-design-2026-10-11.md`
 - questo report e JSON evidence omonimo.
 
 Working branch `codex/rights-01-staging`, base `ef964a5`; privacy dependencies già versionate. PROVIDER e INCIDENT non mergiati nel branch, né in main. Documento e codice sono candidate, non dichiarazione di conformità o chiusura RIGHTS-01.
+
+GitHub: commit feature `6c33c58` e report iniziale `355e659` sul branch dedicato; contenuti locali/remoti allineati. `main` e `origin/main` restano `d0f515e`. Nessun merge o deploy produzione.

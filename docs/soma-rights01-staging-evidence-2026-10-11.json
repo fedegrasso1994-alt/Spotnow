@@ -32,7 +32,7 @@
     "synthetic_component_view": "PASS",
     "prepare_JSON_link": "PASS",
     "actual_blob_download_verification": "MANUAL_CHECK_REQUIRED",
-    "live_HTTP_staging_auth_flow": "NOT_RUN"
+    "live_HTTP_staging_auth_flow": "UNSIGNED_PROBE_PASS_AUTHENTICATED_PENDING"
   },
   "pending": [
     "rest of truncated request",
@@ -58,5 +58,23 @@
       "path": "tests/staging/rights-fixtures.sql",
       "sha256": "f59e6c047ee2eeb5567c484387ac793e160e499c63427d12ee53a9cd5624cafd"
     }
-  ]
+  ],
+  "http": {
+    "auth_health": 200,
+    "unsigned_rights_status": 401,
+    "unsigned_rights_code": "42501",
+    "runner_OS_lookup": "ENOTFOUND",
+    "runner_DNS_resolve4": "PASS",
+    "TLS_verification": "unchanged",
+    "anonymous_session_setup": "anonymous_provider_disabled",
+    "accounts_created": 0,
+    "authenticated_smoke": "BLOCKED_PENDING_SYNTHETIC_SESSIONS",
+    "administrative_keys": "NOT_READ_AUTO_REVIEW_DENIED"
+  },
+  "github": {
+    "branch": "codex/rights-01-staging",
+    "feature": "6c33c58fbbcc7a7ef1d13dfa5734af70f264865a",
+    "initial_report": "355e6596c1407cd642cf630b6717d0c773d131f5",
+    "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
+  }
 }
