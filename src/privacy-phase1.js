@@ -1,3 +1,4 @@
+import {createRightsControls} from './user-rights.js';
 /** Staging-only controls. Server remains authoritative; no sensitive preference or DOB is cached here. */
 export const STAGING_REF='zjinjtkekmaqtxsuyvho';
 export function privacyPhaseEnabled(env){
@@ -40,5 +41,6 @@ export function createPrivacyControls({backend,onContinue,onRestricted,onRevoke,
  const settings=doc.createElement('button');settings.className='backlink';settings.textContent='Età e consenso preferenze dating';settings.onclick=()=>{update(current,true);onRestricted?.();};doc.getElementById('profileActions').append(settings);
  const revoke=doc.createElement('button');revoke.className='backlink';revoke.textContent='Revoca consenso dating';revoke.onclick=()=>work(revoke,async()=>{update(await backend.revokeConsent());await onRevoke();});doc.getElementById('profileActions').append(revoke);
  gateRevoke.onclick=()=>work(gateRevoke,async()=>{update(await backend.revokeConsent());await onRevoke();});
+ createRightsControls({backend,document:doc});
  return {screen,update,get state(){return current;},async refresh(){const s=await backend.privacyState();if(JSON.stringify(s)!==JSON.stringify(current))update(s);revoke.hidden=s.consent_status!=='active'&&s.consent_status!=='renewal_required';return s;}};
 }

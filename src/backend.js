@@ -1,11 +1,12 @@
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
 import {createPhotoUpload} from './photo-upload.js';
 import {createPrivacyApi} from './privacy-phase1.js';
+import {createRightsApi} from './user-rights.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false}={}) {
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
@@ -26,6 +27,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false}=
   }
   return {
     ...(privacyEnabled?createPrivacyApi(client):{}),
+    ...(rightsEnabled?{rights:createRightsApi(client)}:{}),
     async session(){return unwrap(await client.auth.getSession()).session;},
     async accountState(){return rpcRead('my_account_state');},
     async isSuspended(){return unwrap(await client.rpc('my_account_status'));},
