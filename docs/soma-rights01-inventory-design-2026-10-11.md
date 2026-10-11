@@ -1,3 +1,5 @@
+> Aggiornamento collaudo 2026-10-11: la checklist successiva del founder ha chiarito il perimetro dello smoke. Auth reale, download e cleanup sono ora verificati; i precedenti impedimenti relativi ad Auth/task troncato sono superati. Vedere [report aggiornato](soma-rights01-staging-report-2026-10-11.md). Rimangono aperte l’allineamento delle ricevute tecniche PHOTO dopo delete e la validazione dello scope completo dei diritti.
+
 # RIGHTS-01 — inventario e design candidato staging
 
 11ottobre2026. Baseline `codex/age-consent-retention-staging ef964a5` (001–023), main `d0f515e` invariato. PHOTO-01/02 non modificati. PROVIDER/INCIDENT restano su branch distinti; nessun merge implicito. Il messaggio founder ricevuto si interrompe a “niente segreti/token/internal security”: richiesto il seguito, nessun requisito assente inventato o dichiarato soddisfatto.

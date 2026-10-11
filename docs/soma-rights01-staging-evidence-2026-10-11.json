@@ -1,97 +1,82 @@
 {
   "task": "RIGHTS-01",
-  "status": "PARTIAL",
   "date": "2026-10-11",
-  "base": "ef964a56b99e6947c1244dc2639a5668613839dc",
+  "status": "AUTHENTICATED_SMOKE_PASS_CLOSURE_NO_GO",
   "production_modified": false,
   "main_modified": false,
+  "runtime_modified_this_phase": false,
   "staging_project": "zjinjtkekmaqtxsuyvho",
-  "migration": "024_user_rights.sql",
+  "authenticated": {
+    "created": 2,
+    "deleted": 2,
+    "normal_auth": true,
+    "administrative_keys_read": false,
+    "agent_modified_email_confirmation": false,
+    "fixture_storage_deleted": 6,
+    "technical_receipts_after_normal_delete": 10,
+    "technical_fixture_receipts_removed": 10,
+    "teardown_replayed": true
+  },
+  "browser": {
+    "actual_json_downloads": 3,
+    "actual_canonical_download": true,
+    "photo_bytes_in_JSON": false,
+    "public_frontend_deploy": false,
+    "physical_device_test": false
+  },
+  "staging_final": {
+    "phase": "PAUSED",
+    "cleanup": false,
+    "missing": 0,
+    "accounts": 3,
+    "profiles": 3,
+    "scheduler": false,
+    "untracked": 0,
+    "fixture_venue": 0,
+    "photo_objects": 39,
+    "fixture_storage": 0,
+    "fixture_accounts": 0,
+    "fixture_receipts": 0,
+    "preserved_review": 3,
+    "retention_paused": true,
+    "unexpected_unknown": 0
+  },
   "tests": {
-    "pass": 264,
+    "pass": 267,
     "fail": 0,
-    "new_rights": 7
+    "skipped": 0,
+    "rights": 10,
+    "added_this_phase": 3
+  },
+  "pending": [
+    "align ordinary deletion with PHOTO 7-day technical receipts versus safety-only founder requirement",
+    "professional scope/exclusions review",
+    "complete photo binary and provider/backup access procedure"
+  ],
+  "github": {
+    "branch": "codex/rights-01-staging",
+    "baseline": "69e83fa26f3e67faf1702783f3ab0c4ee2d20717",
+    "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
   },
   "build": "PASS",
   "typecheck": "PASS",
   "release_check": "PASS",
-  "staging": {
-    "rpc_installed": true,
-    "transactional_fixtures_rolled_back": true,
-    "fixture_residual": 0,
-    "auth_accounts": 3,
-    "profiles": 3,
-    "photo_objects": 39,
-    "missing_current": 0,
-    "unexpected_unknown": 0,
-    "preserved_review": 3,
-    "photo_phase": "PAUSED",
-    "retention_paused": true
-  },
-  "browser": {
-    "synthetic_component_view": "PASS",
-    "prepare_JSON_link": "PASS",
-    "actual_blob_download_verification": "MANUAL_CHECK_REQUIRED",
-    "live_HTTP_staging_auth_flow": "UNSIGNED_PROBE_PASS_AUTHENTICATED_PENDING"
-  },
-  "pending": [
-    "rest of truncated request",
-    "founder PHOTO 7-day technical receipts decision",
-    "professional scope/exclusions review",
-    "full photo binary/provider copies access",
-    "HTTP JWT device download and full Storage delete smoke",
-    "normal Auth fixture confirmation prerequisite"
-  ],
   "files": [
     {
-      "path": "supabase/migrations/024_user_rights.sql",
-      "sha256": "f55c4f608c9f0a4b6db55ec5817309fc8c5804cf7d557a2698f176e2dd40a453"
+      "path": "scripts/rights-staging-smoke.mjs",
+      "sha256": "b6437183d50089171c68a7980fafc9fe61f3660f25b495aebebdf168af64c888"
     },
     {
-      "path": "src/user-rights.js",
-      "sha256": "3ed329c83b1b535eb31e7241f9a22c55b9c7ab1d50b7e6e8f20ee42d914c0c61"
+      "path": "scripts/rights-fixture-teardown.mjs",
+      "sha256": "7da2a3940ce84f4813d45594cc568e79b6c04a1f1af07dfc1eb754932dd8121c"
     },
     {
       "path": "tests/user-rights.test.js",
-      "sha256": "1d1d5d757abbbf0ccb3128183b393239701986b52a1ac10b8cf1690fc2277682"
+      "sha256": "5c8877a1c457f38a9fbfc74d4f516f982d5595c081ef95b16870d10adc51fb00"
     },
     {
-      "path": "tests/staging/rights-fixtures.sql",
-      "sha256": "f59e6c047ee2eeb5567c484387ac793e160e499c63427d12ee53a9cd5624cafd"
+      "path": "tests/staging/rights-browser-smoke.html",
+      "sha256": "8d48dc0756b80300ee6ee5b5b0cfe1c5a998d70e4fdf88480b0c1796b07cd6da"
     }
-  ],
-  "http": {
-    "auth_health": 200,
-    "unsigned_rights_status": 401,
-    "unsigned_rights_code": "42501",
-    "runner_OS_lookup": "ENOTFOUND",
-    "runner_DNS_resolve4": "PASS",
-    "TLS_verification": "unchanged",
-    "anonymous_session_setup": "anonymous_provider_disabled",
-    "accounts_created": 0,
-    "authenticated_smoke": "BLOCKED_PENDING_SYNTHETIC_SESSIONS",
-    "administrative_keys": "NOT_READ_AUTO_REVIEW_DENIED"
-  },
-  "github": {
-    "branch": "codex/rights-01-staging",
-    "feature": "6c33c58fbbcc7a7ef1d13dfa5734af70f264865a",
-    "initial_report": "355e6596c1407cd642cf630b6717d0c773d131f5",
-    "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
-  },
-  "authenticated_attempt": {
-    "scope": "two synthetic temporary accounts; normal Auth only; no admin keys or real credentials",
-    "auth_settings_HTTP": 200,
-    "signup_enabled": true,
-    "email_autoconfirm": false,
-    "enabled_providers": [
-      "email"
-    ],
-    "status": "BLOCKED_EMAIL_CONFIRMATION_REQUIRED",
-    "accounts_created": 0,
-    "credentials_generated": 0,
-    "uploads": 0,
-    "config_changed": false,
-    "authenticated_checks": "NOT_RUN",
-    "unsafe_alternatives_used": false
-  }
+  ]
 }
