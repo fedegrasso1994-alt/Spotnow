@@ -39,7 +39,8 @@
     "founder PHOTO 7-day technical receipts decision",
     "professional scope/exclusions review",
     "full photo binary/provider copies access",
-    "HTTP JWT device download and full Storage delete smoke"
+    "HTTP JWT device download and full Storage delete smoke",
+    "normal Auth fixture confirmation prerequisite"
   ],
   "files": [
     {
@@ -76,5 +77,21 @@
     "feature": "6c33c58fbbcc7a7ef1d13dfa5734af70f264865a",
     "initial_report": "355e6596c1407cd642cf630b6717d0c773d131f5",
     "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
+  },
+  "authenticated_attempt": {
+    "scope": "two synthetic temporary accounts; normal Auth only; no admin keys or real credentials",
+    "auth_settings_HTTP": 200,
+    "signup_enabled": true,
+    "email_autoconfirm": false,
+    "enabled_providers": [
+      "email"
+    ],
+    "status": "BLOCKED_EMAIL_CONFIRMATION_REQUIRED",
+    "accounts_created": 0,
+    "credentials_generated": 0,
+    "uploads": 0,
+    "config_changed": false,
+    "authenticated_checks": "NOT_RUN",
+    "unsafe_alternatives_used": false
   }
 }

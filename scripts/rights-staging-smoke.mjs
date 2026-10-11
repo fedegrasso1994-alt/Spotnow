@@ -31,6 +31,13 @@ if(mode==='probe'){
  const health=await stageFetch(url+'/auth/v1/health',{headers:{apikey:key}});assert.equal(health.status,200);record('Auth health HTTP 200');
  const response=await stageFetch(url+'/rest/v1/rpc/my_rights_page',{method:'POST',headers:{apikey:key,'Content-Type':'application/json'},body:'{"section":"account"}'});
  assert.equal(response.status,401);assert.equal((await response.json()).code,'42501');record('Unsigned caller HTTP 401 / 42501');
+}else if(mode==='auth-preflight'){
+ // Public Auth settings only. No signup, account write or administrator key lookup.
+ const r=await stageFetch(url+'/auth/v1/settings',{headers:{apikey:key}});assert.equal(r.status,200);
+ const settings=await r.json();const providers=Object.entries(settings.external||{}).filter(([,on])=>on===true).map(([name])=>name);
+ const evidence={status:r.status,signup_enabled:settings.disable_signup===false,email_autoconfirm:settings.mailer_autoconfirm===true,enabled_providers:providers,accounts_created:0};
+ evidence.fixture_gate=evidence.signup_enabled&&evidence.email_autoconfirm&&providers.includes('email')?'READY_FOR_SYNTHETIC_SIGNUP':'BLOCKED_EMAIL_CONFIRMATION_OR_PROVIDER';
+ await writeFile(dir+'/http-auth-preflight.json',JSON.stringify(evidence,null,2));console.log(JSON.stringify(evidence));
 }else if(mode==='smoke'){
  assert.equal(manifest.users.length,2);assert.equal(new Set(manifest.users.map(u=>u.id)).size,2);for(const u of manifest.users)assert.equal(ok(await (await authed(u)).auth.getUser()).user.user_metadata.rights_fixture,true);const A=await authed(manifest.users[0]),B=await authed(manifest.users[1]);
  const denied=await client().rpc('my_rights_page',{section:'account'});assert.ok(denied.error);record('Unsigned caller denied HTTP');
@@ -51,5 +58,5 @@ if(mode==='probe'){
   const b=await r.json();assert.equal(r.status,200,'Delete must succeed through normal endpoint');assert.equal(b.deleted,true);u.deleted=true;await save();
   assert.ok((await c.rpc('my_rights_page',{section:'account'})).error);assert.ok((await c.auth.getUser()).error);record('JWT '+u.label+' restricted/revoked delete and post-delete denial');
  }
-}else throw Error('Use probe, smoke or cleanup; never production');
-if(mode!=='probe')await save();await writeFile(dir+'/http-results.json',JSON.stringify(manifest.results,null,2));
+}else throw Error('Use probe, auth-preflight, smoke or cleanup; never production');
+if(!['probe','auth-preflight'].includes(mode))await save();await writeFile(dir+'/http-results.json',JSON.stringify(manifest.results,null,2));

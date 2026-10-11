@@ -66,3 +66,36 @@ Rollback candidato: flag OFF e revoca/drop solaRPC024, senza perdita dati; non t
 Working branch `codex/rights-01-staging`, base `ef964a5`; privacy dependencies già versionate. PROVIDER e INCIDENT non mergiati nel branch, né in main. Documento e codice sono candidate, non dichiarazione di conformità o chiusura RIGHTS-01.
 
 GitHub: commit feature `6c33c58` e report iniziale `355e659` sul branch dedicato; contenuti locali/remoti allineati. `main` e `origin/main` restano `d0f515e`. Nessun merge o deploy produzione.
+
+## Tentativo autenticato autorizzato — 2026-10-11
+
+La nuova autorizzazione consente **solo due fixture temporanee tramite flussi Auth normali**, con credenziali esclusivamente nel contesto del test. Esclude lettura di API keys amministrative, service-role secret, credenziali reali e accesso amministrativo generalizzato. La precedente alternativa di accesso alle API keys **non è autorizzata e non viene riproposta**.
+
+Preflight read-only del normale endpoint `/auth/v1/settings`, usando la configurazione pubblica già impiegata dal client staging, HTTP200:
+
+- signup abilitato;
+- unico provider abilitato: email;
+- conferma email obbligatoria (`mailer_autoconfirm=false`);
+- anonymous/Google non abilitati.
+
+Con indirizzi sintetici non confermabili non si ottiene una sessione: non viene avviato signup, per evitare Auth record incompleti che non potrebbero effettuare login/delete tramite il flusso richiesto. **Zero account creati; zero credenziali generate/salvate; zero foto caricate; nessun cambio Auth, DB, gate, deployment, main o produzione.** Non utilizzati account, caselle o dati personali reali. Non letto alcun segreto amministrativo. Il resolver/TLS resta come documentato nel probe precedente.
+
+`scripts/rights-staging-smoke.mjs auth-preflight` rende riproducibile il controllo non mutante. Il collaudo JWT non viene dichiarato PASS sulla base di unit test o SQL con auth.uid simulato.
+
+| Verifica richiesta | Esito di questo tentativo |
+| --- | --- |
+| 1 Login A | NON ESEGUITO: manca un flusso fixture confermabile |
+| 2 Accesso dati A | NON ESEGUITO con JWT reale |
+| 3 A tenta dati B | NON ESEGUITO con JWT reale; test automatici separati già passati |
+| 4–6 Export JSON, categorie, esclusione segreti/dati B | NON ESEGUITO con dati fixture cloud |
+| 7 Export con foto propria | NON ESEGUITO; candidate attuale include metadata, non bytes foto |
+| 8 Download reale | PENDENTE; precedente test componente non equivale a download autenticato |
+| 9 Retry/idempotenza | NON ESEGUITO con sessioni fixture cloud |
+| 10 Restricted | NON ESEGUITO con JWT reale |
+| 11 Revoca consenso | NON ESEGUITO con JWT reale |
+| 12 Delete A | NON ESEGUITO; non esiste una nuova fixture da cancellare |
+| 13 Auth/profile/consent/age/foto/social/retention/quota/cache/derived | NON ESEGUITO post-delete cloud; nessuna nuova scrittura da questo tentativo |
+
+Prerequisito minimo richiesto al founder: predisporre conferma email per le fixture, ad esempio modificando **personalmente** e temporaneamente l'impostazione di conferma del solo staging (con successivo ripristino), oppure usando due caselle dedicate esclusivamente ai test. Nessun nuovo provider viene scelto/integrato, nessuna credenziale va inviata in chat/repository/report. Una volta sbloccato Auth, il test foto/delete richiede anche la normale finestra canary staging limitata ai soli owner sintetici, senza apertura globale né scheduler/cleanup globale. Non usare eccezioni Auth/RLS, JWT forgiati, SQL per creare identities o accessi service-role per sostituire il normale login.
+
+**BLOCKED / NO-GO alla chiusura del collaudo autenticato.** Non è un finding di vulnerabilità RIGHTS: è un prerequisito Auth del test ancora non disponibile. Non equivale a GO al pilot o alla produzione. Il messaggio ricevuto termina inoltre al punto14 (“verifica che”); le verifiche1–13 sono mappate, nessun seguito viene inventato.
