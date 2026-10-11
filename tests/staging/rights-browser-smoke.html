@@ -1,0 +1,14 @@
+<!doctype html><html lang="it"><meta charset="utf-8"><title>RIGHTS staging smoke</title>
+<body><h1>RIGHTS-01 — collaudo staging</h1><p>Solo fixture sintetiche. Auth reale, componente RIGHTS reale.</p>
+<form id="login"><label>Email fixture <input id="email" type="email" required autocomplete="off"></label><label>Password fixture <input id="password" type="password" required autocomplete="off"></label><button>Login fixture</button></form>
+<p id="loginStatus" role="status"></p><main id="privacy"></main><button id="ownPhoto" hidden>Prepara la tua foto canonicale</button><a id="photoFile" hidden>Salva la tua foto canonicale</a><button id="logout" hidden>Esci e cancella cache temporanee</button>
+<script type="module">
+import{createClient}from'@supabase/supabase-js';import{createBackend}from'/src/backend.js';import{createRightsControls}from'/src/user-rights.js';
+const url=import.meta.env.VITE_SUPABASE_URL;if(new URL(url).hostname!=='zjinjtkekmaqtxsuyvho.supabase.co')throw Error('STAGING_ONLY');
+const client=createClient(url,import.meta.env.VITE_SUPABASE_PUBLIC_KEY,{auth:{persistSession:false,autoRefreshToken:false,storageKey:'rights-fixture-test'}});
+const backend=createBackend(client,{privacyEnabled:true,rightsEnabled:true});let controls,photoURL;
+const login=document.getElementById('login'),status=document.getElementById('loginStatus'),photo=document.getElementById('ownPhoto'),file=document.getElementById('photoFile'),logout=document.getElementById('logout');
+login.onsubmit=async e=>{e.preventDefault();status.textContent='Accesso…';try{const r=await client.auth.signInWithPassword({email:document.getElementById('email').value,password:document.getElementById('password').value});if(r.error||r.data.user.user_metadata.rights_fixture!==true)throw Error('Fixture richiesta');login.reset();login.hidden=true;controls=createRightsControls({backend});photo.hidden=false;logout.hidden=false;status.textContent='Sessione fixture verificata.';}catch{login.reset();status.textContent='Login fixture non completato.';}};
+photo.onclick=async()=>{const profile=await backend.getProfile();const r=await client.storage.from('profile-photos').download(profile.photo_path);if(r.error){status.textContent='Foto non disponibile.';return;}if(photoURL)URL.revokeObjectURL(photoURL);photoURL=URL.createObjectURL(r.data);file.href=photoURL;file.download='soma-foto-propria-test.jpg';file.hidden=false;status.textContent='Foto propria pronta; nessuna copia server export.';};
+logout.onclick=async()=>{controls?.reset();if(photoURL)URL.revokeObjectURL(photoURL);photoURL=null;file.hidden=true;file.removeAttribute('href');await backend.signOut();document.getElementById('privacy').replaceChildren();photo.hidden=true;logout.hidden=true;login.hidden=false;status.textContent='Sessione chiusa; URL Blob e cache applicative rilasciati.';};
+</script></body></html>

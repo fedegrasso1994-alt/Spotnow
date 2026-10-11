@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {rightsFixtureTeardown} from '../scripts/rights-fixture-teardown.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {database,seed,ids,asUser,admin} from './helpers/database.js';
@@ -56,4 +57,28 @@ test('RIGHTS JSON download is local only and releases its object URL',async()=>{
  let blob=null,released=null;
  const artifact=makeRightsDownload({synthetic:true},{createObjectURL:b=>{blob=b;return 'blob:synthetic';},revokeObjectURL:u=>{released=u;}});
  assert.equal(blob.type,'application/json');assert.deepEqual(JSON.parse(await blob.text()),{synthetic:true});assert.equal(artifact.name,'soma-dati-personali.json');artifact.release();assert.equal(released,'blob:synthetic');
+});
+test('RIGHTS retention: active purge/replay cannot recreate a deleted account or its product data',async t=>{
+ const d=await setup(t);await asUser(d,ids.a);await d.query("select attest_adult(17,true,'adult-v1',$1)",['e1000000-0000-4000-8000-000000000001']);await d.query('select revoke_dating_consent($1)',['e1000000-0000-4000-8000-000000000002']);await admin(d);
+ await d.query('select photo02_begin_account_deletion($1)',[ids.a]);const claim=(await d.query('select claim_photo_account_cleanup($1) token',[ids.a])).rows[0].token;assert.ok(claim);
+ // Local Storage mock only: real recursive Storage deletion is covered by the HTTP rehearsal.
+ await d.query("delete from storage.objects where split_part(name,'/',1)=$1",[ids.a]);await d.query('select prepare_account_deletion($1)',[ids.a]);await d.query('delete from auth.users where id=$1',[ids.a]);await d.query('select finish_photo_account_cleanup($1,$2)',[ids.a,claim]);
+ const categories=(await d.query('select category from spot_private.retention_policies order by category')).rows.map(r=>r.category);
+ await d.query('select privacy_retention_config(paused:=false)');let sequence=10;
+ for(const category of categories){await d.query('select privacy_retention_config(category:=$1,enabled:=true)',[category]);const dry='e1000000-0000-4000-8000-'+String(sequence++).padStart(12,'0'),purge='e1000000-0000-4000-8000-'+String(sequence++).padStart(12,'0');await d.query('select privacy_retention_run($1,$2,true)',[category,dry]);await d.query('select privacy_retention_run($1,$2,false)',[category,purge]);const repeated=(await d.query('select privacy_retention_run($1,$2,false) r',[category,purge])).rows[0].r;assert.equal(repeated.replay,true);
+  const rows=(await d.query("select (select count(*) from auth.users where id=$1)+(select count(*) from profiles where id=$1)+(select count(*) from spot_private.account_eligibility where user_id=$1)+(select count(*) from spot_private.consent_state where user_id=$1)+(select count(*) from checkins where user_id=$1)+(select count(*) from spot_private.tribe_memberships where user_id=$1)+(select count(*) from storage.objects where split_part(name,'/',1)=$1::text) n",[ids.a])).rows[0].n;assert.equal(rows,0);
+ }
+ assert.equal((await d.query('select count(*) n from profiles where id=$1',[ids.b])).rows[0].n,1);assert.equal((await d.query("select coalesce(sum(reserved_bytes),0)::bigint n from spot_private.photo_lifecycle_sets where user_id=$1 and state<>'purged'",[ids.a])).rows[0].n,0);
+ // Completed technical receipts remain under PHOTO-02's existing seven-day policy, not safety holds.
+ assert.equal((await d.query("select count(*) n from spot_private.photo_cleanup_accounts where user_id=$1 and state='completed'",[ids.a])).rows[0].n,1);
+ await asUser(d,ids.a);await assert.rejects(page(d,'account'),/RIGHTS_AUTH/);
+});
+test('RIGHTS fixture teardown refuses live accounts and preserves the bystander',async t=>{
+ const d=await setup(t);await admin(d);await d.query("update spot_private.photo_cutover_control set phase='CANARY',canary_users=array[$1::uuid,$2::uuid],execute_enabled=false,scheduler_enabled=false",[ids.a,ids.b]);
+ const sql=rightsFixtureTeardown({owners:[{id:ids.a,deleted:true},{id:ids.b,deleted:true}],venueId:ids.v,operationId:'e2000000-0000-4000-8000-000000000001',pausedOperationId:'e2000000-0000-4000-8000-000000000002'});
+ await assert.rejects(d.exec(sql),/FIXTURE_NOT_DELETED/);await d.exec('rollback');assert.equal((await d.query('select count(*) n from auth.users')).rows[0].n,3);assert.equal((await d.query('select count(*) n from profiles where id=$1',[ids.c])).rows[0].n,1);assert.equal((await d.query('select count(*) n from spot_private.photo_cutover_audit')).rows[0].n,3);
+});
+test('RIGHTS teardown scope rejects extra/duplicate/injected owners and never copies credentials',()=>{
+ const input={owners:[{id:ids.a,deleted:true,password:'DO_NOT_COPY_CREDENTIALS'},{id:ids.b,deleted:true,refresh_token:'DO_NOT_COPY_TOKEN'}],venueId:ids.v,operationId:'e3000000-0000-4000-8000-000000000001',pausedOperationId:'e3000000-0000-4000-8000-000000000002'};
+ const sql=rightsFixtureTeardown(input);assert.ok(!sql.includes('DO_NOT_COPY'));assert.throws(()=>rightsFixtureTeardown({...input,owners:[...input.owners,{id:ids.c,deleted:true}]}));assert.throws(()=>rightsFixtureTeardown({...input,owners:[input.owners[0],input.owners[0]]}));assert.throws(()=>rightsFixtureTeardown({...input,owners:[{id:ids.a+"'; delete from auth.users;--",deleted:true},input.owners[1]]}));
 });
