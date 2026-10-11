@@ -1,6 +1,6 @@
 # RIGHTS-01 — collaudo autenticato staging, 2026-10-11
 
-**Smoke autenticato del contratto attuale: PASS. Chiusura completa RIGHTS-01: NO-GO.** Questo report sostituisce gli impedimenti Auth/download delle revisioni precedenti, conservate nella storia Git. Nessun cambiamento a produzione, main, UI runtime, migration 024 o PHOTO-01/02 in questa fase.
+**Smoke autenticato: PASS. RIGHTS-01: GO tecnico alla chiusura del perimetro implementato e inventariato; gate legale/professionale pre-pilot separato.** Questo report sostituisce gli impedimenti Auth/download delle revisioni precedenti, conservate nella storia Git. Nessun cambiamento a produzione, main, UI runtime, migration 024 o PHOTO-01/02 in questa fase.
 
 ## Perimetro e autenticazione
 
@@ -34,7 +34,7 @@ Il browser era un harness locale su Vite collegato al vero staging con il compon
 
 Dopo la cancellazione ordinaria erano assenti Auth identity/session/refresh token, profilo, età/consenso/eventi/challenge, check-in, Tribe, Spot/match/chat, block/report, foto/asset/job e oggetti Storage delle fixture. Quota attiva zero. Audit Auth correlato alle fixture: conteggio zero, senza ispezionare contenuti personali.
 
-**Restavano 5 ricevute tecniche private per account, 10 totali:** lifecycle set purged, cleanup account completed, cutover attempt settled, cutover deletion completed e cutover audit. Sono soggette alla retention PHOTO-02 di 7 giorni, non indefinite. Questo non soddisfa letteralmente la decisione RIGHTS secondo cui solo safety hold espliciti sopravvivono alla cancellazione. Non è stata modificata né tacitamente riapprovata la policy PHOTO.
+**Restavano 5 ricevute tecniche private per account, 10 totali:** lifecycle set purged, cleanup account completed, cutover attempt settled, cutover deletion completed e cutover audit. Sono soggette alla retention PHOTO-02 di 7 giorni, non indefinite. La nuova decisione founder autorizza espressamente queste receipts tecniche minimali e temporanee, oltre alla safety evidence held. PHOTO resta invariata. UUID/path sono correlabili, non anonimi. Il dettaglio campo per campo e il test del purge sono nel contratto aggiornato.
 
 Solo per completare il cleanup sintetico autorizzato, il teardown ha rimosso quelle 10 ricevute dopo verifica di Auth/profile/Storage assenti, writer settled, set purged, quota zero, nessun claim e nessun safety hold. Ha rimosso venue e ricevute di dry-run esclusivamente fixture. Nessun purge per età/timeout o elemento review. Il teardown non è il nuovo contratto di cancellazione utente.
 
@@ -51,14 +51,18 @@ Solo per completare il cleanup sintetico autorizzato, il teardown ha rimosso que
 
 ## Test e file
 
-10 test RIGHTS, inclusi tre nuovi: retention non ricrea dati cancellati; teardown rifiuta account ancora vivi; input teardown rigidamente limitato a due owner UUID. Suite totale, build, typecheck e release check riportati nell'evidence JSON. Test PGlite active purge/retry integrano il dry-run cloud, senza affermare apertura dei job staging globali.
+11 test RIGHTS, inclusi quattro nuovi rispetto alla baseline precedente: retention non ricrea dati cancellati; teardown rifiuta account ancora vivi; input teardown rigidamente limitato a due owner UUID; nuovo test normale delete e purge di tutti e cinque i tipi di receipts prima/dopo7giorni, idempotenza e preservazione B. Suite totale, build, typecheck e release check riportati nell'evidence JSON. Test PGlite active purge/retry integrano il dry-run cloud, senza affermare apertura dei job staging globali.
 
-File di questa fase: `scripts/rights-staging-smoke.mjs`, `scripts/rights-fixture-teardown.mjs`, `tests/user-rights.test.js`, `tests/staging/rights-browser-smoke.html`, questo report e evidence JSON. Nessun file runtime, stile o migration cambiato.
+File di questa fase: `scripts/rights-staging-smoke.mjs`, `scripts/rights-fixture-teardown.mjs`, `tests/user-rights.test.js`, `tests/staging/rights-browser-smoke.html`, questo report, contratto RIGHTS aggiornato e evidence JSON. Nessun file runtime, stile o migration cambiato.
 
 Branch `codex/rights-01-staging`, baseline smoke `69e83fa26f3e67faf1702783f3ab0c4ee2d20717`; main invariato `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`. Commit finali verificabili dalla storia del branch: nessun merge main o deploy produzione.
 
 ## Aperture / raccomandazione
 
-GO per considerare completato questo smoke autenticato e il cleanup. **NO-GO alla chiusura completa RIGHTS-01 e al rollout:** occorre allineare esplicitamente decisione solo-safety con le ricevute tecniche PHOTO a 7 giorni, senza riaprire autonomamente PHOTO-02. Restano validazione professionale di scope/esclusioni e procedura completa di accesso alle copie provider, safety evidence e backup; foto binarie non integrate nell'export UI attuale. Non è una dichiarazione di conformità o pilot-ready.
+**GO tecnico alla chiusura RIGHTS-01** sulla nuova decisione founder: dati prodotto eliminati, receipts minimali/temporanee autorizzate, inventario completo classificato nel [contratto](soma-rights01-contract-2026-10-11.md), test purge deterministico dello stesso SQL riuscito. Nessun cambio PHOTO o API.
+
+Il gate legale/professionale resta aperto: scope ed esclusioni della risposta completa, dati protetti/terzi, copie provider/backup e canale manuale/binary export da validare prima del pilot. GO tecnico non equivale a disponibilità di ogni categoria nel solo JSON né a conformità legale o autorizzazione rollout.
+
+Verifica7giorni: timestamp sintetici locale Postgres/PGlite, stessa catena017–019; prima della soglia tutte5receipts restano, oltre soglia tutte eliminate e secondo purge innocuo. Cancellazione avviene al prossimo ciclo riuscito dopo eleggibilità; pause/outage possono ritardarla. Staging scheduler resta OFF. Non dichiarato un test wall-clock7giorni né nuove mutazioni cloud. Suite totale268/268, build/typecheck/release check PASS (evidence finale).
 
 Gli ulteriori controlli presenti nel runner (es. download Storage peer negato) non rieseguiti dopo l'ultima estensione non sono conteggiati come nuove prove cloud. La checklist successiva del founder ha chiarito il perimetro smoke: non serve riproporre il precedente impedimento del testo troncato.

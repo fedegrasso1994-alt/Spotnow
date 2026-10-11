@@ -1,7 +1,7 @@
 {
   "task": "RIGHTS-01",
   "date": "2026-10-11",
-  "status": "AUTHENTICATED_SMOKE_PASS_CLOSURE_NO_GO",
+  "status": "TECHNICAL_GO_PROFESSIONAL_GATE_OPEN",
   "production_modified": false,
   "main_modified": false,
   "runtime_modified_this_phase": false,
@@ -42,20 +42,21 @@
     "unexpected_unknown": 0
   },
   "tests": {
-    "pass": 267,
+    "pass": 268,
     "fail": 0,
     "skipped": 0,
-    "rights": 10,
-    "added_this_phase": 3
+    "rights": 11,
+    "added_this_phase": 1
   },
   "pending": [
-    "align ordinary deletion with PHOTO 7-day technical receipts versus safety-only founder requirement",
-    "professional scope/exclusions review",
-    "complete photo binary and provider/backup access procedure"
+    "professional full-response scope and third-party/safety redactions",
+    "provider/backup manual access procedure",
+    "binary export channel validation before pilot",
+    "production preflight/rollout separately authorized"
   ],
   "github": {
     "branch": "codex/rights-01-staging",
-    "baseline": "69e83fa26f3e67faf1702783f3ab0c4ee2d20717",
+    "baseline": "4e46ecd55d4d6b47fa028a84ae6eb6fd5d330e0e",
     "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
   },
   "build": "PASS",
@@ -72,11 +73,29 @@
     },
     {
       "path": "tests/user-rights.test.js",
-      "sha256": "5c8877a1c457f38a9fbfc74d4f516f982d5595c081ef95b16870d10adc51fb00"
+      "sha256": "dda1d85275cd83868c99e3fd2619ecd974eba16ed3420bf1a27061814d8a7d8b"
     },
     {
       "path": "tests/staging/rights-browser-smoke.html",
       "sha256": "8d48dc0756b80300ee6ee5b5b0cfe1c5a998d70e4fdf88480b0c1796b07cd6da"
     }
-  ]
+  ],
+  "founder_decision": {
+    "minimal_technical_receipts_allowed": true,
+    "photo_retention_days": 7,
+    "product_payload_allowed": false,
+    "photo_behavior_changed": false
+  },
+  "receipt_purge": {
+    "engine": "local PGlite actual migrations 001-024",
+    "cloud_mutations_this_phase": false,
+    "before_7_days": "PASS",
+    "after_7_days": "PASS",
+    "all_five_tables_removed": true,
+    "repeat": "PASS",
+    "peer_current_preserved": true,
+    "wall_clock_7_day_wait": false,
+    "timing": "eligible after 7 days; next successful enabled collector cycle"
+  },
+  "coverage_contract": "docs/soma-rights01-contract-2026-10-11.md"
 }

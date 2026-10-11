@@ -82,3 +82,21 @@ test('RIGHTS teardown scope rejects extra/duplicate/injected owners and never co
  const input={owners:[{id:ids.a,deleted:true,password:'DO_NOT_COPY_CREDENTIALS'},{id:ids.b,deleted:true,refresh_token:'DO_NOT_COPY_TOKEN'}],venueId:ids.v,operationId:'e3000000-0000-4000-8000-000000000001',pausedOperationId:'e3000000-0000-4000-8000-000000000002'};
  const sql=rightsFixtureTeardown(input);assert.ok(!sql.includes('DO_NOT_COPY'));assert.throws(()=>rightsFixtureTeardown({...input,owners:[...input.owners,{id:ids.c,deleted:true}]}));assert.throws(()=>rightsFixtureTeardown({...input,owners:[input.owners[0],input.owners[0]]}));assert.throws(()=>rightsFixtureTeardown({...input,owners:[{id:ids.a+"'; delete from auth.users;--",deleted:true},input.owners[1]]}));
 });
+test('RIGHTS concluded photo receipts: no product payload, seven-day purge covers every residual table and is repeatable',async t=>{
+ const d=await setup(t);await admin(d);const path=ids.a+'/a.png';
+ await d.query("insert into spot_private.photo_cutover_attempts(path,user_id,protocol,writer,evidence,completed_at)values($1,$2,'PHOTO02','settled','READY_CONFIRMED',clock_timestamp())",[path,ids.a]);
+ await d.query('select photo02_begin_account_deletion($1)',[ids.a]);const token=(await d.query('select claim_photo_account_cleanup($1) t',[ids.a])).rows[0].t;
+ await d.query("delete from storage.objects where split_part(name,'/',1)=$1",[ids.a]);await d.query('select prepare_account_deletion($1)',[ids.a]);await d.query('delete from auth.users where id=$1',[ids.a]);await d.query('select finish_photo_account_cleanup($1,$2)',[ids.a,token]);
+ const tables={photo_lifecycle_sets:'user_id',photo_cleanup_accounts:'user_id',photo_cutover_attempts:'user_id',photo_cutover_deletions:'user_id',photo_cutover_audit:'owner_id'};
+ for(const [table,column]of Object.entries(tables)){
+  const rows=(await d.query(`select * from spot_private.${table} where ${column}=$1`,[ids.a])).rows;assert.equal(rows.length,1,table);
+  for(const row of rows)for(const forbidden of ['preview','body','preference','name','email','occupation','venue_id','checked_in_at','expires_at','source_width','source_height'])assert.ok(!(forbidden in row),table+': '+forbidden);
+ }
+ const set=(await d.query('select * from spot_private.photo_lifecycle_sets where user_id=$1',[ids.a])).rows[0];assert.equal(set.manifest,null);assert.equal(set.reserved_bytes,0);assert.equal(set.claim_token,null);assert.equal(set.state,'purged');
+ for(const table of Object.keys(tables))await d.exec(`update spot_private.${table} set ${table==='photo_cutover_audit'||table==='photo_cutover_deletions'?'created_at':'completed_at'}=clock_timestamp()-interval '7 days'+interval '1 minute' where ${tables[table]}='${ids.a}'`);
+ await d.query('select photo_metadata_purge()');for(const [table,col]of Object.entries(tables))assert.equal((await d.query(`select count(*) n from spot_private.${table} where ${col}=$1`,[ids.a])).rows[0].n,1,table+' before TTL');
+ for(const table of Object.keys(tables))await d.exec(`update spot_private.${table} set ${table==='photo_cutover_audit'||table==='photo_cutover_deletions'?'created_at':'completed_at'}=clock_timestamp()-interval '7 days'-interval '1 minute' where ${tables[table]}='${ids.a}'`);
+ await d.query('select photo_metadata_purge()');await d.query('select photo_metadata_purge()');
+ for(const [table,col]of Object.entries(tables))assert.equal((await d.query(`select count(*) n from spot_private.${table} where ${col}=$1`,[ids.a])).rows[0].n,0,table+' after TTL');
+ assert.equal((await d.query('select count(*) n from profiles where id=$1',[ids.b])).rows[0].n,1);assert.equal((await d.query("select count(*) n from spot_private.photo_lifecycle_sets where user_id=$1 and state='current'",[ids.b])).rows[0].n,1);
+});
