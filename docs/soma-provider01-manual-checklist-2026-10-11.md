@@ -35,16 +35,16 @@ Legenda: **VERIFIED** riscontro disponibile, **PARTIAL** parte confermata, **OPE
 | MC-09 | Auth log DB vs log esterno | OPEN | Federico + tecnico; RETENTION | Setting Write audit logs to database, TTL di ciascuna copia, campi IP/UA/payload, accessi/export; nessuna assunzione erase da deleteAuth |
 | MC-10 | Gateway/DB/Storage/Edge statement/body logs | OPEN | Tecnico; INCIDENT | Verbosity, schema campi, log TTL effettivo del piano, export/drain, fixture redatta senza token/UGC |
 | MC-11 | pg_cron / pg_net / Vault | OPEN | Tecnico; INCIDENT/PHOTOcompat | Accessi/queue/response/run_details TTL, no credential in log, cifratura/custodia Vault e rotazione senza valori |
-| MC-12 | SMTP default / email path decisione | PARTIAL / BLOCKER se email resta | Federico + tecnico; budget/PRV03 | Decisione percorso pilot, delivery idonea; eventuale nuovo provider richiede approvazione separata, non test mail a utenti reali |
+| MC-12 | Custom SMTP pilot | DECISIONE FOUNDER APPROVATA / BLOCKER | Federico + tecnico; budget/PRV03 | Default escluso; selezione separata, checklist SMTP privacy/delivery e test staging; nessun provider scelto o attivato |
 | MC-13 | Email sender/template/delivery/tracking | OPEN | Federico + tecnico; MC12/professionista | Branding, sender verificato, SPF/DKIM/DMARC se applicabili, nessun pixel/open tracking, destinatari/rate/SLA/log/delete policy, prova con inbox controllata |
 | MC-14 | Google OAuth scope / audience / branding | OPEN | Federico + tecnico; professionista | Cloud client scope minimo, audience/stato pubblicazione, redirect esatti, support email e Privacy URL, accessi/MFA/recovery; no secret |
 | MC-15 | Google OAuth claims/token copie | OPEN | Tecnico; MC14/RIGHTS | Dati realmente ritornati con fixture, campi nome/avatar non necessari, provider-token persistence e revoca; ruolo/transfer professionista |
-| MC-16 | Google Fonts rimozione remota | OPEN | Tecnico; PRV07 | Task separato: stessi font/pesi licenze, network zero googleapis/gstatic senza redesign, disclosure professionista |
+| MC-16 | Google Fonts rimozione remota | VERIFIED repository / deploy OPEN | Tecnico; PRV07 | Stessi 9 WOFF2/OFL self-hosted, release guard e demo pre/post accesso PASS; produzione non deployata, trace Auth staging/live successiva |
 | MC-17 | Gmail account e termini | OPEN / BLOCKER | Federico + professionista; PRV08 | Tipo account/piano/accordi, ruoli e dati sensibili, localizzazione/retention/export, non presumere DPAWorkspace su Gmailconsumer |
 | MC-18 | Gmail MFA/recovery/deleghe/inoltri/device | OPEN / BLOCKER | Federico + sostituto nominativo | Owner-only access, account individuali, recovery verificato, nessun inoltro/backup superfluo, accessi/revoche documentati |
 | MC-19 | Gmail labels/retention/hold/diritti | OPEN | Federico + professionista; RIGHTS/MODERATION | Categorie separate, minimizzazione allegati, TTL/hold auditabile, trash/sent/archive/inbox/export coperti, test ricezione futuro |
 | MC-20 | Vercel MFA/recovery/team/token | PARTIAL / BLOCKER | Federico; PRV04 | Risolvere avviso single-factor, MFA effettiva per amministratori, recovery e revoca; non “skip” o account condivisi |
-| MC-21 | Vercel Hobby idoneità pilot | OPEN / decisione prima apertura | Federico + eventuale support/professionista | Conferma uso personale/noncommerciale o piano idoneo approvato; nessun upgrade/acquisto autorizzato da checklist |
+| MC-21 | Vercel Pro per pilot | DECISIONE FOUNDER APPROVATA / MANUAL ACTION | Federico; billing | Hobby escluso dal pilot reale; upgrade Pro prima apertura, budget e conferma piano effettivo; nessun acquisto effettuato |
 | MC-22 | Vercel DPA/subprocessor/residency | OPEN | Federico + professionista; PRV02 | Versione applicabile, lista TrustCenter pertinente, transfer/remote support/securitycertifications/breach, costiopzioni residency |
 | MC-23 | Vercel environment variables | OPEN | Federico + tecnico; PRV12 | Soli nomi/target Production/Preview/Dev e tipo secret; niente serversecret in VITE_ o Vercel static build; chiavepublic non secret |
 | MC-24 | Vercel request/CDN/security/runtime/build logs | OPEN | Federico + tecnico; PRV05 | Campi IP/UA/URL/query/body/cookie, TTL/accessi; distinguere sito statico da runtimefunctions; no copia dati nei ticket |
@@ -58,6 +58,16 @@ Legenda: **VERIFIED** riscontro disponibile, **PARTIAL** parte confermata, **OPE
 | MC-32 | Figma / Codex / strumenti AI sviluppo | OPEN | Federico + professionista se dati reali | Account/piano/accessi/history/retention/training/settings/backup/contratti; solo codice e sintetici, nessun UGC reale trasferito |
 | MC-33 | Secret hygiene locale/export operatori | PARTIAL | Federico; PRV14 | 11file diagnostici privati mode owner-only confermati, ACL/backups dispositivo e retention/revoke credenziali da completare |
 | MC-34 | Network pubblico e bundle live | OPEN | Tecnico; PRV13 | Runner ENOTFOUND e webfetch non disponibile: verifica da ambiente affidabile senza account, freshheader/source maps/bundlehash, non modificare DNS per forzare audit |
+
+## Aggiornamento remediation / decisioni founder
+
+- MC-04/05: raccomandazione tecnica Supabase Pro con backup DB e Storage separati; runbook candidato redatto, NON backup/restore attivi o testati. RPO/RTO e retention copie da INCIDENT/professionista; upgrade manuale.
+- MC-20: MFA amministratori obbligatoria; configurazione/recovery ancora MANUAL ACTION.
+- MC-17/18/19: Gmail = amministrazione + workflow manuale supporto/diritti/safety, non dipendenza runtime/API/SMTP prodotto. Adeguatezza contrattuale consumer/Workspace, MFA e retention restano aperte.
+- MC-35 **HIGH — MANUAL ACTION**: Vercel Data Preferences letta il 11ottobre, “Improve models with my data” **ON**. Raccomandato Opt-Out team/progetto; nessun toggle salvato. Evidenza futura owner/data/config redatta, verifica dopo upgrade; opt-out non retroattivo.
+- Tutte le checklist DPA/subprocessor/residency/transfer/breach/delete/access aggiornate nel report remediation. Nessuna conclusione legale sostituisce la verifica professionale.
+
+Runbook: `soma-provider01-remediation-2026-10-11.md`, `soma-provider01-backup-restore-runbook-2026-10-11.md`, `soma-provider01-smtp-runbook-2026-10-11.md`.
 
 ## Accettazione della chiusura
 
