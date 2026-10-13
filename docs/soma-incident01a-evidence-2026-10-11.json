@@ -1,0 +1,83 @@
+{
+  "task": "INCIDENT-01A",
+  "date": "2026-10-11",
+  "mode": "offline synthetic only",
+  "production_modified": false,
+  "main_modified": false,
+  "providers_added": false,
+  "baseline": {
+    "provider": "3cab930fa84adfcdf727691469eef116f69cd251",
+    "main": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+    "privacy_staging": "ef964a56b99e6947c1244dc2639a5668613839dc"
+  },
+  "scenarios": 15,
+  "tests": {
+    "suite": {
+      "pass": 243,
+      "fail": 0
+    },
+    "new_offline_drills": {
+      "pass": 3,
+      "fail": 0
+    },
+    "privacy_snapshot_separate": {
+      "pass": 20,
+      "fail": 0
+    },
+    "existing_control_drills_subset": {
+      "pass": 27,
+      "fail": 0
+    }
+  },
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "release_guard": "PASS",
+    "diff_whitespace": "PASS"
+  },
+  "scope_unchanged": [
+    "src",
+    "supabase",
+    "public",
+    "index.html",
+    "vercel.json",
+    "vercel.static.json",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "limitations": [
+    "no cloud restore",
+    "no outage induced on provider",
+    "no rotation or session revocation on real accounts",
+    "no human tabletop/handoff or notification delivery",
+    "privacy features staging only",
+    "no RPO/RTO measurement for production"
+  ],
+  "decision": "GO preparation, NO-GO incident operational readiness/pilot",
+  "founder_questions_pending": [
+    "incident deputy/coverage",
+    "RPO/RTO/budget"
+  ],
+  "files": [
+    {
+      "path": "docs/soma-incident01a-drill-report-2026-10-11.md",
+      "sha256": "7b543acd7985e2db5bf907adf582e7eb5839f2a35f01f122267fbea71b4b41f5"
+    },
+    {
+      "path": "docs/soma-incident01a-inventory-2026-10-11.md",
+      "sha256": "114a5a8640071a8c74c90825dcfd0e14adb61a029b343921a4ba940af695d686"
+    },
+    {
+      "path": "docs/soma-incident01a-register-template-2026-10-11.md",
+      "sha256": "12b3c818470e4534b4d80754a75134426142da495f8b0d8f685375923f437010"
+    },
+    {
+      "path": "docs/soma-incident01a-runbook-2026-10-11.md",
+      "sha256": "087f4c8aad0ce43a0aad9a481600c8d4c8469f02d550d33fcd126f07eaa4d9c9"
+    },
+    {
+      "path": "tests/incident-recovery.test.js",
+      "sha256": "6f1a13ba5e7b90098c5f465dcaec9717ec93ed347229c570bb05320b2cad91e7"
+    }
+  ]
+}

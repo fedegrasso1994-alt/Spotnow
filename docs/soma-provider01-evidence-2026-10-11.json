@@ -1,0 +1,158 @@
+{
+  "audit_date": "2026-10-11",
+  "timezone": "Europe/Rome",
+  "baseline_main": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "branch": "codex/provider-01-audit",
+  "scope": "Documentation and read-only provider configuration; no user records, real payloads or copies",
+  "supabase_live_config": {
+    "project_ref": "qlucwdjcjomwyziegxrn",
+    "plan": "Free",
+    "database_region": "eu-west-1",
+    "region_label": "West EU (Ireland)",
+    "scheduled_project_backups_included": false,
+    "custom_smtp_enabled": false,
+    "email_provider": "Supabase default SMTP; underlying delivery vendor unverified",
+    "google_auth_enabled": true,
+    "email_auth_enabled": true,
+    "phone_auth_enabled": false,
+    "anonymous_signins_enabled": true,
+    "manual_linking_enabled": true,
+    "confirm_email": true,
+    "captcha_enabled": false,
+    "custom_oauth_providers_observed": 0,
+    "auth_hooks_observed": 0,
+    "storage_bucket": "profile-photos",
+    "bucket_limit_ui": "8 MB",
+    "bucket_limit_schema_bytes": 8388608,
+    "allowed_mime_types": [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ],
+    "legacy_insert_policy_with_check": "false",
+    "select_policy": "photos_read_allowed",
+    "public_flag_live": "MANUAL CHECK; false in source and previous audit"
+  },
+  "vercel_live_config": {
+    "project": "spot-now",
+    "plan": "Hobby",
+    "deployment_status": "Ready",
+    "domain": "spot-now-alpha.vercel.app",
+    "web_analytics_overview": "Enable Analytics offered; no SDK in source",
+    "account_warning": "Account uses single-factor authentication",
+    "git_integration": "Connect Git offered; source CLI deploy script",
+    "deployment_source_marker_branch": "photo02-staging",
+    "deployment_source_marker_sha": "c781c014ed0b292a6094700fb2ffd36fbdf898d9",
+    "marker_limit": "Historical CLI metadata; not proof of code mismatch",
+    "env_values_read": false,
+    "team_logs_drains_retention": "MANUAL CHECK"
+  },
+  "github_live_metadata": {
+    "repository": "fedegrasso1994-alt/Spotnow",
+    "visibility": "public",
+    "default_branch": "main",
+    "connector_permissions": [
+      "admin",
+      "maintain",
+      "pull",
+      "push",
+      "triage"
+    ],
+    "secrets_read": false,
+    "collaborator_inventory": "MANUAL CHECK"
+  },
+  "source_audit": {
+    "tracked_files_inventoried": 239,
+    "secret_pattern_candidates": 0,
+    "history_scan_complete": false,
+    "advertising_analytics_sdk_found": false,
+    "push_implementation_found": false,
+    "external_image_processing_provider_found": false,
+    "fonts_remote": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ],
+    "frontend_env_names_only": [
+      "VITE_SUPABASE_URL",
+      "VITE_SUPABASE_PUBLIC_KEY",
+      "VITE_GOOGLE_ENABLED"
+    ],
+    "external_auth_scope_added_in_source": false,
+    "edge_region_pin_found": false,
+    "photo_http_cache_seconds": 60,
+    "signed_photo_url_seconds": 30,
+    "sw_cached_resource": "/offline.html only",
+    "browser_photo_memory_limit_bytes": 16777216,
+    "browser_photo_memory_limit_images": 64,
+    "local_diagnostics_event_limit": 30,
+    "local_private_diagnostic_files_permissions_checked": 11,
+    "local_private_files_group_other_permissions": 0,
+    "generated_source_maps": 0,
+    "ci_permissions": "contents:read",
+    "ci_env": "placeholders only in workflow",
+    "action_refs": "v4 tags; immutable SHA not pinned"
+  },
+  "public_home_attempt": {
+    "status": "NOT VERIFIED",
+    "runner_error": "ENOTFOUND spot-now-alpha.vercel.app",
+    "web_fetch": "Unavailable",
+    "classification": "Runner DNS/access limitation; global outage not established",
+    "previous_public_header_evidence_date": "2026-10-10",
+    "user_data_api_or_photo_requests": 0
+  },
+  "verification": {
+    "tests_total": 235,
+    "tests_passed": 235,
+    "tests_failed": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "release_check": "PASS",
+    "staging_privacy_tests_prior": 257,
+    "test_count_explanation": "Provider branch based on main; unreleased privacy tests remain on dedicated staging branch",
+    "baseline_file_hashes_checked": 239,
+    "changed_baseline_files": 0
+  },
+  "changes": {
+    "production_data_modified": false,
+    "cloud_config_saved": false,
+    "migrations_created": false,
+    "deploys": 0,
+    "new_provider_selected": false,
+    "main_modified": false,
+    "emails_sent": 0,
+    "real_accounts_created": 0,
+    "documents_only": true
+  },
+  "decision": {
+    "audit_deliverable": "GO",
+    "provider01_pilot_closure": "NO-GO",
+    "reason": "Outstanding contracts/transfers, backup/restore, access/MFA, mailbox governance and email/plan decisions"
+  },
+  "public_sources": [
+    "https://supabase.com/legal/customer-resources/data-processing-addendum",
+    "https://supabase.com/legal/customer-resources/subprocessor-list",
+    "https://supabase.com/legal/subprocessor-list/June-1-2026.pdf",
+    "https://supabase.com/legal/privacy-resources/data-residency-and-transfers-faq",
+    "https://supabase.com/docs/guides/platform/backups",
+    "https://supabase.com/docs/guides/auth/auth-smtp",
+    "https://supabase.com/docs/guides/auth/audit-logs",
+    "https://supabase.com/docs/guides/observability/logs",
+    "https://supabase.com/docs/guides/functions/regional-invocation",
+    "https://vercel.com/legal/dpa",
+    "https://vercel.com/legal/sub-processors",
+    "https://vercel.com/docs/logs/runtime",
+    "https://vercel.com/docs/limits/fair-use-guidelines",
+    "https://vercel.com/changelog/hobby-projects-now-retain-fewer-deployments-to-free-up-storage",
+    "https://developers.google.com/terms/api-services-user-data-policy",
+    "https://policies.google.com/privacy",
+    "https://github.com/customer-terms",
+    "https://docs.github.com/en/site-policy/privacy-policies/github-subprocessors",
+    "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+  ],
+  "source_access_limits": [
+    "Google Fonts FAQ redirected to JS page; service-specific retention not verified",
+    "Vercel Trust Center document applicability not verified",
+    "Public site HTML/asset verification failed without personal data requests"
+  ],
+  "manual_check_count": 34
+}
