@@ -1,0 +1,33 @@
+# MODERATION-01 — audit e design staging
+
+Audit iniziato il 12 ottobre 2026; collaudo concluso il 13 ottobre 2026. Baseline RIGHTS `1d840a17fc015f429c4f76504d40aa346c4714ca`, main/produzione `d0f515e` invariati. Nessun provider nuovo, Bacheca/Cupido esclusi.
+
+## A. Audit precedente
+
+003 reports: reporter/target FK profili, reason categorica, dettagli1000caratteri, created/reviewed, pending/reviewed/dismissed, report nonce tramite revisioni successive. Content reference: target UUID, non snapshot/chat completa.006 moderators membership semplice, is_moderator senza MFA, queue JSON primi100, review/dismiss/suspend/revoke senza operation ID. Audit attore/report/action/note1000/date.004 suspensions per profilo, senza expiry/ban distinto. Blocks rimangono separati e proteggono discovery/chat.023 introduce closed_at e retention configurabile, open case preserva chat; safety hold esplicito conserva solo reason/status categorici al delete.024 RIGHTS owner-only non espone note/security. Query admin=1 importa admin.js: UI non costituisce autorizzazione.
+
+## B–E. Design e nuova compatibilità
+
+025 staging-only aggiunge moderation_roles(MODERATOR/ADMIN) e role_events, queue_state/revision/assigned_to/claim_until, suspension kind/until_at e operation/target/reason/old/new/request nell'audit esistente. RLS private e revoke diretto. Legacy membership non abilita nuovo RBAC; vecchie queue/action revoke anche service_role, per impedire bypass del nuovo modello. Non migra automaticamente il vecchio moderatore di test.
+
+USER: nessuna amministrazione. MODERATOR: queue e claim/review/dismiss/warn/suspend. ADMIN: medesime capacità, ban/release/reopen e role_set; niente secret o accesso Supabase/GitHub/Vercel implicito. Entrambi richiedono JWT Auth aal2 verificato dal provider e membership attiva server-side a ogni richiesta, almeno un fattore Auth verificato ancora presente e account Auth non banned. Staff dedicato non eredita normale discovery/chat/upload, anche se conserva un vecchio profilo; proprie privacy rights/delete restano possibili. Nessun accesso raw a preferenze/consensi/presenza degli altri. Utenti normali non ricevono audit/queue/reporting identities.
+
+Queue FIFO (created_at,id), coppia cursor obbligatoriamente completa,50 righe default/max100 **per pagina**, lookahead+more, nessun tetto complessivo100. Tutte pagine percorribili; refresh ricomincia per cambi stato/nuovi report, non snapshot transazionale. Stato open/under_review/closed separato da status storico; closed_at popolato solo alla chiusura. Claim15min, revision attesa, report row lock e operation advisory lock; secondo moderatore non può modificare claim ancora valido. Retry con stesso actor/op/payload ritorna stesso new_state; payload diverso conflict; rev stale richiede refresh. TTL claim non autorizza purge di dati.
+
+Azioni: claim; review chiude senza warning; dismiss chiude; warn registra warning senza bloccare; suspend1–720ore esplicite; ban senza scadenza fino release ADMIN; release/reopen ADMIN. MODERATOR non può declassare ban con suspend. Tutte includono actor/time/reason/target/op/previous/new; note opzionale200caratteri, solo riferimenti minimali. Nessun ranking/scoring. Warning own-only RPC e avviso generico nel proprio profilo staging, senza note/report IDs o dettagli terzi. Nessuna notifica push/email nuova.
+
+Suspension expiry valutata nei gate SQL, non dipendente da cron. La migration aggiorna predicate dei gate precedenti tramite pg_get_functiondef, non decoder/lifecycle PHOTO: own status, has_account, discovery, match e photo account authorization. Ban/suspend negano check-in, discovery, Spot/matching, chat e scrittura profilo/upload; sessioni già attive subiscono gli stessi controlli server, senza fidarsi del frontend. Own profile/access/export/delete/support preservati. Match/chat non cancellati per sola sanzione; reversal ripristina secondo gli altri gate AGE/CONSENT/blocchi. Migrazione conserva sospensioni storiche until NULL; nessuna durata inventata retroattiva.
+
+## F–H. Safety, delete, retention, operatività
+
+Delete reporter/target tramite prepare023 rimuove report/audit collegati; solo safety hold esplicito salva reason/status categoriali, non dettagli/chat/foto/preference o nuove note. Roles e role_events FK cascade alla cancellazione Auth; nessun account utilizzabile rimasto. ADMIN può revocare una restrizione rimasta dopo delete del reporter tramite moderation_release: audit con report_id nullo, target FK cascade, retry vincolato al payload. Audit report segue closed_reports retention023 con policy off/design-only; open e under-review closed_at=NULL, hold preserva. Audit standalone segue closed_reports, esclusi hold, casi ancora aperti e sanzioni attive; safety hold standalone copia solo reason/status categorici. I conteggi aggiuntivi sono persistiti nel receipt retention per retry stabile. Role audit segue privacy_operation_metadata durata configurabile nel job già sospendibile; dry-run/paused non eliminano. PHOTO receipts7giorni e lifecycle invariati.
+
+Note/evidence devono essere riferimenti tecnici minimizzati, niente token/password/chat/foto/profilo copiati. Test controllano proiezioni/export e dati audit sintetici; non esiste classificatore capace di impedire ogni possibile PII in testo libero. Training/access review necessari.
+
+Account dedicati personali, MFA TOTP verificata; niente credenziali condivise. Primo ADMIN: bootstrap OPS manuale solo dopo verifica identità/fattore e approvazione esplicita; non creato per founder in questo task. Altri ruoli via role_set ADMIN MFA, audit old/new. Revoca active=false immediata alla prossima richiesta anche con JWT esistente; logout/revoca sessioni provider come misura incidente aggiuntiva. Non auto-grant di admin console o DB.
+
+Pannello semplice staging flag VITE_MODERATION_PHASE1=true solo hostname staging, defaultfalse; admin=1 in main.js seleziona modulo dedicato, vecchia app produzione flagfalse invariata. Account login email/password, verifica fattore TOTP già enrollato; login e MFA TOTP realmente collaudati con tre fixture staff; recovery e account operativi founder restano manuali. Profile warning hook opzionale in backend/privacy module; nessun CSS cambiato.
+
+## Rollback e gate
+
+Pausa: flag OFF, revoca accessi nuovi ruoli; non riabilitare automaticamente vecchie RPC meno protette. Schema additivo può restare con RLS. Smoke Auth, MFA e richieste simultanee completati; prima del pilot restano account staff reali dedicati, recovery, access review, policy azioni/ricorso/tempi e notes training. Nessun rollback distruttivo o production deploy. Professionista valida policy sanzioni, access/redazioni/safety hold, retention e ricorsi; GO tecnico non legal readiness.
