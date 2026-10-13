@@ -77,3 +77,9 @@ Questo aggiornamento sostituisce i gate precedenti sul ritiro e sull'organizzazi
 - **H / Gate:** **NO-GO al coding Bacheca MVP** finché smoke Auth/MFA completo e approvazioni residue contratto non sono chiusi. Il ritiro Edge è DONE; baseline sorgente/test integrata GO; validazione professionale rimane separata prima del pilot.
 
 Stato sicuro finale osservato: PHOTO PAUSED, cleanup OFF, scheduler OFF, retention paused, cron attivi 0; account/profili/oggetti 3/3/39 e review storici 3, unknown inattesi 0. Main e produzione invariati. Nessuna migration, modifica PHOTO-01/02 o nuovo provider. Il ramo dedicato conserva evidenze e probe read-only; questa è una chiusura parziale documentata, non una dichiarazione di completamento Fase A.
+
+## Chiusura finale dopo decisioni founder e smoke autenticato
+
+Lo stato PENDING/NO-GO dei paragrafi precedenti è storico e viene superato dal [report smoke autenticato](soma-phase-a-authenticated-smoke-2026-10-13.md). API ha confermato Confirm email OFF prima delle fixture. Login/Auth/MFA/upload JPEG/Ora/Tribe/Spot/match/chat/RIGHTS/revoca/moderation/delete e lifecycle reali PASS; cinque fixture eliminate, tutte le categorie/Storage/ledger/quota/jobs/ruoli/sessioni/fattori verificate0. Baseline3/3/39 preservata; review storici3 non toccati, current missing0, PHOTO PAUSED, cleanup/scheduler OFF, retentionpaused, canaryvuoto/cronattivi0. Credenziali e piani privati rimossi. Founder può ora riattivare manualmente Confirm email, ultimo riscontroOFF.
+
+Contratto aggiornato con decisioni definitive, **FOUNDER-APPROVED TECHNICAL BASELINE — LEGAL VALIDATION PENDING**, nessuna scelta founder sostanziale aperta. **293/293**, build/typecheck/release guard PASS. **Fase A DONE tecnico; GO al coding Bacheca MVP staging**, gate professionali/pilot e produzione separati. Nessuna Bacheca implementata, nuova migration/deploy/provider o modifica PHOTO-01/02/main/produzione.
