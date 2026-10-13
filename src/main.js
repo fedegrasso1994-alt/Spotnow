@@ -6,7 +6,8 @@ const demo = new URLSearchParams(location.search).get('demo') === '1';
 if(import.meta.env.PROD&&'serviceWorker' in navigator){const register=()=>{void navigator.serviceWorker.register('/sw.js').catch(()=>{});};if(document.readyState==='complete')register();else window.addEventListener('load',register,{once:true});}
 if(demo){document.title='Soma — demo';const label=document.querySelector('#intro .eyebrow');if(label)label.textContent='Soma · demo con dati fittizi';}
 if (new URLSearchParams(location.search).get('admin') === '1') {
-  await import('./admin.js');
+  const {moderationEnabled}=await import('./moderation-api.js');
+  if(moderationEnabled(import.meta.env))await import('./moderation-panel.js');else await import('./admin.js');
 } else if (demo) {
   await import('./app.js');
 } else {

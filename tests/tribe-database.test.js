@@ -7,6 +7,7 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  try{
  await db.exec(`create role anon;create role authenticated;create role service_role;create schema auth;create schema storage;
  create table auth.users(id uuid primary key,is_anonymous boolean not null default false);
+ create table auth.mfa_factors(id uuid primary key default gen_random_uuid(),user_id uuid references auth.users(id) on delete cascade,status text);
  create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
  create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
@@ -22,7 +23,10 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  insert into public.profiles values('${a}','Anna',24,'F','ALL','${a}/a.png',now()),('${b}','Luca',26,'M','ALL','${b}/b.png',now()),('${c}','Anon',25,'M','ALL','${c}/c.png',now());
  insert into public.venues(id,name,address) values('${v}','Gym','Test'),('${w}','Campus','Test');insert into spot_private.venue_codes values('${v}','${q}'),('${w}','${r}');`);
  const asUser=async id=>db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);`);
- for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20).sort())await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
+ for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20).sort()){
+  if(f.startsWith('025_'))await db.exec("update spot_private.privacy_environment set environment='staging'");
+  await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
+ }
  await db.exec("select set_config('request.jwt.claims','{\"role\":\"service_role\",\"ref\":\"zjinjtkekmaqtxsuyvho\"}',false);select privacy_staging_enable('zjinjtkekmaqtxsuyvho');");
  for(const [id,age]of [[a,24],[b,26]]){await asUser(id);await db.query('select attest_adult($1,true,$2,gen_random_uuid())',[age,'adult-v1']);const challenge=(await db.query('select dating_consent_challenge() c')).rows[0].c;await db.query('select accept_dating_consent($1,gen_random_uuid())',[challenge.token]);await db.query("update profiles set preference='ALL' where id=$1",[id]);}
  const count=async live=>(await db.query(`select * from public.location_people('${v}',${live})`)).rows;

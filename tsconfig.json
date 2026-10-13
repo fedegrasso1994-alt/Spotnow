@@ -41,6 +41,7 @@
     "supabase/functions/photo-normalize-png/index.ts",
     "supabase/functions/photo-normalize-webp/index.ts",
     "types/photo-codecs.d.ts",
-    "supabase/functions/photo-lifecycle/index.ts"
+    "supabase/functions/photo-lifecycle/index.ts",
+    "src/moderation-api.js"
   ]
 }
