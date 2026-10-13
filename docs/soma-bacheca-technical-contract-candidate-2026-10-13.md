@@ -4,7 +4,7 @@
 
 ## Perimetro già fissato dal founder
 
-Dentro Tribe → Bacheca; post brevi, anonimi verso altri utenti, autore internamente tracciabile; reactions, report, integrazione moderation, expiry24h, delete/suspend/ban e retention dedicata. Tribe membership persistente, nessuna registrazione di visita alla Bacheca equivalente a storico dei movimenti.
+Dentro Tribe → Persone | Bacheca; post brevi, anonimi verso altri utenti, autore internamente tracciabile; reactions, report, integrazione moderation, expiry24h, delete/suspend/ban e retention dedicata. Tribe membership persistente, nessuna registrazione di visita alla Bacheca equivalente a storico dei movimenti.
 
 ## Decisioni tecniche proposte per approvazione
 
@@ -75,3 +75,20 @@ Il consenso dating versionato esistente non costituisce automaticamente copertur
 ## Gate di approvazione
 
 Prima coding: baseline integrata e smoke Auth/SQL completi; tre sonde ritirate o isolate con evidenza; founder approva decisioni candidate di questa pagina. Prima pilot: professionista valida UGC/privacy/retention/moderation/diritti e documenti coerenti. GO tecnico candidato non è approvazione legale né autorizzazione rollout.
+
+
+## FOUNDER DECISIONS REQUIRED
+
+La navigazione **Tribe → Persone | Bacheca** e il perimetro anonimo, reactions/report, moderation, expiry prodotto 24h, delete/suspend/ban, safety hold e retention dedicata sono approvati. Non vengono riaperti. Le seguenti scelte sono ancora candidate; nessuna è implementata.
+
+| Domanda concreta | Opzioni | Raccomandazione | Impatto privacy/safety |
+|---|---|---|---|
+| Un membro maggiorenne che revoca il consenso dating può continuare a usare la Bacheca? | A: sì, senza usare le preferenze; B: sola lettura; C: accesso sospeso | A: separare UGC da dating, mantenendo gli altri gate account/membership | Evita consenso aggregato; trattamento UGC e condizioni restano da validare professionalmente |
+| Quali limiti iniziali di scrittura adottiamo? | A: 500 caratteri, 3 post attivi/Tribe, 10 nuovi/24h/account; B: 300 caratteri, 1 attivo/Tribe, 5/24h/account | A, con parametri centralizzati e prenotazioni server atomiche | Limita spam e carico moderazione; il limite globale impedisce abuso cross-Tribe |
+| Quale reaction semplice mostriamo? | A: un cuore, solo conteggio e propria reaction; B: un pollice, stessi dati | A; una reaction per account/post, toggle idempotente | Nessun elenco reagenti o collegamento pubblico al profilo; non crea Spot o match |
+| Quando eliminare fisicamente un post scaduto non soggetto a hold? | A: entro 24h dall'expiry; B: primo job dopo expiry, target entro 1h | B: minimizzazione più rapida, job osservabile e sospendibile | Expiry visibile resta 24h in entrambi; durata fisica e safety evidence da validare professionalmente |
+| Una sospensione revocata deve ripubblicare post ancora non scaduti? | A: no, l'autore può crearne uno nuovo; B: sì, salvo contenuto nascosto dalla moderazione | A: riduce riapparizioni inattese e semplifica sicurezza | Non riapre post scaduti né contenuti rimossi; informazione comprensibile nel futuro flusso sanzione |
+
+Il testo semplice senza allegati/link preview è la proposta tecnica minima per i post brevi. Nessuna nuova acquisizione foto, nessuna modifica PHOTO-01/02. Report di post visibili e hold espliciti sono nel perimetro; tempi dei ricorsi, durata/base dei safety hold e disclosure dell'anonimato sono **LEGAL VALIDATION PENDING**, non decisioni legali prese dal software.
+
+**Stato contratto: CANDIDATE — FOUNDER DECISIONS REQUIRED — LEGAL VALIDATION PENDING.** Non utilizzare la dicitura founder-approved finché le scelte sostanziali sopra non sono confermate. L'approvazione tecnica non sostituisce la validazione professionale pre-pilot.

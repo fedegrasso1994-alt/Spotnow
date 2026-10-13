@@ -62,3 +62,18 @@ Restano proposte esplicite per founder: accesso dopo revoca dating,500caratteri,
 **Fase A non ancora chiusa; NO-GO al coding Bacheca finché i gate pending non sono soddisfatti.** Si evita una falsa chiusura basata sui soli test locali o su smoke storici. Richieste di informazioni/conferma già presentate al founder; il prompt ricevuto termina dopo la classificazione “B. KEEP BUT ISOLATE”, eventuali requisiti successivi restano da acquisire.
 
 Nessuna produzione/main/Auth/billing o nuova integrazione provider. Report/test/design e merge sono versionati sul branchdedicato; integrazioneGitHub iniziale `1870cc4`, SHA finale verificabile nella storia/risposta. Nessun lavoro di coding Bacheca iniziato.
+
+
+## Aggiornamento chiusura controllata — 13 ottobre 2026
+
+Questo aggiornamento sostituisce i gate precedenti sul ritiro e sull'organizzazione Auth; le evidenze storiche sopra restano distinguibili.
+
+- **A / Edge:** tre diagnostiche ritirate permanentemente, console 7 funzioni operative; ciascun endpoint 404 NOT_FOUND, dipendenze runtime/CI assenti. Fonte/evidenze nel piano aggiornato. Nessun deploy o modifica funzioni prodotto.
+- **B / Smoke autenticato:** PENDING, non eseguito in questa chiusura. Il founder autorizza fixture con Confirm email temporaneamente OFF, ma API settings continua a confermare ON. Non sono creati account/password/fattori e non è aggirata la conferma.
+- **C / Fixture:** rehearsal SQL integrato ripetuto dopo ritiro con rollback, residui 0. Account Auth creati 0; baseline storica preservata, non cleanup indiscriminato degli oggetti/review precedenti.
+- **D / Auth:** Confirm email ON osservato, nessun cambiamento automatico. **Non disattivarlo per lasciare l'ambiente aperto:** quando il founder lo salva OFF si riprenderà subito lo smoke, poi solo dopo delete/verifica completa sarà indicata la riattivazione manuale. Attualmente non c'è nulla da riattivare perché il server lo vede già ON.
+- **E–F / Bacheca:** navigazione approvata Tribe → Persone | Bacheca, scope già approvato preservato. Aggiunta sezione esatta FOUNDER DECISIONS REQUIRED al contratto, con cinque domande/opzioni/raccomandazioni e impatto privacy/safety: revoca dating, limiti scrittura, reaction, purge fisico, ripubblicazione dopo sospensione. Nessuna decisione legale autonoma; nessun coding. Contratto CANDIDATE finché risposte sostanziali mancanti.
+- **G / Test:** nuova suite `node --test --test-concurrency=2 tests/*.test.js`: **293/293 PASS**, 0 fail/skip, 36,7 s; `pnpm build` e `pnpm typecheck` PASS. Rehearsal SQL Postgres dopo ritiro PASS; guard GET Edge operative e Auth pubblica PASS. Non attribuire a queste prove copertura browser/MFA/upload live non eseguita.
+- **H / Gate:** **NO-GO al coding Bacheca MVP** finché smoke Auth/MFA completo e approvazioni residue contratto non sono chiusi. Il ritiro Edge è DONE; baseline sorgente/test integrata GO; validazione professionale rimane separata prima del pilot.
+
+Stato sicuro finale osservato: PHOTO PAUSED, cleanup OFF, scheduler OFF, retention paused, cron attivi 0; account/profili/oggetti 3/3/39 e review storici 3, unknown inattesi 0. Main e produzione invariati. Nessuna migration, modifica PHOTO-01/02 o nuovo provider. Il ramo dedicato conserva evidenze e probe read-only; questa è una chiusura parziale documentata, non una dichiarazione di completamento Fase A.

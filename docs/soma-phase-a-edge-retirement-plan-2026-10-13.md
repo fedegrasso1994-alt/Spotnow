@@ -32,3 +32,14 @@ Backup tecnici privati owner-only in `.local/phase-a/` ignorato da Git, nessun s
 4. Ripulire backup di laboratorio quando evidenze/necessità recupero sono chiuse; eventuale redeploy futuro richiede nuovo task esplicito con isolamento forte, non ripristino automatico.
 
 KEEP BUT ISOLATE sarebbe appropriato solo con necessità di test futura documentata, autorizzazione service-only/fixture allowlist server e versione sicura/current, risorse/body bounded e TTL deployment. Tale necessità non è emersa: non introdurre un nuovo deploy per mantenere strumenti obsoleti.
+
+
+## Ritiro eseguito — 13 ottobre 2026
+
+Autorizzazione founder esplicita alla chiusura Fase A ricevuta. Immediatamente prima della cancellazione: ricontrollati progetto `zjinjtkekmaqtxsuyvho`, nomi esatti, classificazione RETIRE e backup/hash; ricerca in `src`, `supabase/functions`, `.github` senza dipendenze verso le tre sonde. Conferma individuale nella console sui tre nomi, nessuna modifica alle sette funzioni operative, Auth o produzione.
+
+Eliminate permanentemente **photo01-preflight**, **photo01-bounded-bench**, **photo01-verification**. Console: da 10 a 7 funzioni. Probe pubblico read-only alle 17:20:13 UTC: tutte e tre **HTTP 404 / NOT_FOUND**. `photo-assets`, `photo-lifecycle`, `delete-account`, `privacy-retention` rispondono 405 al GET, guard metodo preservato; Auth settings 200. Nessun payload decoder inviato. Probe ripetibile `scripts/phase-a-retirement-probe.mjs`, staging hardcoded, nessuna credenziale amministrativa né scrittura.
+
+Dopo ritiro: rehearsal integrato reale Postgres PASS, rollback e zero fixture; baseline 3 account, 3 profili, 39 oggetti, 3 review storici preservati, zero unknown inattesi, PHOTO PAUSED, cleanup/scheduler OFF, retention paused e cron attivi 0. Suite unificata 293/293, build e typecheck PASS. Evidenza visiva privata `.local/phase-a/edge-retired.png`.
+
+Lo smoke Auth/MFA/upload reale integrato è ancora un gate separato: Confirm email risulta ON sul server, nessuna nuova fixture Auth creata. Non presentare il rehearsal SQL come sostituto del login/MFA reale.
