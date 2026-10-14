@@ -25,7 +25,7 @@ create function public.board_operation(place uuid)returns uuid language plpgsql 
  stamp:=lpad(to_hex(floor(extract(epoch from clock_timestamp())*1000)::bigint),12,'0');raw:=replace(gen_random_uuid()::text,'-','');return(substr(stamp,1,8)||'-'||substr(stamp,9,4)||'-7'||substr(raw,14,3)||'-'||substr(raw,17,4)||'-'||substr(raw,21,12))::uuid;end$$;
 create function spot_private.board_operation_valid(op uuid)returns boolean language plpgsql stable security definer set search_path='' as $$declare raw text:=replace(op::text,'-','');stamp timestamptz;duration interval;begin
  if op is null or substr(raw,13,1)<>'7'then return false;end if;
- stamp:=to_timestamp((('x'||substr(raw,1,12))::bit(48)::bigint)/1000.0);select p.duration into duration from spot_private.retention_policies p where category='board_metadata';return stamp<=clock_timestamp()+interval '5 minutes'and stamp>=clock_timestamp()-duration;end$$;
+ stamp:=to_timestamp((('x'||substr(raw,1,12))::bit(48)::bigint)/1000.0);select p.duration into duration from spot_private.retention_policies p where category='board_metadata';return stamp<=clock_timestamp()and stamp>=clock_timestamp()-duration;end$$;
 create function public.board_create(place uuid,message_text text,operation_id uuid)returns uuid language plpgsql security definer set search_path='' as $$declare text_value text:=btrim(message_text);fp text;prior spot_private.board_receipts;pid uuid;stamp timestamptz;d date;begin
  perform spot_private.board_lock();perform spot_private.photo_owner_lock(auth.uid());
  if not coalesce(spot_private.board_member(place),false)then raise exception 'BOARD_ACCESS'using errcode='42501';end if;
