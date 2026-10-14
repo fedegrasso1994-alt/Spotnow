@@ -1,3 +1,5 @@
+> Addendum documentale 14 ottobre 2026: il contratto sotto è la baseline RIGHTS-01. Bacheca è ora implementata soltanto nel candidato staging026: le tre sezioni own-only e i limiti aggiornati sono nel [consolidamento BACHECA-PRIV-01](legal-pack-2026-10-14/03-lifecycle-rights-moderation-dsa.md). Le vecchie esclusioni per Bacheca “non implementata” sono storiche; restano escluse Cupido e le altre funzioni non sviluppate. Nessuna modifica PHOTO/RIGHTS runtime in questo task.
+
 # RIGHTS-01 — contratto tecnico e coverage access/export
 
 11 ottobre 2026. Branch staging, nessun rollout né modifica main. Decisione founder aggiornata: non è richiesto zero metadata istantaneo. Dati prodotto ordinari eliminati; safety evidence solo sotto hold esplicito; receipts necessarie per integrità/idempotenza/anti-replay/lifecycle consentite temporaneamente, minimali, senza contenuti utente, senza uso discovery/analytics/personalizzazione. Questa è una decisione tecnica founder, non validazione legale.

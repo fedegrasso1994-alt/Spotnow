@@ -1,0 +1,73 @@
+{
+  "task": "BACHECA-PRIV-01 / FINAL LEGAL PACK",
+  "date": "2026-10-14",
+  "scope": "audit/documentation only",
+  "branch": "codex/bacheca-priv-01-legal-pack",
+  "baseline_commit": "2db1a75cf300851842ed6acea42e901eeabdc34e",
+  "main_documented": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "changes_runtime": false,
+  "changes_production": false,
+  "changes_auth": false,
+  "new_migrations": false,
+  "new_providers": false,
+  "gcp_activity": false,
+  "confirm_email_new_readonly_probe": "ON",
+  "accounts_created": 0,
+  "staging_operational_flags": {
+    "source": "BACHECA-01 final smoke 2026-10-14; not re-read administratively here",
+    "photo": "PAUSED",
+    "cleanup": "OFF",
+    "scheduler": "OFF",
+    "retention": "PAUSED"
+  },
+  "document_checks": {
+    "draft_count": 8,
+    "draft_warning": "DRAFT — NOT LEGALLY VALIDATED — DO NOT PUBLISH",
+    "decision_sheets": 25,
+    "fields_per_sheet": 6,
+    "manual_actions": 30,
+    "readiness_areas": 9,
+    "readiness_dimensions": 5,
+    "local_links": "PASS",
+    "tracked_document_secret_patterns": "PASS_DELIMITED_NOT_FULL_HISTORY"
+  },
+  "checks": {
+    "tests": {
+      "total": 312,
+      "pass": 312,
+      "fail": 0,
+      "skipped": 0
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "release_assets": 37,
+    "local_fonts": 9,
+    "runtime_diff_from_baseline": "EMPTY"
+  },
+  "decision": {
+    "deliver_for_professional_review": "GO_WITH_EXPLICIT_GAPS",
+    "legally_validated": false,
+    "publish_drafts": "NO_GO",
+    "production_rollout": "NOT_AUTHORIZED",
+    "pilot": "NO_GO"
+  },
+  "documents_sha256": {
+    "docs/legal-pack-2026-10-14/01-bacheca-privacy-safety.md": "b4aa247302a4658f9f906c886b62738616b79b357cdbd6d681b2a83f81fd58c5",
+    "docs/legal-pack-2026-10-14/02-final-legal-decision-pack.md": "36187516d2795ce434ef1878d8a1dd6862d1cb5b9ff17fe291c062ba07eac475",
+    "docs/legal-pack-2026-10-14/03-lifecycle-rights-moderation-dsa.md": "650b6de5b6620e73ff0f3b908dad0ae8a90c983c9e0438ddf2f3d0117c9e24c2",
+    "docs/legal-pack-2026-10-14/04-manual-actions-readiness-roadmap.md": "6ae29562cf659d45d494a791b943961f259114601ebbfa856694ffa9f9191f06",
+    "docs/legal-pack-2026-10-14/05-evidence-sources-verification.md": "3d6bee8dc12eac95e01192732c2ef078c198a9f4de38017898aeb0244a118584",
+    "docs/legal-pack-2026-10-14/README.md": "6cb78675422fac27b4dda8d43882b7cb0d3ea506536d5fa9f9f72a4a0a106b36",
+    "docs/legal-pack-2026-10-14/drafts/community-guidelines.md": "6bfe385bd149078301e54cce357f24e095e5acc81a908309f5ed7441eeb47fa6",
+    "docs/legal-pack-2026-10-14/drafts/dpia-screening.md": "342298c78c3a09fff5d03678a1893db64431688669137757d6e5d24897ddf10e",
+    "docs/legal-pack-2026-10-14/drafts/incident-data-breach-procedure.md": "845d04dc46300d7a7468dc4511a6a8d850318bcf22d64eb86b0df7d6178ec368",
+    "docs/legal-pack-2026-10-14/drafts/moderation-procedure.md": "4325757f909dfd907588213a6ddfc1dd504a26e8e399caae3835d6c608ac1ebf",
+    "docs/legal-pack-2026-10-14/drafts/privacy-policy.md": "4b80b28f29dcef6dc1a76dd0028c8a8f58d83d3cf65f5a64564a82e42a1bb5e7",
+    "docs/legal-pack-2026-10-14/drafts/retention-policy.md": "b3d28709e56feaa9ef3a1b239ed11722f807910717498ea6eac5c161c3204b81",
+    "docs/legal-pack-2026-10-14/drafts/rights-request-procedure.md": "b7424eb58cc680c7ffd08dcdafc74d2945909fc640298c3622e8a83ce4b6985d",
+    "docs/legal-pack-2026-10-14/drafts/terms-of-service.md": "737020407b07bad42c6b4277d33a8058f4840a478cc0ed944a674bd67438fb37",
+    "docs/soma-legal01-data-map-2026-10-10.md": "3cce7d067893843dc06d368decce0401257be32780be1c6cd6ae049d3d22b92b",
+    "docs/soma-rights01-contract-2026-10-11.md": "96068f9f1b67969636eba33ec06259521ebba49b6529c0e7f64ecd8bf2d350f5"
+  },
+  "main_remote_readonly_verified": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
+}

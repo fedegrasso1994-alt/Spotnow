@@ -1,3 +1,5 @@
+> Aggiornamento documentale 14 ottobre 2026: questa mappa fotografa main/produzione del 10 ottobre. Per il candidato staging integrato020–026, inclusa Bacheca ora implementata, leggere il [delta e threat model BACHECA-PRIV-01](legal-pack-2026-10-14/01-bacheca-privacy-safety.md) e il [Final Legal Pack](legal-pack-2026-10-14/README.md). Le vecchie righe “Bacheca non implementata”, consenso assente o timestamp visita Tribe non descrivono il candidato staging. Nessuna variazione runtime o produzione applicata da questa nota.
+
 # LEGAL-01 — data map attuale di Soma
 
 10 ottobre 2026. Baseline main `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
