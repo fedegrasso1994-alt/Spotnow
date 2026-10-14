@@ -42,6 +42,10 @@
     "supabase/functions/photo-normalize-webp/index.ts",
     "types/photo-codecs.d.ts",
     "supabase/functions/photo-lifecycle/index.ts",
-    "src/moderation-api.js"
+    "src/moderation-api.js",
+    "src/bacheca.js",
+    "src/bacheca-ui.js",
+    "src/bacheca-moderation.js",
+    "types/styles.d.ts"
   ]
 }

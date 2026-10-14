@@ -1,3 +1,4 @@
+import {mountBoard} from './bacheca-ui.js';
 import {createPrivacyControls} from './privacy-phase1.js';
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
@@ -14,6 +15,8 @@ import { createSuspensionScreen } from './suspension-screen.js';
 
 const $=id=>document.getElementById(id);
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY});
+const board=backend.board?mountBoard({root:$('tribe'),api:backend.board,peopleNodes:[$('tribeCount'),$('tribeGrid')],onPeople:()=>void renderTribe()}):null;
+let boardOwner;backend.onSessionChange((event,session)=>{const owner=session?.user?.id||null;if(event==='SIGNED_OUT'||boardOwner!==undefined&&boardOwner!==owner)board?.reset();boardOwner=owner;});
 const privacyEnabled=typeof backend.privacyState==='function';
 let privacy=null,existingProfile=false;
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
@@ -57,7 +60,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&privacy?.state?.age_status!=='eligible'&&['onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
   listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
-  if(screen!=='tribe')detailWarmer?.disconnect();
+  if(screen!=='tribe'){detailWarmer?.disconnect();board?.pause();}
   social.closeDetail?.();$('detailOverlay').classList.remove('active');
   if(screen!=='camera')venueScanner.stop();
   if(screen==='scan'&&!state.venue)screen='intro';
@@ -74,7 +77,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(screen==='camera')venueScanner.open();
   if(screen==='venue'){void renderPeople();if(state.venue?.id&&backend.prefetchTribe)void backend.prefetchTribe(state.venue.id).catch(()=>{});}
   if(screen==='tribes')void renderTribes();
-  if(screen==='tribe')void renderTribe();
+  if(screen==='tribe'){board?.context(selectedTribe?.id);void renderTribe();}
   social.onScreen(screen);
   if(screen==='onboarding'){const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':pendingQr?'scan':'intro');void refreshOwnPhoto();}
   if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile,{eager:privacyEnabled});$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''}${state.venue?' · '+state.venue.name:''}`;}
@@ -290,7 +293,7 @@ const loadTribe=singleFlight(async(generation)=>{
   paint(people);const visible=await withPhotos(people,partial=>{if(generation===listGeneration)paint(partial);});if(generation!==listGeneration)return;paint(visible);
  }catch(error){if(generation===listGeneration){tribePager.update({offset:tribeOffset,count:0,total:tribeOffset,hasMore:false});emptyList('tribeGrid',message(error));}}
 });
-const renderTribe=()=>loadTribe(listGeneration);
+const renderTribe=()=>board?.isActive()?(board.context(selectedTribe?.id),Promise.resolve()):loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
 deleteAccountButtonSetup();
 if(privacyEnabled)privacy=createPrivacyControls({backend,onBack:()=>go('myprofile'),onContinue:()=>hydrate(),onRestricted:()=>go('privacy'),onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick(),onRevoke:async()=>{state.profile.preference=null;backend.clearPrivacyCaches?.();social.reset();syncForm();await hydrate();showToast('Consenso revocato. Preferenza cancellata; match e chat esistenti conservati.');}});

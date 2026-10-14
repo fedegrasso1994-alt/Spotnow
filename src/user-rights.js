@@ -6,16 +6,17 @@ export function rightsEnabled(env){
  if(new URL(env.VITE_SUPABASE_URL).hostname!=='zjinjtkekmaqtxsuyvho.supabase.co')throw Error('Diritti disponibili solo nello staging.');
  return true;
 }
-export function createRightsApi(client){
- return {async page(section,after_key='',page_size=100){
-  if(!RIGHTS_SECTIONS.includes(section))throw Error('Sezione non valida.');
+export function createRightsApi(client,{boardEnabled=false}={}){
+ const sections=boardEnabled?[...RIGHTS_SECTIONS,'board_posts','board_reactions','board_reports']:RIGHTS_SECTIONS;
+ return {sections,async page(section,after_key='',page_size=100){
+  if(!sections.includes(section))throw Error('Sezione non valida.');
   const r=await client.rpc('my_rights_page',{section,after_key,page_size});
   if(r.error)throw Error('Dati non disponibili. Accedi o riprova.');return r.data;
  }};
 }
 export async function collectRights(api,{signal=undefined,onProgress=(_progress)=>{},maxRows=10000,maxBytes=8388608}={}){
  const sections={};let total=0,bytes=0,owner=null;
- for(const section of RIGHTS_SECTIONS){
+ for(const section of api.sections||RIGHTS_SECTIONS){
   const rows=[];let cursor='';const seen=new Set();
   do{
    if(signal?.aborted)throw Error('Export annullato.');
@@ -34,7 +35,7 @@ export async function collectRights(api,{signal=undefined,onProgress=(_progress)
  const final=await api.page('account');if(signal?.aborted||final.owner_id!==owner)throw Error('Sessione cambiata o export annullato.');
  return {format:'soma-rights-staging-v1',generated_at:new Date().toISOString(),sections,limitations:['Non è uno snapshot transazionale tra pagine: ripetere se i dati cambiano.','Foto: metadati; i file canonicali sono scaricabili separatamente.','Dati safety/terzi e copie provider: richiesta manuale soggetta a verifica.']};
 }
-export function formatRightsText(data){return RIGHTS_SECTIONS.map(section=>`${RIGHTS_LABELS[section]}\n${data.sections[section].length?JSON.stringify(data.sections[section],null,2):'Nessun dato conservato in questa sezione.'}`).join('\n\n');}
+export function formatRightsText(data){return Object.keys(data.sections).map(section=>`${RIGHTS_LABELS[section]||({board_posts:'I tuoi post',board_reactions:'Le tue reactions',board_reports:'Le tue segnalazioni Bacheca'}[section])}\n${data.sections[section].length?JSON.stringify(data.sections[section],null,2):'Nessun dato conservato in questa sezione.'}`).join('\n\n');}
 export function makeRightsDownload(data,urls=globalThis.URL){
  const url=urls.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
  return {url,name:'soma-dati-personali.json',release:()=>urls.revokeObjectURL(url)};
