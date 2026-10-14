@@ -28,3 +28,7 @@ Il messaggio task ricevuto è troncato dopo “una reaction att…”. La baseli
 ## Preflight sorgente eseguito
 
 Working tree iniziale pulito; baseline main/produzione non modificata. Auth settings read-only conferma Confirm email ON, account creati0. Suite baseline293/293 PASS (node --test --test-concurrency=2), build/typecheck PASS. Nessuna migration026 creata/applicata, nessun modulo Bacheca implementato. Attesa della parte restante del task prima di cambiamenti runtime, per acquisire eventuali ulteriori gate/scope richiesti; non è un blocco tecnico né richiesta di nuova approvazione del contratto già approvato.
+
+## Avanzamento dopo ricezione della richiesta completa
+
+Richiesta completa acquisita dall'allegato724f4e9b. Implementazione server/client/test pronta sul branch;026 e allineamento nonce applicati solo staging,18corpi funzione verificati senza drift. Esiti e gate reali nel report `soma-bacheca-01-staging-report-2026-10-14.md`:312/312/build/typecheck PASS, smoke SQL reale con rollback PASS; smoke Auth/browser/HTTP reale ancora pending e nessuna falsa chiusura. Main/produzione invariati, nessun Cupido/provider. Il precedente stato “prima del coding” è storico, superato da questo aggiornamento.
