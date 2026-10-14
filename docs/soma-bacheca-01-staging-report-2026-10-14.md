@@ -1,6 +1,50 @@
-# BACHECA-01 — implementazione staging e gate residuo
+# BACHECA-01 — GO tecnico staging / smoke autenticato concluso
 
 14 ottobre 2026. Branch `codex/bacheca-01-staging`, baseline `cdb7640` / feature baseline `73eaa31`. Contratto founder approvato, validazione legale pending. Nessuna produzione/main, Cupido, provider nuovo o modifica PHOTO-01/02.
+
+## Chiusura del gate autenticato — 14 ottobre 2026
+
+**GO tecnico alla chiusura BACHECA-01 in staging. LEGAL VALIDATION PENDING.** Questa sezione aggiorna e supera i gate pending del checkpoint iniziale riportato sotto. Non è un'autorizzazione al rollout o al pilot.
+
+- Signup/login normali di cinque fixture sintetiche temporanee, MFA TOTP reale di MOD1/MOD2/ADMIN. Nessuna service-role/admin key utilizzata dal runner; SQL dashboard solo per ruoli fixture, canary ristretto, timestamp sintetici, hold e cleanup controllato. Nessun dato reale letto o modificato.
+- AGE missing/17/18, consenso, upload foto reale, profilo/Ora/Tribe e tutte le varianti foto scaricate; check-in sintetico scaduto assente da Ora ma ancora membro Tribe; rinnovo QR verificato. Spot/match/chat persistenti dopo nuovo login e retry messaggio senza duplicazione. PHOTO invalid/retry/replace e vecchia foto disponibile durante grace.
+- Quattro richieste create concorrenti su HTTP reale: tre successi, quarto denied. 281 caratteri denied; exact replay restituisce lo stesso ID, payload diverso con stesso nonce denied. Quattro reactions concorrenti producono una sola reaction attiva e conteggio aggregato; change/remove e replay verificati. Delete post ripetuto sicuro, quota non ripristinata.
+- Utente B vede il feed anonimo di A nella stessa Tribe; payload senza author/email/preferenza/consenso/check-in/reporter/revision. SELECT privata, coda staff e resolve_author da utente normale denied. Seconda Tribe realmente esistente: B eligible, membro soltanto della prima, denied sulla seconda; dopo membership sintetica autorizzata vede il post creato da UI senza identità autore.
+- Moderatore con MFA e claim valido risolve autore, warn auditato; normale/aal1 denied. Suspension nasconde post, release non li ripubblica; ban blocca già board_operation. Revoca dating lascia Bacheca/RIGHTS accessibili e blocca discovery dating. Nessuna modifica ai gate backend per far passare lo smoke.
+- RIGHTS: 15 categorie originarie e tre categorie board own-only, export JSON/Blob e foto, isolamento A/B ed esclusione token/secret/security metadata. Export anche restricted/revoked. Delete-account reale anche banned; tutti i JWT residui rifiutati da Auth/RIGHTS e retry delete.
+- Timestamp sintetici 25h su tre post: feed/reaction/report rifiutano gli scaduti. Dry-run individua un eleggibile; purge lo elimina con reactions; exact replay e seconda esecuzione non duplicano. Due post protetti rispettivamente da report aperto e hold restano. Retention ri-pausata e policy board OFF nella stessa transazione.
+- Delete elimina tutti i dati prodotto, incluse le copie PHOTO. L'unica evidence esplicitamente held sopravvive separata: testo sintetico/reason/hold ID/archived_at, senza ID account; verificata prima del cleanup esplicito del solo hold fixture. Nessuna evidence reale rimossa.
+- Regressione MODERATION completa: 152 report paginati senza perdita/duplicati, claim concorrente un solo vincitore, warn, suspension/ban, release, revoca ruolo e unenroll MFA su sessione già attiva. Delete restricted resta disponibile.
+
+### UI mobile e limiti dell'evidenza
+
+Browser con il **medesimo modulo mountBoard e API reali staging**, login A/B normale nell'harness dev-only. Viewport effettivi misurati **320x568 e 390x844**, scrollWidth uguale alla larghezza; tab Persone/Bacheca, empty/loading, composer/pubblicazione reale, lettura peer e reaction. Screenshot privati locali, nessuna credenziale nei file versionati. Non è un test su telefono fisico/iOS né una certificazione di tutti i browser o del percorso completo camera/Google OAuth: questi restano QA dispositivo pre-pilot.
+
+Harness mock separato per errore/recovery/reset account e UGC HTML letterale. Corrette esclusivamente le schermate degli harness che si sovrapponevano per la classe screen assoluta; nessun CSS/UI runtime modificato. Il primo snapshot mobile precedente alla correzione non viene usato come prova finale.
+
+### Anomalie osservate e gestione
+
+1. Il primo export HTTP ha restituito un errore transitorio; retry diagnostico di tutte le 18 categorie e successivo export completo PASS. Banner provider segnala un problema tecnico generale; non attribuiamo causalità non dimostrata. Il retry non ha richiesto cambi schema/RPC.
+2. Il primo runner ban attendeva un errore dal create ma board_operation lo rifiutava già: corretta l'asserzione e verificato nuovamente il rifiuto anticipato. Nessuna protezione ridotta.
+3. Il primo incollamento del seed seconda Tribe via fill su Monaco ha prodotto SQL invalido, senza esecuzione delle modifiche. Corretto con selezione completa/paste e verificato successo prima di procedere; errore/retry UI osservati durante quel gate.
+
+### Stato finale e cleanup
+
+**3 Auth / 3 profili / 39 oggetti**, come baseline. **0 current missing, 0 untracked objects, 0 unknown inattesi, 3 review storici invariati**. Tutte le sette tabelle board vuote; zero account/profili/ruoli/eventi ruolo/report/job/ledger/quota/Storage delle fixture; entrambe le venue sintetiche e hold/evidence rimossi. I tre review e le copie storiche già tracciate sono preservati, non purgati per età.
+
+PHOTO PAUSED; canary_users0; cleanup OFF; scheduler OFF; cron attivi0; retention paused; tutte le policy board OFF. I receipt aggregati retention senza contenuti/ID utente seguono la retention tecnica già prevista; non sono account/post/foto residui. Versioni delle policy avanzate dal test config ON/OFF, valori e stato operativo ripristinati; non si pretende identità byte-per-byte dei metadata di audit.
+
+Confirm email verificato **OFF** al termine, come autorizzato manualmente dal founder. **Può essere riattivato manualmente ora**; nessun cambio Auth effettuato dall'agente. Server locale fermato, tab test chiuse, credenziali/TOTP/token temporanei rimossi dal contesto locale dopo salvataggio sole evidenze aggregate. Nessuna produzione/main, migration/deploy nuovo o attività Google Cloud. Progetto Luigi escluso; unico GCP autorizzato per eventuale OAuth Soma: rare-array-510414-d9, fuori da questo task.
+
+### Verifica locale e GitHub
+
+**312/312 PASS**, build/typecheck/release guard PASS, 37 asset e 9 font locali. Test ban esteso al rifiuto board_operation; runner esteso con replay/delete/cross-Tribe/expiry/purge/cleanup. Commit test/harness `7d364ba50dc39217fcfc2b3d2e5df7eb228c672d`, seguito da commit evidenze sul solo `codex/bacheca-01-staging`. PHOTO-01/02 e sorgenti runtime invariati.
+
+Rischi residui: nessuna promessa anonimato assoluto (testo/correlazioni possono identificare); invalidazione di copie già lette non equivale a cancellazione dai dispositivi; refresh controlla stato server, nessun push sofisticato. Global lock da misurare nel carico pilot. QA dispositivi reali, copertura operativa moderazione/hold, legal review e futuro rollout rimangono gate separati. Validazione professionale ancora necessaria per disclosure UGC, retention/hold, ricorsi, diritti e ruoli staff. Nessuna base giuridica o policy definitiva scelta.
+
+---
+
+## Checkpoint iniziale (storico, superato dalla verifica sopra)
 
 ## A–F — implementazione
 

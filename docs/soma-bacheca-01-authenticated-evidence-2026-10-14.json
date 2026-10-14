@@ -1,0 +1,313 @@
+{
+  "task": "BACHECA-01",
+  "date": "2026-10-14",
+  "environment": "zjinjtkekmaqtxsuyvho",
+  "baseline_commit": "a95c92536658c7c630ca06f86de1f29d6c13d927",
+  "decision": "GO_TECHNICAL_STAGING",
+  "legal_validation": "PENDING",
+  "production_modified": false,
+  "main_modified": false,
+  "gcp_used": false,
+  "fixtures": {
+    "created": 5,
+    "deleted": 5,
+    "remaining": 0,
+    "synthetic_venues_remaining": 0,
+    "held_evidence_remaining": 0
+  },
+  "observed_http_checks": [
+    {
+      "name": "Normal Auth signup/login USER_A",
+      "status": "PASS",
+      "at": "2026-10-14T17:59:42.148Z"
+    },
+    {
+      "name": "Normal Auth signup/login USER_B",
+      "status": "PASS",
+      "at": "2026-10-14T17:59:42.523Z"
+    },
+    {
+      "name": "Normal Auth signup/login MOD1",
+      "status": "PASS",
+      "at": "2026-10-14T17:59:42.888Z"
+    },
+    {
+      "name": "Normal Auth signup/login MOD2",
+      "status": "PASS",
+      "at": "2026-10-14T17:59:43.241Z"
+    },
+    {
+      "name": "Normal Auth signup/login ADMIN",
+      "status": "PASS",
+      "at": "2026-10-14T17:59:43.580Z"
+    },
+    {
+      "name": "Missing AGE server denial",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:36.721Z"
+    },
+    {
+      "name": "Real JWT AGE 17/ineligible and missing age denied",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:38.681Z"
+    },
+    {
+      "name": "Real JWT AGE 18 boundary accepted",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:39.332Z"
+    },
+    {
+      "name": "Real Auth TOTP enrollment MOD1",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:47.343Z"
+    },
+    {
+      "name": "Real Auth TOTP enrollment MOD2",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:48.540Z"
+    },
+    {
+      "name": "Real Auth TOTP enrollment ADMIN",
+      "status": "PASS",
+      "at": "2026-10-14T18:00:49.266Z"
+    },
+    {
+      "name": "Real JWT profile/Ora/Tribe and all photo variants downloaded; timestamps minimized",
+      "status": "PASS",
+      "at": "2026-10-14T18:01:41.466Z"
+    },
+    {
+      "name": "RIGHTS 15 sections JSON Blob download, photo, A/B isolation, exclusions and retry",
+      "status": "PASS",
+      "at": "2026-10-14T18:05:47.108Z"
+    },
+    {
+      "name": "Consent revocation idempotent, preference deleted, new dating blocked, existing chat/RIGHTS preserved",
+      "status": "PASS",
+      "at": "2026-10-14T18:05:49.691Z"
+    },
+    {
+      "name": "PHOTO invalid safely rejected, valid retry/replace, old retained through publication/grace",
+      "status": "PASS",
+      "at": "2026-10-14T18:05:53.494Z"
+    },
+    {
+      "name": "Expired synthetic user absent Ora, present Tribe with photos; QR renewal restores Ora",
+      "status": "PASS",
+      "at": "2026-10-14T18:07:25.740Z"
+    },
+    {
+      "name": "Revoked discovery denied, repeated revoke safe, RIGHTS preserved, new explicit consent restores dating",
+      "status": "PASS",
+      "at": "2026-10-14T18:07:29.125Z"
+    },
+    {
+      "name": "BOARD ban enforced at nonce admission; restricted export preserved",
+      "status": "PASS",
+      "at": "2026-10-14T18:08:35.048Z"
+    },
+    {
+      "name": "BOARD real second Tribe isolation: eligible B denied while member A sees browser-created post",
+      "status": "PASS",
+      "at": "2026-10-14T18:15:07.438Z"
+    },
+    {
+      "name": "BOARD joined peer sees anonymous UI post; reaction exact retry and three expiry fixtures ready",
+      "status": "PASS",
+      "at": "2026-10-14T18:16:46.295Z"
+    },
+    {
+      "name": "BOARD actual JWT expiry after synthetic 25h: feed/reaction/report denied",
+      "status": "PASS",
+      "at": "2026-10-14T18:19:41.977Z"
+    },
+    {
+      "name": "Real JWT USER and aal1 staff denied",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:34.976Z"
+    },
+    {
+      "name": "Real JWT 152 reports keyset and minimized queue",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:35.418Z"
+    },
+    {
+      "name": "Actual concurrent moderator claim: one winner, exact replay, dismiss",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:35.842Z"
+    },
+    {
+      "name": "Warn own-only and idempotent; no internal notes",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:36.116Z"
+    },
+    {
+      "name": "Staff cannot read peer profile/preference/location/consent or legacy routes",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:36.850Z"
+    },
+    {
+      "name": "Existing JWT suspension blocks normal use and preserves RIGHTS",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:37.355Z"
+    },
+    {
+      "name": "Existing JWT ban enforced; own RIGHTS excludes internal notes",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:38.058Z"
+    },
+    {
+      "name": "Role revoke enforced on already-active MFA session",
+      "status": "PASS",
+      "at": "2026-10-14T18:20:38.252Z"
+    },
+    {
+      "name": "Real factor unenroll invalidates existing aal2 session; RIGHTS preserved",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:20.011Z"
+    },
+    {
+      "name": "Banned account normal Auth delete",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:23.232Z"
+    },
+    {
+      "name": "ADMIN orphan restriction release after reporter delete; replay and current photo preserved",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:23.969Z"
+    },
+    {
+      "name": "Normal delete USER_A",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:44.222Z"
+    },
+    {
+      "name": "Normal delete MOD1",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:45.785Z"
+    },
+    {
+      "name": "Normal delete MOD2",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:47.025Z"
+    },
+    {
+      "name": "Normal delete ADMIN",
+      "status": "PASS",
+      "at": "2026-10-14T18:21:48.645Z"
+    },
+    {
+      "name": "Deleted JWT/RIGHTS/delete retry denied USER_A",
+      "status": "PASS",
+      "at": "2026-10-14T18:24:01.478Z",
+      "http": {
+        "auth": 403,
+        "rights": 403,
+        "delete_retry": 401
+      }
+    },
+    {
+      "name": "Deleted JWT/RIGHTS/delete retry denied USER_B",
+      "status": "PASS",
+      "at": "2026-10-14T18:24:06.062Z",
+      "http": {
+        "auth": 403,
+        "rights": 403,
+        "delete_retry": 401
+      }
+    },
+    {
+      "name": "Deleted JWT/RIGHTS/delete retry denied MOD1",
+      "status": "PASS",
+      "at": "2026-10-14T18:24:07.117Z",
+      "http": {
+        "auth": 403,
+        "rights": 403,
+        "delete_retry": 401
+      }
+    },
+    {
+      "name": "Deleted JWT/RIGHTS/delete retry denied MOD2",
+      "status": "PASS",
+      "at": "2026-10-14T18:24:07.632Z",
+      "http": {
+        "auth": 403,
+        "rights": 403,
+        "delete_retry": 401
+      }
+    },
+    {
+      "name": "Deleted JWT/RIGHTS/delete retry denied ADMIN",
+      "status": "PASS",
+      "at": "2026-10-14T18:24:08.247Z",
+      "http": {
+        "auth": 403,
+        "rights": 403,
+        "delete_retry": 401
+      }
+    }
+  ],
+  "additional_observed_checks": [
+    "real HTTP quota three success one denied",
+    "anonymous peer payload and private REST denial",
+    "concurrent reactions unique active count",
+    "MFA claimed author resolution",
+    "suspension hidden and no resurfacing",
+    "revoked dating board access",
+    "own delete exact replay",
+    "actual SQL expired purge, replay, second run",
+    "open report and explicit hold preserve two expired posts",
+    "minimal held evidence survives account delete then scoped fixture cleanup"
+  ],
+  "mobile": {
+    "method": "production mountBoard module with real staging API in dev harness",
+    "viewports": [
+      {
+        "width": 320,
+        "height": 568,
+        "scroll_width": 320
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "scroll_width": 390
+      }
+    ],
+    "physical_device": false,
+    "full_camera_google_onboarding_browser": false
+  },
+  "final_integrity": {
+    "accounts": 3,
+    "profiles": 3,
+    "objects": 39,
+    "current_missing": 0,
+    "untracked_objects": 0,
+    "unexpected_unknown": 0,
+    "historic_review": 3,
+    "board_tables_each": 0,
+    "photo_phase": "PAUSED",
+    "canary_users": 0,
+    "cleanup": false,
+    "scheduler": false,
+    "cron_active": 0,
+    "retention_paused": true,
+    "board_policies_enabled": 0,
+    "confirm_email": "OFF_FOUNDER_CAN_REENABLE"
+  },
+  "verification": {
+    "tests": 312,
+    "passed": 312,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "release_assets": 37,
+    "local_fonts": 9
+  },
+  "limitations": [
+    "No physical device QA",
+    "No pilot or production authorization",
+    "Legal validation pending",
+    "Transient HTTP export failure recovered on retry",
+    "Retention config versions advanced by synthetic test; technical aggregate receipts retained under existing policy"
+  ],
+  "smoke_code_commit": "7d364ba50dc39217fcfc2b3d2e5df7eb228c672d"
+}
