@@ -2,12 +2,13 @@ import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
 import {createPhotoUpload} from './photo-upload.js';
 import {createPrivacyApi} from './privacy-phase1.js';
 import {createRightsApi} from './user-rights.js';
+import {createOnboardingApi} from './onboarding.js';
 import {createBoardApi} from './bacheca.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false}={}) {
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
@@ -28,6 +29,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
   }
   return {
     ...(privacyEnabled?createPrivacyApi(client):{}),
+    ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),
     ...(boardEnabled?{board:createBoardApi(client)}:{}),
     ...(rightsEnabled?{rights:createRightsApi(client,{boardEnabled})}:{}),
     ...(moderationEnabled?{moderationNotice:async()=>unwrap(await client.rpc('my_moderation_notice'))}:{}),

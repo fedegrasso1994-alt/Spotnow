@@ -10,17 +10,19 @@ import {validProfile} from '../src/domain.js';
 import {createPager} from '../src/pagination.js';
 import {dom,Element,flush,deferred} from './helpers/dom.js';
 
+import {canConsumeQr} from '../src/onboarding.js';
+import {createTribeOnboarding} from '../src/onboarding-ui.js';
 import {photoVariants} from '../src/photo-variants.js';
 const source=(await fs.readFile(new URL('../src/live.js',import.meta.url),'utf8')).replace(/^import .*\n/gm,'').replace(/const backend=connectBackend\([^\n]+\);/,'const backend=testBackend;').replace('export function onFirstMatch','function onFirstMatch');
 const html=await fs.readFile(new URL('../index.html',import.meta.url),'utf8');
 async function boot(overrides={},anonymous=false,duringBoot,options={}){
  const ui=dom();for(const [,id]of html.matchAll(/id="([^"]+)"/g))ui.get(id);for(const id of ['boot','intro','scan','camera','login','onboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match','suspended'])ui.screen(id);
- for(const [id,cls]of [['intro','btn-primary'],['venue','addr'],['login','sub'],['onboarding','disp'],['onboarding','backlink']]){const el=new Element();el.className=cls;ui.get(id).append(el);}
+ for(const [id,cls]of [['intro','disp'],['intro','sub'],['intro','btn-primary'],['venue','addr'],['login','sub'],['onboarding','disp'],['onboarding','backlink']]){const el=new Element();el.className=cls;ui.get(id).append(el);}
  ui.activate('boot');
  const session={user:{id:'me',is_anonymous:anonymous}};let callback,scanner;const assigned=[],intervals=[],timeouts=[],storage=new Map(),drafts=options.drafts||new Map();
  const backend={session:async()=>session,onSessionChange:cb=>{callback=cb;},accountState:async()=> 'active',isSuspended:async()=>false,getProfile:async()=>({name:'Alex',age:28,gender:'M',preference:'ALL',photo_path:'me/photo'}),photoUrl:async()=>'/photo',ownCheckIn:async()=>({venue_id:'place',expires_at:new Date(Date.now()+600000).toISOString()}),getVenue:async()=>({id:'place',name:'Locale'}),locationPeople:async()=>[{id:'person',name:'Anna',age:25,photo_path:'person/photo',checked_in_at:new Date().toISOString(),expires_at:new Date(Date.now()+600000).toISOString()}],tribes:async()=>[{id:'place',name:'Locale',member_count:2,live_count:1}],googleLogin:async()=>({url:'https://accounts.google.com/oauth'}),linkGoogle:async()=>({url:'https://accounts.google.com/link'}),signOut:async()=>callback('SIGNED_OUT',null),...overrides};
  const window={addEventListener(type,handler){(this.listeners??={})[type]=handler;}};
- const context={createPrivacyControls:()=>{let state;ui.screen('privacy');return{get state(){return state;},async refresh(){state=await backend.privacyState();return state;}};},FileReader:class{readAsDataURL(){this.result="data:image/jpeg;base64,ZGVtbw==";this.onload();}},renderAvatar,document:ui.document,window,testBackend:backend,optimizePhoto:async file=>file,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,createPager,validProfile,photoVariants:options.photoVariants||photoVariants,URL,URLSearchParams,Date,console,location:{search:options.search||'',href:'https://spot.example/'+(options.search||''),origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},localStorage:{getItem:k=>drafts.get(k),setItem:(k,v)=>drafts.set(k,v),removeItem:k=>drafts.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:(callback,delay)=>{timeouts.push({callback,delay});return timeouts.length;},clearTimeout:()=>{},createVenueScanner:options=>{scanner=options;return {stop(){},open(){}};},setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
+ const context={createTribeOnboarding:options=>createTribeOnboarding({...options,document:ui.document}),canConsumeQr,createPrivacyControls:()=>{let state;ui.screen('privacy');return{get state(){return state;},async refresh(){state=await backend.privacyState();return state;}};},FileReader:class{readAsDataURL(){this.result="data:image/jpeg;base64,ZGVtbw==";this.onload();}},renderAvatar,document:ui.document,window,testBackend:backend,optimizePhoto:async file=>file,validatePhoto:async file=>file,userMessage,createNavigation:(options)=>createNavigation({history:{state:null,replaceState(){},pushState(){}},...options}),singleFlight,stableList,createPager,validProfile,photoVariants:options.photoVariants||photoVariants,URL,URLSearchParams,Date,console,location:{search:options.search||'',href:'https://spot.example/'+(options.search||''),origin:'https://spot.example',pathname:'/',assign:url=>assigned.push(url)},history:{replaceState(){}},sessionStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},localStorage:{getItem:k=>drafts.get(k),setItem:(k,v)=>drafts.set(k,v),removeItem:k=>drafts.delete(k)},setInterval:fn=>{intervals.push(fn);return intervals.length;},setTimeout:(callback,delay)=>{timeouts.push({callback,delay});return timeouts.length;},clearTimeout:()=>{},createVenueScanner:options=>{scanner=options;return {stop(){},open(){}};},setupInstallApp:()=>({close(){},showAfterMatch(){}}),createSuspensionScreen:()=>{},createLiveSocial:()=>({onScreen(){},resume(){},reset(){},openDetail(){},route(){return {}},restoreChat(){}})};
  vm.createContext(context);const running=vm.runInContext(`(async()=>{${source}})()`,context);if(duringBoot){await flush();await duringBoot({...ui,window});}await running;await flush();
  return {...ui,window,backend,assigned,intervals,timeouts,storage,drafts,callback,scanner};
 }
@@ -206,3 +208,27 @@ test('LOC-01: minimized Ora rows render and disappear on polling; only own expir
 
 test('staging age gate blocks hydration before profile/discovery but preserves own deletion route',async()=>{let reads=0;const ui=await boot({privacyState:async()=>({age_status:'confirmation_required',consent_status:'missing'}),getProfile:async()=>{reads++;return null;}});assert.equal(reads,0);assert.equal(ui.document.querySelector('.screen.active').id,'privacy');ui.window.go('chat');assert.equal(ui.document.querySelector('.screen.active').id,'privacy');});
 test('staging privacy flow loads own avatars eagerly so a hidden lazy image cannot outlive its signed URL',async()=>{const ui=await boot({privacyState:async()=>({age_status:'eligible',consent_status:'active'})});ui.window.go('myprofile');await flush();assert.equal(ui.get('mpAvatar').querySelector('img')?.loading,'eager');});
+
+const onboard=(overrides={})=>({state:async()=>({complete:false,tribes:[]}),search:async()=>[],join:async()=>{},complete:async()=>({complete:true}),...overrides});
+test('NOQR profile creation starts without token; pending URL/draft cannot invoke check_in',async()=>{
+ for(const options of [{},{search:'?venue=crafted-token'},{drafts:new Map([['spot-onboarding-venue-v1',JSON.stringify({token:'stored',owner:'me'})]])}]){
+  let scans=0,previews=0;const ui=await boot({onboarding:onboard(),getProfile:async()=>null,scanVenue:async()=>scans++,venuePreview:async()=>previews++},false,null,options);
+  assert.equal(ui.document.querySelector('.screen.active').id,'onboarding');assert.equal(scans,0);assert.equal(previews,0);
+ }
+});
+test('NOQR signup saves profile without venue and opens optional Tribe step, not legacy QR writer',async()=>{
+ let profile=null,scans=0,saved=0;const ui=await boot({uploadPhoto:async()=> 'me/photo',onboarding:onboard(),getProfile:async()=>profile,saveProfile:async p=>{saved++;profile={...p,photo_path:'me/photo'};},scanVenue:async()=>scans++});
+ ui.get('inName').value='Nuovo';ui.get('inAge').value='25';const gender=new Element(),pref=new Element();const choices=new Element();choices.append(gender,pref);ui.window.setGender('M',gender);ui.window.setPref('ALL',pref);
+ await ui.window.handlePhoto({target:{files:[{}]}});await ui.window.trySaveProfile();
+ assert.equal(saved,1);assert.equal(scans,0);assert.equal(ui.document.querySelector('.screen.active').id,'tribeOnboarding');
+});
+test('NOQR server-completed skip/legacy/returning with zero Tribes enters app, never loops or consumes pending',async()=>{
+ let scans=0;for(const options of [{},{search:'?venue=deferred'}]){
+  const ui=await boot({onboarding:onboard({state:async()=>({complete:true,tribes:[]})}),ownCheckIn:async()=>null,tribes:async()=>[],scanVenue:async()=>scans++},false,null,options);
+  assert.equal(ui.document.querySelector('.screen.active').id,'tribes');assert.equal(scans,0);assert.equal(ui.get('tribesList').children.at(-1).textContent,'Scegli le tue Tribe');
+ }
+});
+test('NOQR signed-out entry opens login, and existing AGE restriction remains before profile',async()=>{
+ const ui=await boot({onboarding:onboard(),session:async()=>null});await ui.get('intro').querySelector('.btn-primary').onclick();assert.equal(ui.document.querySelector('.screen.active').id,'login');
+ const blocked=await boot({onboarding:onboard(),privacyState:async()=>({age_status:'restricted'})});assert.equal(blocked.document.querySelector('.screen.active').id,'privacy');
+});
