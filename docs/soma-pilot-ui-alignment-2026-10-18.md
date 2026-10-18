@@ -148,3 +148,9 @@ Il codice deployato mantiene lo Skip richiesto e testato. Nessuna implementazion
 sulla base del documento appena arrivato; allineamento mandatory-Tribe/QR da task successivo esplicito.
 Questo impedisce di dichiarare pieno allineamento al nuovo Product/UX Source of Truth.
 Il resto delle feature future elencate nel documento non è stato attivato.
+
+## Follow-up closure
+
+The skip condition and QR exception are addressed by the narrow follow-up documented in
+[soma-ia-pilot-gate-closure-2026-10-18.md](soma-ia-pilot-gate-closure-2026-10-18.md).
+Earlier sections record the previous deployment, not the new runtime.
