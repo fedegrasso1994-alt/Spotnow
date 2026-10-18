@@ -111,3 +111,17 @@ test('SEC-01: legacy peopleHere uses the explicit public projection RPC',async()
  const api=createBackend({auth:{getUser:async()=>({data:{user:{id:'me'}}})},from:()=>{throw Error('Other profiles must use a minimized RPC');},rpc:async name=>{rpc=name;return {data:rows};}});
  assert.deepEqual(await api.peopleHere(),rows);assert.equal(rpc,'visible_profiles');
 });
+
+test('profile metadata save uses UPDATE for existing owner, INSERT for new owner; never UPSERT photo guard',async()=>{
+ for(const exists of [true,false]){
+  const calls=[];let row;
+  const result={select:()=>({single:async()=>({data:row})})};
+  const client={auth:{getUser:async()=>({data:{user:{id:'owner'}}})},from:table=>{
+   assert.equal(table,'profiles');return {select:()=>({eq:(key,id)=>{assert.equal(id,'owner');return {maybeSingle:async()=>({data:exists?{id}:null})};}}),
+   update:value=>{calls.push('update');row=value;return {eq:(key,id)=>{assert.equal(id,'owner');return result;}};},
+   insert:value=>{calls.push('insert');row=value;return result;},upsert:()=>{throw Error('must not UPSERT');}};
+  }};
+  const api=createBackend(client);await api.saveProfile({name:'Test',age:25,gender:'M',preference:'ALL',photo:'owner/current'});
+  assert.deepEqual(calls,[exists?'update':'insert']);assert.equal(row.photo_path,'owner/current');
+ }
+});

@@ -1,0 +1,2 @@
+#onboarding .profile-save-status{flex-shrink:0;color:var(--coral);font-size:12px;line-height:1.45;margin:8px 0 12px;overflow-wrap:anywhere}
+#onboarding .profile-save-status:empty{display:none}

@@ -1,3 +1,5 @@
+import './profile-save.css';
+import {photoForProfileSave,UNSAVED_PHOTO_MESSAGE}from './profile-photo-save.js';
 import './privacy-welcome.css';
 import {WELCOME_VALUE,authRedirect,authReturnError}from './auth-preview.js';
 import {createPresenceClock,oraError,pendingQrFresh}from './ora.js';
@@ -60,7 +62,8 @@ let listGeneration=0,accountGeneration=0,booting=true;
 const activeScreen=()=>document.querySelector('.screen.active')?.id;
 const photoFor=path=>backend.photoUrl(path).catch(()=>null);
 const message=userMessage;
-function showToast(text) {$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),4500);}
+const profileNotice=document.createElement('p');profileNotice.id='profileSaveStatus';profileNotice.className='profile-save-status';profileNotice.setAttribute('role','status');profileNotice.setAttribute('aria-live','polite');$('profileBtn').parentElement.insertBefore(profileNotice,$('profileBtn'));
+function showToast(text) {if(activeScreen()==='onboarding'){$('toast').classList.remove('show');profileNotice.textContent=text;$('profileBtn').scrollIntoView?.({block:'nearest'});return;}$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),4500);}
 async function refreshOwnPhoto(){const generation=accountGeneration,path=state.profile.photoPath,selection=photoSelection;if(!path||state.photoFile)return;const photo=await photoFor(path);if(generation!==accountGeneration||state.profile.photoPath!==path||selection!==photoSelection||state.photoFile)return;state.profile.photo=photo;for(const id of ['mpAvatar','photoCircle'])avatar($(id),state.profile,{eager:privacyEnabled});}
 const avatar=renderAvatar;
 const memberLabel=count=>`${count} ${Number(count)===1?'membro':'membri'}`;
@@ -91,7 +94,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe'){board?.context(selectedTribe?.id);void renderTribe();}
   social.onScreen(screen);
-  if(screen==='onboarding'){const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
+  if(screen==='onboarding'){profileNotice.textContent='';$('toast').classList.remove('show');const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
   if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile,{eager:privacyEnabled});$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''}${state.venue?' · '+state.venue.name:''}`;}
 }
 function syncForm() {
@@ -195,16 +198,18 @@ async function trySaveProfile() {
   if(!state.profile.photo&&!state.profile.photoPath)return showToast('Carica una foto per continuare.');
   if(!validProfile(state.profile,{allowMissingPreference:privacyEnabled&&existingProfile}))return showToast('Inserisci nome (1–60 caratteri), età intera da 18 a 120 anni e genere.');
   const generation=accountGeneration,selection=photoSelection;
-  state.saving=true;$('profileBtn').disabled=true;
+  state.saving=true;profileNotice.textContent='';$('profileBtn').disabled=true;
   try {
     // Preserve the uploaded path on retries, so a transient DB error does not upload twice.
     const draft={...state.profile},file=state.photoFile;
-    if(file){const path=await backend.uploadPhoto(file);if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');draft.photoPath=path;state.profile.photoPath=path;state.photoFile=null;}
+    const chosen=await photoForProfileSave({file,path:draft.photoPath,uploadPhoto:f=>backend.uploadPhoto(f),currentProfile:()=>generation===accountGeneration?backend.getProfile():null});
+    if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');
+    draft.photoPath=chosen.path;if(file){state.profile.photoPath=chosen.path;state.photoFile=null;if(chosen.reusedCurrent){state.profile.photo=null;$('photoInput').value='';}}
     await backend.saveProfile({...draft,photo:draft.photoPath});
     if(generation===accountGeneration&&!file&&backend.ensurePhotoAssets)await backend.ensurePhotoAssets(draft.photoPath).catch(()=>{});
     if(generation!==accountGeneration)return;
-    await hydrate();
-  }catch(error){if(generation===accountGeneration)showToast(message(error));}
+    await hydrate();if(generation===accountGeneration&&chosen.reusedCurrent)showToast('Profilo salvato con la foto precedente. Potrai cambiarla quando il caricamento sarà disponibile.');
+  }catch(error){if(generation===accountGeneration)showToast(error?.code==='PAUSED'&&!state.profile.photoPath?UNSAVED_PHOTO_MESSAGE:message(error));}
   finally{if(generation===accountGeneration){state.saving=false;$('profileBtn').disabled=false;}}
 }
 function changeEmail(){$('codeForm').hidden=true;$('emailForm').hidden=false;$('loginCode').value='';$('loginStatus').textContent='';}
