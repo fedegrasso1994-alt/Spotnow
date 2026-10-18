@@ -23,9 +23,10 @@ test('Tribe permissions, exact expiry, multi-location membership and persistent 
  insert into public.profiles values('${a}','Anna',24,'F','ALL','${a}/a.png',now()),('${b}','Luca',26,'M','ALL','${b}/b.png',now()),('${c}','Anon',25,'M','ALL','${c}/c.png',now());
  insert into public.venues(id,name,address) values('${v}','Gym','Test'),('${w}','Campus','Test');insert into spot_private.venue_codes values('${v}','${q}'),('${w}','${r}');`);
  const asUser=async id=>db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${id}',false);`);
+ // Pin the legacy QR journey through031: 032 intentionally retires check_in.
  // 029 asserts one inventoried staging snapshot; this generic journey uses different fixtures.
  // Its schema is unchanged and the data migration is exercised in dedicated backfill tests.
- for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20&&f!=='029_controlled_staging_backfill.sql').sort()){
+ for(const f of (await readdir('supabase/migrations')).filter(f=>Number(f.slice(0,3))>=20&&Number(f.slice(0,3))<=31&&f!=='029_controlled_staging_backfill.sql').sort()){
   if(f.startsWith('025_'))await db.exec("update spot_private.privacy_environment set environment='staging'");
   await db.exec(await readFile(`supabase/migrations/${f}`,'utf8'));
  }

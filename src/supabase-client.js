@@ -1,3 +1,4 @@
+import {oraEnabled as oraV2Enabled}from './ora.js';
 import {noQrOnboardingEnabled} from './onboarding.js';
 import { boundedFetch } from './request.js';
 import { createClient } from '@supabase/supabase-js';
@@ -11,7 +12,7 @@ import { createBackend } from './backend.js';
 export function connectBackend({url,publicKey,storageKey}) {
   // Local load fixtures inject synthetic data; this branch is removed from production.
   if(import.meta.env.DEV&&globalThis.__SPOT_LOAD_TEST_BACKEND__)return globalThis.__SPOT_LOAD_TEST_BACKEND__;
-  const onboardingEnabled=noQrOnboardingEnabled(import.meta.env);
+  const onboardingEnabled=noQrOnboardingEnabled(import.meta.env);const oraEnabled=oraV2Enabled(import.meta.env);
   const parsed=new URL(url);
   if(parsed.protocol!=='https:' && !['localhost','127.0.0.1'].includes(parsed.hostname)) {
     throw new Error('Il backend deve usare HTTPS.');
@@ -23,5 +24,5 @@ export function connectBackend({url,publicKey,storageKey}) {
     catch {throw new Error('Chiave pubblica non valida.');}
     if(payload.role!=='anon')throw new Error('Usa la chiave anon, non service_role.');
   } else if(!publicKey.startsWith('sb_publishable_'))throw new Error('Chiave pubblica non valida.');
-  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled});
+  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled,oraEnabled});
 }

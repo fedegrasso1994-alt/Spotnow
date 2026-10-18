@@ -78,8 +78,8 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function syncDetailAction(){
     if(!detail)return;
     const match=detailMatch(),done=detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
-    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done));
-    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':done?'Interesse già inviato':'Mi Interessa';
+    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||detail.source==='ora-v2');
+    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'?'Spot disponibili nel prossimo aggiornamento':done?'Interesse già inviato':'Mi Interessa';
   }
   function openDetail(person){
     detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
@@ -90,6 +90,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function closeDetail(){detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
+    if(detail.source==='ora-v2')return;
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();
     try{const id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
     catch(error){if(generation===epoch)showToast(userMessage(error));}

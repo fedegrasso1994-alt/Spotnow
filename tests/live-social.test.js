@@ -110,3 +110,7 @@ test('20,000-message history stays bounded, supports previous/latest and sending
  const [older,latest]=ui.get('chat').querySelector('.chat-history-controls').children;older.onclick();await flush();assert.equal(ui.get('bubbles').children.at(-1).textContent,'Messaggio 19899');assert.equal(ui.get('bubbles').children.length,101);
  latest.onclick();await flush();assert.equal(ui.get('bubbles').children.at(-1).textContent,'Messaggio 19999');older.onclick();await flush();ui.get('chatIn').value='Nuovo';await globalThis.window.sendMsg();assert.equal(writes,1);assert.equal(ui.get('bubbles').children.at(-1).textContent,'Nuovo');assert.equal(ui.get('bubbles').children.length,101);
 });
+test('ORA v2 detail never sends legacy Spot; existing matched chat remains available',async t=>{
+ let writes=0;const ui=setup(t,{expressInterest:async()=>writes++});ui.setRecords([]);ui.go('venue');ui.social.openDetail({id:'b',name:'Bea',age:25,venue_id:'place',source:'ora-v2'});await flush();assert.equal(ui.get('interestBtn').disabled,true);await globalThis.window.expressInterest();assert.equal(writes,0);
+ ui.setRecords([{id:'matched',person_id:'b',name:'Bea',age:25,venue_name:'Place'}]);await ui.social.refresh();assert.equal(ui.get('interestBtn').textContent,'Apri la Chat');assert.equal(ui.get('interestBtn').disabled,false);await globalThis.window.expressInterest();assert.equal(writes,0);assert.equal(ui.document.querySelector('.screen.active').id,'chat');
+});
