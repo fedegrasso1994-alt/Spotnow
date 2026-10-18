@@ -131,5 +131,38 @@ reads are preserved, not enlarged. Physical retention for v2 ledger/receipts/quo
 activated here. Global lock is conservative; broader throughput/load still needs operational measurement.
 These are bounded roadmap dependencies, not hidden completion claims. Legal/pilot readiness remains separate.
 
-**GO to PROFILE / PHOTO AUTHORIZATION V2**, subject to final Preview verification recorded below.
+**GO to PROFILE / PHOTO AUTHORIZATION V2**. Final Preview verification is recorded below.
 Do not start that task automatically. STOP after versioning, staging evidence, report and push.
+
+## Final Preview / source checkpoint
+
+- Runtime/code commit pushed before deploy: `14f9ed5b839aa5b07f319c86dc50939b44eafb10`.
+- Preview: https://spot-c96u3c029-fedegrasso1994-1482.vercel.app/
+- Deployment: `dpl_GC6ZRmtT4Zk9vCvAdJzEN4m6ZSvw`, READY, Preview only, no production URL.
+- Browser build-info confirms full SHA, staging ref, Spot v2 and quota enforcement true,
+  Daily Discovery engine false. Release check PASS: 40 assets, 9 self-hosted fonts; no test fixture,
+  server secret or Production ref in bundle.
+- Added only exact staging Auth redirect `https://spot-c96u3c029-fedegrasso1994-1482.vercel.app/**`.
+  Site URL unchanged; provider/Confirm email configuration unchanged, Google ON, Confirm email ON.
+- First browser Google readiness attempt failed during transient local/client connectivity trouble.
+  System hostname lookup returned ENOTFOUND while DNS A records were resolvable; direct DNS diagnostic
+  with normal HTTPS/SNI/certificate verification returned Auth settings HTTP200, Google enabled,
+  Confirm email enabled. Browser direct diagnostic navigation reported ERR_BLOCKED_BY_CLIENT.
+  No DNS/hosts/network/browser or app workaround applied. A later normal system lookup resolved;
+  controlled browser Google retry succeeded, callback to THIS Preview and authenticated TRIBE.
+  Exact underlying cache/filter cause is not established. This was a recovered diagnostic condition,
+  not grounds to alter Auth, Google Cloud or Spot semantics. No Production redirect.
+- Production deployment before/after identical `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`.
+- Main local/remote unchanged `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+- Browser refresh retains authentication; TRIBE restores the existing TEST Università 1 membership.
+  ORA loads exactly the three approved pilot Places, with no active presence and no synthetic Places.
+  No real presence/Spot/message was created for that browser check. Console error/warn capture empty.
+- Extra post-teardown counts also zero for synthetic eligibility, consent, onboarding, memberships,
+  presences, validated-photo records, lifecycle sets, photo cleanup/audit, exposures, matches/messages.
+  The non-personal global fence revision intentionally remains monotonic; it is not fixture data.
+- Final documentation commit follows the runtime commit; no runtime change or extra deploy required.
+
+**Final gate: GO to PROFILE / PHOTO AUTHORIZATION V2.**
+Spot v2 server/quotas, staging smoke and fixtures gate closed; next task not started.
+
+![Preview ORA, existing visual language](evidence/spot-v2/preview-ora.png)

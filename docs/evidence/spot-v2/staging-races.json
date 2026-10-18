@@ -113,5 +113,11 @@
       "legacy_interests": 2,
       "discovery_enabled": false
     }
+  },
+  {
+    "mode": "cascade-residue",
+    "rows": [
+      "{\"match\":0,\"photos\":0,\"consent\":0,\"messages\":0,\"presence\":0,\"exposures\":0,\"onboarding\":0,\"photo_sets\":0,\"eligibility\":0,\"memberships\":0,\"photo_audit\":0,\"photo_cleanup\":0}  "
+    ]
   }
 ]
