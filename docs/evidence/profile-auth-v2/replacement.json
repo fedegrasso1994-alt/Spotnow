@@ -1,0 +1,6 @@
+[
+  {
+    "name": "Self replacement keeps old current until publish; Match gets new version and stale ref denied",
+    "result": "PASS"
+  }
+]

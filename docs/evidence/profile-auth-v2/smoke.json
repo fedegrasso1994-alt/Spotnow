@@ -1,0 +1,34 @@
+[
+  {
+    "name": "QR zero-Tribe shared live ORA profile and canonical/thumb/detail allowed",
+    "result": "PASS"
+  },
+  {
+    "name": "Storage authenticated download/list/long signing and permanent public bypass denied",
+    "result": "PASS"
+  },
+  {
+    "name": "Self profile/photo/edit and refresh via normal sign-in",
+    "result": "PASS"
+  },
+  {
+    "name": "One-sided Spot + target exits ORA => profile/photo denied",
+    "result": "PASS"
+  },
+  {
+    "name": "Same Tribe only + known UUID has no directory/profile/photo access",
+    "result": "PASS"
+  },
+  {
+    "name": "Reciprocal Spot => unique Match persists ORA exit/Tribe leave; chat/rights remain",
+    "result": "PASS"
+  },
+  {
+    "name": "Existing Match survives dating consent revoke; pending does not create permission",
+    "result": "PASS"
+  },
+  {
+    "name": "Signed reference expiry on uncached network request, authorized refresh succeeds",
+    "result": "PASS"
+  }
+]

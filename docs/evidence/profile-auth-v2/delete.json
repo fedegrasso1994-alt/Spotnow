@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Synthetic 1: normal delete-account and unusable Auth",
+    "result": "PASS"
+  },
+  {
+    "name": "Synthetic 2: normal delete-account and unusable Auth",
+    "result": "PASS"
+  }
+]

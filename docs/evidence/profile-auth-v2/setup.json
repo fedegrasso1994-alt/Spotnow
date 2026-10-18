@@ -1,0 +1,14 @@
+[
+  {
+    "name": "PHOTO fixture unchanged strict prevalidation 5/5",
+    "result": "PASS"
+  },
+  {
+    "name": "Synthetic 1: real Auth AGE consent PHOTO upload canonical publication",
+    "result": "PASS"
+  },
+  {
+    "name": "Synthetic 2: real Auth AGE consent PHOTO upload canonical publication",
+    "result": "PASS"
+  }
+]

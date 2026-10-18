@@ -66,3 +66,18 @@ test('AUTHZ integrated social/rights/board/delete remains owner scoped after res
  const d=await setup(t);await send(d,ids.b);await asUser(d,ids.b);const m=await send(d,ids.a);await d.query("select send_message($1,'SYNTHETIC',$2)",[m.match_id,crypto.randomUUID()]);await asUser(d,ids.a);assert.equal((await d.query('select body from messages where match_id=$1',[m.match_id])).rows[0].body,'SYNTHETIC');
  assert.equal((await d.query("select my_rights_page('profile')v")).rows[0].v.owner_id,ids.a);await d.query('select join_tribe($1)',[ids.v]);await admin(d);await d.query("update spot_private.account_deletions set user_id=user_id where false");await d.query('delete from auth.users where id=$1',[ids.b]);await asUser(d,ids.a);assert.equal((await profile(d)).length,0);assert.equal((await d.query('select * from matches')).rows.length,0);
 });
+
+test('AUTHZ future directional seam can represent recipient -> sender without anonymous-author reverse grant (local transaction only)',async t=>{
+ const d=await setup(t);await exit(d,ids.a);await exit(d,ids.b);await admin(d);
+ // No request rows or deployed feature: simulate only a future helper implementation in an isolated database.
+ await d.exec(`create or replace function spot_private.profile_request_authorized(viewer uuid,target uuid)returns boolean language sql stable security definer set search_path=''as $$select viewer='${ids.a}'::uuid and target='${ids.b}'::uuid$$`);
+ await asUser(d,ids.a);assert.equal((await profile(d)).length,1);await asUser(d,ids.b);assert.equal((await profile(d,ids.a)).length,0);
+});
+test('AUTHZ expired DD + existing Match composition persists; suspension/deletion override every relation',async t=>{
+ const d=await setup(t);await exposure(d,ids.a,ids.b);await asUser(d,ids.a);await send(d,ids.b);await asUser(d,ids.b);await send(d,ids.a);await exit(d,ids.a);await exit(d,ids.b);await admin(d);await d.exec("update spot_private.discovery_windows set starts_at=now()-interval '2 hours',ends_at=now()-interval '1 hour'");await asUser(d,ids.a);assert.equal((await profile(d)).length,1);
+ await admin(d);await d.query("insert into spot_private.suspensions(user_id,reason)values($1,'SYNTHETIC')",[ids.b]);await asUser(d,ids.a);assert.equal((await profile(d)).length,0);assert.equal((await resolve(d,ids.a,ref(ids.b,ids.b+'/b.png'))).length,0);
+});
+test('AUTHZ anonymous Board publication never authorizes known author ID',async t=>{
+ const d=await setup(t);for(const u of[ids.a,ids.b]){await asUser(d,u);await d.query('select join_tribe($1)',[ids.v]);}
+ await asUser(d,ids.b);const operation=(await d.query('select board_operation($1)id',[ids.v])).rows[0].id;await d.query("select board_create($1,'SYNTHETIC',$2)",[ids.v,operation]);await exit(d,ids.a);await exit(d,ids.b);await asUser(d,ids.a);const feed=(await d.query('select board_feed($1)v',[ids.v])).rows[0].v;assert.ok(!JSON.stringify(feed).includes(ids.b));assert.equal((await profile(d)).length,0);
+});

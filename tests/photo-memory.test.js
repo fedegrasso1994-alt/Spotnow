@@ -28,3 +28,8 @@ test('eviction cannot revoke a cached image during detail decode but logout alwa
  assert.equal(cachedPhoto('shown/full'),null);assert.equal(await (await fetch(url)).text(),'pixels');release();await assert.rejects(fetch(url));
  const c=[];rememberPhoto('logout/full',image(c));c[0](new Blob(['private']));const privateUrl=cachedPhoto('logout/full'),held=retainPhotoSource(privateUrl);clearPhotoMemory();await assert.rejects(fetch(privateUrl));held();
 });
+
+test('AUTHZ opaque protected pixels expire after 20s; own legacy cache remains session scoped',()=>{
+ clearPhotoMemory();const callbacks=[],now=Date.now;let time=100000;Date.now=()=>time;
+ try{rememberPhoto('profile:target:version:detail',image(callbacks));callbacks.shift()(new Blob(['pixels']));rememberPhoto('me/photo',image(callbacks));callbacks.shift()(new Blob(['own']));assert.ok(cachedPhoto('profile:target:version:detail'));time+=20001;assert.equal(cachedPhoto('profile:target:version:detail'),null);assert.ok(cachedPhoto('me/photo'));}finally{Date.now=now;clearPhotoMemory();}
+});

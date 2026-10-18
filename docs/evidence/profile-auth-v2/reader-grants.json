@@ -1,0 +1,410 @@
+[
+  {
+    "anon": false,
+    "args": "age integer, declared boolean, statement_version text, operation_id uuid",
+    "name": "attest_adult",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid",
+    "name": "authorized_profile",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+    "name": "begin_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "section text, after_key text, page_size integer",
+    "name": "board_prior_rights_page",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid",
+    "name": "claim_photo_account_cleanup",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text",
+    "name": "claim_photo_cleanup",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, token uuid, code text",
+    "name": "fail_photo_account_cleanup",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, lease_token uuid",
+    "name": "fail_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, token uuid",
+    "name": "finish_photo_account_cleanup",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, token uuid",
+    "name": "finish_photo_cleanup",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, lease_token uuid, preview_text text, canonical_sha text, canonical_bytes integer, source_format text, source_width integer, source_height integer",
+    "name": "finish_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "place uuid, live boolean, page_size integer, page_offset integer",
+    "name": "location_people_photos_page",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "filter text, cursor_time timestamp with time zone, cursor_id uuid, page_size integer",
+    "name": "moderation_queue",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, reason_code text, operation_id uuid, note text",
+    "name": "moderation_release",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "moderation_reports",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "my_matches",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "page_size integer, page_offset integer, requested_match uuid, requested_person uuid",
+    "name": "my_matches_page",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "page_size integer, page_offset integer, requested_match uuid, requested_person uuid",
+    "name": "my_matches_photos_page",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "my_onboarding_state",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "page_size integer, page_offset integer",
+    "name": "ora_people_page",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "pending_photo_assets",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "pending_photo_normalization",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+    "name": "photo01_begin_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, lease_token uuid, preview_text text, canonical_sha text, canonical_bytes integer, source_format text, source_width integer, source_height integer",
+    "name": "photo01_finish_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid",
+    "name": "photo02_begin_account_deletion",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+    "name": "photo02_begin_photo_upload",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo02_metadata_purge_before_cutover",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo02_metadata_purge_before_review",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, lease uuid, evidence_code text",
+    "name": "photo02_reconcile_writer_before_review",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "enable boolean",
+    "name": "photo02_staging_scheduler",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text",
+    "name": "photo_asset_status",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_cleanup_candidates",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, token uuid, code text",
+    "name": "photo_cleanup_failure",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_cutover_assert_drained",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, input_sha text, legacy_path text",
+    "name": "photo_cutover_bridge_begin",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, path text, lease uuid, write_manifest jsonb",
+    "name": "photo_cutover_bridge_intent",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, path text, lease uuid, terminal boolean",
+    "name": "photo_cutover_bridge_receipt",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_cutover_execute_permit",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, lease uuid, operator_id text, evidence_code text, evidence_ref text",
+    "name": "photo_cutover_resolve",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_cutover_runtime_ready",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "project_ref text, enabled boolean",
+    "name": "photo_cutover_scheduler_configure",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "action text, operator_id text, evidence_ref text, release_sha text, canary_users uuid[]",
+    "name": "photo_cutover_set",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_cutover_status",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid",
+    "name": "photo_deletion_barrier",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_lifecycle_inventory",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_metadata_purge",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, path text",
+    "name": "photo_needs_normalization",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text",
+    "name": "photo_orphan_candidate",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, operation_id uuid, evidence_ref text, operator_id text",
+    "name": "photo_orphan_removed",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_processing_authorized",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text",
+    "name": "photo_reconciliation_checked",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text",
+    "name": "photo_reconciliation_pending",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, expected_lease uuid, operation_id uuid, reason text, evidence_ref text, operator_id text, exempt_quota boolean",
+    "name": "photo_review_hold",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "photo_review_inventory",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, expected_lease uuid, operation_id uuid, evidence_code text, evidence_ref text, operator_id text",
+    "name": "photo_review_resolve",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, lease_token uuid",
+    "name": "photo_upload_lease_active",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, path text, lease uuid, write_manifest jsonb",
+    "name": "photo_write_intent",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, path text, lease uuid, terminal boolean",
+    "name": "photo_write_receipt",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, request_id uuid, previous_path text",
+    "name": "publish_normalized_photo",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, lease uuid, evidence_code text",
+    "name": "reconcile_photo_writer",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "viewer uuid, refs text[]",
+    "name": "resolve_authorized_photos",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "operation_id uuid",
+    "name": "revoke_dating_consent",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "path text, preview_text text",
+    "name": "save_my_photo_preview",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "scan_photo_lifecycle",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "target_user uuid, operation_id uuid, origin_kind text, exposure_id uuid",
+    "name": "send_spot_v2",
+    "authenticated": true
+  },
+  {
+    "anon": false,
+    "args": "path text, preview_text text, thumbnail text",
+    "name": "store_photo_assets",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "path text, preview_text text, thumbnail text, detail text",
+    "name": "store_photo_assets_hd",
+    "authenticated": false
+  },
+  {
+    "anon": false,
+    "args": "",
+    "name": "visible_profiles",
+    "authenticated": false
+  }
+]
