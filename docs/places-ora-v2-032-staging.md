@@ -179,3 +179,71 @@ Rollback operativo: spegnere ora_enabled e/o disabilitare flag frontend;
 end_ora resta owner-only utilizzabile. Conservare schema e writer legacy
 ritirati; nessun rollback distruttivo, nessuna ricreazione di auto-join.
 Non iniziare Spot v2, quota enforcement, Daily Discovery, SPOTTED o scheduler.
+
+## Checkpoint operativo finale
+
+- Commit implementazione: `ef1332eb491e793d875294cf44f2eca82f5a8106`.
+- Test finali:396/396 PASS; build/typecheck/release checks PASS.
+- Staging: ORA ON; resto dei flag OFF; jobs paused; PHOTO admission/cleanup/
+  scheduler restano nella baseline PAUSED/OFF. La sola impronta tabella variata
+  dopo l'attivazione è soma_v2_control. Tutti i dati prodotto e Storage invariati.
+- Auth confirmation ON verificata HTTP200. Nessuna fixture reale creata dal
+  browser; fixture SQL eliminate/rollback. Nessuna modifica main o Production.
+- Il branch remoto staging non esisteva al preflight; main remoto è rimasto
+  `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+- **Push NON riuscito**: normale helper Git HTTPS senza credenziali utilizzabili
+  (anche specificando lo username del repository). SSH strict non trova un host
+  verificato; nessuna chiave/credenziale/protezione è stata modificata per
+  aggirarlo. Serve autenticazione GitHub sul Mac e successivo push normale.
+  Non si dichiara uno SHA remoto staging verificato o GitHub sincronizzato.
+- **Preview NON pubblicata**: rispettato il gate push→deploy richiesto.
+  URL/deployment ID: N/A. CLI Vercel62.2.0 già autenticata; cartella dist linkata
+  localmente al progetto esistente, senza cambiare configurazione remota.
+  Dry-run target Preview:39 file, nessun artefatto vietato.
+- La CLI link ha generato una env locale temporanea in dist: eliminata senza
+  leggerne/stamparne i valori prima di qualsiasi upload; release checker PASS.
+  `.env.local` alla radice non è stata modificata. Nessun secret nel bundle.
+- Build pronta: Supabase staging e onboarding/ORA true; esistenti privacy,
+  Rights, Moderation e Bacheca staging true. Nessuna futura discovery abilitata.
+- Il collaudo con un nuovo account e upload reale resta inoltre subordinato
+  a una canary PHOTO esplicitamente controllata: non è stata riaperta admission
+  PHOTO solo per far passare lo smoke. Non confondere questa preview candidata
+  con una certificazione dell'intero signup Google/foto su dispositivo.
+
+### Ripresa del checkpoint
+
+Dopo autenticazione GitHub: push normale del branch (senza force), verifica
+HEAD locale=SHA branch remoto; main deve restare invariato. Solo dopo:
+ricompilare/verificare gli stessi flag staging, release/secret scan, deploy
+statico **target Preview**, verificare URL/deployment ID/SHA/ref effettivo,
+smoke browser e documentare il risultato. Nessuna promozione Production.
+
+La chiusura remota è quindi **BLOCCATA**, pur con GO tecnico del motore.
+Il gate al task successivo resta **GO WITH CONDITIONS**: completare prima
+il checkpoint GitHub e, se disponibile in sicurezza, la Preview richiesta.
+Non iniziare autonomamente SPOT V2/ORA quota.
+
+### File del task
+
+- `.env.example`
+- `docs/places-ora-v2-032-staging.md`
+- `scripts/ora-fixture/preview.js`
+- `scripts/prepare-ora-preview.mjs`
+- `src/backend.js`
+- `src/live-social.js`
+- `src/live.js`
+- `src/ora-ui.js`
+- `src/ora.js`
+- `src/supabase-client.js`
+- `supabase/migrations/032_places_ora_v2.sql`
+- `tests/live-navigation.test.js`
+- `tests/live-social.test.js`
+- `tests/ora-v2.test.js`
+- `tests/staging/ora-v2-check.sql`
+- `tests/staging/ora-v2-concurrency-fixture.sql`
+- `tests/staging/ora-v2-concurrency-sessions.sql`
+- `tests/staging/ora-v2-concurrency-teardown.sql`
+- `tests/staging/ora-v2-enable.sql`
+- `tests/staging/ora-v2-smoke.sql`
+- `tests/staging/ora-v2-source-check.sql`
+- `tests/tribe-database.test.js`
