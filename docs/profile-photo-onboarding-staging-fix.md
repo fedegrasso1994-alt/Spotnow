@@ -74,3 +74,34 @@ the real new-profile E2E passes. Fix is independently reviewable in Preview.
 
 Checks: 418/418 tests PASS, build PASS, typecheck PASS, release/secret/font scan
 PASS, diff whitespace check PASS. Eight added regressions, no skipped tests.
+
+## Published Preview / browser evidence
+
+Code commit: `305cb4f8e625e9d331fd382089853ab350fe8cf5`, pushed before deploy.
+Preview: https://spot-4iyv0pnke-fedegrasso1994-1482.vercel.app
+Deployment: `dpl_HbkVAv5TPEJa63RnuqXZNibMpaMi`, READY, not Production.
+Public build-info binds that SHA to staging ref; bundle scan excludes production
+ref and env/secret files. Staging-only Site URL + exact-host redirect added.
+Google real login returned to profile creation with existing AGE/consent state.
+No new attestation or consent was accepted on behalf of the user.
+
+Browser selected synthetic 128x128 RGB8 PNG (556 bytes), filled local synthetic
+profile fields, submitted. Admission correctly rejected first upload. Inline
+status explicitly identified unsaved preview; DOM verifies CTA enabled,
+status.bottom <= CTA.top and overlay.show=false. Screenshot saved locally.
+No first canonical, profile or Tribe completion PASS is claimed.
+
+Post-check: 3 profiles, 11 validated photos, 39 Storage objects; same lifecycle
+counts (3 current, 8 ready, 3 review, 48 purged), zero current-path missing.
+Six Storage keys do not match the simple canonical/detail/thumb ledger-path
+projection. A follow-up read confirms ALL SIX have exact references in the
+photo_legacy registry (four variants, two also referenced by upload jobs).
+They are not unreferenced or newly created objects. No deletion or automatic
+reconciliation performed. Current-photo integrity remains intact. The dashboard
+read initially failed with Failed to fetch(api.supabase.com); one retry passed.
+The rejected request created no additional lifecycle sets or validated photo.
+
+Production read-only inspect unchanged: `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`.
+Remote main unchanged: `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+No schema, Auth confirmation, PHOTO functions, retention or worker modified.
+No Spot v2 started. Final gate remains NO-GO for new-profile E2E/roadmap closure.
