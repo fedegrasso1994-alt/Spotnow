@@ -1,0 +1,117 @@
+[
+  {
+    "mode": "place",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"0 rows\":\n        - paragraph:\n          - generic: 0 rows\n      - button \"Export\" [disabled]:\n        - generic: Export\n    - generic: \"Failed to run sql query: ERROR: P0001: SPOT_PLACE_QUOTA\"\n    - generic: \"CONTEXT: PL/pgSQL function public.send_spot_v2(uuid,uuid,text,uuid) line 60 at RAISE\"\n    - button:\n      - button:\n    - button \"Debug with Assistant\":\n      - generic: Debug with Assistant\n    - button \"More actions\":\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"result pid wait_seconds\":\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"wait_seconds\":\n          - generic: wait_seconds\n      - 'row \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"0012290e-29e1-4afe-b4bd-54c240fc4bf7\\\", \\\"match_id\\\": null} View full cell content 1172939 0.021342\"':\n        - 'gridcell \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"0012290e-29e1-4afe-b4bd-54c240fc4bf7\\\", \\\"match_id\\\": null} View full cell content\"':\n          - text: \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"0012290e-29e1-4afe-b4bd-54c240fc4bf7\\\", \\\"match_id\\\": null}\"\n          - button \"View full cell content\":\n        - gridcell \"1172939\":\n          - generic: \"1172939\"\n        - gridcell \"0.021342\":\n          - generic: \"0.021342\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "place-invariant",
+    "rows": [
+      "{\"place\":3,\"global\":3,\"intents\":3}  "
+    ]
+  },
+  {
+    "mode": "global-active-A",
+    "rows": [
+      "1191774",
+      "PgSleep"
+    ]
+  },
+  {
+    "mode": "global",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence pid\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"pid\":\n          - generic: pid\n      - row \"A success 1191774\":\n        - gridcell \"A success\":\n          - generic: A success\n        - gridcell \"1191774\":\n          - generic: \"1191774\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"result pid wait_seconds\":\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"wait_seconds\":\n          - generic: wait_seconds\n      - row \"SPOT_DAILY_QUOTA 1191779 4.704393\":\n        - gridcell \"SPOT_DAILY_QUOTA\":\n          - generic: SPOT_DAILY_QUOTA\n        - gridcell \"1191779\":\n          - generic: \"1191779\"\n        - gridcell \"4.704393\":\n          - generic: \"4.704393\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "global-invariant",
+    "rows": [
+      "{\"global\":5,\"intents\":5,\"max_place\":3}  "
+    ]
+  },
+  {
+    "mode": "retry",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence pid\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"pid\":\n          - generic: pid\n      - row \"A success 1191799\":\n        - gridcell \"A success\":\n          - generic: A success\n        - gridcell \"1191799\":\n          - generic: \"1191799\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"result pid wait_seconds\":\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"wait_seconds\":\n          - generic: wait_seconds\n      - 'row \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"8e758939-48bb-426b-a307-c75df6aa8879\\\", \\\"match_id\\\": null} View full cell content 1191800 7.432441\"':\n        - 'gridcell \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"8e758939-48bb-426b-a307-c75df6aa8879\\\", \\\"match_id\\\": null} View full cell content\"':\n          - text: \"{\\\"state\\\": \\\"pending\\\", \\\"spot_id\\\": \\\"8e758939-48bb-426b-a307-c75df6aa8879\\\", \\\"match_id\\\": null}\"\n          - button \"View full cell content\":\n        - gridcell \"1191800\":\n          - generic: \"1191800\"\n        - gridcell \"7.432441\":\n          - generic: \"7.432441\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "retry-invariant",
+    "rows": [
+      "{\"charged\":1,\"intents\":1,\"receipts\":2}  "
+    ]
+  },
+  {
+    "mode": "reciprocal",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence pid\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"pid\":\n          - generic: pid\n      - row \"A success 1191842\":\n        - gridcell \"A success\":\n          - generic: A success\n        - gridcell \"1191842\":\n          - generic: \"1191842\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"result pid wait_seconds\":\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"wait_seconds\":\n          - generic: wait_seconds\n      - 'row \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"32de50d2-1f47-471b-8631-ee31122f17e1\\\", \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"} View full cell content 1191843 7.644871\"':\n        - 'gridcell \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"32de50d2-1f47-471b-8631-ee31122f17e1\\\", \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"} View full cell content\"':\n          - text: \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"32de50d2-1f47-471b-8631-ee31122f17e1\\\", \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"}\"\n          - button \"View full cell content\":\n        - gridcell \"1191843\":\n          - generic: \"1191843\"\n        - gridcell \"7.644871\":\n          - generic: \"7.644871\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "reciprocal-invariant",
+    "rows": [
+      "{\"charges\":2,\"matches\":1,\"matched_intents\":2}  "
+    ]
+  },
+  {
+    "mode": "existing-match",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence pid\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"pid\":\n          - generic: pid\n      - row \"A success 1191864\":\n        - gridcell \"A success\":\n          - generic: A success\n        - gridcell \"1191864\":\n          - generic: \"1191864\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"result pid wait_seconds\":\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"wait_seconds\":\n          - generic: wait_seconds\n      - 'row \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": null, \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"} View full cell content 1191865 7.658031\"':\n        - 'gridcell \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": null, \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"} View full cell content\"':\n          - text: \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": null, \\\"match_id\\\": \\\"7dcc203d-dbcc-4959-8de5-2ebc03722c98\\\"}\"\n          - button \"View full cell content\":\n        - gridcell \"1191865\":\n          - generic: \"1191865\"\n        - gridcell \"7.658031\":\n          - generic: \"7.658031\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "existing-invariant",
+    "rows": [
+      "{\"charges\":2,\"matches\":1,\"matched_intents\":2}  "
+    ]
+  },
+  {
+    "mode": "ora-tribe",
+    "a": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence pid\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"pid\":\n          - generic: pid\n      - row \"A success 1191903\":\n        - gridcell \"A success\":\n          - generic: A success\n        - gridcell \"1191903\":\n          - generic: \"1191903\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert",
+    "b": ":\n      - tab \"Results\" [selected]:\n        - generic: Results\n      - tab \"Chart\":\n        - generic: Chart\n      - button \"1 row\":\n        - paragraph:\n          - generic: 1 row\n      - button \"Export\":\n        - generic: Export\n    - grid:\n      - row \"evidence result pid elapsed_seconds\":\n        - columnheader \"evidence\":\n          - generic: evidence\n        - columnheader \"result\":\n          - generic: result\n        - columnheader \"pid\":\n          - generic: pid\n        - columnheader \"elapsed_seconds\":\n          - generic: elapsed_seconds\n      - 'row \"PASS cross-surface concurrent ORA/TRIBE {\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"7dd9bb2e-c654-40d7-9960-bc84c3c42f61\\\", \\\"match_id\\\": \\\"bacbcb5a-da4e-4a36-a82c-18faefc17cf1\\\"} View full cell content 1191904 7.633250\"':\n        - gridcell \"PASS cross-surface concurrent ORA/TRIBE\":\n          - generic: PASS cross-surface concurrent ORA/TRIBE\n        - 'gridcell \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"7dd9bb2e-c654-40d7-9960-bc84c3c42f61\\\", \\\"match_id\\\": \\\"bacbcb5a-da4e-4a36-a82c-18faefc17cf1\\\"} View full cell content\"':\n          - text: \"{\\\"state\\\": \\\"matched\\\", \\\"spot_id\\\": \\\"7dd9bb2e-c654-40d7-9960-bc84c3c42f61\\\", \\\"match_id\\\": \\\"bacbcb5a-da4e-4a36-a82c-18faefc17cf1\\\"}\"\n          - button \"View full cell content\":\n        - gridcell \"1191904\":\n          - generic: \"1191904\"\n        - gridcell \"7.633250\":\n          - generic: \"7.633250\"\n- alert: Untitled query | SQL Editor | Soma Staging | SPOT NOW | Supabase\n- alert\n- alert"
+  },
+  {
+    "mode": "cross-invariant",
+    "rows": [
+      "{\"charges\":1,\"intents\":2,\"matches\":1,\"policy_enabled\":false,\"discovery_enabled\":false}  "
+    ]
+  },
+  {
+    "mode": "isolation",
+    "rows": [
+      "PASS fixed snapshot rejected without writes"
+    ]
+  },
+  {
+    "mode": "teardown",
+    "rows": [
+      "PASS teardown",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  },
+  {
+    "mode": "final",
+    "data": {
+      "photo": {
+        "epoch": 12,
+        "phase": "OPEN",
+        "cleanup": false,
+        "scheduler": false
+      },
+      "result": "PASS",
+      "matches": 1,
+      "storage": 42,
+      "accounts": 4,
+      "messages": 2,
+      "profiles": 4,
+      "operations": 0,
+      "new_intents": 0,
+      "daily_quotas": 0,
+      "place_quotas": 0,
+      "spot_enabled": true,
+      "quota_enabled": true,
+      "legacy_interests": 2,
+      "discovery_enabled": false
+    }
+  }
+]

@@ -10,6 +10,7 @@ import { createPager } from './pagination.js';
 export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName,pilot=false}) {
   const $=id=>document.getElementById(id);
   let matches=[],current=null,detail=null,known=null,busy=false,sending=false,epoch=0,chatVersion=0,chatSignature='';
+  const spotOperations=new Map();
   const sent=new Set();let matchOffset=0,loadedOffset=-1,matchPage={hasMore:false,total:0},detailFound=null,detailChecking=false;
   const pagers={matches:createPager($('matches'),offset=>changeMatchPage('matches',offset),{nextLabel:'Altri match'}),chats:createPager($('chats'),offset=>changeMatchPage('chats',offset),{nextLabel:'Altre chat'})};
   function changeMatchPage(screen,offset){matchOffset=offset;$(screen==='matches'?'matchesList':'chatsList').replaceChildren();go(screen);}
@@ -79,8 +80,8 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function syncDetailAction(){
     if(!detail)return;
     const match=detailMatch(),done=detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
-    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||detail.source==='ora-v2');
-    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'?'Spot disponibili nel prossimo aggiornamento':done?'Interesse già inviato':'Mi Interessa';
+    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='ora-v2'&&!backend.spotV2));
+    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?'Interesse già inviato':'Mi Interessa';
   }
   function openDetail(person){
     detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
@@ -91,9 +92,9 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function closeDetail(){detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
-    if(detail.source==='ora-v2')return;
+    if(detail.source==='ora-v2'&&!backend.spotV2)return;
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();
-    try{const id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
+    try{let id;if(person.source==='ora-v2'){let operation=spotOperations.get(person.id);if(!operation){operation=crypto.randomUUID();spotOperations.set(person.id,operation);}const result=await backend.spotV2.send(person.id,operation);id=result.match_id;}else id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
     catch(error){if(generation===epoch)showToast(userMessage(error));}
     finally{if(generation===epoch){busy=false;syncDetailAction();}}
   }
@@ -142,5 +143,5 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   Object.assign(window,{closeDetail,expressInterest,sendMsg,matchStartChat:()=>{if(current)void openChat(current);},
     reportPerson:()=>{if(detail){const person=detail;closeDetail();reportPrompt.open(person.id);}},blockFromChat:()=>{if(current)reportPrompt.open(current.person_id);}});
   setInterval(()=>{if(!document.hidden&&session())void refresh();},5000);
-  return {openDetail,closeDetail,refresh,route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id)||(backend.matchById?await backend.matchById(id):null);if(!isCurrent())return;if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;detailFound=null;detailChecking=false;loadedOffset=-1;matchOffset=0;pagers.matches.reset();pagers.chats.reset();chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();known=null;sent.clear();closeDetail();reportPrompt.reset();}};
+  return {openDetail,closeDetail,refresh,route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id)||(backend.matchById?await backend.matchById(id):null);if(!isCurrent())return;if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;detailFound=null;detailChecking=false;loadedOffset=-1;matchOffset=0;pagers.matches.reset();pagers.chats.reset();chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();known=null;sent.clear();spotOperations.clear();closeDetail();reportPrompt.reset();}};
 }
