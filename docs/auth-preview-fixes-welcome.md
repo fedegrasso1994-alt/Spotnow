@@ -93,3 +93,41 @@ Primary references:
 - https://supabase.com/docs/guides/auth/social-login/auth-google
 - https://supabase.com/docs/guides/auth/auth-smtp
 - https://supabase.com/docs/guides/auth/auth-email-templates
+
+## Preview checkpoint and live findings
+
+Implementation d81e2e51263da88b4484e7c28853253a7f370abb was pushed to
+origin/codex/soma-schema-v2-staging. Preview desktop + 390x844 browser checks:
+welcome exact copy, login controls, Google-disabled actionable failure,
+synthetic expired-link return and URL cleanup. No console errors in these
+checks. This is responsive browser testing, not a physical-device OAuth PASS.
+A final wording correction makes expiry instructions request a new email,
+without promising an input code before custom templates exist.
+
+Founder reported Google configuration completed in approved GCP + staging.
+Subsequent independent public Auth endpoint (HTTP 200) STILL returned
+external.google=false; a freshly loaded staging Providers page likewise
+showed Google DISABLED, Confirm email ON. A real Preview button attempt
+therefore stopped at the readiness gate, as intended. The discrepancy was
+reported to the founder; no credentials inspected, no GCP changes made.
+Callback, authenticated return, refresh/session persistence and post-auth
+onboarding cannot be marked PASS until the live provider is enabled and
+the human Google authentication steps complete. No production redirect
+was observed during the blocked attempt; no claim about an uncompleted
+Google callback is made.
+
+A fresh real email return requires inbox-assisted smoke, requested from the
+founder without sharing links/codes/tokens. The reported issue is magic-link
+sign-in, not password recovery. No real password reset is claimed tested.
+SMTP/templates remain a separate explicit manual blocker; no sender spoof,
+new provider or credentials introduced.
+
+Production Vercel read-only before/after inspection is unchanged:
+dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh. Remote main is unchanged:
+d0f515e8d2c80eeae60f2d5c33dd8901558d5287. No migrations, product data,
+PHOTO/ORA logic, styles, Auth confirmation or Production env changed.
+
+Staging Site URL is the latest exact Preview origin; exact-host redirect
+entries retained for preceding previews to avoid breaking existing links.
+No wildcard covering other Vercel tenants was added. The public build-info
+contains only commit, branch, staging ref and booleans, no keys.

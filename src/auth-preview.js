@@ -11,7 +11,7 @@ export function authReturnError(href){
  const description=url.searchParams.get('error_description')||hash.get('error_description')||'';
  const code=url.searchParams.get('error_code')||hash.get('error_code')||url.searchParams.get('error')||hash.get('error')||'';
  for(const key of ['error','error_code','error_description'])url.searchParams.delete(key);url.searchParams.delete('code');url.hash='';
- return {url:url.href,message:/already linked|already exists/i.test(description)?'Questo Google è già collegato a un account Soma. Usa Continua con Google per accedere a quello esistente.':/expired|invalid|otp/i.test(code)?'Il link di accesso è scaduto o è già stato usato. Richiedi un nuovo codice Soma e inseriscilo qui.':'Accesso non completato. Richiedi un nuovo codice Soma oppure riprova con Google.'};
+ return {url:url.href,message:/already linked|already exists/i.test(description)?'Questo Google è già collegato a un account Soma. Usa Continua con Google per accedere a quello esistente.':/expired|invalid|otp/i.test(code)?'Il link di accesso è scaduto o è già stato usato. Richiedi una nuova email di accesso a Soma.':'Accesso non completato. Richiedi una nuova email di accesso a Soma oppure riprova con Google.'};
 }
 export function createGoogleReadiness({url,publicKey,fetcher}){
  if(new URL(url).hostname!=='zjinjtkekmaqtxsuyvho.supabase.co')throw Error('AUTH_PREVIEW_STAGING_ONLY');

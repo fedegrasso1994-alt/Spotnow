@@ -3,7 +3,7 @@ import {PhotoError} from './photo-contract.js';
 export function userMessage(error) {
   if(error?.message==='AUTH_GOOGLE_UNAVAILABLE')return 'Google non è ancora configurato in questo ambiente. Puoi usare l’accesso via email.';
   if(error?.message==='AUTH_CONFIG_UNAVAILABLE')return 'Non riesco a verificare l’accesso Google. Riprova oppure usa l’accesso via email.';
-  if(/otp_expired|Token has expired|invalid.*otp/i.test(String(error?.code||'')+' '+String(error?.message||'')))return 'Codice scaduto o non valido. Richiedi un nuovo codice Soma.';
+  if(/otp_expired|Token has expired|invalid.*otp/i.test(String(error?.code||'')+' '+String(error?.message||'')))return 'Accesso scaduto o non valido. Richiedi una nuova email di accesso a Soma.';
   if(error instanceof PhotoError)return error.message;
   const text=String(error?.message||'');
   if(/AGE_REQUIRED|AGE_INVALID|AGE_AUTH/.test(text))return 'Conferma di avere almeno 18 anni per continuare.';
