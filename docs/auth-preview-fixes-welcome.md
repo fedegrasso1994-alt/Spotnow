@@ -97,7 +97,7 @@ Primary references:
 ## Preview checkpoint and live findings
 
 Implementation d81e2e51263da88b4484e7c28853253a7f370abb was pushed to
-origin/codex/soma-schema-v2-staging. Preview desktop + 390x844 browser checks:
+origin/codex/soma-schema-v2-staging. Preview desktop / app phone-container checks:
 welcome exact copy, login controls, Google-disabled actionable failure,
 synthetic expired-link return and URL cleanup. No console errors in these
 checks. This is responsive browser testing, not a physical-device OAuth PASS.
@@ -137,8 +137,8 @@ contains only commit, branch, staging ref and booleans, no keys.
 After the founder's second save, the public settings returned Google=true,
 Email=true, Confirm email=true. Real Google login from the Preview succeeded:
 button → Supabase/Google → same Preview origin → authenticated “Prima di
-iniziare”. Reload preserved that authenticated gate. Desktop and 390x844
-browser checks passed; no console errors observed. Existing Google session
+iniziare”. Reload preserved that authenticated gate. Desktop and the app phone-container
+checks passed; no console errors observed. Existing Google session
 completed the sign-in without collecting credentials or bypassing protections.
 No production redirect observed. Intermediate callback URLs/tokens were not
 recorded. No age or dating consent was accepted on behalf of the account.
@@ -188,3 +188,20 @@ Final gate supersedes earlier blocked status: GO WITH CONDITIONS for staging
 Auth + UX preview. Remaining condition is custom SMTP/real branded delivery;
 legal validation of consent/age wording remains a separate pre-pilot gate.
 No Spot v2 or next roadmap task started.
+
+## Final UX deployment evidence
+
+Commit cafb4c33b08eefee7eb84eb4db2ee78588d296fb pushed before deployment.
+Preview: https://spot-29opargxw-fedegrasso1994-1482.vercel.app
+Deployment: dpl_9Cs2LMGLQWNQ4oWewCdyCMQ7HxGL (READY, non-production).
+Supabase staging ref: zjinjtkekmaqtxsuyvho. Site URL and exact Preview redirect
+entry saved. Real Google login on this build returns to authenticated revised
+gate, without accepting age/consent on behalf of the account.
+
+Responsive evidence limitation: the IAB viewport override request 390x844 did
+not change actual window dimensions (DOM reports 1280x720). Therefore screenshots
+prove layout inside the app's approximately 402px phone container, not actual
+390px viewport or a physical phone. A physical-phone check remains manual;
+prior descriptions of mobile smoke must be read with this limitation. No
+horizontal overflow in the observed app controls. Browser console had no
+errors during Auth / gate checks.
