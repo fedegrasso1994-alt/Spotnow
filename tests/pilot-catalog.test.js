@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile}from 'node:fs/promises';
+import {database,seed}from './helpers/database.js';
+const sql=await readFile('supabase/staging/pilot-catalog.sql','utf8');
+test('pilot catalog adds only three Place+Tribe rows, preserving legacy rows and all engine flags',async t=>{
+ const db=await database();t.after(()=>db.close());await seed(db);await db.exec('alter table auth.users add column email text,add column raw_user_meta_data jsonb,add column banned_until timestamptz');
+ for(const f of ['020_age_eligibility.sql','021_dating_consent.sql','022_location_minimization.sql','023_privacy_retention.sql','024_user_rights.sql','025_moderation.sql','026_tribe_board.sql','027_soma_v2_schema_off.sql']){if(f.startsWith('025'))await db.exec("update spot_private.privacy_environment set environment='staging'");await db.exec(await readFile('supabase/migrations/'+f,'utf8'));}
+ const before=(await db.query('select to_jsonb(c) data from spot_private.soma_v2_control c')).rows;const legacy=(await db.query('select * from venues order by id')).rows;
+ await db.exec(sql);const added=(await db.query("select v.name,v.ora_enabled,v.linked_tribe_id=c.id linked,c.active,c.joinable from venues v join spot_private.tribe_catalog c on c.id=v.id where v.id::text like 'fa350000-%' order by v.id")).rows;assert.equal(added.length,3);assert.ok(added.every(r=>r.ora_enabled&&r.linked&&r.active&&r.joinable));assert.deepEqual((await db.query('select to_jsonb(c) data from spot_private.soma_v2_control c')).rows,before);for(const old of legacy)assert.deepEqual((await db.query('select * from venues where id=$1',[old.id])).rows[0],old);await assert.rejects(db.exec(sql),/PILOT_CATALOG_ALREADY_PRESENT_REVIEW/);await db.exec('rollback');await db.exec("update spot_private.privacy_environment set environment='production'");await assert.rejects(db.exec(sql),/PILOT_STAGING_ONLY/);await db.exec('rollback');
+});

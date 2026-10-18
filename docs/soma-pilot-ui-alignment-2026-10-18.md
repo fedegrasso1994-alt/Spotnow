@@ -43,25 +43,26 @@ componenti condivisi e profilo/Auth/PHOTO preservati. Design freeze aggiunto ad 
 - Vecchie route tribes/tribe → daily, chats → matches nella shell pilot. History normalizzata;
   i guard Auth/AGE/suspension/deletion comprendono entrambe le nuove route.
 
-## Catalogo staging: decisione esterna richiesta
+## Catalogo staging approvato e applicato
 
-Inventario read-only: soltanto TEST Università 1 e TEST Università 2, entrambe con ora_enabled null.
-Le tre venue richieste IULM/Bocconi/FitActive non esistono nel catalogo.
-Nessun record esistente rinominato, nessuna configurazione dati modificata in questo task finora.
+Autorizzazione founder: “Sì, aggiungi le tre voci staging”. Applicato esclusivamente a
+`zjinjtkekmaqtxsuyvho` lo script versionato `supabase/staging/pilot-catalog.sql`.
+Non è una migration: inserisce tre Place con Tribe collegata, attivi, joinable e ORA-enabled:
 
-Domanda founder pendente: autorizzare tre nuove voci Place+Tribe, joinable e ORA-enabled, esclusivamente
-staging, preservando le due TEST. Il piano SQL è preparato localmente ma NON eseguito senza risposta.
-Non è una migration né una modifica delle semantics.
+| ID | Nome |
+|---|---|
+| fa350000-0000-4000-8000-000000000001 | Università IULM Milano |
+| fa350000-0000-4000-8000-000000000002 | Università Bocconi Milano |
+| fa350000-0000-4000-8000-000000000003 | Palestra FitActive Cesena |
 
-La UI mostra i tre nomi approvati ma disabilita quelli che non hanno un'identità backend esatta e
-univoca. Non associa per posizione/euristica le venue TEST a università diverse.
-ORA mostra soltanto catalogo realmente disponibile via API; non inventa Places abilitati.
-Finché manca il catalogo, onboarding reale dei tre luoghi e start/exit ORA live restano BLOCKED,
-non dichiarati PASS sulla base di mock.
+TEST Università 1/2 e membership esistenti preservate. Nessun QR inventato, nuova membership,
+modifica schema o flag. Mapping UI solo per nome esatto/univoco, mai per posizione.
+Test Postgres locale verifica inserimenti/link, conservazione catalogo/flag, rifiuto riesecuzione
+con collisioni e rifiuto environment production. Nessuna esecuzione SQL sulla produzione.
 
 ## Verifiche
 
-- Suite completa: **433/433 PASS**, zero fail/skipped.
+- Suite completa: **434/434 PASS**, zero fail/skipped.
 - Build staging: PASS. Typecheck attuale repository: PASS.
 - Targeted UI/navigation/social e integrazione PASS.
 - Nuovi test: onboarding per ciascuno dei tre luoghi, unica selezione, skip senza join,
@@ -76,8 +77,74 @@ non dichiarati PASS sulla base di mock.
 - Fixture DEV in scripts/pilot-fixture, HTML generato solo nella directory test ignorata; non nel bundle Preview.
 - Bundle scan: ref staging presente, ref produzione assente, fixture DEV assenti.
 
-## Gate e Preview
+## Deployment e smoke browser
 
-Codice pronto per Preview staging. Report di deployment/browser e URL saranno aggiunti dopo il deploy.
-Gate end-to-end completo **GO WITH CONDITIONS** finché il catalogo dei tre luoghi non è approvato/configurato
-ed eseguito lo smoke live relativo. Nessun task Spot v2 avviato.
+- Preview: https://spot-n1ny1sqd5-fedegrasso1994-1482.vercel.app/
+- Deployment: `dpl_8bc4ZavujuvqC66TmzTbbBs9mJLx`, target Preview, READY.
+- Commit runtime: `90776d268c5a6d554377cbccbf9ff4774fe5d68b`, push precedente al deploy.
+- Build-info conferma staging `zjinjtkekmaqtxsuyvho`, shell pilot/onboarding/ORA/legacy Bacheca ON;
+  Spot v2, Daily Discovery engine e quota enforcement OFF.
+- Release audit PASS: 40 file, 9 font locali; ref produzione e fixture DEV assenti dal bundle.
+- Vercel Authentication della Preview preservata.
+- Aggiunto soltanto il redirect staging esatto
+  `https://spot-n1ny1sqd5-fedegrasso1994-1482.vercel.app/**` all'allowlist Auth staging.
+  Site URL precedente invariato; Confirm email ON, Google provider ON. Nessuna attività GCP.
+
+| Verifica | Evidenza / risultato |
+|---|---|
+| Google login → callback → nuova Preview | PASS reale, sessione autenticata, nessun redirect Production |
+| Bottom nav / Tribe / Spotted / Match | PASS browser reale, nessun tab Chat duplicato o selettore Persone |
+| ORA catalogo / Bocconi start manuale | PASS reale su nuovo Place staging |
+| Refresh sessione/presenza | PASS reale, residuo diminuisce senza rinnovo |
+| Esci da ORA | PASS reale; verifica finale zero presenze nei tre nuovi Places |
+| Onboarding ciascuna scelta / skip / retry | PASS test automatici e browser DEV sintetico; non tre signup live |
+| Zero Tribe → ORA | PASS automatico/DEV; non attribuito a nuovo account reale |
+| Foto/Auth/social/server lifecycle | Suite regressione PASS; nessun nuovo upload foto/live match scritto in questo task |
+| Mobile | Viewport UI e screenshot nel browser; non collaudo su telefono fisico |
+
+Il tester Google aveva già TEST Università 1: la membership è preservata. Le tre nuove Tribe
+hanno zero membership aggiunte arbitrariamente. Nessuna fixture Auth/post/chat creata nello smoke.
+Console Preview: zero errori rilevati. Nessun backend nuovo deployato.
+
+## Stato finale e limiti
+
+- PHOTO staging OPEN epoch 12, cleanup OFF, scheduler OFF: invariati.
+- Flag server esistenti invariati: jobs_paused true, ora_enabled true, membership_enabled false;
+  spot/discovery/comments/requests/system_posts/share false. Nessun nuovo engine attivato.
+- Nessuna presenza lasciata dallo smoke; nessun auto-join. I record catalogo approvati restano intenzionalmente.
+- Main invariato `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+- Deployment Production prima/dopo identico `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`.
+- Il commit successivo al runtime contiene solo script catalogo, test, report ed evidenze;
+  non richiede nuovo deploy frontend. Il runtime SHA resta distinto dal commit documentale finale.
+
+**GO tecnico sullo scope richiesto; GO WITH CONDITIONS rispetto al nuovo documento prodotto. STOP prima di Spot v2 e quote ORA.**
+Daily Discovery è una shell preparatoria esplicita, non un motore implementato.
+Nessuna attestazione di pilot/legal readiness o di E2E live di tutti i nuovi signup.
+
+## Evidenze visuali
+
+Onboarding DEV, esplicitamente sintetico:
+
+![Onboarding locale con scelta singola](evidence/pilot-ui/local-onboarding-selected.png)
+
+Preview reale, membership TEST preesistente:
+
+![Tribe](evidence/pilot-ui/preview-tribe.png)
+
+![Spotted indipendente](evidence/pilot-ui/preview-spotted.png)
+
+Preview reale, presenza Bocconi poi terminata tramite Esci da ORA:
+
+![Ora live](evidence/pilot-ui/preview-ora-live.png)
+
+## Aggiornamento remoto concorrente e differenza prodotto
+
+Durante il push finale è stato trovato il commit remoto `8974c874ad9503cb8fac55d78e4dec1edfb43a26`,
+che aggiunge `SOMA_PRODUCT_UX_SOURCE_OF_TRUTH.md`. Preservato integralmente tramite rebase
+non distruttivo del solo commit locale di catalogo/test/evidenze; nessun force push.
+Il documento è stato letto. Sezioni 3/6/7 richiedono Tribe obbligatoria senza skip nel percorso
+standard ed eccezione QR: differiscono dallo scope esplicito di questo task, che includeva Skip.
+Il codice deployato mantiene lo Skip richiesto e testato. Nessuna implementazione opportunistica
+sulla base del documento appena arrivato; allineamento mandatory-Tribe/QR da task successivo esplicito.
+Questo impedisce di dichiarare pieno allineamento al nuovo Product/UX Source of Truth.
+Il resto delle feature future elencate nel documento non è stato attivato.
