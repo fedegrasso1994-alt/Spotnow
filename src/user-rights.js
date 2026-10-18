@@ -43,7 +43,7 @@ export function makeRightsDownload(data,urls=globalThis.URL){
 
 export function createRightsControls({backend,document:doc=globalThis.document}){
  if(!backend.rights)return;
- const button=doc.createElement('button');button.className='backlink';button.textContent='I miei dati / export (staging)';
+ const button=doc.createElement('button');button.className='backlink';button.textContent='I miei dati ed export';
  const panel=doc.createElement('section');panel.hidden=true;panel.setAttribute('aria-label','Dati personali');
  const note=doc.createElement('p');note.textContent='Collaudo staging: solo dati propri. Foto in questo export: metadati. Informazioni protette e copie provider richiedono richiesta manuale.';
  const view=doc.createElement('button');view.className='backlink';view.textContent='Visualizza i miei dati';
@@ -57,7 +57,7 @@ export function createRightsControls({backend,document:doc=globalThis.document})
  const work=async save=>{controller?.abort();const c=new AbortController();controller=c;artifact?.release();artifact=null;file.hidden=true;file.removeAttribute('href');view.disabled=true;download.disabled=true;status.textContent='Preparazione dati…';output.textContent='';
  try{const data=await collectRights(backend.rights,{signal:c.signal});if(c.signal.aborted)return;if(save){artifact=makeRightsDownload(data);file.href=artifact.url;file.download=artifact.name;file.hidden=false;status.textContent='File pronto. Tocca Salva il file JSON. Nessuna copia conservata sul server.';}else{output.textContent=formatRightsText(data);status.textContent='Dati pronti. Nessun file export conservato sul server.';}}catch(error){if(!c.signal.aborted)status.textContent=error.message;}finally{view.disabled=false;download.disabled=false;}};
  view.onclick=()=>work(false);download.onclick=()=>work(true);
- doc.getElementById('privacy').append(button,panel);
+ (doc.getElementById('privacyFooter')||doc.getElementById('privacy')).append(button,panel);
  // Existing privacy screen is the single restricted-access entry; no navigation controller added.
  backend.onSessionChange?.(()=>reset());
  return {reset};

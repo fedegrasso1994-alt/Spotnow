@@ -1,0 +1,47 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {database,seed,ids,asUser,admin} from './helpers/database.js';
+import {createPrivacyControls,createPrivacyApi} from '../src/privacy-phase1.js';
+import {dom,Element} from './helpers/dom.js';
+const uuid=()=>crypto.randomUUID();
+test('adult checkbox is server-authorized, no invented age, explicit-only, idempotent; restricted cannot bypass',async t=>{
+ const d=await database();t.after(()=>d.close());await seed(d);
+ for(const n of ['020_age_eligibility','021_dating_consent','022_location_minimization','023_privacy_retention'])await d.exec(await readFile('supabase/migrations/'+n+'.sql','utf8'));
+ await d.exec("update spot_private.privacy_environment set environment='staging'");
+ await d.exec(await readFile('supabase/migrations/033_privacy_welcome_checkbox.sql','utf8'));
+ await asUser(d,ids.a);
+ for(const value of [false,null])await assert.rejects(d.query('select attest_adult_checkbox($1,$2)',[value,uuid()]),/AGE_INVALID/);
+ const op=uuid();let state=(await d.query('select attest_adult_checkbox(true,$1) s',[op])).rows[0].s;
+ assert.equal(state.age_status,'eligible');assert.equal(state.declared_age,null);assert.equal(state.statement_version,'adult-checkbox-v1');
+ assert.deepEqual((await d.query('select attest_adult_checkbox(true,$1) s',[op])).rows[0].s,state);
+ const challenge=(await d.query('select dating_consent_challenge() c')).rows[0].c;
+ assert.equal(challenge.version,'dating-staging-v2');assert.match(challenge.text,/Acconsento esplicitamente/);
+ await d.query('select accept_dating_consent($1,$2)',[challenge.token,uuid()]);
+ await d.query('update profiles set age=25 where id=$1',[ids.a]);
+ await assert.rejects(d.query('update profiles set age=17 where id=$1',[ids.a]));
+ await asUser(d,ids.b);await d.query("select attest_adult(17,true,'adult-v1',$1)",[uuid()]);
+ await assert.rejects(d.query('select attest_adult_checkbox(true,$1)',[uuid()]),/AGE_RESTRICTED/);
+ await asUser(d,ids.c);await d.query("select attest_adult(26,true,'adult-v1',$1)",[uuid()]);
+ assert.equal((await d.query('select attest_adult_checkbox(true,$1) s',[uuid()])).rows[0].s.declared_age,26);
+ await admin(d);assert.equal((await d.query('select age from profiles where id=$1',[ids.a])).rows[0].age,25);
+ assert.equal((await d.query('select declared_age from spot_private.account_eligibility where user_id=$1',[ids.a])).rows[0].declared_age,null);
+ await d.exec('set role anon');await assert.rejects(d.query('select attest_adult_checkbox(true,$1)',[uuid()]));
+});
+test('welcome uses separate unchecked choices, no numeric input, guarded submits and preserves exact server consent',async()=>{
+ const ui=dom();ui.document.createTextNode=text=>{const e=new Element('span');e.textContent=text;return e;};
+ let calls=0,accepted=0,continued=0;const state={age_status:'confirmation_required',consent_status:'missing',required_version:'v2',consent_text:'Exact versioned consent'};
+ const backend={attestAdultCheckbox:async v=>{assert.equal(v,true);calls++;return {...state,age_status:'eligible'};},consentChallenge:async()=>({token:'test',version:'v2',text:state.consent_text}),acceptConsent:async()=>{accepted++;return {...state,age_status:'eligible',consent_status:'active'};}};
+ const controls=createPrivacyControls({backend,document:ui.document,onContinue:async()=>continued++});controls.update(state);
+ assert.equal(controls.screen.querySelectorAll('input').length,2);assert.ok(controls.screen.querySelectorAll('input').every(e=>e.type==='checkbox'));
+ const age=controls.screen.querySelector('#adultDeclaration'),consent=controls.screen.querySelector('#datingDeclaration');
+ const buttons=controls.screen.querySelectorAll('button'),next=buttons.find(b=>b.textContent==='Conferma e continua');
+ await next.onclick();assert.equal(calls,0);age.checked=true;age.onchange();await next.onclick();assert.equal(calls,1);assert.equal(consent.checked,false);
+ const consentNext=buttons.filter(b=>b.textContent==='Conferma e continua')[1];await consentNext.onclick();assert.equal(accepted,0);
+ consent.checked=true;consent.onchange();await consentNext.onclick();assert.equal(accepted,1);assert.equal(continued,1);
+ assert.equal(controls.screen.querySelector('.privacy-consent-text').textContent,state.consent_text);
+});
+test('checkbox API never sends a fabricated age, DOB, user id or client timestamp',async()=>{
+ let sent;await createPrivacyApi({rpc:async(name,args)=>{sent={name,args};return {data:{}};}}).attestAdultCheckbox(true);
+ assert.equal(sent.name,'attest_adult_checkbox');assert.deepEqual(Object.keys(sent.args).sort(),['declared','operation_id']);
+});

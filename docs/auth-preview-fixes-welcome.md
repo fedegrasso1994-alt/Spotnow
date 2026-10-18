@@ -131,3 +131,60 @@ Staging Site URL is the latest exact Preview origin; exact-host redirect
 entries retained for preceding previews to avoid breaking existing links.
 No wildcard covering other Vercel tenants was added. The public build-info
 contains only commit, branch, staging ref and booleans, no keys.
+
+## Resolved live Auth gates and founder UX follow-up
+
+After the founder's second save, the public settings returned Google=true,
+Email=true, Confirm email=true. Real Google login from the Preview succeeded:
+button → Supabase/Google → same Preview origin → authenticated “Prima di
+iniziare”. Reload preserved that authenticated gate. Desktop and 390x844
+browser checks passed; no console errors observed. Existing Google session
+completed the sign-in without collecting credentials or bypassing protections.
+No production redirect observed. Intermediate callback URLs/tokens were not
+recorded. No age or dating consent was accepted on behalf of the account.
+Founder independently confirmed a fresh email link returned to the same
+“Prima di iniziare” screen in the same browser. This is founder-observed real
+email evidence, not an agent inbox inspection. Password reset remains outside
+scope because the reported problem was email-link sign-in.
+
+Founder then explicitly requested UX revision of the authenticated gate:
+checkbox adult declaration instead of numeric input, separate dating consent,
+product layout and orderly secondary footer. This requires server support,
+not sending a fabricated age=18 to the old numeric RPC.
+
+Migration 033_privacy_welcome_checkbox.sql (STAGING ONLY, transaction):
+- explicit authenticated attest_adult_checkbox(boolean,uuid), owner-only,
+  versioned adult-checkbox-v1, no DOB/numeric age fabricated, operation replay;
+- preserves numeric attest_adult and existing eligible declarations;
+- restricted accounts cannot clear restriction with the checkbox;
+- allows eligibility with explicit checkbox method; actual profile age still
+  must be 18–120, checked by profile trigger. Consent checks preserved;
+- own-state statement version reports actual declaration version;
+- readable dating-staging-v2 text, status placeholder, no legal approval;
+  existing v1 consent is NOT silently upgraded and must be reconfirmed.
+Applied through the staging SQL editor: Success, no rows returned. Production
+not accessed for writes. No changes to PHOTO processing/lifecycle or ORA rules.
+
+UI module src/privacy-phase1.js + scoped src/privacy-welcome.css: unchecked
+choices, disabled buttons until explicit check, no numeric gate input, two
+separate confirmation steps, exact server text shown for consent, validation
+pending note in footer. User age is still collected in the subsequent profile
+as a product field. Restricted access, revoke, support, own-data export,
+delete and sign-out remain available with existing authorization. No invented
+Privacy Policy link or unapproved legal text published. Sender branding still
+requires approved custom SMTP/domain + prepared templates installation.
+
+Regression tests cover checkbox authorization, absent/false declaration,
+restricted-account bypass, replay, no invented age, numeric compatibility,
+profile age bounds, consent version, independent unchecked UI and correct
+server text. All 410 tests PASS; build/typecheck/release scan PASS.
+
+Operational rollback: keep additive migration, serve prior compatible frontend
+if needed; do not destructively revert declarations or consent evidence.
+This is staging-only and does not establish legal sufficiency of checkbox-only
+age assurance. Professional pre-pilot validation remains required.
+
+Final gate supersedes earlier blocked status: GO WITH CONDITIONS for staging
+Auth + UX preview. Remaining condition is custom SMTP/real branded delivery;
+legal validation of consent/age wording remains a separate pre-pilot gate.
+No Spot v2 or next roadmap task started.

@@ -1,3 +1,4 @@
+import './privacy-welcome.css';
 import {WELCOME_VALUE,authRedirect,authReturnError}from './auth-preview.js';
 import {createPresenceClock,oraError,pendingQrFresh}from './ora.js';
 import {mountOraControls}from './ora-ui.js';

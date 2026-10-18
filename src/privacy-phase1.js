@@ -11,6 +11,7 @@ export function createPrivacyApi(client){
  const call=async(name,args={})=>{const r=await client.rpc(name,args);if(r.error)throw r.error;return r.data;};
  return {
   privacyState:()=>call('my_privacy_state'),
+  attestAdultCheckbox:declared=>call('attest_adult_checkbox',{declared,operation_id:crypto.randomUUID()}),
   attestAdult:(age,declared)=>call('attest_adult',{age,declared,statement_version:'adult-v1',operation_id:crypto.randomUUID()}),
   consentChallenge:()=>call('dating_consent_challenge'),
   acceptConsent:challenge=>call('accept_dating_consent',{challenge:challenge.token,operation_id:crypto.randomUUID()}),
@@ -20,24 +21,36 @@ export function createPrivacyApi(client){
 export function validDeclaredAge(value){return typeof value==='number'&&Number.isInteger(value)&&value>=18&&value<=120;}
 export function createPrivacyControls({backend,onContinue,onRestricted,onRevoke,onDelete,onSignOut,onBack,document:doc=globalThis.document}){
  const screen=doc.createElement('section');screen.className='screen';screen.id='privacy';screen.dataset.screen='privacy';
- const heading=doc.createElement('h2');heading.className='disp';heading.textContent='Prima di iniziare';
- const note=doc.createElement('p');note.className='sub';note.textContent='Solo collaudo staging. I testi del consenso devono essere validati prima del pilot.';
- const label=doc.createElement('label');label.textContent='Età';const age=doc.createElement('input');age.type='number';age.min='0';age.max='120';age.step='1';age.inputMode='numeric';age.setAttribute('aria-label','Età dichiarata');
- const adultLabel=doc.createElement('label');const adult=doc.createElement('input');adult.type='checkbox';adultLabel.append(adult,doc.createTextNode(' Dichiaro di avere almeno 18 anni'));
- const ageButton=doc.createElement('button');ageButton.className='btn btn-primary';ageButton.textContent='Conferma età';
- const text=doc.createElement('p');text.className='sub';const consentLabel=doc.createElement('label');const consent=doc.createElement('input');consent.type='checkbox';consentLabel.append(consent,doc.createTextNode(' Acconsento esplicitamente all’uso delle preferenze dating (test staging)'));
- const accept=doc.createElement('button');accept.className='btn btn-primary';accept.textContent='Conferma consenso';
- const gateRevoke=doc.createElement('button');gateRevoke.className='backlink';gateRevoke.textContent='Revoca consenso dating';
- const support=doc.createElement('a');support.className='backlink';support.href='mailto:somadatingapp@gmail.com';support.textContent='Assistenza e privacy';
- const status=doc.createElement('p');status.setAttribute('role','status');
- const back=doc.createElement('button');back.className='backlink';back.textContent='Torna al profilo';back.onclick=onBack;
- const remove=doc.createElement('button');remove.className='backlink';remove.textContent='Elimina account';remove.onclick=onDelete;
- const signout=doc.createElement('button');signout.className='backlink';signout.textContent='Esci';signout.onclick=onSignOut;
- screen.append(heading,note,label,age,adultLabel,ageButton,text,consentLabel,accept,status,back,gateRevoke,support,remove,signout);doc.getElementById('phone').append(screen);
+ const make=(tag,cls,text)=>{const el=doc.createElement(tag);el.className=cls;if(text)el.textContent=text;return el;};
+ screen.className='screen privacy-welcome';
+ const header=make('header','privacy-header'),eyebrow=make('p','eyebrow','IL TUO SPAZIO, LE TUE SCELTE');
+ const heading=make('h2','disp','Prima di iniziare'),intro=make('p','sub','Due conferme per vivere Soma in modo consapevole.');header.append(eyebrow,heading,intro);
+ const choices=make('div','privacy-choices');
+ const ageCard=make('section','privacy-choice'),ageTitle=make('h3','','Un posto per maggiorenni');
+ const adultLabel=make('label','privacy-check'),adult=make('input','');adult.type='checkbox';adult.id='adultDeclaration';
+ const adultCopy=make('span','','Dichiaro di avere almeno 18 anni');adultLabel.append(adult,adultCopy);
+ const ageButton=make('button','btn btn-primary','Conferma e continua');ageButton.disabled=true;adult.onchange=()=>{ageButton.disabled=!adult.checked;};
+ ageCard.append(ageTitle,adultLabel,ageButton);
+ const consentCard=make('section','privacy-choice'),consentTitle=make('h3','','Le tue preferenze, la tua scelta');
+ const consentLabel=make('label','privacy-check'),consent=make('input','');consent.type='checkbox';consent.id='datingDeclaration';
+ const text=make('span','privacy-consent-text');consentLabel.append(consent,text);
+ const consentHelp=make('p','privacy-help','Puoi revocare il consenso in qualsiasi momento dal profilo.');
+ const accept=make('button','btn btn-primary','Conferma e continua');accept.disabled=true;consent.onchange=()=>{accept.disabled=!consent.checked;};
+ consentCard.append(consentTitle,consentLabel,consentHelp,accept);choices.append(ageCard,consentCard);
+ const gateRevoke=make('button','backlink','Revoca consenso dating');
+ const support=make('a','backlink','Assistenza e privacy');support.href='mailto:somadatingapp@gmail.com';
+ const status=make('p','privacy-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
+ const back=make('button','backlink','Torna al profilo');back.onclick=onBack;
+ const remove=make('button','backlink privacy-danger','Elimina account');remove.onclick=onDelete;
+ const signout=make('button','backlink','Esci');signout.onclick=onSignOut;
+ const footer=make('footer','privacy-footer'),footerLinks=make('div','privacy-footer-links');footer.id='privacyFooter';
+ const note=make('p','privacy-legal-note','Informativa e consenso in revisione prima del pilot.');
+ footerLinks.append(back,gateRevoke,support,remove,signout);footer.append(footerLinks,note);
+ screen.append(header,choices,status,footer);doc.getElementById('phone').append(screen);
  let current=null;
- const update=(s,showAge=false)=>{current=s;age.value=s.declared_age||'';const eligible=s.age_status==='eligible';back.hidden=!eligible;gateRevoke.hidden=!['active','renewal_required'].includes(s.consent_status);text.textContent=s.consent_text||'Consenso non configurato.';ageButton.hidden=eligible&&!showAge;age.hidden=eligible&&!showAge;label.hidden=eligible&&!showAge;adultLabel.hidden=eligible&&!showAge;adult.checked=false;consentLabel.hidden=!eligible;accept.hidden=!eligible;consent.checked=false;status.textContent=s.age_status==='restricted'?'Soma è riservata ai maggiorenni. Puoi chiedere assistenza o eliminare l’account.':'';};
- async function work(button,fn){if(button.disabled)return;button.disabled=true;try{await fn();}catch{status.textContent='Conferma non completata. Controlla i dati o riprova.';}finally{button.disabled=false;}}
- ageButton.onclick=()=>work(ageButton,async()=>{const value=Number(age.value);if(age.value.trim()===''||!Number.isInteger(value)||value<0||value>120||!adult.checked){status.textContent='Inserisci un’età valida e conferma la dichiarazione.';return;}update(await backend.attestAdult(value,true));if(current.age_status!=='eligible')onRestricted?.();else if(current.consent_status==='active')await onContinue();});
+ const update=(s,showAge=false)=>{current=s;const eligible=s.age_status==='eligible';back.hidden=!eligible;gateRevoke.hidden=!['active','renewal_required'].includes(s.consent_status);text.textContent=s.consent_text||'Il consenso non è disponibile. Riprova più tardi.';ageCard.hidden=eligible&&!showAge;consentCard.hidden=!eligible;adult.checked=false;ageButton.disabled=true;consent.checked=false;accept.disabled=true;status.textContent=s.age_status==='restricted'?'Soma è riservata ai maggiorenni. Puoi chiedere assistenza o eliminare l’account.':'';if(s.age_status==='restricted'){adult.disabled=true;ageButton.disabled=true;}else adult.disabled=false;};
+ async function work(button,fn){if(button.disabled)return;button.disabled=true;status.textContent='';try{await fn();}catch{status.textContent='Conferma non completata. Riprova tra poco o contatta assistenza.';}finally{button.disabled=button===ageButton?!adult.checked:button===accept?!consent.checked:false;}}
+ ageButton.onclick=()=>work(ageButton,async()=>{if(!adult.checked)return;update(await backend.attestAdultCheckbox(true));if(current.age_status!=='eligible')onRestricted?.();else if(current.consent_status==='active')await onContinue();});
  accept.onclick=()=>work(accept,async()=>{if(!consent.checked){status.textContent='Il consenso richiede una scelta esplicita.';return;}const challenge=await backend.consentChallenge();if(challenge.version!==current.required_version||challenge.text!==current.consent_text){update(await backend.privacyState());status.textContent='Il testo è cambiato. Leggilo prima di confermare.';return;}update(await backend.acceptConsent(challenge));await onContinue();});
  const settings=doc.createElement('button');settings.className='backlink';settings.textContent='Età e consenso preferenze dating';settings.onclick=()=>{update(current,true);onRestricted?.();};doc.getElementById('profileActions').append(settings);
  const revoke=doc.createElement('button');revoke.className='backlink';revoke.textContent='Revoca consenso dating';revoke.onclick=()=>work(revoke,async()=>{update(await backend.revokeConsent());await onRevoke();});doc.getElementById('profileActions').append(revoke);
