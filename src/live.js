@@ -1,3 +1,4 @@
+import {WELCOME_VALUE,authRedirect,authReturnError}from './auth-preview.js';
 import {createPresenceClock,oraError,pendingQrFresh}from './ora.js';
 import {mountOraControls}from './ora-ui.js';
 import {canConsumeQr} from './onboarding.js';
@@ -205,10 +206,10 @@ async function trySaveProfile() {
   }catch(error){if(generation===accountGeneration)showToast(message(error));}
   finally{if(generation===accountGeneration){state.saving=false;$('profileBtn').disabled=false;}}
 }
-function changeEmail(){$('codeForm').hidden=true;$('emailForm').hidden=false;$('loginStatus').textContent='';}
+function changeEmail(){$('codeForm').hidden=true;$('emailForm').hidden=false;$('loginCode').value='';$('loginStatus').textContent='';}
 $('emailForm').addEventListener('submit',async event=>{
   event.preventDefault();const button=$('requestCodeBtn');button.disabled=true;$('loginStatus').textContent='Invio in corso…';
-  try {await backend.requestCode({email:$('loginEmail').value.trim(),redirectTo:location.origin+location.pathname+(pendingQr?'?venue='+encodeURIComponent(pendingQr):'')});$('loginStatus').textContent='Controlla la tua email, anche nello spam, e tocca il link per accedere. Puoi poi tornare qui.';}
+  try {await backend.requestCode({email:$('loginEmail').value.trim(),redirectTo:authRedirect(location,pendingQr)});if(backend.authEmailCodeEnabled){$('emailForm').hidden=true;$('codeForm').hidden=false;$('loginCode').value='';$('loginStatus').textContent='Inserisci il codice Soma ricevuto via email. In alternativa puoi usare il link nella stessa email.';$('loginCode').focus();}else $('loginStatus').textContent='Controlla la tua email e apri il link di accesso a Soma. Se il link è scaduto o già usato, richiedi una nuova email.';}
   catch(error){$('loginStatus').textContent=message(error);}
   finally{button.disabled=false;}
 });
@@ -227,7 +228,7 @@ async function enterApp(){
   catch(error){showToast(message(error));}
   finally{entering=false;introButton.disabled=false;}
 }
-if(noQr){$('intro').querySelector('.disp').textContent='Benvenuto in Soma';$('intro').querySelector('.sub').textContent='Accedi, crea il tuo profilo e scegli le tue Tribe. Puoi iniziare senza QR.';}
+if(noQr){$('intro').querySelector('.disp').textContent='Benvenuto in Soma';$('intro').querySelector('.sub').textContent=WELCOME_VALUE+' Accedi, crea il tuo profilo e scegli le tue Tribe. Puoi iniziare senza QR.';}
 if(oraControls)oraControls.scan.onclick=()=>go('camera');
 const introButton=$('intro').querySelector('.btn-primary');introButton.textContent=noQr?'Entra in Soma':'Inquadra il QR Code';introButton.onclick=noQr?()=>void enterApp():()=>go('camera');
 const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{explicitQrScan=noQr&&onboardingComplete;awaitingQr=false;entryGeneration++;pendingQr=token;pendingQrSavedAt=Date.now();restoredDraft=false;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else if(noQr){rememberDraft();go('login');}else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
@@ -266,7 +267,7 @@ $('enterVenueBtn').onclick=()=>void enterApp();
 $('existingAccountBtn').onclick=async()=>{
  const btn=$('existingAccountBtn');btn.disabled=true;
  try{
-  const redirect=location.origin+location.pathname+(pendingQr?'?venue='+encodeURIComponent(pendingQr):'');
+  const redirect=authRedirect(location,pendingQr);
   // Optional migration of a legacy temporary profile; normal Google access uses sign-in.
   const result=await backend.linkGoogle(redirect);const url=new URL(result.url);if(url.protocol!=='https:')throw new Error('Collegamento non valido');location.assign(url.href);
  }catch(error){go('login');$('loginStatus').textContent=message(error);}finally{btn.disabled=false;}
@@ -275,7 +276,7 @@ $('googleLoginBtn').onclick=async()=>{
  const btn=$('googleLoginBtn');btn.disabled=true;$('loginStatus').textContent='Apertura di Google…';
  try{
   if(pendingQr)sessionStorage.setItem('spot-pending-qr',pendingQr);
-  const redirect=location.origin+location.pathname+(pendingQr?'?venue='+encodeURIComponent(pendingQr):'');
+  const redirect=authRedirect(location,pendingQr);
   if(state.session?.user.is_anonymous)await backend.signOut();
   const result=await backend.googleLogin(redirect);
   if(!result?.url)throw new Error('Google non ha restituito il collegamento di accesso. Riprova.');
@@ -326,10 +327,5 @@ $('retryBootBtn').onclick=()=>location.reload();
 try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr)restoreDraft();if(noQr&&pendingQr)rememberDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr&&!noQr)await previewVenue();else if(!awaitingQr)go('intro',{replace:true});}
 catch(error){if(!awaitingQr){go('boot',{replace:true});$('bootStatus').textContent=message(error);$('retryBootBtn').hidden=false;}}finally{booting=false;}
 
-const returnedUrl=new URL(location.href);const hashParams=new URLSearchParams(returnedUrl.hash.slice(1));
-const oauthError=returnedUrl.searchParams.get('error_description')||hashParams.get('error_description');
-if(oauthError){
- for(const key of ['error','error_code','error_description'])returnedUrl.searchParams.delete(key);
- if(hashParams.has('error'))returnedUrl.hash='';history.replaceState(null,'',returnedUrl);
- go('login');$('loginStatus').textContent=/already linked|already exists/i.test(oauthError)?'Questo Google è già collegato a un account Soma. Usa “Continua con Google” per accedere a quello esistente.':'Accesso Google non completato. Riprova.';
-}
+const authError=authReturnError(location.href);
+if(authError){history.replaceState(null,'',authError.url);go('login');$('loginStatus').textContent=authError.message;}

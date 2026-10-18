@@ -1,3 +1,4 @@
+import {createGoogleReadiness,emailCodeEnabled}from './auth-preview.js';
 import {oraEnabled as oraV2Enabled}from './ora.js';
 import {noQrOnboardingEnabled} from './onboarding.js';
 import { boundedFetch } from './request.js';
@@ -24,5 +25,5 @@ export function connectBackend({url,publicKey,storageKey}) {
     catch {throw new Error('Chiave pubblica non valida.');}
     if(payload.role!=='anon')throw new Error('Usa la chiave anon, non service_role.');
   } else if(!publicKey.startsWith('sb_publishable_'))throw new Error('Chiave pubblica non valida.');
-  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled,oraEnabled});
+  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled,oraEnabled,emailCodeEnabled:emailCodeEnabled(import.meta.env),beforeGoogle:onboardingEnabled?createGoogleReadiness({url,publicKey,fetcher:boundedFetch()}):null});
 }

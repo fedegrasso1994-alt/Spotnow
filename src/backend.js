@@ -9,7 +9,7 @@ import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false,beforeGoogle=null,emailCodeEnabled=false}={}) {
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
@@ -30,6 +30,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
   }
   return {
     ...(privacyEnabled?createPrivacyApi(client):{}),
+    authEmailCodeEnabled:emailCodeEnabled,
     ...(oraEnabled?{ora:createOraApi(client)}:{}),
     ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),
     ...(boardEnabled?{board:createBoardApi(client)}:{}),
@@ -84,7 +85,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
     async tribes(){return rpcRead('my_tribes');},
     async locationPeople(place,live){return unwrap(await client.rpc('location_people',{place,live}));},
     async locationPeoplePage(place,live,offset=0){const warm=prefetched.get(place);if(!live&&!offset&&warm?.until>Date.now()){prefetched.delete(place);return warm.page;}const rows=await rpcRead('location_people_photos_page',{place,live,page_size:49,page_offset:offset});return {items:rows.slice(0,48),hasMore:rows.length>48,total:Number(rows[0]?.total_count||0)};},
-    async googleLogin(redirectTo){const result=unwrap(await client.auth.signInWithOAuth({provider:'google',options:{redirectTo,skipBrowserRedirect:true}}));if(!result?.url)throw new Error('Google non ha restituito il collegamento di accesso. Riprova.');return result;},
+    async googleLogin(redirectTo){await beforeGoogle?.();const result=unwrap(await client.auth.signInWithOAuth({provider:'google',options:{redirectTo,skipBrowserRedirect:true}}));if(!result?.url)throw new Error('Google non ha restituito il collegamento di accesso. Riprova.');return result;},
     async deleteAccount(){const data=unwrap(await client.functions.invoke('delete-account',{body:{confirm:true}}));if(data?.deleted!==true)throw new Error('Cancellazione non completata. Riprova.');},
     async checkDeletion(){return unwrap(await client.functions.invoke('delete-account',{body:{dry_run:true}}));},
     async peopleHere() {

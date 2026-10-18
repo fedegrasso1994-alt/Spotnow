@@ -1,0 +1,7 @@
+{
+  "magic_link": "Il tuo codice di accesso a Soma",
+  "confirmation": "Conferma il tuo accesso a Soma",
+  "sender_name_target": "Soma",
+  "sender_address": null,
+  "custom_smtp_required_for_sender": true
+}
