@@ -1,6 +1,8 @@
+import {createPilotTribeOnboarding}from './pilot-onboarding.js';
 import {onboardingError}from './onboarding.js';
 /** One immediate, server-authoritative join at a time; no client membership writer/budget. */
-export function createTribeOnboarding({api,onDone,document:doc=globalThis.document}){
+export function createTribeOnboarding({api,onDone,document:doc=globalThis.document,pilot=false}){
+ if(pilot)return createPilotTribeOnboarding({api,onDone,document:doc});
  const screen=doc.createElement('section');screen.id='tribeOnboarding';screen.className='screen';
  const title=doc.createElement('h2');title.className='disp';title.textContent='Le tue Tribe';
  const note=doc.createElement('p');note.className='sub';note.textContent='Scegli fino a 3 community. Puoi anche continuare senza Tribe.';

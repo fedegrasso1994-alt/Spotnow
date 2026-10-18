@@ -1,0 +1,15 @@
+import {createPresenceClock,oraError}from './ora.js';
+/** Manual pilot catalog UI; all start/retry/switch/exit semantics stay in existing RPCs. */
+export function mountPilotOraControls({root,api,onChange,document:doc=globalThis.document,timers=globalThis}){
+ const el=(tag,text='',cls='')=>{const e=doc.createElement(tag);e.textContent=text;e.className=cls;return e;};
+ root.classList.add('pilot-ora');root.querySelector('.name').textContent='Scopri chi è qui ora con te';root.querySelector('.privacy-note').textContent='Seleziona la location in cui ti trovi';
+ const box=el('div');box.id='oraControls';const status=el('p','','sub'),remaining=el('p','','sub pilot-live'),list=el('div','','list pilot-cards'),scan=el('button','Inquadra QR Place','backlink'),exit=el('button','Esci da ORA','btn btn-ghost'),change=el('button','Cambia location','backlink'),retry=el('button','Riprova','backlink');status.setAttribute('role','status');remaining.setAttribute('aria-live','off');box.append(status,remaining,list,retry,change,scan,exit);root.insertBefore(box,doc.getElementById('discoverTribeBtn'));
+ let generation=0,busy=false,presence=null,loaded=false,expanded=false,timer=null;const clock=createPresenceClock();
+ const tick=()=>{const seconds=clock.remaining();remaining.textContent=presence&&seconds>0?`Presenza attiva · ${Math.floor(seconds/3600)}h ${Math.floor(seconds%3600/60)}m ${seconds%60}s rimanenti`:'';};
+ const lock=v=>{busy=v;for(const b of[scan,exit,change,retry,...list.children])b.disabled=v;};
+ async function action(work){if(busy)return;const g=generation;lock(true);status.textContent='Aggiornamento…';try{const p=await work();if(g!==generation)return;expanded=false;await onChange(p);}catch(e){if(g===generation)status.textContent=oraError(e);}finally{if(g===generation)lock(false);}}
+ async function load(){if(busy)return;const g=++generation;lock(true);retry.hidden=true;try{const rows=await api.search('',0);if(g!==generation)return;list.replaceChildren();for(const p of rows){const b=el('button',p.name,'person pilot-place-card');b.onclick=()=>action(()=>api.start(p.place_id));list.append(b);}loaded=true;if(!rows.length&&!presence)status.textContent='Le location Soma non sono ancora disponibili. Riprova più tardi.';}catch(e){if(g===generation){status.textContent=oraError(e);retry.hidden=false;}}finally{if(g===generation)lock(false);}}
+ function show(p){presence=p;clock.set(p);exit.hidden=change.hidden=!p?.presence_id;list.hidden=Boolean(p)&&!expanded;status.textContent=p?`Sei qui ora: ${p.name}`:'Scegli dove sei ora.';tick();timers.clearInterval(timer);timer=timers.setInterval(tick,1000);}
+ change.onclick=()=>{expanded=!expanded;list.hidden=!expanded;if(expanded&&!loaded)void load();};exit.onclick=()=>action(async()=>{await api.end(presence?.presence_id);return api.current();});retry.onclick=load;
+ return {scan,show,open(){if(!loaded)void load();},pause(){generation++;lock(false);timers.clearInterval(timer);},reset(){generation++;lock(false);timers.clearInterval(timer);presence=null;clock.clear();loaded=false;expanded=false;list.replaceChildren();exit.hidden=change.hidden=true;remaining.textContent='';}};
+}

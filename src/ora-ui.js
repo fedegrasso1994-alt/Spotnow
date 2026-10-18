@@ -1,6 +1,8 @@
+import {mountPilotOraControls}from './pilot-ora-ui.js';
 import {oraError}from './ora.js';
 /** Minimal staging controls, independent from Tribe choices and social actions. */
-export function mountOraControls({root,api,onChange,document:doc=globalThis.document}){
+export function mountOraControls({root,api,onChange,document:doc=globalThis.document,pilot=false,timers=globalThis}){
+ if(pilot)return mountPilotOraControls({root,api,onChange,document:doc,timers});
  const box=doc.createElement('div');box.id='oraControls';const status=doc.createElement('p');status.className='sub';status.setAttribute('role','status');
  const field=doc.createElement('div');field.className='field';const label=doc.createElement('label');label.textContent='Cerca Place Soma';label.setAttribute('for','oraSearch');const input=doc.createElement('input');input.id='oraSearch';input.type='search';input.maxLength=80;field.append(label,input);
  const search=doc.createElement('button');search.className='backlink';search.textContent='Cerca Place';const list=doc.createElement('div');list.className='list';

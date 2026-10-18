@@ -1,3 +1,5 @@
+import './pilot-ui.css';
+import {mountPilotShell,pilotRoute,pilotTab}from './pilot-ui.js';
 import './profile-save.css';
 import {photoForProfileSave,UNSAVED_PHOTO_MESSAGE}from './profile-photo-save.js';
 import './privacy-welcome.css';
@@ -23,15 +25,18 @@ import { createSuspensionScreen } from './suspension-screen.js';
 
 const $=id=>document.getElementById(id);
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY});
-const board=backend.board?mountBoard({root:$('tribe'),api:backend.board,peopleNodes:[$('tribeCount'),$('tribeGrid')],onPeople:()=>void renderTribe()}):null;
+const pilot=Boolean(backend.onboarding&&backend.ora);
+const board=!pilot&&backend.board?mountBoard({root:$('tribe'),api:backend.board,peopleNodes:[$('tribeCount'),$('tribeGrid')],onPeople:()=>void renderTribe()}):null;
 let boardOwner;backend.onSessionChange((event,session)=>{const owner=session?.user?.id||null;if(event==='SIGNED_OUT'||boardOwner!==undefined&&boardOwner!==owner)board?.reset();boardOwner=owner;});
 const privacyEnabled=typeof backend.privacyState==='function';
 const noQr=Boolean(backend.onboarding);
 const oraV2=Boolean(backend.ora),presenceClock=createPresenceClock();
-const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,onChange:async p=>{state.checkin=p;presenceClock.set(p);state.venue=p?{id:p.place_id,name:p.name,address:p.address}:null;liveOffset=0;livePager.reset();go('venue',{replace:true});}}):null;
-let onboardingComplete=false,explicitQrScan=false;
-const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,onDone:()=>hydrate()}):null;
+const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,pilot,onChange:async p=>{state.checkin=p;presenceClock.set(p);state.venue=p?{id:p.place_id,name:p.name,address:p.address}:null;liveOffset=0;livePager.reset();go('venue',{replace:true});}}):null;
+let onboardingComplete=false,explicitQrScan=false,pilotHomePending=false;
+const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,pilot,onDone:()=>{pilotHomePending=pilot;return hydrate();}}):null;
+const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard}):null;
 let privacy=null,existingProfile=false;
+async function choosePilotTribe(){try{const progress=await backend.onboarding.state();go('tribeOnboarding');await tribeOnboarding.open(progress);}catch(e){showToast(message(e));}}
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
 const qrFromUrl=new URLSearchParams(location.search).get('venue');
 // OAuth/email redirects carry the current QR in their URL; a stored old token is never an ingress.
@@ -69,9 +74,11 @@ const avatar=renderAvatar;
 const memberLabel=count=>`${count} ${Number(count)===1?'membro':'membri'}`;
 function emptyList(id,text) {const p=document.createElement('p');p.className='empty-hint';p.textContent=text;$(id).replaceChildren(p);}
 function go(screen,{replace=false,fromHistory=false}={}) {
+  if(pilot)screen=pilotRoute(screen);
+  pilotShell?.pause();
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
-  else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&privacy?.state?.age_status!=='eligible'&&['onboarding','tribeOnboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
+  else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&privacy?.state?.age_status!=='eligible'&&['onboarding','tribeOnboarding','daily','spotted','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
   if(screen!=='tribeOnboarding')tribeOnboarding?.pause();if(screen!=='venue')oraControls?.pause();
   listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
@@ -80,17 +87,18 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(screen!=='camera')venueScanner.stop();
   if(screen==='scan'&&!state.venue)screen='intro';
   if(screen==='scan') { $('scanVenueName').textContent=state.venue.name; $('scanVenueAddress').textContent=state.venue.address||''; }
-  if(['onboarding','tribeOnboarding','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen)&&(!state.session||state.session.user.is_anonymous))screen='login';
+  if(['onboarding','tribeOnboarding','daily','spotted','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen)&&(!state.session||state.session.user.is_anonymous))screen='login';
   if(!noQr&&screen==='onboarding'&&!state.profile.photoPath&&!pendingQr)screen='intro';
   if(screen==='login'){const legacy=Boolean(state.session?.user.is_anonymous);$('emailForm').hidden=legacy;$('existingAccountBtn').hidden=!legacy;$('existingAccountNote').hidden=!legacy;$('login').querySelector('.sub').textContent='Accedi e ritrova il tuo profilo e le tue Tribe quando torni.';}
   document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id===screen));
   const dialogOpen=Boolean(document.querySelector('.overlay.active'));$('tabbar').inert=dialogOpen;
-  const tabs=['venue','tribes','tribe','matches','chats','myprofile'];$('tabbar').classList.toggle('show',tabs.includes(screen));
-  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===(screen==='tribe'?'tribes':screen)));
+  const tabs=['daily','spotted','venue','tribes','tribe','matches','chats','myprofile'];$('tabbar').classList.toggle('show',tabs.includes(screen));
+  document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===(pilot?pilotTab(screen):screen==='tribe'?'tribes':screen)));
   if(!fromHistory)navigation.record(screen,{...(screen==='tribe'?{tribeId:selectedTribe?.id}:{}),...(['chat','match'].includes(screen)?social.route():{})},replace);
   document.querySelectorAll('.screen').forEach(el=>{el.inert=dialogOpen||!el.classList.contains('active');});
   if(screen==='camera')venueScanner.open();
-  if(screen==='venue'){void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));if(!oraV2&&state.venue?.id&&backend.prefetchTribe)void backend.prefetchTribe(state.venue.id).catch(()=>{});}
+  if(screen==='venue'){oraControls?.open?.();void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));if(!oraV2&&state.venue?.id&&backend.prefetchTribe)void backend.prefetchTribe(state.venue.id).catch(()=>{});}
+  if(['daily','spotted'].includes(screen))pilotShell?.open(screen);
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe'){board?.context(selectedTribe?.id);void renderTribe();}
   social.onScreen(screen);
@@ -121,6 +129,7 @@ const loadAccount=singleFlight(async(key)=>{
   state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path,occupation:profile.occupation||''};
   syncForm();void refreshOwnPhoto();
   if(noQr){const progress=await backend.onboarding.state();if(!current())return;onboardingComplete=progress.complete;if(!progress.complete){explicitQrScan=false;go('tribeOnboarding',{replace:true});await tribeOnboarding.open(progress);return;}if(pendingQr)rememberDraft();}
+  if(pilotHomePending){pilotHomePending=false;go('daily',{replace:true});return;}
   if(restoredDraft&&!noQr){pendingQr=null;restoredDraft=false;clearDraft();}
   if(oraV2&&privacy?.state?.consent_status!=='active'){state.checkin=null;state.venue=null;presenceClock.clear();go('tribes',{replace:true});return;}
   if(pendingQr&&(oraV2||!noQr||canConsumeQr({enabled:noQr,explicitScan:explicitQrScan,complete:onboardingComplete}))){explicitQrScan=false;await performCheckin(generation,entry);return;}
@@ -129,7 +138,7 @@ const loadAccount=singleFlight(async(key)=>{
   if(!current())return;state.checkin=checkin;if(oraV2)presenceClock.set(checkin);
   if(liveCheckin()){
     const venue=await backend.getVenue(state.checkin.venue_id);if(!current())return;state.venue=venue;go('venue',{replace:true});
-  }else{state.venue=null;go(oraV2?'venue':'tribes',{replace:true});}
+  }else{state.venue=null;go(pilot?'daily':oraV2?'venue':'tribes',{replace:true});}
 });
 const hydrate=()=>loadAccount(`${accountGeneration}:${entryGeneration}`);
 async function checkAccountStatus(){
@@ -240,7 +249,7 @@ const introButton=$('intro').querySelector('.btn-primary');introButton.textConte
 const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{explicitQrScan=noQr&&onboardingComplete;awaitingQr=false;entryGeneration++;pendingQr=token;pendingQrSavedAt=Date.now();restoredDraft=false;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else if(noQr){rememberDraft();go('login');}else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
-const social=createLiveSocial({backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,venueName:()=>state.venue?.name||''});
+const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,venueName:()=>state.venue?.name||''});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,
   setPref:(value,el)=>select(value,el,'preference'),setGender:(value,el)=>select(value,el,'gender'),
@@ -250,7 +259,7 @@ const navigation=createNavigation({onNavigate:async route=>{
  const generation=accountGeneration,view=listGeneration;const current=()=>generation===accountGeneration&&view===listGeneration;
  if(noQr&&route.screen==='tribeOnboarding'){await hydrate();return;}
  if(route.screen==='chat'){await social.restoreChat(route.matchId,current);return;}
- if(route.screen==='tribe'){const tribes=await backend.tribes();if(!current()||awaitingQr)return;selectedTribe=tribes.find(t=>t.id===route.tribeId);if(!selectedTribe)return go('tribes',{replace:true});}
+ if(!pilot&&route.screen==='tribe'){const tribes=await backend.tribes();if(!current()||awaitingQr)return;selectedTribe=tribes.find(t=>t.id===route.tribeId);if(!selectedTribe)return go('tribes',{replace:true});}
  go(route.screen,{fromHistory:true});
 }});
 window.addEventListener('popstate',event=>{Promise.resolve(navigation.back(event)).catch(error=>{go('tribes',{replace:true});showToast(message(error));});});
@@ -324,10 +333,10 @@ if(privacyEnabled)privacy=createPrivacyControls({backend,onBack:()=>go('myprofil
 function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('profileActions').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}
-backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id){if(oraV2&&previous){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}onboardingComplete=false;explicitQrScan=false;tribeOnboarding?.reset();oraControls?.reset();presenceClock.clear();}if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
+backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id){if(oraV2&&previous){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}onboardingComplete=false;explicitQrScan=false;tribeOnboarding?.reset();oraControls?.reset();presenceClock.clear();}if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
 setInterval(()=>{if(document.hidden)return;if($('venue').classList.contains('active'))void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));if($('tribe').classList.contains('active'))void renderTribe();},5000);
 setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;statusChecking=true;try{const wasSuspended=suspended;if(!await checkAccountStatus()&&wasSuspended)await hydrate();}catch{/* Retry on the next poll; server authorization remains authoritative. */}finally{statusChecking=false;}},15000);
-function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(!oraV2&&state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
+function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(!oraV2&&state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();if(['daily','spotted'].includes(activeScreen()))pilotShell?.open(activeScreen());void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
 document.addEventListener('visibilitychange',resume);window.addEventListener('online',resume);
 $('retryBootBtn').onclick=()=>location.reload();
 try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr)restoreDraft();if(noQr&&pendingQr)rememberDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr&&!noQr)await previewVenue();else if(!awaitingQr)go('intro',{replace:true});}

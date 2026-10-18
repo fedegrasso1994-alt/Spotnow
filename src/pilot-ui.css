@@ -1,0 +1,21 @@
+/* Scoped pilot IA only; existing profile/auth/photo screens and global tokens stay unchanged. */
+.pilot-screen{overflow-y:auto}
+.pilot-onboarding{overflow-y:auto;gap:10px}
+.pilot-onboarding .sub{margin-top:0}
+.pilot-cards{flex:0 0 auto;margin-top:8px;overflow:visible}
+.pilot-place-card{width:100%;min-height:92px;flex:0 0 auto;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;color:var(--text);font-size:16px;font-weight:700}
+.pilot-place-card.selected,.pilot-place-card[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-dim)}
+.pilot-place-card:disabled{opacity:.5;cursor:default}
+.pilot-place-card .sub{font-size:12px;font-weight:400}
+.pilot-status{min-height:20px;font-size:13px}
+.pilot-screen>.btn{margin-top:20px}
+#spotted select{display:block;width:100%;padding:12px;margin-top:8px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;color:var(--text);font:inherit}
+#spotted label{margin-top:18px;color:var(--muted);font-size:13px}
+.pilot-board-host{min-height:0;margin-top:16px}
+.pilot-board-host .board-panel{flex:none;overflow:visible}
+#venue.pilot-ora .venue-head .name{font-family:var(--font-d);font-size:32px;line-height:1.05}
+#venue.pilot-ora .venue-head .addr{font-size:16px;color:var(--text);margin-top:10px}
+#venue.pilot-ora #oraControls{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+#venue.pilot-ora .pilot-live{color:var(--teal)}
+#venue.pilot-ora{overflow-y:auto}
+#venue.pilot-ora #list{flex:0 0 auto;overflow:visible;min-height:60px}

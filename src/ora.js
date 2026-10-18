@@ -5,7 +5,7 @@ export function createOraApi(client){const call=async(name,args={})=>{const r=aw
  start:id=>call('start_ora_manual',{place_id:id}),qr:token=>call('start_ora_qr',{qr_token:token}),end:id=>call('end_ora',{presence_id:id}),
  async people(offset=0){const rows=await call('ora_people_page',{page_size:49,page_offset:offset});return {items:rows.slice(0,48),hasMore:rows.length>48,total:Number(rows[0]?.total_count||0)};}
 };}
-export function createPresenceClock(now=()=>performance.now()){let end=0;return {set(p){end=p?now()+Math.max(0,Date.parse(p.expires_at)-Date.parse(p.server_now)):0;},live:()=>end>now(),clear(){end=0;}};}
+export function createPresenceClock(now=()=>performance.now()){let end=0;return {set(p){end=p?now()+Math.max(0,Date.parse(p.expires_at)-Date.parse(p.server_now)):0;},live:()=>end>now(),remaining:()=>Math.max(0,Math.ceil((end-now())/1000)),clear(){end=0;}};}
 export function oraError(error){const s=String(error?.message||'');if(s.includes('QR'))return 'QR non valido o Place non disponibile. Scansiona un altro QR.';if(s.includes('PLACE'))return 'Questo Place non è disponibile.';if(s.includes('ACCOUNT'))return 'Per usare Ora verifica età, consenso e stato dell’account.';if(s.includes('PAUSED'))return 'Ora è temporaneamente non disponibile.';return 'Operazione non completata. Riprova.';}
 
 // UX lifetime only, not QR authorization: the server validates every token.

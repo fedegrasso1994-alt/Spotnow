@@ -1,7 +1,7 @@
 /** Internal history stores route data only; never OAuth tokens, drafts or profile data. */
 export function createNavigation({history=window.history,onNavigate}) {
   let started=false;
-  const allowed=new Set(['intro','camera','scan','login','onboarding','tribeOnboarding','venue','tribes','tribe','matches','chats','myprofile','match','chat','suspended','deleting']);
+  const allowed=new Set(['intro','camera','scan','login','onboarding','tribeOnboarding','venue','daily','spotted','tribes','tribe','matches','chats','myprofile','match','chat','suspended','deleting']);
   return {
     record(screen,context={},replace=false){
       if(!allowed.has(screen))return;

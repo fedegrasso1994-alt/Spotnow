@@ -1,3 +1,4 @@
+import {matchPreview}from './pilot-ui.js';
 import {createDetailPhoto} from './detail-photo.js';
 import {clearAvatar} from './avatar.js';
 import { modalController } from './modal.js';
@@ -6,7 +7,7 @@ import { singleFlight, stableList } from './ui-refresh.js';
 import { createReportPrompt } from './report-prompt.js';
 import { createPager } from './pagination.js';
 /** Live match/chat UI. All authorization and expiry are enforced by the server. */
-export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName}) {
+export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName,pilot=false}) {
   const $=id=>document.getElementById(id);
   let matches=[],current=null,detail=null,known=null,busy=false,sending=false,epoch=0,chatVersion=0,chatSignature='';
   const sent=new Set();let matchOffset=0,loadedOffset=-1,matchPage={hasMore:false,total:0},detailFound=null,detailChecking=false;
@@ -71,7 +72,7 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     if(loadedOffset!==matchOffset){hint(id,'Caricamento…');pagers[screen].busy(true);return;}
     const entries=matches;pagers[screen].update({offset:matchOffset,count:entries.length,total:matchPage.total,hasMore:matchPage.hasMore});
     if(!entries.length)return hint(id,screen==='chats'?'Nessuna conversazione ancora.':"Ancora nessun match. Continua a guardare chi c'è ora.");
-    stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name]),create:m=>row(m,`Match a ${m.venue_name}`,openChat),update:(el,m)=>{avatar(el.querySelector('.avatar'),m,{eager:entries.slice(0,4).some(item=>item.id===m.id),thumbnail:true});el.onclick=()=>openChat(m);}});
+    stableList($(id),entries,{key:m=>m.id,signature:m=>JSON.stringify([m.name,m.age,m.venue_name,m.first_message_at,m.last_message]),create:m=>row(m,pilot?matchPreview(m):`Match a ${m.venue_name}`,openChat),update:(el,m)=>{if(pilot)el.querySelector('.tm').textContent=matchPreview(m);avatar(el.querySelector('.avatar'),m,{eager:entries.slice(0,4).some(item=>item.id===m.id),thumbnail:true});el.onclick=()=>openChat(m);}});
   }
   function showMatch(m){if(current)drafts.set(current.id,$('chatIn').value);current=m;avatar($('mAvatarMe'),profile());avatar($('mAvatarThem'),m,{thumbnail:true});$('mText').textContent=`Tu e ${m.name} vi siete notati a vicenda.`;go('match');}
   function detailMatch(){return detail?(matches.find(m=>m.person_id===detail.id)||detailFound):null;}

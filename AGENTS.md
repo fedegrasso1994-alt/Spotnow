@@ -66,3 +66,10 @@ server delle foto potrebbe separare autorizzazione, trasformazione e storage.
 Questi refactor non sono prerequisiti del pilot. Un problema concreto di
 sicurezza, correttezza o prestazioni richiede una correzione mirata e verificata;
 non giustifica automaticamente una riorganizzazione generale.
+
+## Design freeze Soma
+
+Preservare il visual language SOMA attuale: colori, typography, radius, dark theme,
+buttons, cards e spacing language. Nessun redesign globale o style refactor.
+Le schermate già approvate restano invariate; modifiche di design soltanto dove
+esplicitamente richieste dal task.
