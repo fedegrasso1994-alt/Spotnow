@@ -1,3 +1,4 @@
+import {createProfileAuthorizationApi}from './profile-authorization.js';
 import {createSpotV2Api}from './spot-v2.js';
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
 import {createPhotoUpload} from './photo-upload.js';
@@ -10,7 +11,8 @@ import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false,spotV2Enabled=false,beforeGoogle=null,emailCodeEnabled=false}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false,spotV2Enabled=false,profileAuthorizationEnabled=false,beforeGoogle=null,emailCodeEnabled=false}={}) {
+  const profileAuthorization=profileAuthorizationEnabled?createProfileAuthorizationApi(client):null;
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
   const cancelable=(request,signal)=>typeof request?.abortSignal==='function'?request.abortSignal(signal):request;
@@ -67,6 +69,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
     },
     clearPrivacyCaches:clearPhotos,
     async signOut(){clearPhotos();unwrap(await client.auth.signOut());},
+    ...(profileAuthorization?{authorizedProfile:id=>profileAuthorization.profile(id)}:{}),
     async getProfile() {
       const id=await userId();
       return unwrap(await client.from('profiles').select('*').eq('id',id).maybeSingle());
@@ -124,7 +127,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
         const group=missing.slice(start,start+100).filter(path=>!pendingPhotos.has(path));if(!group.length)continue;
         const request=photoQueue.run(async()=>{
           if(generation!==photoEpoch)return new Map();
-          const rows=unwrap(await storage.createSignedUrls(group,30));
+          const rows=profileAuthorization?Array.from(await profileAuthorization.photos(group),([path,signedUrl])=>({path,signedUrl})):unwrap(await storage.createSignedUrls(group,30));
           const result=new Map(rows.map(row=>[row.path,row.error?null:row.signedUrl||null]));
           if(generation===photoEpoch)for(const [path,url]of result){if(url)photos.set(path,{url,until:Date.now()+20000});}
           return result;
@@ -143,7 +146,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
       const generation=photoEpoch;
       const request=photoQueue.run(async()=>{
         if(generation!==photoEpoch)return null;
-        const url=unwrap(await client.storage.from('profile-photos').createSignedUrl(path,30)).signedUrl;
+        const url=profileAuthorization?(await profileAuthorization.photos([path])).get(path)||null:unwrap(await client.storage.from('profile-photos').createSignedUrl(path,30)).signedUrl;
         if(generation===photoEpoch){photos.set(path,{url,until:Date.now()+20000});}return url;
       }).finally(()=>{if(pendingPhotos.get(path)===request)pendingPhotos.delete(path);});
       pendingPhotos.set(path,request);return request;

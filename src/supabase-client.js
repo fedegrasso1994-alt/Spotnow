@@ -1,3 +1,4 @@
+import {profileAuthorizationEnabled}from './profile-authorization.js';
 import {spotV2Enabled}from './spot-v2.js';
 import {createGoogleReadiness,emailCodeEnabled}from './auth-preview.js';
 import {oraEnabled as oraV2Enabled}from './ora.js';
@@ -26,5 +27,5 @@ export function connectBackend({url,publicKey,storageKey}) {
     catch {throw new Error('Chiave pubblica non valida.');}
     if(payload.role!=='anon')throw new Error('Usa la chiave anon, non service_role.');
   } else if(!publicKey.startsWith('sb_publishable_'))throw new Error('Chiave pubblica non valida.');
-  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled,oraEnabled,spotV2Enabled:spotV2Enabled(import.meta.env),emailCodeEnabled:emailCodeEnabled(import.meta.env),beforeGoogle:onboardingEnabled?createGoogleReadiness({url,publicKey,fetcher:boundedFetch()}):null});
+  return createBackend(createClient(url,publicKey,{global:{fetch:boundedFetch()},auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,...(storageKey?{storageKey}:{})}}),{privacyEnabled:privacyPhaseEnabled(import.meta.env),rightsEnabled:rightsEnabled(import.meta.env),moderationEnabled:moderationEnabled(import.meta.env),boardEnabled:boardEnabled(import.meta.env),onboardingEnabled,oraEnabled,spotV2Enabled:spotV2Enabled(import.meta.env),profileAuthorizationEnabled:profileAuthorizationEnabled(import.meta.env),emailCodeEnabled:emailCodeEnabled(import.meta.env),beforeGoogle:onboardingEnabled?createGoogleReadiness({url,publicKey,fetcher:boundedFetch()}):null});
 }

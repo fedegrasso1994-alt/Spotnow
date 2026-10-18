@@ -117,3 +117,10 @@ test('ORA v2 detail never sends legacy Spot; existing matched chat remains avail
 test('ORA v2 CTA uses only new API, stable operation on failure/retry and concurrent tap is serialized',async t=>{
  const ops=[],wait=deferred();let calls=0,legacy=0;const ui=setup(t,{spotV2:{send:async(id,op)=>{ops.push([id,op]);if(++calls===1){await wait.promise;throw Error('network');}return{state:'pending',match_id:null};}},expressInterest:async()=>legacy++});ui.setRecords([]);ui.go('venue');await ui.social.refresh();ui.social.openDetail({id:'b',name:'Bea',age:25,venue_id:'place',source:'ora-v2'});await flush();assert.equal(ui.get('interestBtn').disabled,false);const first=globalThis.window.expressInterest();await globalThis.window.expressInterest();assert.equal(calls,1);wait.resolve();await first;await globalThis.window.expressInterest();assert.equal(calls,2);assert.equal(ops[0][1],ops[1][1]);assert.equal(legacy,0);
 });
+
+test('AUTHZ detail rechecks server permission; denied, failed or late reads never reopen stale profile',async t=>{
+ const wait=deferred();let allowed=null,calls=0;const ui=setup(t,{authorizedProfile:async()=>{calls++;return calls===1?wait.promise:allowed;}});ui.go('venue');
+ const pending=ui.social.openDetail({id:'b',name:'Stale',age:25});ui.social.closeDetail();wait.resolve({id:'b',name:'Fresh',age:25});await pending;assert.equal(ui.get('detailOverlay').classList.contains('active'),false);
+ await ui.social.openDetail({id:'b',name:'Stale',age:25});assert.equal(ui.get('detailOverlay').classList.contains('active'),false);
+ allowed={id:'b',name:'Fresh',age:25};await ui.social.openDetail({id:'b',name:'Stale',age:25});assert.equal(ui.get('dName').textContent,'Fresh, 25');assert.equal(ui.get('detailOverlay').classList.contains('active'),true);await flush();ui.social.reset();await flush();
+});

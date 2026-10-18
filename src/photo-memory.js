@@ -1,7 +1,7 @@
 /** Session-only decoded pixels. Never persist private photos in browser storage. */
 const entries=new Map(),pending=new Set(),leases=new Map(),retired=new Set(),warming=new Map();let bytes=0,epoch=0;
 const MAX_BYTES=16*1024*1024,MAX_IMAGES=64;
-export function cachedPhoto(path){const entry=entries.get(path);if(!entry)return null;entries.delete(path);entries.set(path,entry);return entry.url;}
+export function cachedPhoto(path){const entry=entries.get(path);if(!entry)return null;if(entry.until&&entry.until<=Date.now()){entries.delete(path);bytes-=entry.size;retire(entry.url);return null;}entries.delete(path);entries.set(path,entry);return entry.url;}
 function retire(url){if(leases.has(url))retired.add(url);else URL.revokeObjectURL(url);}
 /** Do not revoke a cached Blob while a newly opened detail is decoding it. */
 export function retainPhotoSource(url){
@@ -22,7 +22,7 @@ export function rememberPhoto(path,image){
   canvas.toBlob(blob=>{
    if(generation!==epoch)return;pending.delete(path);if(!blob||blob.size>MAX_BYTES||entries.has(path))return;
    while(entries.size>=MAX_IMAGES||bytes+blob.size>MAX_BYTES){const key=entries.keys().next().value,entry=entries.get(key);retire(entry.url);bytes-=entry.size;entries.delete(key);}
-   entries.set(path,{url:URL.createObjectURL(blob),size:blob.size});bytes+=blob.size;
+   entries.set(path,{url:URL.createObjectURL(blob),size:blob.size,...(path.startsWith('profile:')?{until:Date.now()+20000}:{})});bytes+=blob.size;
   },'image/webp',.92);
  }catch{pending.delete(path);/* Unsupported canvas/CORS retains the normal authorized image. */}
 }

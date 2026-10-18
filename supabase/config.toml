@@ -4,3 +4,6 @@ verify_jwt = true
 
 [functions.photo-assets]
 verify_jwt = true
+
+[functions.profile-photo]
+verify_jwt = true

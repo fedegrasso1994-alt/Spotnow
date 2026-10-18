@@ -83,13 +83,16 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
     $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='ora-v2'&&!backend.spotV2));
     $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?'Interesse già inviato':'Mi Interessa';
   }
-  function openDetail(person){
+  let detailRequest=0;
+  async function openDetail(person){
+    const request=++detailRequest,generationBeforeRead=epoch;
+    if(backend.authorizedProfile){try{const fresh=await backend.authorizedProfile(person.id);if(request!==detailRequest||generationBeforeRead!==epoch)return;if(!fresh){showToast('Questo profilo non è più disponibile.');return;}person={...person,...fresh,photo:null,photo_preview:null};}catch{if(request===detailRequest)showToast('Non riesco a verificare il profilo. Riprova.');return;}}
     detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
     $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
     if(detailChecking)void backend.matchWith(person.id).then(match=>{if(detail!==person||generation!==epoch)return;detailFound=match;}).catch(()=>{}).finally(()=>{if(detail===person&&generation===epoch){detailChecking=false;syncDetailAction();}});
 
   }
-  function closeDetail(){detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
+  function closeDetail(){detailRequest++;detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
     if(detail.source==='ora-v2'&&!backend.spotV2)return;
