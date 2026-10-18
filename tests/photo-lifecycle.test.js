@@ -34,3 +34,20 @@ test('PHOTO02: fenced no-intent recovery is pending, but database outage is obse
 test('PHOTO02: missing ready object never returns a successful stale replay',async t=>{const db=await setup(t),j=await ready(db);await db.query('delete from storage.objects where name=$1',[j.photo_path+'.thumb.jpg']);await assert.rejects(start(db),/PHOTO_EXPIRED/);const fresh=await start(db,2);assert.notEqual(fresh.photo_path,j.photo_path);});
 
 test('PHOTO02: collector overlap in one isolate is bounded and recovers after completion',async()=>{let release,started;const pending=new Promise(r=>release=r),entered=new Promise(r=>started=r);let first=true;const admin={rpc:async()=>{if(first){first=false;started();await pending;}return{data:{sets:[],accounts:[]}};}};const handler=photoLifecycleHandler({admin,serviceKey:'service'}),request=()=>new Request('https://test',{method:'POST',headers:{Authorization:'Bearer service'},body:'{}'});const run=handler(request());await entered;assert.equal((await handler(request())).status,409);release();assert.equal((await run).status,200);assert.equal((await handler(request())).status,200);});
+
+test('PHOTO02: successful retry does not erase failed-job lease; delete waits for expiry and still refuses unknown writers',async t=>{
+ const db=await setup(t),failed=await start(db,90);
+ await db.query('select photo_write_receipt($1,$2,$3,true)',[ids.a,failed.photo_path,failed.lease_token]);
+ await db.query('select fail_photo_upload($1,$2,$3)',[ids.a,nonce(90),failed.lease_token]);
+ await ready(db,91);
+ const barrier=async()=> (await db.query('select photo_deletion_barrier($1) blocked',[ids.a])).rows[0].blocked;
+ assert.equal(await barrier(),true);
+ await db.query('select photo02_begin_account_deletion($1)',[ids.a]);
+ assert.equal((await db.query('select claim_photo_account_cleanup($1) token',[ids.a])).rows[0].token,null);
+ // Offline clock-boundary simulation only; live canary never updates a lease or bypasses this gate.
+ await db.query("update spot_private.photo_upload_jobs set lease_until=clock_timestamp()-interval '1 second' where user_id=$1 and request_id=$2",[ids.a,nonce(90)]);
+ assert.equal(await barrier(),false);
+ await db.query("update spot_private.photo_lifecycle_sets set writer='unknown' where photo_path=$1",[failed.photo_path]);
+ assert.equal(await barrier(),true);
+ assert.equal((await db.query('select claim_photo_account_cleanup($1) token',[ids.a])).rows[0].token,null);
+});

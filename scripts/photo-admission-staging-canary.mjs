@@ -29,9 +29,23 @@ const upload=(u,seed=10,data=bytes(seed))=>request(u,'photo-assets',data,{'Conte
 async function valid(u,seed){const r=await upload(u,seed);assert.equal(r.status,200,JSON.stringify({code:r.body.code}));assert.equal(r.protocol,'photo02');assert.equal(r.body.ready,true);assert.ok(r.body.photo_path.startsWith(u.id+'/'));return r.body.photo_path;}
 async function publish(u,path,existing=false){const row={id:u.id,name:`Synthetic PHOTO ${u.label}`,age:25,gender:'M',preference:'ALL',occupation:'Staging canary',photo_path:path};const q=existing?u.client.from('profiles').update(row).eq('id',u.id):u.client.from('profiles').insert(row);ok(await q.select().single());u.current=path;}
 async function canonical(u,path){for(const suffix of['','.detail.jpg','.thumb.jpg']){const blob=ok(await u.client.storage.from('profile-photos').download(path+suffix));const data=new Uint8Array(await blob.arrayBuffer());const info=inspectPhoto(data);assert.equal(info.format,'JPEG');assert.ok(info.width<=(suffix==='.thumb.jpg'?480:1600));assert.ok(info.height<=(suffix==='.thumb.jpg'?480:1600));}}
-async function erase(u){const r=await request(u,'delete-account',JSON.stringify({confirm:true}),{'Content-Type':'application/json'});assert.equal(r.status,200,JSON.stringify({code:r.body.code}));assert.equal(r.body.deleted,true);const check=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});assert.ok((await check.auth.signInWithPassword({email:u.email,password:u.password})).error);u.deleted=true;}
+async function erase(u){const r=await request(u,'delete-account',JSON.stringify({confirm:true}),{'Content-Type':'application/json'});assert.equal(r.status,200,JSON.stringify({code:r.body.code,error:r.body.error}));assert.equal(r.body.deleted,true);const check=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});assert.ok((await check.auth.signInWithPassword({email:u.email,password:u.password})).error);u.deleted=true;}
 try{
- if(mode==='prepare'){
+ if(mode==='final-prepare'){
+  await record('preflight 5/5; fixture login and PAUSED before upload',async()=>{for(const u of manifest.users){await login(u);const r=await upload(u);assert.equal(r.status,503);assert.equal(r.body.code,'PAUSED');assert.equal(r.cache,'no-store');}});
+ }else if(mode==='final-smoke'){
+  const [a,b]=await Promise.all(manifest.users.map(login));
+  await record('previous pending fixture deletion after server quiescence',()=>erase(b));
+  await record('existing profile, concurrent metadata update, canonical replacement and old photo availability',async()=>{assert.ok(a.current);await canonical(a,a.current);const old=a.current,processing=valid(a,20);await publish(a,old,true);await canonical(a,old);const next=await processing;await publish(a,next,true);await canonical(a,next);await canonical(a,old);assert.notEqual(old,next);a.previous=old;});
+  await record('invalid file rejected; valid retry canonicalized and published',async()=>{const invalid=await upload(a,1,new Uint8Array([1,2,3]));assert.ok(invalid.status>=400&&invalid.status<500);assert.notEqual(invalid.body.code,'PAUSED');const next=await valid(a,40);await publish(a,next,true);await canonical(a,next);});
+  manifest.awaitingQuiescence=true;
+  console.log('STOP before final delete: operator must recheck server deletion barrier, jobs and unknown writers');
+ }else if(mode==='final-delete'){
+  assert.equal(manifest.awaitingQuiescence,true,'Separate server quiescence inspection required');
+  assert.equal(manifest.users[1].deleted,true);
+  const a=await login(manifest.users[0]);await record('final fixture normal delete after separate server quiescence inspection',()=>erase(a));
+  manifest.awaitingQuiescence=false;
+ }else if(mode==='prepare'){
 
   for(const u of manifest.users){await login(u);ok(await u.client.auth.updateUser({data:{photo02_fixture:true,soma_synthetic_canary:true}}));await rpc(u,'attest_adult_checkbox',{declared:true,operation_id:randomUUID()});const c=await rpc(u,'dating_consent_challenge');await rpc(u,'accept_dating_consent',{challenge:c.token,operation_id:randomUUID()});}
   await record('normal fixture Auth + AGE/consent; paused admission rejects before upload',async()=>{for(const u of manifest.users){const profile=ok(await u.client.from('profiles').select('photo_path').eq('id',u.id).maybeSingle());assert.equal(profile?.photo_path||null,u.current||null);const r=await upload(u);assert.equal(r.status,503);assert.equal(r.body.code,'PAUSED');assert.equal(r.cache,'no-store');}});
@@ -43,5 +57,5 @@ try{
   await record('normal delete-account canary with global cleanup/scheduler OFF',()=>erase(b));
  }else if(mode==='finish'){
   const a=await login(manifest.users[0]);await record('final synthetic account normal delete',()=>erase(a));
- }else throw Error('Mode must be prepare / smoke / finish');
+ }else throw Error('Unknown controlled canary phase');
 }catch(error){manifest.stopped=true;manifest.failure={mode,code:error.code||error.name};throw error;}finally{await cleanSave();}
