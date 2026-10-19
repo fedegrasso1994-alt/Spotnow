@@ -1,0 +1,25 @@
+{
+  "initial_suite": {
+    "pass": 542,
+    "total": 543,
+    "failed_test": "DD040 repeated public reads return same full allocation with no persistent mutation",
+    "failure": "expected exactly 4 profiles, received 3"
+  },
+  "isolated_repetitions": {
+    "environment": "disposable local PostgreSQL; unmodified baseline wrapperDatabase (040), not hosted staging",
+    "pool": 6,
+    "profile_counts": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      3,
+      4
+    ],
+    "max4_respected": true
+  },
+  "product_or_test_patches": false,
+  "hosted_e2e_iterations": 1
+}

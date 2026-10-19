@@ -1,0 +1,4 @@
+import{readFile}from'node:fs/promises';import{createClient}from'@supabase/supabase-js';import{createBackend}from'../../src/backend.js';import{createDailyDiscoveryApi}from'../../src/daily-discovery.js';
+const url=process.env.VITE_SUPABASE_URL,key=process.env.VITE_SUPABASE_PUBLIC_KEY;if(new URL(url).hostname!=='zjinjtkekmaqtxsuyvho.supabase.co')throw Error('STAGING_ONLY');
+export const fixtures=JSON.parse(await readFile('.local/dd-controlled-e2e/credentials.json'));
+export async function login(i){const f=fixtures[i],c=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}}),r=await c.auth.signInWithPassword({email:f.email,password:f.password});if(r.error)throw r.error;return{c,b:createBackend(c,{privacyEnabled:true,onboardingEnabled:true,oraEnabled:true,spotV2Enabled:true,profileAuthorizationEnabled:true}),dd:createDailyDiscoveryApi(c),id:f.id};}

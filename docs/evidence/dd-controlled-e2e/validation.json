@@ -1,0 +1,25 @@
+{
+  "baseline": "bff37f55a04206ff8173939624722a576c002330",
+  "hosted_e2e": "PASS, one iteration only",
+  "full_suite_initial": {
+    "pass": 542,
+    "fail": 1,
+    "total": 543,
+    "preexisting_flaky_assertion": "DD040 full allocation exactly4 with random6-person pool"
+  },
+  "full_suite_recheck": {
+    "pass": 543,
+    "fail": 0,
+    "total": 543
+  },
+  "build": "PASS: vite build with staging env, no deploy",
+  "typecheck": "PASS: tsc --noEmit",
+  "manual_harness_syntax": "PASS: node --check",
+  "auth_confirmation": "ON, unchanged",
+  "product_files_changed": false,
+  "migration_applied": false,
+  "frontend_stash_resumed": false,
+  "main": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_touched": false,
+  "gate": "CONTROLLED DD E2E: GO"
+}

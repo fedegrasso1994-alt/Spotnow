@@ -1,0 +1,12 @@
+[
+  {
+    "id": "fea41000-0000-4000-8000-000000000001",
+    "delete": "PASS",
+    "auth_unusable": true
+  },
+  {
+    "id": "fea41000-0000-4000-8000-000000000002",
+    "delete": "PASS",
+    "auth_unusable": true
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "fea41000-0000-4000-8000-000000000001",
+    "auth": "PASS",
+    "age": "PASS",
+    "consent": "PASS",
+    "canonical": "PASS",
+    "profile": "PASS",
+    "tribe_id": "fa350000-0000-4000-8000-000000000001"
+  },
+  {
+    "id": "fea41000-0000-4000-8000-000000000002",
+    "auth": "PASS",
+    "age": "PASS",
+    "consent": "PASS",
+    "canonical": "PASS",
+    "profile": "PASS",
+    "tribe_id": "fa350000-0000-4000-8000-000000000001"
+  }
+]

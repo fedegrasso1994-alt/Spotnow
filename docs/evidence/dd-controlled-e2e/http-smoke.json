@@ -1,0 +1,43 @@
+{
+  "project": "zjinjtkekmaqtxsuyvho",
+  "started_at": "2026-10-19T10:36:03.758Z",
+  "checks": [
+    {
+      "name": "reciprocal_current_window",
+      "result": "PASS",
+      "window_id": "9538c5b4-fe27-4fed-ae15-b5cb72ac3627",
+      "ends_at": "2026-10-19T14:00:00+00:00"
+    },
+    {
+      "name": "authorized_profile_signed_photo",
+      "result": "PASS",
+      "photo_http": 200
+    },
+    {
+      "name": "repeated_read_stable",
+      "result": "PASS"
+    },
+    {
+      "name": "outgoing_pending_and_quota",
+      "result": "PASS",
+      "window_remaining": 1,
+      "day_remaining": 3
+    },
+    {
+      "name": "relogin_refresh_retry_no_refill",
+      "result": "PASS"
+    },
+    {
+      "name": "unified_unique_match_empty_chat",
+      "result": "PASS",
+      "match_id": "6c3edc63-6b4e-4673-ba6a-f1849dedb837",
+      "zero_message_label": "❤️ Nuovo match!"
+    },
+    {
+      "name": "matched_profiles_consumed_no_refill",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "finished_at": "2026-10-19T10:36:08.992Z"
+}

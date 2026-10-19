@@ -1,0 +1,195 @@
+{
+  "source": "Soma Staging SQL Editor: aggregate full-row counts/digests compared in browser before/after",
+  "project": "zjinjtkekmaqtxsuyvho",
+  "baseline_at": "2026-10-19T10:33:25.316797+00:00",
+  "pre_on_at": "2026-10-19T10:35:34.272655+00:00",
+  "during_at": "2026-10-19T10:36:17.373345+00:00",
+  "off_verified_at": "2026-10-19T10:36:46.821454+00:00",
+  "final_at": "2026-10-19T10:38:06.902338+00:00",
+  "existing_accounts": 4,
+  "existing_eligible": 1,
+  "existing_eligible_ids": "recorded only in private local test context; omitted from Git report",
+  "allowlist_verified": [
+    "fea41000-0000-4000-8000-000000000001",
+    "fea41000-0000-4000-8000-000000000002"
+  ],
+  "nonfixture_comparisons": [
+    {
+      "table": "auth.users",
+      "count": 4,
+      "digest": "7cc285bc5276bfeddbf0aceacbffa96b",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "public.matches",
+      "count": 1,
+      "digest": "68ca53abb8b9e457ba7352f501363409",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "public.checkins",
+      "count": 3,
+      "digest": "ea94de7019e71693efdcb0cd9dc422d8",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "public.messages",
+      "count": 2,
+      "digest": "78203567e16596fb1b66bb6c4d5942cd",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "public.profiles",
+      "count": 4,
+      "digest": "c33b054500cb91e2a7b399715c47aa69",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "storage.objects",
+      "count": 42,
+      "digest": "7c2d91eeb6ad37d1f82372610439fa93",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.photo_assets",
+      "count": 14,
+      "digest": "fbb1f7e48cc1c4235f6531104018d511",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.consent_state",
+      "count": 1,
+      "digest": "5902871120bf4029c74cf38d42b4a650",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.validated_photos",
+      "count": 12,
+      "digest": "faa3ffd8386d92cdfa511a674ece10b6",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.tribe_memberships",
+      "count": 3,
+      "digest": "c1f80d6b480773cf8043c4ef93ab898e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.account_eligibility",
+      "count": 4,
+      "digest": "07941bf139389e5655268e1dd2701532",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.spot_v2_intents",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.spot_v2_operations",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.discovery_exposures",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.ora_spot_daily_quota",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.ora_spot_place_quota",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.discovery_allocations",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.discovery_pair_memory",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    },
+    {
+      "table": "spot_private.discovery_fairness_buckets",
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e",
+      "pre_on_equal": true,
+      "during_equal": true,
+      "after_equal": true
+    }
+  ],
+  "all_existing_unchanged": true,
+  "final_control": {
+    "discovery": false,
+    "controlled_admission": false,
+    "allowlist_count": 0,
+    "jobs_paused": true,
+    "cleanup": false,
+    "scheduler": false
+  },
+  "fixture_account_profile_auth_membership_social_photo_rows": 0,
+  "fixture_storage_objects": 0,
+  "remaining_empty_window": {
+    "id": "9538c5b4-fe27-4fed-ae15-b5cb72ac3627",
+    "allocations": 0,
+    "exposures": 0,
+    "kept_as_technical_evidence": true
+  },
+  "technical_receipts": {
+    "lifecycle_purged": 2,
+    "cleanup_completed": 2,
+    "cutover_attempts": 2,
+    "cutover_deletions": 2,
+    "cutover_audit": 2,
+    "account_deletions": 0
+  }
+}
