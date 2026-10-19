@@ -1,0 +1,18 @@
+{
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "dd_rows": 0,
+  "project": "zjinjtkekmaqtxsuyvho",
+  "fixture_storage": 0,
+  "anon_rpc_execute": false,
+  "fixture_accounts": 0,
+  "wall_clock_guard": true,
+  "discovery_enabled": false,
+  "atomic_tribe_charge": true,
+  "private_helper_execute": false,
+  "authenticated_rpc_execute": true
+}

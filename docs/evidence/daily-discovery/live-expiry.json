@@ -1,0 +1,13 @@
+{
+  "initial_observation": {
+    "status": "waiting_window",
+    "visible_profile_count": 1,
+    "cause": "statement_timestamp fixed across long SQL batch"
+  },
+  "after_fix": {
+    "case": "real-expiry-with-pending",
+    "status": "waiting_window",
+    "visible_profile_count": 0
+  },
+  "all_fixture_mutations": "ROLLBACK"
+}

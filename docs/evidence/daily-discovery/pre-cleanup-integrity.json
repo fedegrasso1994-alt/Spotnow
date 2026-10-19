@@ -1,0 +1,20 @@
+{
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "a_spots": 4,
+  "windows": 2,
+  "pair_rows": 47,
+  "allocations": 24,
+  "over_day_spots": 0,
+  "duplicate_pairs": 0,
+  "over_day_degree": 0,
+  "asymmetric_counts": 0,
+  "auth_private_read": false,
+  "over_window_spots": 0,
+  "over_window_degree": 0,
+  "baseline_users_allocated": 0
+}

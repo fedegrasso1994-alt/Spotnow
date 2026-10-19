@@ -1,0 +1,12 @@
+{
+  "profiles": 4,
+  "total_exposures": 8,
+  "remaining": 0,
+  "no_ninth": "PASS",
+  "no_recurrence": "PASS",
+  "refresh_stable": "PASS",
+  "pending_expired_profile": "DENIED",
+  "pending_expired_photo": "DENIED",
+  "third_spot": "PASS",
+  "day_spots_remaining": 1
+}

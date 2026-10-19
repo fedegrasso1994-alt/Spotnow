@@ -1,0 +1,25 @@
+{
+  "a": {
+    "pid": 1257572,
+    "ended": "2026-10-19T07:07:10.403745+00:00",
+    "result": {
+      "ok": true,
+      "result": {
+        "state": "pending",
+        "spot_id": "c53bdf63-6de1-4dee-8857-3caa308c495a",
+        "match_id": null
+      }
+    },
+    "started": "2026-10-19T07:07:10.376223+00:00"
+  },
+  "b": {
+    "pid": 1257574,
+    "ended": "2026-10-19T07:07:20.430444+00:00",
+    "result": {
+      "ok": false,
+      "error": "DD_WINDOW_SPOTS",
+      "sqlstate": "P0001"
+    },
+    "started": "2026-10-19T07:07:13.79122+00:00"
+  }
+}

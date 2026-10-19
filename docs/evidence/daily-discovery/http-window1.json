@@ -1,0 +1,11 @@
+{
+  "pool": 12,
+  "profiles": 4,
+  "reciprocal": "PASS",
+  "relogin_stable": "PASS",
+  "profile": "PASS",
+  "fresh_photo_http": 200,
+  "spot1": "PASS",
+  "retry_free": "PASS",
+  "window_remaining": 1
+}

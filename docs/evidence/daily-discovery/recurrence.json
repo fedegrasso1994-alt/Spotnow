@@ -1,0 +1,16 @@
+{
+  "case": "71h-recurrence-denied",
+  "result": {
+    "status": "empty",
+    "ends_at": "2026-10-19T07:29:18.349969+00:00",
+    "profiles": [],
+    "starts_at": "2026-10-19T07:08:18.349969+00:00",
+    "window_id": "fea37300-0000-4000-8000-000000000002",
+    "server_now": "2026-10-19T07:09:18.354874+00:00",
+    "window_allocated": 0,
+    "next_transition_at": "2026-10-19T07:29:18.349969+00:00",
+    "day_spots_remaining": 2,
+    "window_spots_remaining": 2,
+    "day_exposures_remaining": 4
+  }
+}

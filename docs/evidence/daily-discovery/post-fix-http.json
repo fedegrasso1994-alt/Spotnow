@@ -1,0 +1,11 @@
+{
+  "pending_free_at_cap": "PASS",
+  "fifth_new_spot": "DENIED",
+  "match_after_leave": "PASS",
+  "unique_match": "PASS",
+  "chat_persisted": "PASS",
+  "ora_budget": {
+    "remaining": 4,
+    "place_remaining": null
+  }
+}

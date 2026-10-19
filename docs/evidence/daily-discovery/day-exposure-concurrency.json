@@ -1,0 +1,143 @@
+{
+  "a": {
+    "pid": 1257637,
+    "start": "2026-10-19T07:09:39.857429+00:00",
+    "result": {
+      "status": "ready",
+      "ends_at": "2026-10-19T08:09:39.855891+00:00",
+      "profiles": [
+        {
+          "id": "fea37000-0000-4000-8000-000000000012",
+          "age": 25,
+          "name": "SYNTHETIC DD 12",
+          "gender": "F",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000012:9474e7986aab3ce9375a68304abf245f:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000012:9474e7986aab3ce9375a68304abf245f:detail",
+          "exposure_id": "10dfdda4-b444-40e2-85eb-7b4025b670f4",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000012:9474e7986aab3ce9375a68304abf245f:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000010",
+          "age": 25,
+          "name": "SYNTHETIC DD 10",
+          "gender": "F",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:detail",
+          "exposure_id": "711c1e08-a887-4989-b59a-a93ad67200d1",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000009",
+          "age": 25,
+          "name": "SYNTHETIC DD 9",
+          "gender": "M",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000009:5b978c783a9620c77a949be0afedad45:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000009:5b978c783a9620c77a949be0afedad45:detail",
+          "exposure_id": "e918e7e8-b032-45e3-812d-06223fa01677",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000009:5b978c783a9620c77a949be0afedad45:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000002",
+          "age": 25,
+          "name": "SYNTHETIC DD 2",
+          "gender": "F",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:detail",
+          "exposure_id": "fb0bef38-1a0a-4eb7-a65d-716ab8da4cb6",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:thumb"
+        }
+      ],
+      "starts_at": "2026-10-19T07:08:39.85589+00:00",
+      "window_id": "fea37300-0000-4000-8000-000000000002",
+      "server_now": "2026-10-19T07:09:39.860937+00:00",
+      "window_allocated": 4,
+      "next_transition_at": "2026-10-19T08:09:39.855891+00:00",
+      "day_spots_remaining": 2,
+      "window_spots_remaining": 2,
+      "day_exposures_remaining": 0
+    }
+  },
+  "b": {
+    "pid": 1257638,
+    "result": {
+      "status": "ready",
+      "ends_at": "2026-10-19T08:09:39.855891+00:00",
+      "profiles": [
+        {
+          "id": "fea37000-0000-4000-8000-000000000007",
+          "age": 25,
+          "name": "SYNTHETIC DD 7",
+          "gender": "M",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000007:b3cbdd722f6f6060cd53b15c3721735e:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000007:b3cbdd722f6f6060cd53b15c3721735e:detail",
+          "exposure_id": "827be115-fce4-4777-8d8f-8c306dff98b4",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000007:b3cbdd722f6f6060cd53b15c3721735e:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000010",
+          "age": 25,
+          "name": "SYNTHETIC DD 10",
+          "gender": "F",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:detail",
+          "exposure_id": "a436b72a-64dd-43a2-ba54-bf665c572b38",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000010:e249fbbd9dbee205d164ac6818fc46dc:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000005",
+          "age": 25,
+          "name": "SYNTHETIC DD 5",
+          "gender": "M",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000005:8d8bcb7afd957f062795a287728492b0:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000005:8d8bcb7afd957f062795a287728492b0:detail",
+          "exposure_id": "ee11de54-1d99-4045-8e14-b4d263e2e215",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000005:8d8bcb7afd957f062795a287728492b0:thumb"
+        },
+        {
+          "id": "fea37000-0000-4000-8000-000000000001",
+          "age": 25,
+          "name": "SYNTHETIC DD 1",
+          "gender": "M",
+          "tribe_id": "fea37100-0000-4000-8000-000000000001",
+          "occupation": "",
+          "photo_path": "profile:fea37000-0000-4000-8000-000000000001:8e4a0b84d242932f0f97a5d911c2f4e8:canonical",
+          "tribe_name": "SYNTHETIC DD disposable",
+          "detail_path": "profile:fea37000-0000-4000-8000-000000000001:8e4a0b84d242932f0f97a5d911c2f4e8:detail",
+          "exposure_id": "fb0bef38-1a0a-4eb7-a65d-716ab8da4cb6",
+          "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000001:8e4a0b84d242932f0f97a5d911c2f4e8:thumb"
+        }
+      ],
+      "starts_at": "2026-10-19T07:08:39.85589+00:00",
+      "window_id": "fea37300-0000-4000-8000-000000000002",
+      "server_now": "2026-10-19T07:09:52.576229+00:00",
+      "window_allocated": 4,
+      "next_transition_at": "2026-10-19T08:09:39.855891+00:00",
+      "day_spots_remaining": 4,
+      "window_spots_remaining": 2,
+      "day_exposures_remaining": 0
+    },
+    "started": "2026-10-19T07:09:39.918389+00:00",
+    "finished": "2026-10-19T07:09:39.919277+00:00"
+  }
+}

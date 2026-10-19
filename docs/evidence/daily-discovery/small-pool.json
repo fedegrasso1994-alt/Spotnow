@@ -1,0 +1,30 @@
+{
+  "case": "two-person-undersized",
+  "result": {
+    "status": "partial",
+    "ends_at": "2026-10-19T07:28:48.474551+00:00",
+    "profiles": [
+      {
+        "id": "fea37000-0000-4000-8000-000000000002",
+        "age": 25,
+        "name": "SYNTHETIC DD 2",
+        "gender": "F",
+        "tribe_id": "fea37100-0000-4000-8000-000000000001",
+        "occupation": "",
+        "photo_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:canonical",
+        "tribe_name": "SYNTHETIC DD disposable",
+        "detail_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:detail",
+        "exposure_id": "09db8503-5da5-4d0c-b2e2-022ab1906f2f",
+        "thumbnail_path": "profile:fea37000-0000-4000-8000-000000000002:4da260ec6eb91bb8507b458d5a5d5547:thumb"
+      }
+    ],
+    "starts_at": "2026-10-19T07:07:48.47455+00:00",
+    "window_id": "fea37300-0000-4000-8000-000000000002",
+    "server_now": "2026-10-19T07:08:48.479862+00:00",
+    "window_allocated": 1,
+    "next_transition_at": "2026-10-19T07:28:48.474551+00:00",
+    "day_spots_remaining": 2,
+    "window_spots_remaining": 2,
+    "day_exposures_remaining": 3
+  }
+}

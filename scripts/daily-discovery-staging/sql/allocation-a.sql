@@ -1,0 +1,17 @@
+begin;
+select spot_private.board_lock();
+create temp table dd_saved_catalog on commit drop as select id,active from spot_private.tribe_catalog;
+update spot_private.tribe_catalog set active=false where id<>'fea37100-0000-4000-8000-000000000001';
+update spot_private.soma_v2_control set discovery_enabled=true;
+update spot_private.discovery_policy set enabled=true,paused=false,exposure_retention=interval '2 days',fairness_retention=interval '14 days',pair_memory_retention=interval '14 days' where version=1;
+insert into spot_private.discovery_windows(id,local_date,slot,policy_version,starts_at,ends_at,generation_id)values('fea37300-0000-4000-8000-000000000001',(clock_timestamp()at time zone 'Europe/Rome')::date,'morning',1,clock_timestamp()-interval '1 minute',least(clock_timestamp()+interval '1 hour',(((clock_timestamp()at time zone 'Europe/Rome')::date+1)::timestamp at time zone 'Europe/Rome')),'fea37400-0000-4000-8000-000000000001');
+create temp table dd_race_result(evidence jsonb);
+grant insert on dd_race_result to authenticated;
+set local role authenticated;
+select set_config('request.jwt.claim.sub','fea37000-0000-4000-8000-000000000001',true);
+insert into dd_race_result select jsonb_build_object('pid',pg_backend_pid(),'start',clock_timestamp(),'result',public.my_daily_discovery());
+reset role;
+update spot_private.tribe_catalog c set active=s.active from dd_saved_catalog s where s.id=c.id;
+select pg_sleep(12);
+commit;
+select evidence from dd_race_result;

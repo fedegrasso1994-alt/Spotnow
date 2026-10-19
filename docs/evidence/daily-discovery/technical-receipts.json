@@ -1,0 +1,13 @@
+{
+  "assets": 0,
+  "validated": 0,
+  "cutover_audit": 12,
+  "fixture_codes": 0,
+  "fixture_places": 0,
+  "fixture_catalog": 0,
+  "cutover_attempts": 12,
+  "lifecycle_purged": 12,
+  "account_deletions": 0,
+  "cleanup_completed": 12,
+  "cutover_deletions": 12
+}
