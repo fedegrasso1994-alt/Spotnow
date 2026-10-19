@@ -1,0 +1,48 @@
+{
+  "policy": [
+    {
+      "paused": true,
+      "enabled": false,
+      "version": 1,
+      "timezone": "Europe/Rome",
+      "nightly_end": null,
+      "morning_start": null,
+      "afternoon_start": null,
+      "recurrence_floor": "72:00:00",
+      "recurrence_target": "168:00:00",
+      "exposure_retention": null,
+      "fairness_retention": null,
+      "pair_memory_retention": null
+    }
+  ],
+  "control": {
+    "singleton": true,
+    "jobs_paused": true,
+    "ora_enabled": true,
+    "spot_enabled": true,
+    "share_enabled": false,
+    "comments_enabled": false,
+    "requests_enabled": false,
+    "discovery_enabled": false,
+    "membership_enabled": false,
+    "system_posts_enabled": false
+  },
+  "matches": 1,
+  "objects": 42,
+  "windows": 0,
+  "accounts": 4,
+  "fairness": 0,
+  "messages": 2,
+  "profiles": 4,
+  "exposures": 0,
+  "server_now": "2026-10-19T06:58:28.371344+00:00",
+  "allocations": 0,
+  "pair_memory": 0,
+  "migration037": null,
+  "photo_control": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  }
+}

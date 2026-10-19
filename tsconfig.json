@@ -47,6 +47,7 @@
     "src/bacheca.js",
     "src/bacheca-ui.js",
     "src/bacheca-moderation.js",
-    "types/styles.d.ts"
+    "types/styles.d.ts",
+    "src/daily-discovery.js"
   ]
 }

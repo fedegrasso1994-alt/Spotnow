@@ -1,0 +1,76 @@
+import test from'node:test';import assert from'node:assert/strict';import{discoveryDatabase,window,drop,tribeSpot,closeWindow,ids,users,asUser,admin}from'./helpers/discovery-database.js';
+const rows=async(d,q,args=[])=>(await d.query(q,args)).rows;
+test('DD reciprocal scarce global window, stable fetch/second identity, no private payload',async t=>{
+ const d=await discoveryDatabase(t);await window(d);const a=await drop(d);assert.equal(a.profiles.length,4);assert.equal(a.window_spots_remaining,2);assert.equal(a.day_exposures_remaining,4);
+ assert.deepEqual((await drop(d)).profiles,a.profiles);assert.ok(!JSON.stringify(a).includes('preference'));for(const p of a.profiles){await asUser(d,p.id);assert.ok((await drop(d)).profiles.some(x=>x.id===ids.a));}await admin(d);
+ assert.ok((await rows(d,'select exposure_count from spot_private.discovery_allocations')).every(r=>r.exposure_count<=4));assert.equal((await rows(d,'select count(*)n from spot_private.discovery_exposures'))[0].n,24);
+});
+for(const n of[1,2,3,4])test(`DD pool ${n}: exact undersized reciprocal inventory, no fake fill`,async t=>{const d=await discoveryDatabase(t,n);await window(d);assert.equal((await drop(d)).profiles.length,n-1);});
+test('DD eligibility mutual preferences, Match, block, suspended/no Tribe; no inactivity/popularity input',async t=>{
+ const d=await discoveryDatabase(t,6);await admin(d);await d.query("update profiles set preference='F'where id=$1",[ids.b]);await d.query('insert into blocks(blocker_id,blocked_id)values($1,$2)',[ids.a,ids.c]);await d.query('insert into matches(user_a,user_b,venue_id)values($1,$2,$3)',[ids.a,users[3],ids.v]);await d.query("insert into spot_private.suspensions(user_id,reason)values($1,'SYNTHETIC')",[users[4]]);await window(d);const a=await drop(d);assert.ok(!a.profiles.some(p=>[ids.c,users[3],users[4]].includes(p.id)));await asUser(d,users[8]);assert.equal((await drop(d)).status,'tribe_required');
+});
+test('DD two windows/day max8 distinct; same-day pair cannot recur; no ninth or refresh charge',async t=>{
+ const d=await discoveryDatabase(t);const w=await window(d);const first=await drop(d);await closeWindow(d,w);await window(d,'afternoon');const second=await drop(d);assert.equal(second.profiles.length,4);assert.ok(second.profiles.every(p=>!first.profiles.some(x=>x.id===p.id)));assert.equal(second.day_exposures_remaining,0);assert.deepEqual((await drop(d)).profiles,second.profiles);
+ await admin(d);assert.ok((await rows(d,'select user_id,sum(exposure_count)n from spot_private.discovery_allocations group by user_id')).every(r=>Number(r.n)<=8));
+});
+test('DD per-window2/day4 NEW Spot authority, original retry/existing pending/Match free; ORA budgets independent',async t=>{
+ const d=await discoveryDatabase(t);const w=await window(d);let a=await drop(d);const op=crypto.randomUUID();const first=await tribeSpot(d,a.profiles[0].id,op);assert.deepEqual(await tribeSpot(d,a.profiles[0].id,op),first);assert.deepEqual(await tribeSpot(d,a.profiles[0].id),first);await tribeSpot(d,a.profiles[1].id);await assert.rejects(tribeSpot(d,a.profiles[2].id),/DD_WINDOW_SPOTS/);assert.equal((await drop(d)).window_spots_remaining,0);
+ await closeWindow(d,w);await window(d,'afternoon');a=await drop(d);await tribeSpot(d,a.profiles[0].id);await tribeSpot(d,a.profiles[1].id);await assert.rejects(tribeSpot(d,a.profiles[2].id),/DD_DAY_SPOTS/);assert.equal((await drop(d)).day_spots_remaining,0);assert.equal((await d.query('select my_ora_spot_budget()v')).rows[0].v.remaining,5);
+});
+test('DD no refill on block/leave/new member; relevant pending invalidates, Match persists',async t=>{
+ const d=await discoveryDatabase(t,6);const w=await window(d);const a=await drop(d),target=a.profiles[0];await tribeSpot(d,target.id);await d.query('select leave_tribe($1)',[ids.v]);await asUser(d,target.id);assert.ok(!(await drop(d)).profiles.some(p=>p.id===ids.a));await asUser(d,users[10]);await d.query('select join_tribe($1)',[ids.v]);assert.equal((await drop(d)).status,'waiting_next_window');await admin(d);assert.equal((await rows(d,'select state from spot_private.spot_v2_intents where sender_id=$1',[ids.a]))[0].state,'invalidated');assert.equal((await rows(d,'select state from spot_private.discovery_windows where id=$1',[w]))[0].state,'ready');
+});
+test('DD profile/photo access expires with closed window despite pending; ORA reciprocal Spot gives persistent unique Match',async t=>{
+ const d=await discoveryDatabase(t,2);const w=await window(d);const a=await drop(d);assert.equal((await rows(d,'select * from authorized_profile($1)',[ids.b])).length,1);await tribeSpot(d,ids.b);await closeWindow(d,w);assert.equal((await rows(d,'select * from authorized_profile($1)',[ids.b])).length,0);await admin(d);assert.equal((await rows(d,'select * from resolve_authorized_photos($1,$2)',[ids.a,[a.profiles[0].photo_path]])).length,0);
+});
+test('DD recurrence <72h excluded; 72h..7d fallback small pool; >=7d ordinary; no same-day reuse',async t=>{
+ for(const hours of[71,73,169]){const d=await discoveryDatabase(t,2);await admin(d);await d.query("insert into spot_private.discovery_pair_memory values($1,$2,clock_timestamp()-($3||' hours')::interval,clock_timestamp()+interval '14 days')",[ids.a,ids.b,String(hours)]);await window(d);assert.equal((await drop(d)).profiles.length,hours<72?0:1);}
+});
+test('DD fairness deterministic seed prefers materially underexposed equivalent inventory',async t=>{
+ const d=await discoveryDatabase(t,6);await admin(d);await d.query("insert into spot_private.discovery_fairness_buckets values($1,current_date,30,100,clock_timestamp()+interval '7 days')",[users[5]]);await window(d);const a=await drop(d);assert.equal(a.profiles.length,4);assert.ok(!a.profiles.some(p=>p.id===users[5]));
+});
+test('DD multi-Tribe pair deduplicates and receives one valid attribution; counters global',async t=>{
+ const d=await discoveryDatabase(t,3);for(const u of users.slice(0,3)){await asUser(d,u);await d.query('select join_tribe($1)',[ids.w]);}await window(d);const a=await drop(d);assert.equal(a.profiles.length,2);assert.equal(new Set(a.profiles.map(p=>p.id)).size,2);assert.ok(a.profiles.every(p=>[ids.v,ids.w].includes(p.tribe_id)));assert.equal(a.day_exposures_remaining,6);
+});
+test('DD fixed snapshot/anonymous/private writes denied; full generation rollback is retryable',async t=>{
+ const d=await discoveryDatabase(t,5);const w=await window(d);for(const isolation of['repeatable read','serializable']){await d.exec('begin isolation level '+isolation);await assert.rejects(drop(d),/DD_ISOLATION/);await d.exec('rollback');}
+ await d.exec('begin');const original=await drop(d);await d.exec('rollback');const again=await drop(d);assert.equal(again.profiles.length,original.profiles.length);for(const table of['discovery_allocations','discovery_exposures','discovery_pair_memory','discovery_fairness_buckets'])await assert.rejects(d.query('select * from spot_private.'+table),/permission denied/);
+ await d.exec('reset role;set role anon');await assert.rejects(drop(d),/permission denied/);
+});
+
+test('DD fresh inventory prevents 72h..7d fallback when four novel partners fit reciprocally',async t=>{
+ const d=await discoveryDatabase(t,6);await admin(d);await d.query("insert into spot_private.discovery_pair_memory values($1,$2,clock_timestamp()-interval '73 hours',clock_timestamp()+interval '14 days')",[ids.a,users[5]]);await window(d);const a=await drop(d);assert.equal(a.profiles.length,4);assert.ok(!a.profiles.some(p=>p.id===users[5]));
+});
+test('DD allocation does not react to unrelated romantic popularity; deterministic seed reproduces peer identities',async t=>{
+ const first=await discoveryDatabase(t,6);await window(first);const expected=(await drop(first)).profiles.map(p=>p.id).sort();
+ const second=await discoveryDatabase(t,6);await admin(second);for(const u of users.slice(6))await second.query('insert into matches(user_a,user_b,venue_id)values($1,$2,$3)',[users[5],u,ids.v]);await window(second);assert.deepEqual((await drop(second)).profiles.map(p=>p.id).sort(),expected);
+});
+test('DD receiver compatibility change/consent revoke/block/safety overrides allocated access with no refill',async t=>{
+ const d=await discoveryDatabase(t,5);await window(d);const original=await drop(d),target=original.profiles[0];await asUser(d,target.id);await d.query('select revoke_dating_consent($1)',[crypto.randomUUID()]);await asUser(d,ids.a);assert.equal((await drop(d)).profiles.length,original.profiles.length-1);assert.equal((await rows(d,'select * from authorized_profile($1)',[target.id])).length,0);
+ const next=(await drop(d)).profiles[0];await d.query('insert into blocks(blocker_id,blocked_id)values($1,$2)',[ids.a,next.id]);const after=await drop(d);assert.equal(after.profiles.length,original.profiles.length-2);assert.equal(after.window_allocated,original.profiles.length);await assert.rejects(tribeSpot(d,target.id),/SPOT_EXPOSURE_REQUIRED/);
+});
+test('DD sender pending received from ORA matches once through TRIBE; Match/photo access survives leave',async t=>{
+ const d=await discoveryDatabase(t,2);for(const u of[ids.a,ids.b]){await asUser(d,u);await d.query('select start_ora_manual($1)',[ids.v]);}await asUser(d,ids.a);await d.query('select send_spot_v2($1,$2)',[ids.b,crypto.randomUUID()]);await admin(d);await d.exec('delete from checkins');await window(d);await drop(d);await asUser(d,ids.b);const m=await tribeSpot(d,ids.a);assert.ok(m.match_id);await d.query('select leave_tribe($1)',[ids.v]);assert.equal((await rows(d,'select * from authorized_profile($1)',[ids.a])).length,1);await admin(d);assert.equal((await rows(d,'select count(*)n from matches'))[0].n,1);
+});
+test('DD new operation reuse of active ORA pending costs no TRIBE credit; invalid context cannot fabricate exposure/window',async t=>{
+ const d=await discoveryDatabase(t,2);for(const u of[ids.a,ids.b]){await asUser(d,u);await d.query('select start_ora_manual($1)',[ids.v]);}await asUser(d,ids.a);const prior=(await d.query('select send_spot_v2($1,$2)v',[ids.b,crypto.randomUUID()])).rows[0].v;await window(d);await drop(d);assert.deepEqual(await tribeSpot(d,ids.b),prior);assert.equal((await drop(d)).window_spots_remaining,2);await assert.rejects(d.query('select send_spot_v2($1,$2,$3,$4)',[ids.b,crypto.randomUUID(),'tribe',crypto.randomUUID()]),/SPOT_EXPOSURE_REQUIRED/);
+});
+test('DD window collision/mutation and incomplete policy fail closed; no final clock times configured',async t=>{
+ const d=await discoveryDatabase(t,2);const w=await window(d);await admin(d);await assert.rejects(d.query("insert into spot_private.discovery_windows(local_date,slot,policy_version,starts_at,ends_at)select local_date,'afternoon',policy_version,starts_at,ends_at from spot_private.discovery_windows where id=$1",[w]),/DD_WINDOW_OVERLAP/);
+ await d.exec('update spot_private.discovery_policy set fairness_retention=null');await asUser(d,ids.a);await assert.rejects(drop(d),/DD_POLICY_INCOMPLETE/);await admin(d);assert.equal((await rows(d,'select count(*)n from spot_private.discovery_exposures'))[0].n,0);await d.exec("update spot_private.discovery_policy set fairness_retention=interval '14 days'");await asUser(d,ids.a);await drop(d);await admin(d);await assert.rejects(d.query("update spot_private.discovery_windows set ends_at=ends_at+interval '1 minute'where id=$1",[w]),/DD_WINDOW_IMMUTABLE/);assert.equal((await rows(d,'select morning_start from spot_private.discovery_policy'))[0].morning_start,null);
+});
+test('DD pair failure rolls back reciprocal counters/fairness/memory; normal retry generates once',async t=>{
+ const d=await discoveryDatabase(t,5);await window(d);await admin(d);await d.exec("create function public.synthetic_dd_fail()returns trigger language plpgsql as $$begin raise exception 'SYNTHETIC_DD_FAILURE';end$$;create trigger synthetic_dd_fail after insert on spot_private.discovery_exposures for each row execute function public.synthetic_dd_fail()");await asUser(d,ids.a);await assert.rejects(drop(d),/SYNTHETIC_DD_FAILURE/);await admin(d);for(const table of['discovery_exposures','discovery_allocations','discovery_pair_memory','discovery_fairness_buckets'])assert.equal((await rows(d,'select count(*)n from spot_private.'+table))[0].n,0);await d.exec('drop trigger synthetic_dd_fail on spot_private.discovery_exposures');await asUser(d,ids.a);assert.equal((await drop(d)).profiles.length,4);
+});
+test('DD direct legacy Spot path shares atomic quota guard; failure after quota mutation refunds fully',async t=>{
+ const d=await discoveryDatabase(t);await window(d);const a=await drop(d);await admin(d);await d.exec("create function public.synthetic_spot_fail()returns trigger language plpgsql as $$begin raise exception 'SYNTHETIC_SPOT_FAILURE';end$$;create trigger synthetic_spot_fail before insert on spot_private.spot_v2_intents for each row execute function public.synthetic_spot_fail()");await asUser(d,ids.a);await assert.rejects(tribeSpot(d,a.profiles[0].id),/SYNTHETIC_SPOT_FAILURE/);assert.equal((await drop(d)).window_spots_remaining,2);await admin(d);await d.exec('drop trigger synthetic_spot_fail on spot_private.spot_v2_intents');await asUser(d,ids.a);for(const p of a.profiles.slice(0,2))await d.query('select send_spot_v2($1,$2,$3,$4)',[p.id,crypto.randomUUID(),'tribe',p.exposure_id]);await assert.rejects(d.query('select send_spot_v2($1,$2,$3,$4)',[a.profiles[2].id,crypto.randomUUID(),'tribe',a.profiles[2].exposure_id]),/DD_WINDOW_SPOTS/);
+});
+test('DD source transport never sends client window/exposure/quota claims',async()=>{
+ const {createDailyDiscoveryApi}=await import('../src/daily-discovery.js'),calls=[],api=createDailyDiscoveryApi({rpc:async(name,args)=>{calls.push({name,args});return{data:{}};}});await api.current();await api.spot(ids.b,'operation');assert.deepEqual(calls,[{name:'my_daily_discovery',args:{}},{name:'send_tribe_spot',args:{target_user:ids.b,operation_id:'operation'}}]);
+});
+test('DD unequal remaining daily budgets never allocate one-way; deleted account cannot refill peers',async t=>{
+ const d=await discoveryDatabase(t);const w=await window(d);await drop(d);await closeWindow(d,w);await admin(d);await d.query('update spot_private.discovery_allocations set exposure_count=4 where window_id=$1',[w]);await window(d,'afternoon');const second=await drop(d);assert.equal(second.profiles.length,4);await admin(d);await d.query('delete from auth.users where id=$1',[second.profiles[0].id]);await asUser(d,ids.a);const after=await drop(d);assert.equal(after.profiles.length,3);assert.equal(after.window_allocated,4);assert.equal(after.day_exposures_remaining,0);
+});
+test('DD window must use its server Rome calendar date and cannot span quota midnight',async t=>{
+ const d=await discoveryDatabase(t);await admin(d);await assert.rejects(d.query("insert into spot_private.discovery_windows(local_date,slot,policy_version,starts_at,ends_at)values((clock_timestamp()at time zone 'Europe/Rome')::date-1,'morning',1,clock_timestamp(),clock_timestamp()+interval '1 minute')"),/DD_WINDOW_DAY/);await assert.rejects(d.query("insert into spot_private.discovery_windows(local_date,slot,policy_version,starts_at,ends_at)values((clock_timestamp()at time zone 'Europe/Rome')::date,'morning',1,clock_timestamp(),clock_timestamp()+interval '2 days')"),/DD_WINDOW_DAY/);
+});

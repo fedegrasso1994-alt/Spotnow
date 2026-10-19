@@ -1,0 +1,24 @@
+# Daily Discovery — engine contract (staging only)
+
+Baseline 0d48f0c; migration 037 is additive over 027–036. No final UI, clock policy or recurring scheduler. Source of Truth unchanged. PHOTO engines unchanged.
+
+## Schema/API impact announced before staging apply
+Reuse all six discovery tables from 027. Add reciprocal-pair uniqueness, degree/Spot bounds, owner/window indexes, private allocation/eligibility/charging helpers and window guards. Two authenticated RPCs: `my_daily_discovery()` and `send_tribe_spot(target_user, operation_id)`. No client-supplied window, exposure, attribution or membership. Narrow integration changes existing `send_spot_v2` only at the TRIBE authorization and NEW-intent charge branches. `profile_dd_authorized` now requires bilateral compatibility and exact current membership context; ORA and Match authorization stay separate.
+
+## Windows, budgets, persistence
+Window identity = Rome local date + morning/afternoon slot, immutable UUID/policy/generation once ready. Explicit start/end timestamps must stay in their Rome calendar day, cannot overlap. No clock times chosen. First current-window request builds one complete reciprocal snapshot in one transaction, ready thereafter; late join waits until next window. No refill on read, Spot, safety removal or leave. Four allocated profiles/window, eight/day globally; up to two NEW TRIBE Spots/window, four/day. Old pending/idempotent retry/Match consume no new credit. ORA budgets independent.
+
+One unordered row authorizes both directions. Both endpoints must have available degree/day budget. Exact membership UUIDs bind attribution; shared Tribes deduplicate to the lowest active valid Tribe ID. Global quotas span all Tribes. Leave invalidates that exposure and the existing membership-scoped pending hook, preserving unrelated ORA/pending received and Match. No invented legacy history.
+
+## Selection/locking
+Current active AGE/consent/profile eligibility, bilateral existing M/F/ALL rules, active shared catalog/membership, no block/suspension/Match. No inactivity or popularity score. Choose lowest accumulated eligible exposure load first, then fresh/oldest pair, current attribution diversity, seeded hash. Random generation UUID is saved once, tests can supply deterministic seed. Two passes: unseen/>=target first; >=72h fallback only when fresh feasible inventory exhausted. Never same Rome day or <72h. Greedy constrained matching distributes opportunities, does not promise globally optimal maximum matching or equal outcomes.
+
+READ COMMITTED only. Existing board advisory transaction lock serializes generation and social/safety operations; sorted owner locks coordinate lifecycle/retention. Atomic trigger increments both counters/fairness/pair memory, any error rolls everything back. No independent directed recommendation. No global Cartesian pair table: shared-Tribe candidates via indexed membership lookups, deduplicated per user; retained fairness totals and pair-memory indexed lookups. Complexity can approach quadratic inside one very large shared pool; pilot benchmark and lock latency remain explicit operational limits, not a claim of arbitrary-scale throughput.
+
+## Authorization/privacy
+Current valid exposure grants profile/photo through existing authorization v2; pending alone never grants access, and closed/expired/left/blocked/revoked context disappears. Existing Match still authorizes independently. Client receives minimal profile fields, opaque exposure and attributed Tribe, current budgets, server_now/window end/next transition; no preference/fairness/private history. Cached/previously issued photo content remains subject to the already accepted v2 limitation.
+
+Retention parameters must be explicitly finite before generation (exposure/fairness/pair-memory); 027 enforces pair memory >=target >=72h. Synthetic test policy uses 2d/14d/14d, NOT a legal/product retention approval. No purge jobs activated. Exposure deletion must never prematurely erase same-day quota authority; future retention policy/task must preserve counters through the Rome day and pair memory through recurrence. Final policy and physical retention activation remain separate gates. At task end restore discovery OFF, policy disabled/paused, original NULL retention/time values.
+
+## Failure/rollback
+Missing policy => fail closed; no eligible Tribe => tribe_required; no configured window => waiting_window; undersized pool => partial/empty. No partial ready allocation, no retry reshuffle. On error transaction rollback; deadline crossing aborts generation. Pause discovery/policy to disable new DD exposure authorization; keep additive schema and existing Spot receipts. Never roll back PHOTO or historical migrations. No current app rendering/import changed; existing Preview is intentionally retained pending Figma/front-end task.
