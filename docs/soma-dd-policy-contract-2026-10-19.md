@@ -29,6 +29,8 @@ Canonical hold keys: `dd_exposures`/exposure UUID; `dd_allocations`/windowUUID/u
 
 Future executor must share board→retention→sorted owner locking, revalidate each candidate under lock, process children in bounded batches, and remove a parent only in a later pass when already empty. No cascading parent delete to evade batch bounds. Hold acquisition wins under shared locking; archive only minimal explicitly held safety evidence before product/account deletion, using the existing separated safety model, never repurpose held data for ranking. Failed transactions roll back; retries and double runs must be idempotent. This task implements the preview/design, **not** the executor, safety archival extension or job activation. Before pilot, implement/test/authorize that purge path and operational monitoring; do not claim physical30-day deletion while jobs are OFF.
 
+DD purge must preserve Spot intents/operation receipts, Match/chat and Tribe membership. Existing exposure/window SETNULL references are detach semantics, not permission to delete unrelated records. Existing receipt replay remains governed by the separate Spot lifecycle.
+
 ## Gates and rollback
 
 Apply only in verified staging with Discovery OFF and no active windows. On any gate failure keep OFF and stop. Operational rollback = leave Discovery/policy paused and jobs OFF; retain additive schema/config and receipts. No destructive schema downgrade or PHOTO rollback. Source of Truth updated narrowly only for these explicit founder-approved semantics. Final TRIBE/Figma remains separate.

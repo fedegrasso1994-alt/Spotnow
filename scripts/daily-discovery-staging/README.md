@@ -1,5 +1,10 @@
 # Daily Discovery hosted staging rehearsal
 
+> Original fixture/race harness targets migration037 at its historical commit.
+> After038, use `sql/policy-038-preflight.sql` and `sql/policy-038-smoke.sql`
+> for the configuration-only, Discovery-OFF rehearsal. Do not rerun the old activation
+> fixture scripts unchanged against policy038. See the approved policy contract in docs.
+
 Manual, disposable-fixture harness. Never run on Production. Not imported into the application, CI or scheduler. Requires migration 037 and an operator-verified Soma Staging dashboard (`zjinjtkekmaqtxsuyvho`). No service/admin API keys. Existing normal Auth confirmation remains ON.
 
 All commands run from repo root with the existing ignored staging frontend env loaded (never root `.env.local`). `make-fixtures.mjs` generates 12 throwaway passwords and a private SQL seed under ignored `.local/daily-discovery/`, mode0600. Do not print or commit those files. Inspect the guard and execute seed ONLY in staging; addresses are `example.invalid`, synthetic marker and exclusive `fea37000-*` namespace. `prepare.mjs` uses real normal password sign-in, AGE/consent, unchanged PHOTO canonical upload, profile and membership APIs. Fixture JPEG is the existing strict-prevalidated canary generator, no real photo.

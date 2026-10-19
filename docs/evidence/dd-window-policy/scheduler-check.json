@@ -1,0 +1,13 @@
+{
+  "relevant_jobs": [
+    {
+      "name": "soma-photo02-staging",
+      "active": false
+    },
+    {
+      "name": "soma-photo02-cutover-staging",
+      "active": false
+    }
+  ],
+  "cron_table_present": true
+}

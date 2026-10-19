@@ -1,0 +1,40 @@
+{
+  "tests": {
+    "total": 515,
+    "pass": 515,
+    "fail": 0,
+    "new_groups": 11,
+    "previous": 504,
+    "duration_ms": 294798.659792
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "hosted_calendar_DST": "PASS",
+  "hosted_private_grants": "PASS",
+  "Discovery": "OFF",
+  "policy2": {
+    "enabled": false,
+    "paused": true,
+    "windows": [
+      "08:00-16:00",
+      "16:00-00:00"
+    ],
+    "timezone": "Europe/Rome",
+    "quota_day": "00:00-24:00",
+    "exposure_retention": "30 days",
+    "pair_memory_retention": "30 days",
+    "fairness_retention": "30 days"
+  },
+  "purge_executor_installed": false,
+  "retention_paused": true,
+  "jobs_paused": true,
+  "photo_scheduler": false,
+  "photo_cleanup": false,
+  "fixture_accounts_created": 0,
+  "storage_objects_created": 0,
+  "baseline_counts_unchanged": true,
+  "main_local_remote": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "Production_deployment": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "Preview_changed": false,
+  "source_commit": "2e9a0d4c4caa12184f7b2aceb67267cb050f2faa"
+}

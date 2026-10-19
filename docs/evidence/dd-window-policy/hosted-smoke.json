@@ -1,0 +1,30 @@
+{
+  "policy2": {
+    "paused": true,
+    "enabled": false,
+    "version": 2,
+    "timezone": "Europe/Rome",
+    "nightly_end": "00:00:00",
+    "morning_start": "08:00:00",
+    "afternoon_start": "16:00:00",
+    "recurrence_floor": "72:00:00",
+    "recurrence_target": "168:00:00",
+    "exposure_retention": "30 days",
+    "fairness_retention": "30 days",
+    "pair_memory_retention": "30 days"
+  },
+  "preview": {
+    "counts": [],
+    "dry_run": true,
+    "batch_limit": 100,
+    "jobs_paused": true,
+    "review_windows": 0,
+    "retention_paused": true,
+    "purge_executor_installed": false
+  },
+  "project": "zjinjtkekmaqtxsuyvho",
+  "jobs_paused": true,
+  "calendar_DST": "PASS",
+  "private_grants": "PASS",
+  "discovery_enabled": false
+}
