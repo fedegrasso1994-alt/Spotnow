@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-19",
+  "branch": "codex/soma-schema-v2-staging",
+  "implementation_commit": "3565dde0604920756251cff6ae6786c75a9e4c3d",
+  "migration": "039_dd_outgoing_spot_state.sql",
+  "tests": {
+    "total": 523,
+    "pass": 523,
+    "fail": 0,
+    "added": 8,
+    "duration_ms": 100960.585125
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "postgresql": "isolated PGlite real SQL and public RPC; synthetic fixtures only",
+  "hosted_staging": {
+    "ref": "zjinjtkekmaqtxsuyvho",
+    "field_present": true,
+    "own_sender_only": true,
+    "public_execute": true,
+    "private_execute_denied": true,
+    "discovery": false,
+    "jobs_paused": true,
+    "policy2": {
+      "enabled": false,
+      "paused": true
+    },
+    "photo": {
+      "phase": "OPEN",
+      "epoch": 12,
+      "cleanup": false,
+      "scheduler": false
+    },
+    "accounts": 4,
+    "profiles": 4,
+    "objects": 42,
+    "windows": 0,
+    "exposures": 0,
+    "new_fixtures": 0
+  },
+  "preexisting_issue": {
+    "migration039_applied_in_reproduction": false,
+    "first_public_read_status": "partial",
+    "first_public_read_profiles": 2,
+    "second_public_read_error": "DD_WINDOW_OVERLAP",
+    "fixed_in_this_task": false,
+    "frontend_refresh_gate": "BLOCKED"
+  },
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_touched": false
+}
