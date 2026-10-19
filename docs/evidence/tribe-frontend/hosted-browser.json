@@ -1,0 +1,52 @@
+{
+  "url": "https://spot-a453xyiie-fedegrasso1994-1482.vercel.app/#",
+  "google_login": "PASS: existing normal Google OAuth returns to this Preview",
+  "session_reload": "PASS on final follow-up; see hosted-followup.json",
+  "profile_to_tribe": "PASS on initially loaded app",
+  "runtime_state": "paused from real staging RPC",
+  "console_errors": [
+    {
+      "message": "Failed to fetch dynamically imported module: assets/install-app-Bu95iobc.js",
+      "scope": "protected Preview asset delivery"
+    }
+  ],
+  "active_hosted_discovery_enabled": false,
+  "synthetic_fixture_backend_used": false,
+  "desktop": {
+    "nav": [
+      "\ud83d\udc65TRIBE",
+      "\ud83d\udc40SPOTTED",
+      "\ud83d\udd25ORA",
+      "\ud83d\udc98MATCH",
+      "\ud83d\ude42PROFILO"
+    ],
+    "overflow": false,
+    "phoneWidth": 402,
+    "text": "Tribe\n\nOgni giorno, nuove possibilit\u00e0.\n\nDaily Discovery \u00e8 in preparazione\n\nQui troverai i profili selezionati per te quando sar\u00e0 disponibile.",
+    "width": 1280
+  },
+  "narrow": {
+    "status": "PASS320x640 and390x844 on final follow-up",
+    "local_responsive_test_pass": true
+  },
+  "protection_diagnostic": {
+    "http_status": 302,
+    "location_host": "vercel.com",
+    "location_path": "/sso-api",
+    "connection_status": 403,
+    "scope": "fedegrasso1994-1482",
+    "project": "spot-now",
+    "protection_disabled": false,
+    "no_bypass_secret_read": true
+  },
+  "followup_access_check": {
+    "full_url_authenticated_cli_http_status": 200,
+    "build_info_commit": "89fb53f81452ab97f03ccf147d765cc324871ef2",
+    "build_info_supabase_ref": "zjinjtkekmaqtxsuyvho",
+    "cli_auth_handling": "Official CLI handled authentication internally; no token read, copied, or reported.",
+    "connector_reauthorization": "Requires user-managed reconnect; no scope-update tool available. Native Codex settings access denied by computer-use safety policy.",
+    "temporary_share_link": "Not created: automatic review rejected this action as an unauthorized protection bypass. No workaround attempted.",
+    "browser_reload_gate": "Still unverified; do not infer browser PASS from authenticated HTTP 200."
+  },
+  "historical_errors_resolved_on_followup": true
+}

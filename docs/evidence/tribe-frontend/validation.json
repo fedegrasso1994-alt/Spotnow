@@ -21,5 +21,6 @@
   "backend_or_policy_changed": false,
   "discovery_activated": false,
   "global_css_changed": false,
-  "active_hosted_e2e_repeated": false
+  "active_hosted_e2e_repeated": false,
+  "final_review_gate": "PASS: real browser fresh tab, reload, session, dynamic import and mobile verified; connector scope 403 remains separately"
 }

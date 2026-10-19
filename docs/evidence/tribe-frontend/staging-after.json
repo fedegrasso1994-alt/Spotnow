@@ -1,0 +1,16 @@
+{
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "objects": 42,
+  "accounts": 4,
+  "allowlist": 0,
+  "discovery": false,
+  "exposures": 0,
+  "allocations": 0,
+  "jobs_paused": true,
+  "controlled_admission": false
+}

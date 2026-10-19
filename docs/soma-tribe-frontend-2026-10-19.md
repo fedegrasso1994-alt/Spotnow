@@ -83,3 +83,91 @@ Evidence under `docs/evidence/tribe-frontend/`; screenshots under ignored
 
 Real iOS/Android hardware and active hosted frontend journeys remain later QA;
 viewport tests are not a claim of testing physical phones.
+
+## Deployment and final live gate
+
+Published Preview: https://spot-a453xyiie-fedegrasso1994-1482.vercel.app
+Deployment `dpl_52dEj4hmpc1s7HPA2vJ4ibmmnNoc`, target Preview, READY.
+Runtime source commit `89fb53f81452ab97f03ccf147d765cc324871ef2`, pushed before
+upload. Published build-info independently viewed in the browser confirms this
+SHA, staging branch/ref and real DD frontend. Final evidence commit may follow;
+that commit changes documentation/evidence only, not the uploaded runtime.
+
+Added only this exact owned Preview redirect to Supabase staging's existing
+allowlist (10→11 entries), to preserve the normal Google login flow. No broad host
+wildcard; Site URL/providers/credentials/Confirm email untouched. No GCP settings.
+
+Real Google OAuth succeeded and returned to this Preview; TRIBE showed the real
+`paused` response. Profile→TRIBE navigation on initially loaded app passed.
+390px initial app and1280px desktop layout inspected. No active DD hosted E2E
+re-enabled. Subsequent delivery check found a NEW external access blocker:
+- separate tab/reload enters the existing offline page; normal retry did not fix;
+- console reports dynamic module fetch failure for `install-app-Bu95iobc.js`;
+- authenticated CLI fetch of build-info receives HTTP302 to Vercel `/sso-api`;
+- Vercel connector returns403 on this owner scope/project; list_teams returns none.
+This is consistent with protected Preview asset delivery/SSO access, not evidence
+of a DD RPC/backend semantic regression. Full session-reload/browser gate remains
+BLOCKED; the earlier initial snapshot was insufficient to mark reload PASS.
+No service-worker patch, Protection downgrade, secret extraction or backend
+workaround applied. Requested user to authorize the existing Vercel connection
+for team `fedegrasso1994-1482` / project `spot-now`; do not expand other scopes.
+
+Local frontend/viewport tests remain PASS and clearly separate from this blocked
+hosted delivery gate. Runtime source and Preview are ready for review once normal
+protected access is restored; do not represent hosted reload as PASS meanwhile.
+
+Final read-only staging check matches baseline: DD OFF, controlled admission OFF,
+allowlist0, jobs paused, PHOTO epoch12 OPEN, cleanup/scheduler OFF;4 accounts,
+42 objects,0 DD allocations/exposures. Production deployment remains
+`dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`; main remains
+`d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+
+Screenshots (ignored local artifacts, not synthetic final UI):
+- `.local/tribe-frontend/mobile-4.jpg`: LOCAL4-profile fixture, explicitly marked;
+- `.local/tribe-frontend/390-2.jpg`: LOCAL partial2-profile state;
+- `.local/tribe-frontend/320-night.jpg`: LOCAL overnight state;
+- `.local/tribe-frontend/320-4-bottom.jpg`: last CTA above native nav;
+- `.local/tribe-frontend/preview-mobile-paused.jpg`: real initial hosted paused state;
+- `.local/tribe-frontend/preview-desktop-paused.jpg`: real desktop initial state.
+No physical iPhone/Android or full active-hosted frontend journey claimed.
+
+Interim status before final follow-up: `TRIBE FRONTEND: BLOCKED` — protected Preview
+access/reload verification remained incomplete. No SPOTTED task, main merge or Production change.
+
+### Protected-access follow-up
+
+The exact full Preview URL through official `vercel curl` returns HTTP200 for
+`build-info.json`, confirming runtime SHA89fb53f and staging ref. The CLI handled
+authentication internally; no token was read or copied. The earlier path-based
+302 does not establish that authenticated full-URL HTTP access is broken.
+This HTTP result does not verify browser imports/reload.
+
+Founder authorized reconnecting only team `fedegrasso1994-1482` / `spot-now`.
+No connector scope-update tool exists, and native Codex settings are inaccessible
+to computer use for safety reasons. A temporary-share-link action was rejected
+by automatic review as an unauthorized protection bypass; no link was created
+and no workaround was attempted. User-managed Vercel reconnect requested.
+Deployment Protection remains enabled; main/Production unchanged.
+
+### Final browser verification — delivery gate closed
+
+A fresh normal browser tab now loads the real Preview successfully. Authenticated
+session persists across reload; Profile→TRIBE works. Clicking “Salva l’app sul
+telefono” renders the actual installation guidance dialog, proving the previously
+failing dynamic import now succeeds. Repeated mobile reloads at measured320×640
+and390×844 return the real staging paused state with no horizontal overflow and
+no warning/error console entries. No app patch, share link or protection change
+was needed. Evidence: `hosted-followup.json`; screenshots
+`.local/tribe-frontend/preview-320-reload.jpg` and `preview-390-reload.jpg`.
+
+The Vercel connector still returns403 for the requested team; reconnect success
+is NOT claimed. The official CLI's own existing identity can inspect the exact
+Preview as READY. Connector authorization is therefore a separate integration
+limitation and no longer blocks the observed browser review path.
+
+Runtime/test results remain563/563, build/typecheck PASS; no runtime changes
+since the deployed89fb53f commit. Discovery/cleanup/scheduler remain OFF.
+The previous controlled backend E2E is not represented as an active hosted
+frontend journey; active UI states were verified with explicitly local fixtures.
+
+Final status: `TRIBE FRONTEND: GO FOR REVIEW`.

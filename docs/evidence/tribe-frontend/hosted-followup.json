@@ -1,0 +1,26 @@
+{
+  "url": "https://spot-a453xyiie-fedegrasso1994-1482.vercel.app/",
+  "fresh_tab": "PASS",
+  "reload": "PASS",
+  "authenticated_session_persistence": "PASS",
+  "profile_navigation": "PASS",
+  "install_app_dynamic_import": "PASS: actual installation guidance dialog rendered",
+  "mobile": [
+    {
+      "height": 640,
+      "overflow": false,
+      "text": "TribeOgni giorno, nuove possibilità.Prossimi profili—Daily Discovery è in preparazioneQui troverai i profili selezionati per te quando sarà disponibile.RiprovaScegli la tua community",
+      "width": 320
+    },
+    {
+      "height": 844,
+      "overflow": false,
+      "width": 390
+    }
+  ],
+  "console": [],
+  "discovery": "OFF; actual paused RPC state rendered",
+  "connector": "403 remains; mapped CLI inspect READY",
+  "protection": "unchanged",
+  "no_temporary_share_link_created": true
+}

@@ -1,0 +1,14 @@
+{
+  "preview_url": "https://spot-a453xyiie-fedegrasso1994-1482.vercel.app",
+  "deployment_id": "dpl_52dEj4hmpc1s7HPA2vJ4ibmmnNoc",
+  "target": "preview",
+  "ready_state": "READY",
+  "deployed_commit": "89fb53f81452ab97f03ccf147d765cc324871ef2",
+  "build_info_verified_in_browser": true,
+  "supabase_ref": "zjinjtkekmaqtxsuyvho",
+  "production_unchanged": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "staging_redirect_added": "https://spot-a453xyiie-fedegrasso1994-1482.vercel.app/**",
+  "other_auth_settings_changed": false,
+  "review_delivery_gate": "PASS: real browser fresh tab, reload, session, dynamic import and mobile verified; connector scope 403 remains separately"
+}
