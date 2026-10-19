@@ -1,0 +1,35 @@
+{
+  "source": "Soma Staging SQL Editor, aggregate read-only result",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "evidence": {
+    "environment": "staging",
+    "accounts": 4,
+    "profiles": 4,
+    "objects": 42,
+    "matches": 1,
+    "messages": 2,
+    "windows": 0,
+    "allocations": 0,
+    "exposures": 0,
+    "discovery": false,
+    "jobs_paused": true,
+    "policy2": {
+      "enabled": false,
+      "paused": true
+    },
+    "photo": {
+      "phase": "OPEN",
+      "cleanup": false,
+      "scheduler": false,
+      "epoch": 12
+    },
+    "profiles_digest": "c33b054500cb91e2a7b399715c47aa69",
+    "existing_table": null,
+    "functions": {
+      "my_daily_discovery()": "cba80d729a9efae2be50d6ca7eeff715",
+      "spot_private.dd_build(uuid)": "e7aa2ccd340efaac9bb982a17248d461",
+      "spot_private.dd_current_projection()": "d8da86c7ab913ee3d2ee9e609ba6171a",
+      "spot_private.dd_pair_eligible(uuid,uuid,uuid)": "60553f53118f20db1555c61609901a0e"
+    }
+  }
+}

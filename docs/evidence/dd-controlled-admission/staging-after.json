@@ -1,0 +1,42 @@
+{
+  "source": "Soma Staging SQL Editor, aggregate read-only result",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "evidence": {
+    "environment": "staging",
+    "accounts": 4,
+    "profiles": 4,
+    "objects": 42,
+    "matches": 1,
+    "messages": 2,
+    "windows": 0,
+    "allocations": 0,
+    "exposures": 0,
+    "discovery": false,
+    "jobs_paused": true,
+    "policy2": {
+      "enabled": false,
+      "paused": true
+    },
+    "photo": {
+      "phase": "OPEN",
+      "cleanup": false,
+      "scheduler": false,
+      "epoch": 12
+    },
+    "profiles_digest": "c33b054500cb91e2a7b399715c47aa69",
+    "existing_table": "spot_private.dd_admission_accounts",
+    "functions": {
+      "my_daily_discovery()": "1a2b15960c64c65c3d7c1056263bad05",
+      "spot_private.dd_build(uuid)": "cd3ca1dd7da519bbf57bba92889863dc",
+      "spot_private.dd_current_projection()": "d8da86c7ab913ee3d2ee9e609ba6171a",
+      "spot_private.dd_pair_eligible(uuid,uuid,uuid)": "10dadb4f116c8729f306eae605a81d2d"
+    },
+    "controlled_admission": false,
+    "allowlist_count": 0,
+    "allowlist_RLS": true,
+    "authenticated_read": false,
+    "service_write": false,
+    "private_gate_public": false,
+    "builder_sources_gated": true
+  }
+}

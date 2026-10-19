@@ -1,0 +1,18 @@
+{
+  "baseline": "dd937193aa7e55b7ec2a766d0a3b8b37cfa7c6fe",
+  "tests": {
+    "total": 543,
+    "pass": 543,
+    "fail": 0,
+    "new_admission_tests": 11,
+    "command": "node --test --test-concurrency=2 tests/*.test.js"
+  },
+  "build": "PASS: vite build with staging environment",
+  "typecheck": "PASS: tsc --noEmit",
+  "native_concurrency": "PASS PostgreSQL17.10 separate backend sessions",
+  "staging_migration": "041 applied, DD never activated, no new fixtures",
+  "migration_sha256": "e055f00fcbcb73661c0addf3229b87e3fc13bda9acd338c1a2ed55e9e8d51ea8",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "frontend_resumed": false,
+  "production_touched": false
+}
