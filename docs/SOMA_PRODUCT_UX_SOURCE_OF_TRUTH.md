@@ -172,7 +172,13 @@ UI must include:
 
 If the compatible pool is too small, show fewer than 4. Never fill with incompatible profiles.
 
-Exact Daily Discovery window times remain TBD and must be approved before activation.
+Approved Daily Discovery policy (Federico, 2026-10-19):
+- Europe/Rome calendar day, 00:00–24:00, for daily quotas (ORA keeps its own calendar-day counters).
+- Window A: 08:00 inclusive to 16:00 exclusive.
+- Window B: 16:00 inclusive to next midnight exclusive.
+- No active drop from 00:00 to 08:00; next window starts at 08:00.
+- Server-derived boundaries/countdown; Europe/Rome DST civil-time conversion.
+- Discovery remains OFF until the TRIBE frontend + Figma gate is ready.
 
 ---
 
@@ -196,7 +202,12 @@ Pair recurrence:
 - target ~7 days;
 - recurrence between 72h and 7d allowed only when inventory is insufficient.
 
-No refill inside the same window.
+No replacement/refund of already assigned/consumed slots inside the same window.
+A newly eligible user may join the current window through reciprocal additions only
+in slots never assigned on either side. Existing profiles are never substituted;
+4/window and 8/day allocated-profile counters remain authoritative even after safety
+removals/leave. With no new eligible arrivals, repeated fetches remain unchanged;
+new arrivals can add profiles in previously empty slots. Zero/partial pools remain valid.
 
 A one-sided pending Spot does not preserve profile visibility.
 
@@ -679,7 +690,7 @@ Cover:
 
 Still TBD:
 - final legal copy;
-- physical-retention periods;
+- remaining physical-retention periods (DD allocation/exposure/pair-memory pilot target: 30 days; cleanup job not activated);
 - SPOTTED pair-guard duration;
 - delivered-request behavior after opt-out.
 
@@ -780,11 +791,11 @@ University is the initial wedge; gym validates broader physical-context applicab
 - no unnecessary Place search.
 
 ### TBD
-- exact Daily Discovery window times;
+- Daily Discovery activation (approved 08:00/16:00 policy remains staged OFF);
 - notification delivery mechanism;
 - SPOTTED pair-guard duration;
 - delivered-request behavior after opt-out;
-- physical-retention periods;
+- remaining physical-retention periods (DD allocation/exposure/pair-memory pilot target: 30 days; cleanup job not activated);
 - final custom SMTP;
 - final legal copy.
 

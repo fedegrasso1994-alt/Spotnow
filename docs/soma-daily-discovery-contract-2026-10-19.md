@@ -1,5 +1,9 @@
 # Daily Discovery — engine contract (staging only)
 
+> Historical engine baseline. Window times, mid-window admission and retention are
+> superseded by [the approved policy contract](soma-dd-policy-contract-2026-10-19.md)
+> and migration038; the earlier rollout evidence remains unchanged.
+
 Baseline 0d48f0c; migration 037 is additive over 027–036. No final UI, clock policy or recurring scheduler. Source of Truth unchanged. PHOTO engines unchanged.
 
 ## Schema/API impact announced before staging apply
