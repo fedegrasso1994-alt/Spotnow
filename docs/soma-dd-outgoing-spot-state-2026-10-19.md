@@ -42,3 +42,6 @@ Final verification: **523/523 PASS** (515 baseline +8 new groups), build PASS, t
 Main remains `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`. No Production operation, frontend change, frontend Preview/deploy, historical migration change or test Auth setting change. Only the staging branch is committed/pushed. The final documentation commit SHA is returned separately to avoid self-referential hashes.
 
 **DD OUTGOING SPOT STATE: GO** for this minimal additive contract. This is explicitly **not** a GO for TRIBE frontend or repeated public-wrapper refresh: the separate pre-existing `DD_WINDOW_OVERLAP` issue remains open and requires its own task. STOP; no frontend or SPOTTED work begun.
+
+
+Follow-up: the separately identified public-wrapper refresh defect was subsequently resolved by migration040. See [DD idempotent read report](soma-dd-idempotent-read-2026-10-19.md). The039 implementation and evidence above remain unchanged.

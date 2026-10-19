@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-19",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "implementation_commit": "d42d3c9",
+  "tests": {
+    "total": 532,
+    "pass": 532,
+    "fail": 0,
+    "new_groups": 9,
+    "duration_ms": 99107.142958
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "before": {
+    "environment": "staging",
+    "discovery": false,
+    "jobs_paused": true,
+    "policy2": {
+      "enabled": false,
+      "paused": true
+    },
+    "photo": {
+      "phase": "OPEN",
+      "epoch": 12,
+      "cleanup": false,
+      "scheduler": false
+    },
+    "accounts": 4,
+    "profiles": 4,
+    "objects": 42,
+    "windows": 0,
+    "exposures": 0,
+    "functions": {
+      "spot_private.dd_build(uuid)": "e7aa2ccd340efaac9bb982a17248d461",
+      "spot_private.dd_window_guard()": "765d037d0cb8572f1b357cb08e97047b",
+      "spot_private.dd_current_projection()": "d8da86c7ab913ee3d2ee9e609ba6171a",
+      "spot_private.dd_clock_at(timestamp with time zone)": "1c7a68951a8ea14d04c0bb17bd6695c5",
+      "my_daily_discovery()": "2c2db04c922cc390953380583fd9e158"
+    }
+  },
+  "after": {
+    "environment": "staging",
+    "discovery": false,
+    "jobs_paused": true,
+    "policy2": {
+      "enabled": false,
+      "paused": true
+    },
+    "photo": {
+      "phase": "OPEN",
+      "epoch": 12,
+      "cleanup": false,
+      "scheduler": false
+    },
+    "accounts": 4,
+    "profiles": 4,
+    "objects": 42,
+    "windows": 0,
+    "exposures": 0,
+    "functions": {
+      "spot_private.dd_build(uuid)": "e7aa2ccd340efaac9bb982a17248d461",
+      "spot_private.dd_window_guard()": "765d037d0cb8572f1b357cb08e97047b",
+      "spot_private.dd_current_projection()": "d8da86c7ab913ee3d2ee9e609ba6171a",
+      "spot_private.dd_clock_at(timestamp with time zone)": "1c7a68951a8ea14d04c0bb17bd6695c5",
+      "my_daily_discovery()": "cba80d729a9efae2be50d6ca7eeff715"
+    }
+  },
+  "private_functions_unchanged": true,
+  "new_hosted_fixtures": 0,
+  "native_cluster_stopped": true,
+  "active_hosted_discovery_smoke": "NOT RUN: remains OFF; active paths covered by isolated PostgreSQL",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_touched": false
+}
