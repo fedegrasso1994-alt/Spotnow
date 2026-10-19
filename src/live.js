@@ -1,3 +1,4 @@
+import './daily-discovery.css';
 import './pilot-ui.css';
 import {mountPilotShell,pilotRoute,pilotTab}from './pilot-ui.js';
 import './profile-save.css';
@@ -34,7 +35,7 @@ const oraV2=Boolean(backend.ora),presenceClock=createPresenceClock();
 const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,pilot,onChange:async p=>{state.checkin=p;presenceClock.set(p);state.venue=p?{id:p.place_id,name:p.name,address:p.address}:null;liveOffset=0;livePager.reset();go('venue',{replace:true});}}):null;
 let onboardingComplete=false,explicitQrScan=false,pilotHomePending=false,pilotNeedsTribe=true;
 const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,pilot,onDone:()=>{pilotHomePending=pilot;return hydrate();}}):null;
-const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard}):null;
+const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,dailyApi:backend.dailyDiscovery,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),onDailyState:(people,budget)=>social.syncDailyDetail(people,budget)}):null;
 let privacy=null,existingProfile=false;
 async function choosePilotTribe(){const generation=accountGeneration;try{const progress=await backend.onboarding.state();if(generation!==accountGeneration||!state.session)return;pilotNeedsTribe=!progress.tribes.length;go('tribeOnboarding');await tribeOnboarding.open(progress);}catch(e){if(generation===accountGeneration)showToast(message(e));}}
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
@@ -254,7 +255,7 @@ const introButton=$('intro').querySelector('.btn-primary');introButton.textConte
 const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{explicitQrScan=noQr&&onboardingComplete;awaitingQr=false;entryGeneration++;pendingQr=token;pendingQrSavedAt=Date.now();restoredDraft=false;sessionStorage.setItem('spot-pending-qr',token);if(state.session&&!state.session.user.is_anonymous)await hydrate();else if(noQr){rememberDraft();go('login');}else await previewVenue();},onBack:()=>{awaitingQr=false;entryGeneration++;go('intro');}});
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
-const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,venueName:()=>state.venue?.name||''});
+const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,onDailySpot:id=>pilotShell?.dailySpot(id),venueName:()=>state.venue?.name||''});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,
   setPref:(value,el)=>select(value,el,'preference'),setGender:(value,el)=>select(value,el,'gender'),

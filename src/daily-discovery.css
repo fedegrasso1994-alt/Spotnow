@@ -1,0 +1,15 @@
+/* TRIBE only. Reuses Soma tokens, typography, cards, buttons and safe-area nav. */
+#daily.dd-screen .dd-clock{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:16px 0 12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+#daily .dd-clock span:last-child{color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;margin-left:auto}
+#daily .dd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px}
+#daily .dd-card{min-width:0}
+#daily .dd-photo{display:block;width:100%;border:0;color:var(--text)}
+#daily .dd-photo .avatar{font-size:64px}
+#daily .dd-photo .nm{display:flex;flex-direction:column;gap:3px;text-align:left}
+#daily .dd-attribution{font-size:12px;font-weight:400;line-height:1.4;color:var(--text);opacity:.85;overflow-wrap:anywhere}
+#daily .dd-spot{margin-top:8px;width:100%;min-height:44px;white-space:normal}
+#daily .dd-quota{margin:12px 0 0;font-size:12px}
+#daily .dd-empty{min-height:240px;justify-content:center;margin:20px 0}
+#daily .dd-empty p{margin:0}
+#daily .dd-notice:empty{display:none}
+#daily>.btn{margin-top:16px}

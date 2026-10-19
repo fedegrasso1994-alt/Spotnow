@@ -7,7 +7,7 @@ import { singleFlight, stableList } from './ui-refresh.js';
 import { createReportPrompt } from './report-prompt.js';
 import { createPager } from './pagination.js';
 /** Live match/chat UI. All authorization and expiry are enforced by the server. */
-export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName,pilot=false}) {
+export function createLiveSocial({backend,go,showToast,avatar,profile,session,onFirstMatch,venueName,onDailySpot,pilot=false}) {
   const $=id=>document.getElementById(id);
   let matches=[],current=null,detail=null,known=null,busy=false,sending=false,epoch=0,chatVersion=0,chatSignature='';
   const spotOperations=new Map();
@@ -79,22 +79,23 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   function detailMatch(){return detail?(matches.find(m=>m.person_id===detail.id)||detailFound):null;}
   function syncDetailAction(){
     if(!detail)return;
-    const match=detailMatch(),done=detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
-    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='ora-v2'&&!backend.spotV2));
-    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?'Interesse già inviato':'Mi Interessa';
+    const match=detailMatch(),done=detail.outgoing_spot_pending||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
+    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='daily'&&!detail.daily_spot_allowed)||(detail.source==='ora-v2'&&!backend.spotV2));
+    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?(detail.source==='daily'?'Spot inviato':'Interesse già inviato'):detail.source==='daily'?(detail.daily_spot_allowed?'Spot':'Spot esauriti'):'Mi Interessa';
   }
-  let detailRequest=0;
+  let detailRequest=0,pendingDailyId=null;
   async function openDetail(person){
-    const request=++detailRequest,generationBeforeRead=epoch;
+    const request=++detailRequest,generationBeforeRead=epoch;pendingDailyId=person.source==='daily'?person.id:null;
     if(backend.authorizedProfile){try{const fresh=await backend.authorizedProfile(person.id);if(request!==detailRequest||generationBeforeRead!==epoch)return;if(!fresh){showToast('Questo profilo non è più disponibile.');return;}person={...person,...fresh,photo:null,photo_preview:null};}catch{if(request===detailRequest)showToast('Non riesco a verificare il profilo. Riprova.');return;}}
-    detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
-    $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${person.source==='tribe'?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
+    pendingDailyId=null;detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
+    $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${['tribe','daily'].includes(person.source)?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
     if(detailChecking)void backend.matchWith(person.id).then(match=>{if(detail!==person||generation!==epoch)return;detailFound=match;}).catch(()=>{}).finally(()=>{if(detail===person&&generation===epoch){detailChecking=false;syncDetailAction();}});
 
   }
-  function closeDetail(){detailRequest++;detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
+  function closeDetail(){detailRequest++;pendingDailyId=null;detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
+    if(detail.source==='daily'){await onDailySpot?.(detail.id);closeDetail();return;}
     if(detail.source==='ora-v2'&&!backend.spotV2)return;
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();
     try{let id;if(person.source==='ora-v2'){let operation=spotOperations.get(person.id);if(!operation){operation=crypto.randomUUID();spotOperations.set(person.id,operation);}const result=await backend.spotV2.send(person.id,operation);id=result.match_id;}else id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
@@ -146,5 +147,5 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   Object.assign(window,{closeDetail,expressInterest,sendMsg,matchStartChat:()=>{if(current)void openChat(current);},
     reportPerson:()=>{if(detail){const person=detail;closeDetail();reportPrompt.open(person.id);}},blockFromChat:()=>{if(current)reportPrompt.open(current.person_id);}});
   setInterval(()=>{if(!document.hidden&&session())void refresh();},5000);
-  return {openDetail,closeDetail,refresh,route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id)||(backend.matchById?await backend.matchById(id):null);if(!isCurrent())return;if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;detailFound=null;detailChecking=false;loadedOffset=-1;matchOffset=0;pagers.matches.reset();pagers.chats.reset();chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();known=null;sent.clear();spotOperations.clear();closeDetail();reportPrompt.reset();}};
+  return {openDetail,closeDetail,refresh,syncDailyDetail(people,budget){if(pendingDailyId&&!people.some(p=>p.id===pendingDailyId)){detailRequest++;pendingDailyId=null;}if(detail?.source!=='daily')return;const p=people.find(p=>p.id===detail.id);if(!p){closeDetail();return;}detail.outgoing_spot_pending=p.outgoing_spot_pending;detail.daily_spot_allowed=budget>0;syncDetailAction();},closeDailyDetail(){if(pendingDailyId||detail?.source==='daily')closeDetail();},async presentMatch(id){const g=epoch;await refresh();const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(g===epoch&&m){showMatch(m);onFirstMatch();}},route(){return current?{matchId:current.id}:{};},async restoreChat(id,isCurrent=()=>true){await refresh();if(!isCurrent())return;const m=matches.find(item=>item.id===id)||(backend.matchById?await backend.matchById(id):null);if(!isCurrent())return;if(m)await openChat(m,{fromHistory:true});else go('chats');},onScreen(screen){if(['matches','chats'].includes(screen)){void renderList(screen);void refresh();}},resume(){if(active()==='chat')void renderChat().catch(()=>showToast('Connessione non disponibile. Riprova.'));else void refresh();},reset(){epoch++;chatVersion++;busy=false;sending=false;pendingSends.clear();$('chatIn').value='';$('bubbles').replaceChildren();$('chatSendStatus').textContent='';$('sendMessageBtn').disabled=false;chatSignature='';drafts.clear();matches=[];current=null;detail=null;detailFound=null;detailChecking=false;loadedOffset=-1;matchOffset=0;pagers.matches.reset();pagers.chats.reset();chatBefore=null;chatMessages=[];historyExhausted=false;syncHistory();known=null;sent.clear();spotOperations.clear();closeDetail();reportPrompt.reset();}};
 }

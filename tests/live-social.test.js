@@ -4,7 +4,7 @@ import {createLiveSocial} from '../src/live-social.js';
 import {singleFlight,stableList} from '../src/ui-refresh.js';
 import {dom,Element,deferred,flush} from './helpers/dom.js';
 
-function setup(t, overrides={},avatar=()=>{}){
+function setup(t, overrides={},avatar=()=>{},options={}){
  const ui=dom();for(const id of ['venue','matches','chats','chat','match'])ui.screen(id);
  const report=new Element();report.className='report-link';ui.get('detailOverlay').append(report);
  const status=new Element();status.className='status';ui.get('chat').append(status);
@@ -14,7 +14,7 @@ function setup(t, overrides={},avatar=()=>{}){
  let records=[{id:'match-a',person_id:'a',name:'Anna',age:24,venue_name:'Locale',photo_path:'a/photo',first_message_at:null}];
  const backend={matches:async()=>records,photoUrl:async()=>'/photo',messages:async()=>[{id:'msg',sender_id:'a',body:'Ciao'}],sendMessage:async()=>{},...overrides};
  let social;const go=id=>{ui.activate(id);social?.onScreen(id);};
- social=createLiveSocial({backend,go,showToast:()=>{},avatar,profile:()=>({}),session:()=>({user:{id:'me'}}),onFirstMatch:()=>{},venueName:()=> 'Locale'});
+ social=createLiveSocial({backend,go,showToast:()=>{},avatar,profile:()=>({}),session:()=>({user:{id:'me'}}),onFirstMatch:()=>{},venueName:()=> 'Locale',...options});
  return {...ui,social,go,backend,setRecords:value=>{records=value;}};
 }
 
@@ -124,3 +124,7 @@ test('AUTHZ detail rechecks server permission; denied, failed or late reads neve
  await ui.social.openDetail({id:'b',name:'Stale',age:25});assert.equal(ui.get('detailOverlay').classList.contains('active'),false);
  allowed={id:'b',name:'Fresh',age:25};await ui.social.openDetail({id:'b',name:'Stale',age:25});assert.equal(ui.get('dName').textContent,'Fresh, 25');assert.equal(ui.get('detailOverlay').classList.contains('active'),true);await flush();ui.social.reset();await flush();
 });
+
+test('daily pending and quota detail follow server state; existing Match uses shared chat',async t=>{const ui=setup(t);ui.setRecords([]);ui.social.openDetail({id:'b',name:'Bea',age:25,source:'daily',outgoing_spot_pending:true,daily_spot_allowed:true});await flush();assert.equal(ui.get('interestBtn').textContent,'Spot inviato');assert.equal(ui.get('interestBtn').disabled,true);ui.social.syncDailyDetail([{id:'b',outgoing_spot_pending:false}],0);assert.equal(ui.get('interestBtn').textContent,'Spot esauriti');ui.setRecords([{id:'m',person_id:'b',name:'Bea',age:25}]);await ui.social.refresh();assert.equal(ui.get('interestBtn').textContent,'Apri la Chat');await globalThis.window.expressInterest();assert.equal(ui.document.querySelector('.screen.active').id,'chat');});
+test('daily detail Spot delegates without legacy writes; safety state closes it',async t=>{const calls=[];const ui=setup(t,{expressInterest:async()=>{throw Error('legacy forbidden');}},()=>{},{onDailySpot:async id=>calls.push(id)});ui.setRecords([]);ui.social.openDetail({id:'b',name:'Bea',age:25,source:'daily',daily_spot_allowed:true});await flush();await globalThis.window.expressInterest();assert.deepEqual(calls,['b']);ui.social.openDetail({id:'b',name:'Bea',age:25,source:'daily',daily_spot_allowed:true});await flush();ui.social.syncDailyDetail([],0);assert.equal(ui.get('detailOverlay').classList.contains('active'),false);});
+test('expired DD pending detail authorization cannot reopen modal late',async t=>{const wait=deferred();const ui=setup(t,{authorizedProfile:()=>wait.promise});const pending=ui.social.openDetail({id:'b',source:'daily'});ui.social.closeDailyDetail();wait.resolve({id:'b',name:'Bea',age:25});await pending;assert.equal(ui.get('detailOverlay').classList.contains('active'),false);});

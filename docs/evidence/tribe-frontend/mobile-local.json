@@ -1,0 +1,607 @@
+{
+  "source": "Explicit LOCAL synthetic UI fixture, NOT hosted active DD",
+  "checks": [
+    {
+      "state": "1",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        }
+      ],
+      "cards": 1,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "2",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        }
+      ],
+      "cards": 2,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "3",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        }
+      ],
+      "cards": 3,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "4",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "quota",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot esauriti\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot esauriti\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot esauriti\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot esauriti\n\n0 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 173
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 173
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 173
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 173
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "pending",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot inviato\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot inviato",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 173
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "night",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nNuovi profili alle 08:00\ntra 08:00:00\nSi riparte alle 08:00\n\nPer ora è tutto. I prossimi profili arrivano al mattino.",
+      "buttons": [],
+      "cards": 0,
+      "clock": "tra 08:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "consumed",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nPer questa finestra è tutto\n\nI nuovi profili arrivano al prossimo drop.\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "empty",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nPer ora nessun profilo\n\nIn questa finestra non ci sono profili compatibili disponibili. Torna al prossimo drop.\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "loading",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nCaricamento…",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profili—",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "error",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nNon siamo riusciti a caricare\n\nControlla la connessione e riprova.\n\nRiprova",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profili—",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 844,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "state": "1",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        }
+      ],
+      "cards": 1,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "2",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        }
+      ],
+      "cards": 2,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "3",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        }
+      ],
+      "cards": 3,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "4",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "quota",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot esauriti\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot esauriti\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot esauriti\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot esauriti\n\n0 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 138
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 138
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 138
+        },
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot esauriti",
+          "width": 138
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "pending",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nA\nAlessandra, 25\nUniversità con una denominazione molto lunga Milano\nSpot inviato\nG\nGiovanni, 25\nUniversità Bocconi Milano\nSpot\nF\nFrancesca, 25\nPalestra FitActive Cesena\nSpot\nL\nLeonardo, 25\nUniversità IULM Milano\nSpot\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [
+        {
+          "disabled": true,
+          "height": 44,
+          "text": "Spot inviato",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        },
+        {
+          "disabled": false,
+          "height": 44,
+          "text": "Spot",
+          "width": 138
+        }
+      ],
+      "cards": 4,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "night",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nNuovi profili alle 08:00\ntra 08:00:00\nSi riparte alle 08:00\n\nPer ora è tutto. I prossimi profili arrivano al mattino.",
+      "buttons": [],
+      "cards": 0,
+      "clock": "tra 08:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "consumed",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nPer questa finestra è tutto\n\nI nuovi profili arrivano al prossimo drop.\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "empty",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nProssimi profili\ntra 04:00:00\nPer ora nessun profilo\n\nIn questa finestra non ci sono profili compatibili disponibili. Torna al prossimo drop.\n\n2 Spot disponibili in questa finestra · 4 oggi",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profilitra 04:00:00",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "loading",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nCaricamento…",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profili—",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    },
+    {
+      "state": "error",
+      "body": "Tribe\n\nOgni giorno, nuove possibilità.\n\nNon siamo riusciti a caricare\n\nControlla la connessione e riprova.\n\nRiprova",
+      "buttons": [],
+      "cards": 0,
+      "clock": "Prossimi profili—",
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "navBottom": 640,
+      "overflow": false,
+      "width": 320
+    }
+  ]
+}

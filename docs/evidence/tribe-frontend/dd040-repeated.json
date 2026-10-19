@@ -1,0 +1,46 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 2,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 3,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 4,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 5,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 6,
+      "pass": true,
+      "failure": null
+    },
+    {
+      "run": 7,
+      "pass": false,
+      "failure": "expected4 received3"
+    },
+    {
+      "run": 8,
+      "pass": true,
+      "failure": null
+    }
+  ],
+  "consistently_failing": false,
+  "product_or_test_changed": false
+}

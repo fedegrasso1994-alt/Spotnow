@@ -1,0 +1,10 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "production_ref_present": false,
+  "synthetic_backend_hook_present": false,
+  "dd_public_wrapper": true,
+  "outgoing_pending_contract": true,
+  "concrete_supabase_hosts": [
+    "https://zjinjtkekmaqtxsuyvho.supabase.co"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "baseline": "36bf7bb4d7779aba219db1e450c8aecb0ea693b9",
+  "targeted": {
+    "pass": 54,
+    "total": 54
+  },
+  "full_suite": {
+    "pass": 563,
+    "total": 563,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS (including new UI/state modules)",
+  "responsive": "22 explicitly-local cases,390x844 and320x640",
+  "dd040_repetitions": {
+    "pass": 7,
+    "total": 8,
+    "known_intermittent_expected4_received3": 1,
+    "consistently_failing": false
+  },
+  "backend_or_policy_changed": false,
+  "discovery_activated": false,
+  "global_css_changed": false,
+  "active_hosted_e2e_repeated": false
+}

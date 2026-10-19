@@ -1,3 +1,4 @@
+import {createDailyDiscoveryApi}from './daily-discovery.js';
 import {createProfileAuthorizationApi}from './profile-authorization.js';
 import {createSpotV2Api}from './spot-v2.js';
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
@@ -34,6 +35,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
   return {
     ...(privacyEnabled?createPrivacyApi(client):{}),
     authEmailCodeEnabled:emailCodeEnabled,
+    ...(onboardingEnabled&&oraEnabled&&spotV2Enabled&&profileAuthorizationEnabled?{dailyDiscovery:createDailyDiscoveryApi(client)}:{}),
     ...(spotV2Enabled?{spotV2:createSpotV2Api(client)}:{}),
     ...(oraEnabled?{ora:createOraApi(client)}:{}),
     ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),
