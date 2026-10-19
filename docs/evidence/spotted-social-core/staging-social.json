@@ -1,0 +1,39 @@
+{
+  "phase": "social",
+  "results": [
+    {
+      "name": "Peer-anonymous post across same-Tribe normal JWTs and exact payload allowlist",
+      "result": "PASS"
+    },
+    {
+      "name": "Non-member guessed post/comments and cross-Tribe write denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Real concurrent likes unique and removable",
+      "result": "PASS"
+    },
+    {
+      "name": "One-level anonymous comment, own retry, server280 and nested denial",
+      "result": "PASS"
+    },
+    {
+      "name": "Post/comment reports reuse moderation queue and peers cannot access staff",
+      "result": "PASS"
+    },
+    {
+      "name": "Revoked dating consent retains social access and owner-only rights inventory",
+      "result": "PASS"
+    },
+    {
+      "name": "Actual concurrent daily post quota exactly3 total",
+      "result": "PASS"
+    },
+    {
+      "name": "Membership leave revokes social reads/writes",
+      "result": "PASS"
+    }
+  ],
+  "synthetic_only": true,
+  "project_ref": "zjinjtkekmaqtxsuyvho"
+}

@@ -1,0 +1,26 @@
+{
+  "url": "https://spot-g223pxg7o-fedegrasso1994-1482.vercel.app/",
+  "commit": "65630667276ebe947133aeeca2fdd7c92261f8fd",
+  "supabase_ref": "zjinjtkekmaqtxsuyvho",
+  "build_info_independently_viewed": true,
+  "google_login": "PASS",
+  "reload": "PASS with existing authenticated session",
+  "spotted": "PASS actual empty board read; no existing-user posts created",
+  "mobile": {
+    "boardStatus": "La bacheca è vuota. Rompi il ghiaccio!",
+    "height": 844,
+    "overflow": false,
+    "width": 390
+  },
+  "console": [],
+  "redirect_added": "https://spot-g223pxg7o-fedegrasso1994-1482.vercel.app/**",
+  "other_auth_settings_changed": false,
+  "production_changed": false,
+  "desktop": {
+    "boardStatus": "La bacheca è vuota. Rompi il ghiaccio!",
+    "heading": "Spotted",
+    "height": 720,
+    "overflow": false,
+    "width": 1280
+  }
+}

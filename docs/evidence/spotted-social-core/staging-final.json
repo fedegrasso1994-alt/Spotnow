@@ -1,0 +1,41 @@
+{
+  "accounts": 4,
+  "posts": 0,
+  "comments": 0,
+  "likes": 0,
+  "reports": 0,
+  "fixture_accounts": 0,
+  "fixture_profiles": 0,
+  "fixture_venues": 0,
+  "fixture_storage": 0,
+  "objects": 42,
+  "missing_current": 0,
+  "untracked_objects": 6,
+  "untracked_scope": "All6 are referenced by existing photo_assets and owned by existing accounts, not orphans. No PHOTO changes or cleanup.",
+  "board_receipts": 0,
+  "comment_quota": 0,
+  "photo_receipts": [
+    "purged",
+    "purged",
+    "purged"
+  ],
+  "photo_receipt_policy": "Existing PHOTO02 minimized technical receipts retained7 days; no product/photo content remains for fixtures.",
+  "comments_enabled": true,
+  "discovery": false,
+  "jobs_paused": true,
+  "retention_paused": true,
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "source": "Actual staging SQL Editor final_state result",
+  "storage_classification": {
+    "outside_lifecycle": 6,
+    "asset_referenced": 6,
+    "validated_referenced": 0,
+    "existing_account_owner": 6,
+    "fixture_paths": 0
+  }
+}

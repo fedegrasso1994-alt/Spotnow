@@ -1,0 +1,52 @@
+{
+  "runs": {
+    "initial": {
+      "tests": 581,
+      "pass": 581,
+      "fail": 0,
+      "failures": []
+    },
+    "final_parallel_1": {
+      "tests": 583,
+      "pass": 582,
+      "fail": 1,
+      "failures": [
+        "DD040 initial allocation expected4 / actual3"
+      ]
+    },
+    "final_parallel_2": {
+      "tests": 583,
+      "pass": 582,
+      "fail": 1,
+      "failures": [
+        "DD040 initial allocation expected4 / actual3"
+      ]
+    },
+    "final_isolated": {
+      "tests": 583,
+      "pass": 582,
+      "fail": 1,
+      "failures": [
+        "DD040 initial allocation expected4 / actual3"
+      ]
+    }
+  },
+  "spotted_tests": {
+    "sql": 11,
+    "frontend": 9,
+    "pass": 20,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_audit": "PASS",
+  "dd040_targeted": "PASS9/9 (see prior standalone run; non-deterministic baseline)",
+  "dd_semantics_changed": false,
+  "dd_test_loads_migration042": false,
+  "final_gate": "BLOCKED: full regression suite not green; known baseline DD040 initial-allocation assertion",
+  "targeted_with_pilot_regression": {
+    "tests": 31,
+    "pass": 31,
+    "fail": 0
+  }
+}

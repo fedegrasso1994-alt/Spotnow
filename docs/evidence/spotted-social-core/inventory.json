@@ -1,0 +1,21 @@
+{
+  "accounts": 4,
+  "posts": 0,
+  "comments": 0,
+  "reports": 0,
+  "storage_objects": 42,
+  "discovery": false,
+  "controlled_admission": false,
+  "comments_enabled": false,
+  "jobs_paused": true,
+  "retention_paused": true,
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "existing_comments_table": true,
+  "existing_comment_report_fk": true,
+  "source": "Read-only staging SQL Editor result before migration042"
+}

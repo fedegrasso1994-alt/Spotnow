@@ -1,0 +1,11 @@
+{
+  "phase": "setup",
+  "results": [
+    {
+      "name": "Normal Auth AGE consent PHOTO profile Membership Engine for three fixtures",
+      "result": "PASS"
+    }
+  ],
+  "synthetic_only": true,
+  "project_ref": "zjinjtkekmaqtxsuyvho"
+}

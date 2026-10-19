@@ -1,0 +1,11 @@
+{
+  "phase": "expiry",
+  "results": [
+    {
+      "name": "Real expired post and comments inaccessible by normal JWT",
+      "result": "PASS"
+    }
+  ],
+  "synthetic_only": true,
+  "project_ref": "zjinjtkekmaqtxsuyvho"
+}

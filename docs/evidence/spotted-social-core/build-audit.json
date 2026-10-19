@@ -1,0 +1,10 @@
+{
+  "supabase_hosts": [
+    "https://zjinjtkekmaqtxsuyvho.supabase.co"
+  ],
+  "no_production_ref": true,
+  "no_fixture_hook": true,
+  "real_spotted_rpcs": true,
+  "release_check": "PASS",
+  "self_hosted_fonts": true
+}

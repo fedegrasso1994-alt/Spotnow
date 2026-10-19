@@ -1,0 +1,19 @@
+{
+  "phase": "cleanup",
+  "results": [
+    {
+      "name": "Normal account delete fixture 1",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal account delete fixture 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal account delete fixture 3",
+      "result": "PASS"
+    }
+  ],
+  "synthetic_only": true,
+  "project_ref": "zjinjtkekmaqtxsuyvho"
+}

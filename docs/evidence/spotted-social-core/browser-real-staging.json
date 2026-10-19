@@ -1,0 +1,54 @@
+{
+  "frontend": "local current source, actual full app; no mock backend",
+  "backend": "zjinjtkekmaqtxsuyvho",
+  "auth": "normal password login synthetic fixture C",
+  "post_create": "PASS",
+  "comment_create": "PASS twice, including320px",
+  "like_unlike": "PASS",
+  "report_comment": "PASS",
+  "session_reload": "PASS",
+  "viewports": [
+    {
+      "cards": 1,
+      "height": 844,
+      "nav": [
+        "👥TRIBE",
+        "👀SPOTTED",
+        "🔥ORA",
+        "💘MATCH",
+        "🙂PROFILO"
+      ],
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "comments": 2,
+      "cta": {
+        "bottom": 690.3984375,
+        "height": 51.5,
+        "left": 176.4375,
+        "right": 302,
+        "top": 638.8984375,
+        "width": 125.5625,
+        "x": 176.4375,
+        "y": 638.8984375
+      },
+      "height": 640,
+      "nav": {
+        "bottom": 640,
+        "height": 68.3984375,
+        "left": 0,
+        "right": 320,
+        "top": 571.6015625,
+        "width": 320,
+        "x": 0,
+        "y": 571.6015625
+      },
+      "overflow": false,
+      "width": 320
+    }
+  ],
+  "console": [],
+  "physical_device_tested": false,
+  "cta_overlap": "Found and fixed with SPOTTED-only host flex containment"
+}

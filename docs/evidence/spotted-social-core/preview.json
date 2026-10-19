@@ -1,0 +1,12 @@
+{
+  "id": "dpl_4WGF7cDRsowfGw3xVyDwDvMvSzX5",
+  "url": "https://spot-g223pxg7o-fedegrasso1994-1482.vercel.app",
+  "target": "preview (explicit CLI --target preview)",
+  "productionUrl": null,
+  "readyState": "READY",
+  "commit": "65630667276ebe947133aeeca2fdd7c92261f8fd",
+  "supabase_ref": "zjinjtkekmaqtxsuyvho",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_unchanged": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "deployment_protection_changed": false
+}
