@@ -4,7 +4,60 @@ import {policyDatabase}from './helpers/discovery-policy-database.js';
 import {tribeSpot,users}from './helpers/discovery-database.js';
 const migration=await readFile('supabase/migrations/040_dd_idempotent_window_read.sql','utf8');
 test('DD040 reproduces original public second-read failure before fix',async t=>{const d=await wrapperDatabase(t,3,{fixed:false});const first=await current(d);assert.equal(first.profiles.length,2);const before=await snapshot(d);await assert.rejects(current(d),/DD_WINDOW_OVERLAP/);assert.deepEqual(await snapshot(d),before);});
-test('DD040 repeated public reads return same full allocation with no persistent mutation',async t=>{const d=await wrapperDatabase(t);const first=await current(d);assert.equal(first.profiles.length,4);const before=await snapshot(d);for(let i=0;i<5;i++){const r=await current(d);assert.equal(r.window_id,first.window_id);assert.deepEqual(r.profiles,first.profiles);assert.equal(r.window_spots_remaining,2);assert.equal(r.day_spots_remaining,4);}assert.deepEqual(await snapshot(d),before);});
+// Observer + exactly four mutually eligible peers guarantees a full reciprocal K5.
+// Six members do NOT guarantee four slots each: seeded greedy pairing can leave
+// two already-paired members at three while all their missing peers are full.
+async function fullPoolDatabase(t) {
+ const d=await wrapperDatabase(t,5);await admin(d);
+ const pairs=(await d.query(`select a.user_id a,b.user_id b,
+  spot_private.dd_pair_eligible(a.user_id,b.user_id,a.venue_id) ab,
+  spot_private.dd_pair_eligible(b.user_id,a.user_id,a.venue_id) ba
+  from spot_private.tribe_memberships a join spot_private.tribe_memberships b
+  on a.venue_id=b.venue_id and a.user_id<b.user_id where a.venue_id=$1`,[ids.v])).rows;
+ assert.equal(pairs.length,10);assert.ok(pairs.every(p=>p.ab&&p.ba));
+ assert.deepEqual([...new Set(pairs.flatMap(p=>[p.a,p.b]))].sort(),users.slice(0,5).sort());
+ const before=await snapshot(d);
+ for(const key of ['windows','allocations','exposures','fairness','memory','intents','operations'])assert.equal(before[key],null,key);
+ return d;
+}
+function assertFullAllocation(drop) {
+ assert.equal(drop.profiles.length,4);
+ assert.deepEqual(drop.profiles.map(p=>p.id).sort(),users.slice(1,5).sort());
+}
+test('DD040 repeated public reads return same full allocation with no persistent mutation',async t=>{
+ const d=await fullPoolDatabase(t);const first=await current(d);assertFullAllocation(first);
+ const before=await snapshot(d);
+ assert.equal(before.exposures.length,10);assert.ok(before.allocations.every(a=>a.exposure_count===4));
+ for(let i=0;i<5;i++){
+  const r=await current(d);assertFullAllocation(r);assert.equal(r.window_id,first.window_id);
+  assert.deepEqual(r.profiles,first.profiles);assert.equal(r.window_spots_remaining,2);assert.equal(r.day_spots_remaining,4);
+ }
+ assert.deepEqual(await snapshot(d),before);
+});
+test('DD040 strict full-pool oracle detects a real 4-to-3 projection loss (local fault injection)',async t=>{
+ const d=await fullPoolDatabase(t);const first=await current(d);assertFullAllocation(first);
+ // Deliberate corruption in this disposable database only, not a valid engine operation.
+ await admin(d);await d.query(`delete from spot_private.discovery_exposures
+  where window_id=$1 and user_a=$2 and user_b=$3`,[first.window_id,ids.a,users[1]]);
+ await asUser(d,ids.a);const broken=await current(d);assert.equal(broken.profiles.length,3);
+ assert.throws(()=>assertFullAllocation(broken),{code:'ERR_ASSERTION'});
+});
+test('DD040 captured six-member seed yields a legitimate stable partial allocation with no free reciprocal edge',async t=>{
+ const d=await wrapperDatabase(t,6);await admin(d);
+ await d.query(`insert into spot_private.discovery_windows(local_date,slot,policy_version,starts_at,ends_at,generation_id)
+  select local_date,slot,2,starts_at,ends_at,$1 from spot_private.fixture_dd_clock`,['c0fb4a95-6ce0-4db6-95a6-eebcfcb8f101']);
+ await asUser(d,ids.a);const first=await current(d);assert.equal(first.profiles.length,3);
+ assert.deepEqual(first.profiles.map(p=>p.id).sort(),[users[1],users[2],users[4]].sort());
+ const before=await snapshot(d);assert.equal(before.exposures.length,11);
+ for(const missing of [users[3],users[5]])assert.equal(before.allocations.find(a=>a.user_id===missing).exposure_count,4);
+ assert.equal(before.allocations.find(a=>a.user_id===users[4]).exposure_count,3);
+ for(const id of users.slice(0,6)){
+  await asUser(d,id);const drop=await current(d);
+  const expected=before.exposures.filter(e=>e.user_a===id||e.user_b===id).map(e=>e.user_a===id?e.user_b:e.user_a).sort();
+  assert.deepEqual(drop.profiles.map(p=>p.id).sort(),expected);
+ }
+ assert.deepEqual(await snapshot(d),before);
+});
 test('DD040 duplicate requests through local PostgreSQL queue stay stable (not multi-session proof)',async t=>{const d=await wrapperDatabase(t);const responses=await Promise.all(Array.from({length:8},()=>current(d)));assert.ok(responses.every(r=>r.window_id===responses[0].window_id));for(const r of responses)assert.deepEqual(r.profiles,responses[0].profiles);const s=await snapshot(d);assert.equal(s.windows.length,1);assert.ok(s.allocations.every(a=>a.exposure_count<=4&&a.spots_used===0));});
 test('DD040 reciprocal users and partial pool reread safely without filler',async t=>{const d=await wrapperDatabase(t,2);const a=await current(d);assert.equal(a.status,'partial');assert.equal(a.profiles.length,1);await asUser(d,ids.b);const b=await current(d);assert.equal(b.window_id,a.window_id);assert.equal(b.profiles[0].id,ids.a);const before=await snapshot(d);for(let i=0;i<3;i++){await asUser(d,ids.b);assert.deepEqual((await current(d)).profiles,b.profiles);}assert.deepEqual(await snapshot(d),before);});
 test('DD040 Spot and safety loss never refund/refill assigned slots; 039 stays authoritative',async t=>{const d=await wrapperDatabase(t,5);const a=await current(d),target=a.profiles[0].id;await tribeSpot(d,target);const r=await current(d);assert.equal(r.profiles.find(p=>p.id===target).outgoing_spot_pending,true);assert.equal(r.window_spots_remaining,1);await asUser(d,target);await d.query('select leave_tribe($1)',[ids.v]);await asUser(d,users[5]);await d.query('select join_tribe($1)',[ids.v]);await current(d);await asUser(d,ids.a);const after=await current(d);assert.equal(after.window_allocated,4);assert.equal(after.profiles.length,3);assert.ok(!after.profiles.some(p=>p.id===users[5]));const before=await snapshot(d);await current(d);assert.deepEqual(await snapshot(d),before);});

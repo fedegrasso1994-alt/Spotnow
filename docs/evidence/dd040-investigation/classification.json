@@ -1,0 +1,125 @@
+{
+  "classification": "TEST FLAKE",
+  "original_summary": {
+    "runs": 20,
+    "hard_four_pass": 18,
+    "hard_four_fail": 2,
+    "idempotent": true
+  },
+  "failed_runs": [
+    {
+      "run": 8,
+      "seed": "c0fb4a95-6ce0-4db6-95a6-eebcfcb8f101",
+      "profiles": 3,
+      "candidate_capacity": [
+        {
+          "id": "10000000-0000-0000-0000-000000000002",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000003",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000004",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": false
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000005",
+          "member": true,
+          "day_used": 3,
+          "compatible": true,
+          "window_allocated": 3,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000006",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": false
+        }
+      ],
+      "initial_mutually_compatible_pairs": 15,
+      "all_prior_state_empty": true
+    },
+    {
+      "run": 10,
+      "seed": "2733cb8f-0576-41cb-96c9-8d14577093b0",
+      "profiles": 3,
+      "candidate_capacity": [
+        {
+          "id": "10000000-0000-0000-0000-000000000002",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": false
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000003",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000004",
+          "member": true,
+          "day_used": 3,
+          "compatible": true,
+          "window_allocated": 3,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000005",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": true
+        },
+        {
+          "id": "10000000-0000-0000-0000-000000000006",
+          "member": true,
+          "day_used": 4,
+          "compatible": true,
+          "window_allocated": 4,
+          "legal_new_pair_now": false,
+          "assigned_to_observer": false
+        }
+      ],
+      "initial_mutually_compatible_pairs": 15,
+      "all_prior_state_empty": true
+    }
+  ],
+  "captured_seed_replay_same_pair_order": true,
+  "remaining_legal_reciprocal_edges_for_observer_in_failures": 0,
+  "caveat": "An alternative graph could fill all six users to degree four. The frozen product does not promise maximum matching and forbids replacement of assigned slots. Initially compatible candidates are not equivalent to still-free reciprocal slots.",
+  "corrected_fixture_proof": "Complete compatible graph on exactly five eligible members: a missing edge implies BOTH endpoints have degree at most three. No ordering can strand an unfilled edge behind a full peer.",
+  "runtime_changed": false,
+  "provider_access_performed": false
+}

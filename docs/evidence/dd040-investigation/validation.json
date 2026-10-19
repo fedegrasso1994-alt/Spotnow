@@ -1,0 +1,96 @@
+{
+  "baseline_commit": "d1115fb3b6e208b9d7f5924a8061d724fa69a1b9",
+  "branch": "codex/soma-schema-v2-staging",
+  "environment": "disposable local PostgreSQL via PGlite; no provider calls",
+  "original_repetitions": {
+    "runs": 20,
+    "hard_four_pass": 18,
+    "hard_four_fail": 2,
+    "idempotent": true
+  },
+  "corrected_repeated": {
+    "runs": 20,
+    "tests_per_run": 11,
+    "tests_passed": 220,
+    "failed": 0,
+    "consecutive": true,
+    "fresh_node_process_per_run": true
+  },
+  "full_suite_baseline": {
+    "log_file": "/tmp/dd040-baseline-full.log",
+    "sha256": "10d300de49b0a1c615127fb837fc97ebeb7be9b26797f75ff25a7352cadc10ec",
+    "tests": 583,
+    "pass": 583,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "full_suite_after_fix": [
+    {
+      "log_file": "/tmp/dd040-fixed-full-1.log",
+      "sha256": "9cd494874bf6649c817b213a0264d1f70406acb1f2a40672a10922d168acd065",
+      "tests": 585,
+      "pass": 585,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "log_file": "/tmp/dd040-fixed-full-2.log",
+      "sha256": "3e59c499b8eec039e551d1a6319d22e6830679289eaf8fe40bc85f254991a192",
+      "tests": 585,
+      "pass": 585,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "log_file": "/tmp/dd040-fixed-full-3.log",
+      "sha256": "046e5a7f9125d3d019ba48058c8d16883148d34850d7aec3c7f37b76e16ba3a0",
+      "tests": 585,
+      "pass": 585,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    }
+  ],
+  "spotted": {
+    "log_file": "/tmp/dd040-spotted.log",
+    "sha256": "41fd2e61abae2cac3e4824725b372e338f1e41199dc1da706ba25f173cca93e5",
+    "tests": 20,
+    "pass": 20,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "verification": {
+    "build": {
+      "exit_code": 0,
+      "sha256": "c13d3f26cbde82f26059394e7fb240cdf4dee8b54e361b0a13c929758b9a54ee",
+      "log_tail": [
+        "dist/assets/qr-scanner-worker.min-CJaXo3yu.js   43.95 kB \u2502 gzip: 10.37 kB",
+        "dist/assets/live-DKJLZNwe.js                    96.67 kB \u2502 gzip: 31.27 kB",
+        "dist/assets/bacheca-THRLbLQp.js                215.86 kB \u2502 gzip: 55.76 kB",
+        "",
+        "\u2713 built in 597ms"
+      ]
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "log_tail": [
+        "$ tsc --noEmit"
+      ]
+    },
+    "release": {
+      "exit_code": 0,
+      "sha256": "066aaa6096d3e151add867a84da26457de761ce181902647b08ca79e71231c68",
+      "log_tail": [
+        "Release assets verified (37 files); no test QR, environment file or secret key in bundle.",
+        "Local font integrity verified (9 assets); no remote font dependency."
+      ]
+    }
+  },
+  "runtime_changed": false,
+  "main_unchanged": true
+}
