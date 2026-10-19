@@ -1,0 +1,18 @@
+/* SPOTTED only: existing Soma tokens, fonts, cards and buttons. */
+#spotted .spotted-social{min-width:0;padding-bottom:24px}
+#spotted .spotted-composer{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+#spotted .spotted-composer textarea{width:100%;min-height:92px;box-sizing:border-box;resize:vertical;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:14px 15px;color:var(--text);font:inherit;font-size:16px}
+#spotted .spotted-composer textarea:focus{border-color:var(--coral)}
+#spotted .spotted-composer-meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#spotted .spotted-composer-meta .btn{width:auto;min-width:112px}
+#spotted .spotted-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+#spotted .spotted-actions .btn{width:auto;min-height:44px;padding:10px 14px}
+#spotted .spotted-actions .backlink{min-height:44px;padding:8px}
+#spotted .spotted-action[aria-pressed=true]{border-color:var(--coral);color:var(--coral)}
+#spotted .spotted-status{overflow-wrap:anywhere;min-height:20px}
+#spotted .spotted-comment{padding:14px 0;border-bottom:1px solid var(--line)}
+#spotted .spotted-thread>.backlink{min-height:44px;margin-bottom:12px}
+#spotted .spotted-report,#spotted .spotted-confirm{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+#spotted .spotted-thread-body .spotted-post{margin-top:0}
+/* Keep long threads in the screen's scroll flow above the existing tab bar. */
+#spotted .pilot-board-host{flex:0 0 auto}

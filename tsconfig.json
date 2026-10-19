@@ -50,6 +50,8 @@
     "types/styles.d.ts",
     "src/daily-discovery.js",
     "src/daily-discovery-state.js",
-    "src/daily-discovery-ui.js"
+    "src/daily-discovery-ui.js",
+    "src/spotted-social.js",
+    "src/spotted-social-ui.js"
   ]
 }

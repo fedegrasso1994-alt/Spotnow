@@ -1,3 +1,4 @@
+import './spotted-social.css';
 import './daily-discovery.css';
 import './pilot-ui.css';
 import {mountPilotShell,pilotRoute,pilotTab}from './pilot-ui.js';
@@ -35,7 +36,7 @@ const oraV2=Boolean(backend.ora),presenceClock=createPresenceClock();
 const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,pilot,onChange:async p=>{state.checkin=p;presenceClock.set(p);state.venue=p?{id:p.place_id,name:p.name,address:p.address}:null;liveOffset=0;livePager.reset();go('venue',{replace:true});}}):null;
 let onboardingComplete=false,explicitQrScan=false,pilotHomePending=false,pilotNeedsTribe=true;
 const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,pilot,onDone:()=>{pilotHomePending=pilot;return hydrate();}}):null;
-const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,dailyApi:backend.dailyDiscovery,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),onDailyState:(people,budget)=>social.syncDailyDetail(people,budget)}):null;
+const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,spottedApi:backend.spotted,dailyApi:backend.dailyDiscovery,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),onDailyState:(people,budget)=>social.syncDailyDetail(people,budget)}):null;
 let privacy=null,existingProfile=false;
 async function choosePilotTribe(){const generation=accountGeneration;try{const progress=await backend.onboarding.state();if(generation!==accountGeneration||!state.session)return;pilotNeedsTribe=!progress.tribes.length;go('tribeOnboarding');await tribeOnboarding.open(progress);}catch(e){if(generation===accountGeneration)showToast(message(e));}}
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};

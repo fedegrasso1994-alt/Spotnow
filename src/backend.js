@@ -8,6 +8,7 @@ import {createRightsApi} from './user-rights.js';
 import {createOraApi}from './ora.js';
 import {createOnboardingApi} from './onboarding.js';
 import {createBoardApi} from './bacheca.js';
+import {createSpottedApi} from './spotted-social.js';
 import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
@@ -39,8 +40,8 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
     ...(spotV2Enabled?{spotV2:createSpotV2Api(client)}:{}),
     ...(oraEnabled?{ora:createOraApi(client)}:{}),
     ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),
-    ...(boardEnabled?{board:createBoardApi(client)}:{}),
-    ...(rightsEnabled?{rights:createRightsApi(client,{boardEnabled})}:{}),
+    ...(boardEnabled?{board:createBoardApi(client),spotted:createSpottedApi(client)}:{}),
+    ...(rightsEnabled?{rights:createRightsApi(client,{boardEnabled,spottedEnabled:boardEnabled&&onboardingEnabled})}:{}),
     ...(moderationEnabled?{moderationNotice:async()=>unwrap(await client.rpc('my_moderation_notice'))}:{}),
     async session(){return unwrap(await client.auth.getSession()).session;},
     async accountState(){return rpcRead('my_account_state');},
