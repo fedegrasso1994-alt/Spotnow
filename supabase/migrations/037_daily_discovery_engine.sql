@@ -20,7 +20,7 @@ create function spot_private.dd_pair_eligible(a uuid,b uuid,tribe uuid)returns b
  and not exists(select 1 from public.blocks where(blocker_id=a and blocked_id=b)or(blocker_id=b and blocked_id=a))
  and not exists(select 1 from public.matches where user_a=least(a,b)and user_b=greatest(a,b));
 $$;
-create function spot_private.dd_exposure_authorized(exposure uuid,viewer uuid,target uuid)returns boolean language sql stable security definer set search_path=''as $$
+create or replace function spot_private.dd_exposure_authorized(exposure uuid,viewer uuid,target uuid)returns boolean language sql volatile security definer set search_path=''as $$
  select exists(select 1 from spot_private.soma_v2_control where discovery_enabled)
  and exists(select 1 from spot_private.discovery_exposures e
  join spot_private.discovery_windows w on w.id=e.window_id
@@ -28,11 +28,11 @@ create function spot_private.dd_exposure_authorized(exposure uuid,viewer uuid,ta
  join spot_private.tribe_memberships a on a.membership_id=e.membership_a and a.user_id=e.user_a and a.venue_id=e.tribe_id
  join spot_private.tribe_memberships b on b.membership_id=e.membership_b and b.user_id=e.user_b and b.venue_id=e.tribe_id
  where e.id=exposure and e.user_a=least(viewer,target)and e.user_b=greatest(viewer,target)
- and w.state='ready'and w.starts_at<=statement_timestamp()and w.ends_at>statement_timestamp()
+ and w.state='ready'and w.starts_at<=clock_timestamp()and w.ends_at>clock_timestamp()
  and spot_private.dd_pair_eligible(viewer,target,e.tribe_id));
 $$;
 -- Match remains authorized independently through the existing Match branch.
-create or replace function spot_private.profile_dd_authorized(target uuid)returns boolean language sql stable security definer set search_path=''as $$
+create or replace function spot_private.profile_dd_authorized(target uuid)returns boolean language sql volatile security definer set search_path=''as $$
  select exists(select 1 from spot_private.discovery_exposures e where(e.user_a=auth.uid()and e.user_b=target or e.user_b=auth.uid()and e.user_a=target)and spot_private.dd_exposure_authorized(e.id,auth.uid(),target));
 $$;
 create function spot_private.dd_window_guard()returns trigger language plpgsql security definer set search_path=''as $$begin
