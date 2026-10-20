@@ -54,3 +54,17 @@
 #spotted .spotted-empty .sub{font-size:14px;line-height:1.6}
 #spotted .spotted-empty[hidden]{display:none}
 @media(prefers-reduced-motion:reduce){#spotted .spotted-action{transition:none;transform:none}}
+
+/* Micro polish: secondary tools stay quiet; social controls remain unchanged. */
+#spotted .spotted-secondary-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:6px;border-top:1px solid var(--line)}
+#spotted .spotted-secondary-actions>.backlink{min-width:44px;min-height:44px;margin:0;padding:8px;font-size:12px;font-weight:500;color:var(--muted)}
+#spotted .spotted-refresh{display:inline-flex;align-items:center;gap:7px;min-height:44px;margin:4px 0;padding:8px 0;color:var(--muted);font-size:13px;font-weight:500}
+#spotted .spotted-refresh .spotted-icon{width:16px;height:16px;flex-basis:16px}
+#spotted .spotted-thread>.spotted-back{justify-content:flex-start;gap:6px;padding:8px 0;font-size:13px;font-weight:500;color:var(--muted)}
+#spotted .spotted-back .spotted-icon{width:18px;height:18px;flex-basis:18px}
+#spotted .spotted-refresh:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+#spotted .spotted-comment{padding:20px 0 16px}
+#spotted .spotted-comment .spotted-identity{margin-bottom:0}
+#spotted .spotted-comment .board-text{margin:8px 0 0}
+#spotted .spotted-comment .spotted-actions{margin-top:12px}
+#spotted .spotted-comment .spotted-secondary-actions{margin-top:4px;border-top:0}

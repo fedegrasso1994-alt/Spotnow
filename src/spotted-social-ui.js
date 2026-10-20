@@ -10,7 +10,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  const panel=el('section','','spotted-social'),disclosure=el('p','Anonimo per gli altri membri. Soma può identificare l’autore per moderazione. Non pubblicare dati personali.','privacy-note'),status=el('p','','sub spotted-status'),list=el('div','','spotted-feed'),thread=el('section','','spotted-thread');
  const empty=spottedEmpty(doc);empty.hidden=true;
  status.setAttribute('role','status');status.setAttribute('aria-live','polite');thread.hidden=true;
- const retry=button('Riprova',()=>load()),more=button('Altri post',()=>load(true)),refresh=button('Aggiorna',()=>load(),'backlink');retry.hidden=more.hidden=true;
+ const retry=button('Riprova',()=>load()),more=button('Altri post',()=>load(true)),refresh=button('Aggiorna',()=>load(),'backlink spotted-refresh');refresh.prepend(spottedIcon(doc,'refresh'));retry.hidden=more.hidden=true;
  let place=null,active=false,generation=0,busy=false,posts=[],postMore=false,selected=null,commentRows=[],commentMore=false,timer=null,romanticState=null;
  const operations=new Map();
  const composer=(label,placeholder,submit)=>{
@@ -30,12 +30,12 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  const postComposer=composer('Pubblica','Scrivi alla tua community…',value=>mutate('create:'+place+':'+value,op=>api.create(place,value,op)));
  const commentComposer=composer('Commenta','Scrivi un commento…',value=>{const target=selected;return mutate('comment:'+target+':'+value,op=>api.comment(target,value,op));});
  const back=button('Tutti i post',()=>{if(busy)return;selected=null;commentRows=[];thread.hidden=true;list.hidden=false;empty.hidden=posts.length>0;postComposer.form.hidden=false;more.hidden=!postMore;commentComposer.clear();},'backlink');
- back.prepend(spottedIcon(doc,'back'));
+ back.classList.add('spotted-back');back.prepend(spottedIcon(doc,'back'));
  const threadBody=el('div','','spotted-thread-body'),commentsList=el('div','','spotted-comments'),commentNext=button('Altri commenti',()=>loadComments(true));thread.append(back,threadBody,commentsList,commentNext,commentComposer.form);
  panel.append(disclosure,postComposer.form,refresh,status,retry,list,empty,more,thread);root.append(panel);
  function update(){back.disabled=busy;postComposer.update();commentComposer.update();for(const b of panel.querySelectorAll('.spotted-action'))b.disabled=busy||(b.dataset.romantic==='true'&&romanticState?.remaining===0);refresh.disabled=busy;more.disabled=busy;commentNext.disabled=busy;}
  function reportBox(card,item,kind){const box=el('div','','spotted-report'),reason=el('select');reason.setAttribute('aria-label','Motivo segnalazione');for(const [value,label]of [['harassment','Molestie'],['inappropriate','Contenuto inappropriato'],['underage','Minore'],['other','Altro']]){const o=el('option',label);o.value=value;reason.append(o);}const send=button('Invia segnalazione',()=>mutate('report:'+item.id+':'+reason.value,op=>api.report(item.id,kind,reason.value,op),'Segnalazione inviata.'),'btn btn-ghost spotted-action');box.append(reason,send);card.append(box);}
- function card(item,kind){const article=el('article','',kind==='post'?'board-card spotted-post':'spotted-comment'),body=el('p',item.text,'board-text'),identity=el('p',item.can_delete?'Il tuo '+(kind==='post'?'post':'commento'):'Una voce della community','sub spotted-identity'),actions=el('div','','spotted-actions');article.dataset.contentId=item.id;article.append(identity,body);
+ function card(item,kind){const article=el('article','',kind==='post'?'board-card spotted-post':'spotted-comment'),body=el('p',item.text,'board-text'),identity=el('p',item.can_delete?'Il tuo '+(kind==='post'?'post':'commento'):'Una voce della community','sub spotted-identity'),actions=el('div','','spotted-actions'),secondary=el('div','','spotted-secondary-actions');article.dataset.contentId=item.id;article.append(identity,body);
   const liked=button(String(item.likes),()=>mutate('like:'+kind+':'+item.id+':'+!item.liked,op=>api.like(item.id,kind,!item.liked,op)),'btn btn-ghost spotted-action spotted-like');liked.prepend(spottedIcon(doc,'heart'));liked.setAttribute('aria-label',item.liked?'Rimuovi mi piace':'Mi piace');liked.setAttribute('aria-pressed',String(item.liked));actions.append(liked);
   if(kind==='post'){const open=button(`Commenti · ${item.comments}`,async()=>{selected=item.id;commentRows=[];commentComposer.clear();await loadComments();},'btn btn-ghost spotted-action spotted-comment-open');open.prepend(spottedIcon(doc,'comment'));actions.append(open);}
   if(api.romantic&&romanticState?.enabled&&item.romantic_content===true&&!item.can_delete){
@@ -45,9 +45,9 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
     catch(error){if(g===generation)status.textContent=romanticError(error);}finally{if(g===generation){busy=false;update();arm();}}
    },'btn btn-ghost spotted-action spotted-romantic-cta');request.prepend(spottedIcon(doc,'spark'));request.disabled=busy||romanticState.remaining===0;request.dataset.romantic='true';request.title=romanticState.remaining===0?'Hai usato le 6 richieste disponibili oggi.':'';actions.append(request);
   }
-  const report=button('Segnala',()=>{report.disabled=true;reportBox(article,item,kind);},'backlink spotted-action');actions.append(report);
-  if(item.can_delete)actions.append(button('Elimina',()=>{const box=el('div','','spotted-confirm');box.append(el('p','Vuoi eliminare questo contenuto?'),button('Conferma eliminazione',()=>mutate('delete:'+kind+':'+item.id,op=>api.remove(item.id,kind,op)),'btn btn-ghost spotted-action'));article.append(box);},'backlink spotted-action'));
-  article.append(actions);return article;
+  const report=button('Segnala',()=>{report.disabled=true;reportBox(article,item,kind);},'backlink spotted-action');secondary.append(report);
+  if(item.can_delete)secondary.append(button('Elimina',()=>{const box=el('div','','spotted-confirm');box.append(el('p','Vuoi eliminare questo contenuto?'),button('Conferma eliminazione',()=>mutate('delete:'+kind+':'+item.id,op=>api.remove(item.id,kind,op)),'btn btn-ghost spotted-action'));article.append(box);},'backlink spotted-action'));
+  article.append(actions,secondary);return article;
  }
  function paint(){list.replaceChildren();for(const p of posts)list.append(card(p,'post'));more.hidden=!postMore||Boolean(selected);list.hidden=Boolean(selected);postComposer.form.hidden=Boolean(selected);thread.hidden=!selected;empty.hidden=Boolean(selected)||posts.length>0;update();}
  function arm(){if(timer!==null)cancel(timer);timer=active?schedule(()=>{timer=null;void load();},30000):null;}
