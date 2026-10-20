@@ -360,6 +360,10 @@ User posts:
 
 All members of the Tribe can see social content regardless of romantic compatibility.
 
+Founder decision (2026-10-20): SPOTTED has no user-facing quota of three posts/day.
+Existing technical anti-spam limits and moderation remain. Legacy Bacheca
+`board_quota` is separate and must not limit SPOTTED or define QoD answer policy.
+
 ---
 
 ## 18. SPOTTED comments

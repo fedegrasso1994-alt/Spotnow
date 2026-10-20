@@ -53,7 +53,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  function arm(){if(timer!==null)cancel(timer);timer=active?schedule(()=>{timer=null;void load();},30000):null;}
  async function load(append=false){
   if(!active||!place||busy)return;const g=generation;busy=true;update();status.textContent='Caricamento…';status.dataset.tone='';empty.hidden=true;retry.hidden=true;
-  try{romanticState=api.romantic?await api.romantic.settings().catch(()=>null):null;if(g!==generation)return;const page=await api.feed(place,append?posts.at(-1)?.id:null);if(g!==generation||!active)return;if(!Array.isArray(page?.items))throw Error('INVALID_RESPONSE');posts=append?[...posts,...page.items.filter(p=>!posts.some(x=>x.id===p.id))]:page.items;postMore=page.more;paint();status.textContent=posts.length?`${page.remaining} post disponibili oggi · visibili per 24 ore`:'';busy=false;if(selected)await loadComments();}
+  try{romanticState=api.romantic?await api.romantic.settings().catch(()=>null):null;if(g!==generation)return;const page=await api.feed(place,append?posts.at(-1)?.id:null);if(g!==generation||!active)return;if(!Array.isArray(page?.items))throw Error('INVALID_RESPONSE');posts=append?[...posts,...page.items.filter(p=>!posts.some(x=>x.id===p.id))]:page.items;postMore=page.more;paint();status.textContent=posts.length?'I post restano visibili per 24 ore.':'';busy=false;if(selected)await loadComments();}
   catch(error){if(g===generation){posts=[];selected=null;commentRows=[];paint();empty.hidden=true;more.hidden=true;status.textContent=spottedError(error);retry.hidden=false;}}
   finally{if(g===generation){busy=false;update();arm();}}
  }
