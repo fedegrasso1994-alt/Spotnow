@@ -1,0 +1,32 @@
+{
+  "frontend_e2e_origin": "http://127.0.0.1:4181",
+  "backend": "https://zjinjtkekmaqtxsuyvho.supabase.co",
+  "real_auth_rpc_storage": true,
+  "mocked_backend": false,
+  "sender_neutral_confirmation": true,
+  "recipient_profile_photo_loaded": true,
+  "accept_match_chat_message_refresh_persistence": "PASS",
+  "opt_out_profile_control_refresh_persistence": "PASS",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "horizontal_overflow": false,
+      "last_action_bottom": 718.8828125,
+      "nav_top": 775.6015625
+    },
+    {
+      "width": 320,
+      "height": 700,
+      "horizontal_overflow": false,
+      "last_action_bottom": 574.8828125,
+      "nav_top": 631.6015625,
+      "action_height": 53.5
+    }
+  ],
+  "local_browser_console_errors": 0,
+  "hosted_preview_landing_login": "PASS",
+  "hosted_fixture_authentication": "Not performed: authenticated fixture E2E uses the same real app locally against staging; no test-login endpoint shipped",
+  "fresh_google_login": "Not repeated; Google/GCP configuration unchanged",
+  "preview_protection": "ON"
+}

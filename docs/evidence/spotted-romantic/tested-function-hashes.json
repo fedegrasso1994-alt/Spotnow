@@ -1,0 +1,15 @@
+{
+  "spot_private.romantic_ready": "13db47fa44cd23b9323c298b37699b2a",
+  "spot_private.romantic_expire": "3e9baaab216fd8ec570221c8198ef5db",
+  "public.spotted_romantic_inbox": "0af59c2aae400dd05ee995d718d477fd",
+  "public.spotted_romantic_decide": "ef11c375ed18cf50e6808e096c418aa2",
+  "public.spotted_romantic_opt_in": "3a7be0c8970314c3cf3010223139fc6b",
+  "public.spotted_romantic_submit": "44d397c69c1ee07c93e300602322bc44",
+  "public.spotted_romantic_settings": "b2cbbfd42b5630e4f19d3dca7e22d79d",
+  "spot_private.romantic_write_gate": "d7cfa5001ae2dc738a6c1cf5ca97bf80",
+  "spot_private.romantic_deliverable": "1313272974a1c706cf83ce9686c5db67",
+  "spot_private.romantic_source_lock": "ce4e36b690e2b2c36f423371f73b91b0",
+  "spot_private.romantic_pair_allowed": "5ab542e5cad34c76440ee9c8cef8edc5",
+  "spot_private.romantic_safety_change": "91a12088843db9acb2c6e915660e1369",
+  "spot_private.profile_request_authorized": "81ab321cfb6a3ae800899c39eeea3763"
+}

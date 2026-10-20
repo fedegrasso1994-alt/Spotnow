@@ -1,0 +1,34 @@
+{
+  "engine": "PostgreSQL via PGlite",
+  "results": [
+    {
+      "condition": "recipient_opt_out",
+      "samples_ms": [
+        3.092583000000104,
+        1.1328750000000127,
+        1.3398329999999987,
+        1.1041670000001886,
+        0.9175410000000284,
+        0.9900420000001304
+      ],
+      "median_ms": 1.1328750000000127,
+      "responses_identical": true,
+      "quota_used": 6
+    },
+    {
+      "condition": "eligible_then_pending_suppression",
+      "samples_ms": [
+        1.9815419999999904,
+        0.6286669999999503,
+        0.7153329999998732,
+        0.5139580000000024,
+        0.45241699999996854,
+        0.4547090000000935
+      ],
+      "median_ms": 0.6286669999999503,
+      "responses_identical": true,
+      "quota_used": 6
+    }
+  ],
+  "limitation": "Small local sample; not a constant-time implementation or proof of network timing indistinguishability. Sender body/status/quota are independently tested. No artificial sleep or new worker/provider."
+}

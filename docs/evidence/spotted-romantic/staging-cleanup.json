@@ -1,0 +1,19 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "cleanup",
+  "results": [
+    {
+      "name": "Normal delete account synthetic 1",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal delete account synthetic 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal delete account synthetic 3",
+      "result": "PASS"
+    }
+  ]
+}

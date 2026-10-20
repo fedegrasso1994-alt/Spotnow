@@ -1,0 +1,50 @@
+{
+  "source": "Observed Supabase staging SQL editor post-check and read-only Storage classification",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "existing_accounts": 4,
+  "existing_profiles": 4,
+  "existing_storage_objects": 42,
+  "fixture_accounts": 0,
+  "fixture_profiles": 0,
+  "fixture_storage": 0,
+  "fixture_venues": 0,
+  "posts": 0,
+  "comments": 0,
+  "likes": 0,
+  "reports": 0,
+  "romantic_requests": 0,
+  "romantic_attempts": 0,
+  "romantic_quota": 0,
+  "romantic_guards": 0,
+  "romantic_preferences": 0,
+  "missing_current": 0,
+  "requests_enabled": true,
+  "discovery": false,
+  "jobs_paused": true,
+  "retention_paused": true,
+  "photo": {
+    "epoch": 12,
+    "phase": "OPEN",
+    "cleanup": false,
+    "scheduler": false
+  },
+  "photo_technical_receipt_states": [
+    "purged",
+    "purged",
+    "purged"
+  ],
+  "outside_lifecycle_storage": {
+    "count": 6,
+    "referenced_by_existing_photo_assets": 6,
+    "existing_account_owner": 6,
+    "fixture_paths": 0
+  },
+  "function_hashes_match_tested_candidate": true,
+  "confirm_email": "ON (read-only API verification)",
+  "new_preview_redirect_added": 1,
+  "redirect_count_before_after": [
+    12,
+    13
+  ],
+  "site_url_unchanged": true
+}

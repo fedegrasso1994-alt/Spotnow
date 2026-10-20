@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-20",
+  "branch": "codex/soma-schema-v2-staging",
+  "baseline": "ab2ebd0373d54cf1d2a3d03c6fa33a1aafb08d17",
+  "code_commit": "3643304fbf6579a9de7fd1df1bae853a8b946f45",
+  "preview_commit": "294531a01e9164678c84e189e4b02b3ff0e18afe",
+  "full_suite": {
+    "tests": 610,
+    "pass": 610,
+    "fail": 0
+  },
+  "new_postgresql_tests": 19,
+  "new_client_tests": 6,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_scan": "PASS",
+  "runtime_unchanged_outside_scope": true,
+  "production_deployment_before_after": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "main_before_after": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "log_hashes": {
+    "romantic-release-full.log": "cba08a6a429d635cfe672cd58d117e170d4d538779ad12777234fb09a7211cd5",
+    "romantic-client-final.log": "bab258803e2b0fe3bb6b339a6b7ff6bf3912fb6158dd9810a0f861fd100e5e22",
+    "romantic-build-final.log": "f30689f0d89398e657625ef7d177ba171dcc737b0c40b5c75bcace56a7a63f99",
+    "romantic-typecheck-final.log": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "romantic-release.log": "066aaa6096d3e151add867a84da26457de761ce181902647b08ca79e71231c68"
+  }
+}

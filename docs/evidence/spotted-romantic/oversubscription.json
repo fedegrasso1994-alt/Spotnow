@@ -1,0 +1,7 @@
+{
+  "synthetic_only": true,
+  "http_status": 200,
+  "neutral_overquota_attempts": 3,
+  "remaining": 0,
+  "confirm_email_on": true
+}

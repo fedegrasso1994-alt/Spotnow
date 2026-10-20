@@ -1,0 +1,31 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "request",
+  "results": [
+    {
+      "name": "Neutral retry response, sender no outbox/profile access; recipient authorized profile/photo",
+      "result": "PASS"
+    },
+    {
+      "name": "Opposite romantic request never auto-Matches",
+      "result": "PASS"
+    },
+    {
+      "name": "Real concurrent accept single unified Match; chat readable after fresh login",
+      "result": "PASS"
+    },
+    {
+      "name": "Comment request decline silent, guard suppression and six-attempt cap remain neutral",
+      "result": "PASS"
+    },
+    {
+      "name": "Opt-out preserves existing Match/chat",
+      "result": "PASS"
+    },
+    {
+      "name": "Pending UI fixture prepared only inside isolated synthetic pair",
+      "result": "PASS"
+    }
+  ]
+}
