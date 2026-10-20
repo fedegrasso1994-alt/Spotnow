@@ -1,0 +1,113 @@
+{
+  "date": "2026-10-20",
+  "baseline": "d68c021d81959b0192482c6b2075531cda108ba4",
+  "code_commit": "e20b2913d114f0af8822b94606553502aabddb0e",
+  "branch": "codex/soma-schema-v2-staging",
+  "tests": {
+    "frontend": 23,
+    "full": 618,
+    "fail": 0,
+    "new": 2
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release": "37 assets PASS; 9 local font assets PASS",
+  "log_sha256": {
+    "client": "3f05df90d36a2865bc28113ef57db54aafde1f4cda75b9c8b7a0595ef5887d35",
+    "full": "fdc39e941b4b27eaa078f05b36b4475ee89fd60449a7d3d106641e54c547b5fe",
+    "build": "a6700c09ecc669d56af1e19cfb5027d86d2dc4524c79730eb241746c0b8d610e",
+    "typecheck": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "release": "066aaa6096d3e151add867a84da26457de761ce181902647b08ca79e71231c68"
+  },
+  "responsive": {
+    "viewports": [
+      "390x844",
+      "320x700"
+    ],
+    "overflow": false,
+    "long_comment_overflow": false,
+    "minimum_touch_height": 44,
+    "comments_styled_as_post_cards": 0,
+    "own_comment_footer_bottom_320": 383.7109375,
+    "nav_top_320": 631.6015625,
+    "fixture_console_errors": 0
+  },
+  "screenshots": [
+    {
+      "file": ".local/spotted-micro/screenshots/back-refresh-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "fffb1e020c8d71fad9cd3917f21d68ca68b6d9c6c128f9ecc254963da51ddb1e"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/comments-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "79b9ac8d000ec904b7167363574343055cb216cf5473a4d3fbf46430950d5c45"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/comments-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "f35c7a7e116835796882d3916d901aadaac6ec7398dc526004caf97940bc8522"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/footer-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "eefa4157919146c98c7172f617d9822d798a333f7e131370ff447a2fd2a75700"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/liked-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "6f3849cd3de56a2f4200dc103251b36623257ef4382728c11ddb8d20e4f224fa"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/own-comment-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "638404e0b1bc4d3ab3c948e804aea9acec70c76921c6e1e3625c5085457a1b40"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/posts-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "9143c3acffd6b7a6b06431c63c252f51bf8b03907df4c087e16a2e5d3f368d5a"
+    },
+    {
+      "file": ".local/spotted-micro/screenshots/preview.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "c8195622a17790f072a87ecd867ad033d95076344e290d31a579b2eb0aaf4c36"
+    }
+  ],
+  "ui_testing": "actual renderer with local synthetic adapter; no real data writes or new fixture accounts; not a fresh authenticated hosted E2E",
+  "preview": {
+    "url": "https://spot-7p8n2hi8k-fedegrasso1994-1482.vercel.app",
+    "id": "dpl_56hBTTXWJCaXuuwL3D3LfSGZGDj5",
+    "sha": "e20b2913d114f0af8822b94606553502aabddb0e",
+    "state": "READY",
+    "supabase_ref": "zjinjtkekmaqtxsuyvho",
+    "protection_unchanged": true,
+    "browser": [
+      "current welcome",
+      "login",
+      "reload",
+      "console errors 0"
+    ]
+  },
+  "auth_delivery": {
+    "added_only": "https://spot-7p8n2hi8k-fedegrasso1994-1482.vercel.app/**",
+    "allowlist_before": 14,
+    "allowlist_after": 15,
+    "site_url_unchanged": true
+  },
+  "backend_source_changes": false,
+  "migrations": [],
+  "self_like_changes": false,
+  "fetching_changes": false,
+  "production_before_after": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "gate": "SPOTTED MICRO POLISH: GO FOR REVIEW"
+}
