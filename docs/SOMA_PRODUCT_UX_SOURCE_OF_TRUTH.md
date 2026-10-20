@@ -430,6 +430,9 @@ Sender must not infer:
 - existing match.
 
 Sender receives a neutral/uniform result.
+The CTA is uniform on eligible anonymous user content, including content from an
+already-matched author. The server suppresses new delivery without exposing why;
+a valid attempt still consumes quota. (Federico approved 2026-10-19.)
 
 Recipient of a deliverable request sees:
 - sender profile;
@@ -451,11 +454,16 @@ Opposite-direction request does not auto-accept.
 - multiple content items by same hidden author cannot create parallel pending;
 - idempotent retry;
 - pending valid 7 days;
-- pair guard persists beyond decline/expiry for anti-harassment.
+- unordered-pair guard: 30 days after decline or expiry;
+- decline guard starts at `declined_at`; expiry guard starts at the original `expires_at`;
+- suppressed attempts never extend the guard;
+- recipient opt-out immediately invalidates received pending requests and revokes
+  recipient-to-sender profile authorization, without sender notification;
+- subsequent opt-in never resurrects invalidated requests;
+- existing Match/chat relationships are preserved.
 
-Still TBD before activation:
-- pair-guard duration;
-- behavior of already-delivered request after recipient opt-out.
+These technical product decisions were approved by Federico on 2026-10-19.
+Professional/legal validation remains separate. No new guard is defined for opt-out invalidation.
 
 ---
 
@@ -793,8 +801,7 @@ University is the initial wedge; gym validates broader physical-context applicab
 ### TBD
 - Daily Discovery activation (approved 08:00/16:00 policy remains staged OFF);
 - notification delivery mechanism;
-- SPOTTED pair-guard duration;
-- delivered-request behavior after opt-out;
+- professional validation of the approved SPOTTED guard/opt-out policy;
 - remaining physical-retention periods (DD allocation/exposure/pair-memory pilot target: 30 days; cleanup job not activated);
 - final custom SMTP;
 - final legal copy.
@@ -890,7 +897,7 @@ Gate: **TRIBE E2E PASS**
 - directional profile auth
 - unique Match
 
-Resolve pair guard and opt-out semantics before activation.
+Use the founder-approved guard/opt-out semantics in Section 22; activation requires staging verification.
 
 ### J. Question of the Day
 

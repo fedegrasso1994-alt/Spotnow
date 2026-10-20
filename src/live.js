@@ -1,4 +1,5 @@
 import './spotted-social.css';
+import {mountRomanticRequests}from'./spotted-romantic-ui.js';
 import './daily-discovery.css';
 import './pilot-ui.css';
 import {mountPilotShell,pilotRoute,pilotTab}from './pilot-ui.js';
@@ -105,6 +106,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe'){board?.context(selectedTribe?.id);void renderTribe();}
   social.onScreen(screen);
+  romanticRequests?.open(screen);
   if(screen==='onboarding'){profileNotice.textContent='';$('toast').classList.remove('show');const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
   if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile,{eager:privacyEnabled});$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''}${state.venue?' · '+state.venue.name:''}`;}
 }
@@ -257,6 +259,8 @@ const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{e
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
 const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,onDailySpot:id=>pilotShell?.dailySpot(id),venueName:()=>state.venue?.name||''});
+const romanticRequests=pilot&&backend.spotted?.romantic?mountRomanticRequests({inboxRoot:$('matches'),settingsRoot:$('profileActions'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
+let romanticOwner;backend.onSessionChange((event,session)=>{const next=session?.user?.id||null;if(event==='SIGNED_OUT'||romanticOwner!==undefined&&romanticOwner!==next)romanticRequests?.reset();romanticOwner=next;});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,
   setPref:(value,el)=>select(value,el,'preference'),setGender:(value,el)=>select(value,el,'gender'),

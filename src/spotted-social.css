@@ -16,3 +16,12 @@
 #spotted .spotted-thread-body .spotted-post{margin-top:0}
 /* Keep long threads in the screen's scroll flow above the existing tab bar. */
 #spotted .pilot-board-host{flex:0 0 auto}
+
+/* Request-only additions reuse existing cards/buttons; no global tokens changed. */
+.romantic-requests,.romantic-settings{min-width:0;margin-top:20px}
+.romantic-requests .board-card{margin:14px 0;padding:16px}
+.romantic-profile-photo{display:block;width:100%;max-height:420px;object-fit:cover;border-radius:14px}
+.romantic-requests .spotted-actions{display:flex;flex-wrap:wrap;gap:8px}
+.romantic-requests .btn{min-height:44px;width:auto}
+.romantic-settings label{display:flex;align-items:flex-start;gap:10px}
+.romantic-settings input{flex:0 0 auto;width:20px;height:20px}

@@ -1,0 +1,11 @@
+// Produces read-only SQL to prove live function bodies match the tested candidate.
+import{writeFile}from'node:fs/promises';import{romanticDatabase,admin}from'../tests/helpers/romantic-database.js';
+let close;const d=await romanticDatabase({after:f=>{close=f;}});
+try{await admin(d);const expected=(await d.query(`select jsonb_object_agg(n.nspname||'.'||p.proname,md5(p.prosrc))v from pg_proc p join pg_namespace n on n.oid=p.pronamespace where(n.nspname='spot_private'and(p.proname like 'romantic_%'or p.proname='profile_request_authorized'))or(n.nspname='public'and p.proname like 'spotted_romantic_%')`)).rows[0].v;
+ await writeFile('docs/evidence/spotted-romantic/tested-function-hashes.json',JSON.stringify(expected,null,2)+'\n');
+ const sql=`do $verify$declare actual jsonb;begin
+ select jsonb_object_agg(n.nspname||'.'||p.proname,md5(p.prosrc))into actual from pg_proc p join pg_namespace n on n.oid=p.pronamespace where(n.nspname='spot_private'and(p.proname like 'romantic_%'or p.proname='profile_request_authorized'))or(n.nspname='public'and p.proname like 'spotted_romantic_%');
+ if actual<>$expected$${JSON.stringify(expected)}$expected$::jsonb then raise exception 'ROMANTIC_DEPLOYMENT_DRIFT';end if;end$verify$;
+ select jsonb_build_object('function_hashes_match',true,'existing_accounts',(select count(*)from auth.users where id::text not like 'fea43000-%'),'existing_profiles',(select count(*)from profiles where id::text not like 'fea43000-%'),'existing_objects',(select count(*)from storage.objects where bucket_id='profile-photos'and name not like 'fea43000-%'),'fixture_accounts',(select count(*)from auth.users where id::text like 'fea43000-%'),'fixture_objects',(select count(*)from storage.objects where bucket_id='profile-photos'and name like 'fea43000-%'),'overquota_C_receipts',(select count(*)from spot_private.board_request_attempts where sender_id='fea43000-0000-4000-8000-000000000003'),'requests_enabled',(select requests_enabled from spot_private.soma_v2_control),'discovery',(select discovery_enabled from spot_private.soma_v2_control),'jobs_paused',(select jobs_paused from spot_private.soma_v2_control)) deployment_verified;`;
+ await writeFile('.local/spotted-romantic/verify-deployment.sql',sql);console.log('Prepared read-only candidate hash / isolation verification.');
+}finally{await close();}
