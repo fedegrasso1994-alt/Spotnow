@@ -1,0 +1,172 @@
+{
+  "date": "2026-10-20",
+  "baseline": "77e048c0d306c30d5ba72413ba21cdfe91da5c5c",
+  "code_commit": "5c04f7ac1116cadcaac7dc641da6fcb9d5dd7ea9",
+  "branch": "codex/soma-schema-v2-staging",
+  "tests": {
+    "total": 616,
+    "pass": 616,
+    "fail": 0,
+    "new_tests": 6,
+    "targeted_frontend": 21
+  },
+  "logs": {
+    "full_suite": {
+      "sha256": "845c737e492d049537b9649a6ad07a62effb00d8cedd9bcb2f926ef6a4896c5b",
+      "result": "PASS"
+    },
+    "frontend": {
+      "sha256": "a568ee3e8af6b6722790be1de79efc561c0cdfdb201edc732a4055778bcce2c4",
+      "result": "PASS"
+    },
+    "build": {
+      "sha256": "5d2be1921a0a05bff6250ea92b3065b4f8439c5045df7ff61a0755cacd7a287b",
+      "result": "PASS"
+    },
+    "typecheck": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "result": "PASS"
+    },
+    "release": {
+      "sha256": "066aaa6096d3e151add867a84da26457de761ce181902647b08ca79e71231c68",
+      "result": "PASS"
+    }
+  },
+  "preview": {
+    "url": "https://spot-ms6zz4yar-fedegrasso1994-1482.vercel.app",
+    "deployment": "dpl_Cf5KkduUHfi19XV4jeKUsJyKxEAt",
+    "target": "preview",
+    "ready": "READY",
+    "supabase_ref": "zjinjtkekmaqtxsuyvho",
+    "protection": "vercel_authentication",
+    "browser": [
+      "welcome current",
+      "login rendered",
+      "reload current welcome",
+      "console errors 0",
+      "390x844 no horizontal overflow"
+    ]
+  },
+  "build_flags": {
+    "VITE_PRIVACY_PHASE1": true,
+    "VITE_RIGHTS_PHASE1": true,
+    "VITE_MODERATION_PHASE1": true,
+    "VITE_BACHECA_PHASE1": true,
+    "VITE_ONBOARDING_NO_QR": true,
+    "VITE_ORA_V2": true,
+    "VITE_SPOT_V2": true,
+    "VITE_PROFILE_AUTHORIZATION_V2": true
+  },
+  "auth_email_otp": false,
+  "auth_redirects": {
+    "before": 13,
+    "after": 14,
+    "only_added": "https://spot-ms6zz4yar-fedegrasso1994-1482.vercel.app/**",
+    "site_url_changed": false
+  },
+  "superseded_preview": {
+    "deployment": "dpl_Dbui7t7khXETXiHsstxzrZ4AAZUv",
+    "reason": "missing existing staging frontend build flags, found in browser smoke; replaced before handoff"
+  },
+  "production_before_after": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "runtime_files": [
+    "src/spotted-presentation.js",
+    "src/spotted-social-ui.js",
+    "src/spotted-social.css"
+  ],
+  "backend_changes": false,
+  "migrations": [],
+  "real_data_writes": false,
+  "fixture_accounts_created": 0,
+  "device_checks": {
+    "390x844": {
+      "overflow": false,
+      "minimum_action_height": 44,
+      "romantic_height": 46.296875
+    },
+    "320x700": {
+      "overflow": false,
+      "long_text_overflow": false,
+      "minimum_action_height": 44,
+      "romantic_width": 250,
+      "comment_romantic_width": 269
+    },
+    "keyboard_focus_outline_px": 2,
+    "console_errors": 0,
+    "physical_device_test": false
+  },
+  "contrast_ratios": {
+    "body": 15.0,
+    "muted_identity_report": 5.03,
+    "liked": 6.56,
+    "romantic": 7.72,
+    "empty_secondary": 4.57
+  },
+  "screenshots": [
+    {
+      "file": ".local/spotted-beauty/screenshots/post-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "06be51ade62c68c7233d7d51cdaebb7722e636138746423089b3b3750aa14acd",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/liked-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "d9ec9c34938771cc2386a00485290bc246c29c3eb6b54ed59f25bee6c16acc6c",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/comments-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "cd302cb9dd184e07dd2f03aa4f93c20fae9c8d4af9649dc7b3469687346af4ad",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/romantic-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "15b919fa37c7751127424c54ab5935046cd2f31f6b762aab3179c56a9048b304",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/empty-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "ae8447960115b9c9571c76cf7c2e36a09193c35d0472eeed02c0d297deee40f7",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/post-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "6996e5e85de48f82c9c9621e115a127c666ecaf9b7f316f366d494b0b95aa1bd",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/comments-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "db6b7de1ec0683795d222c98df617843bc32bedca9e066a7cc078fa270169b5a",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/empty-320.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "45c47491ba9788674d49c338d3c4d7683eaa8d69edb4c5d80969f41b930f2b38",
+      "source": "actual SPOTTED renderer; local synthetic UI adapter; not remote writes"
+    },
+    {
+      "file": ".local/spotted-beauty/screenshots/preview-390.png",
+      "width": 65536,
+      "height": 4292542531,
+      "sha256": "0474764bcf084455f7f5000f6ea192417abd661ec06fae3879ecdcfcf8b033b0",
+      "source": "hosted Preview welcome"
+    }
+  ],
+  "gate": "SPOTTED BEAUTY: GO FOR REVIEW"
+}
