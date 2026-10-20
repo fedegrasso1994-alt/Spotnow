@@ -1,0 +1,85 @@
+{
+  "before": {
+    "posts": 1,
+    "cleanup": false,
+    "objects": 42,
+    "accounts": 4,
+    "profiles": 4,
+    "rate_md5": "8e5befb9c74d2bb659fceaa13d9531b4",
+    "discovery": false,
+    "scheduler": false,
+    "jobs_paused": true,
+    "qod_applied": false,
+    "legacy_feed_md5": "e8e352d7480d777bdd49b464f6029df0",
+    "legacy_create_md5": "5b0041dcaf97e619dfbb80e586352944",
+    "legacy_quota_rows": 1
+  },
+  "after": {
+    "posts": 1,
+    "cleanup": false,
+    "objects": 42,
+    "accounts": 4,
+    "profiles": 4,
+    "rate_md5": "8e5befb9c74d2bb659fceaa13d9531b4",
+    "discovery": false,
+    "scheduler": false,
+    "jobs_paused": true,
+    "qod_applied": false,
+    "legacy_feed_md5": "e8e352d7480d777bdd49b464f6029df0",
+    "spotted_feed_md5": "45c772aa3e443d9cb418b4a9ef2bdaec",
+    "legacy_create_md5": "5b0041dcaf97e619dfbb80e586352944",
+    "legacy_quota_rows": 1,
+    "spotted_create_md5": "d6773af07affa6cdba62221a02f9e166"
+  },
+  "tested": {
+    "create": "d6773af07affa6cdba62221a02f9e166",
+    "feed": "45c772aa3e443d9cb418b4a9ef2bdaec"
+  },
+  "date": "2026-10-20",
+  "baseline": "7d2dc37394232ba406798cdc09f8057e9751ea83",
+  "code_commit": "1c7a195258d0f1a143f0214b3d52a9728c6f6fb5",
+  "migration_applied_staging": "046_spotted_remove_daily_post_quota.sql",
+  "qod_045_applied": false,
+  "targeted_tests": {
+    "pass": 57,
+    "fail": 0
+  },
+  "full_suite": {
+    "total": 622,
+    "pass": 621,
+    "fail": 1,
+    "failed_test": "DD window collision/mutation and incomplete policy fail closed; no final clock times configured",
+    "actual": "DD_WINDOW_DAY",
+    "expected": "DD_WINDOW_IMMUTABLE",
+    "isolated_baseline_reproduction": "same failure",
+    "dependencies_unchanged": true,
+    "loads_046": false
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_assets": 37,
+  "fonts_local": 9,
+  "preview": {
+    "url": "https://spot-233tsp3j0-fedegrasso1994-1482.vercel.app",
+    "id": "dpl_12Tm54GQ5TjS5CHM2TKqLb9Ln2Um",
+    "sha": "1c7a195258d0f1a143f0214b3d52a9728c6f6fb5",
+    "target": "preview",
+    "ref": "zjinjtkekmaqtxsuyvho",
+    "console_errors": 0,
+    "auth_allowlist_before": 15,
+    "auth_allowlist_after": 16,
+    "site_url_unchanged": true
+  },
+  "production_deployment_unchanged": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "no_live_fixture_accounts_created": true,
+  "live_verification": "read-only function hashes, legacy hashes, data counts and gates; no normal authenticated remote post creation claimed",
+  "log_sha256": {
+    "targeted": "c9d0b11bbf31e3f357ecb866ba4de1bede29af10e6eafefade35a226a2304425",
+    "full": "5f195da66cf14e16202253bc66c7967b402bf067585d6469c4f183205af40dce",
+    "baseline-dd": "f3bc6d30fd927f7297d196b444fa6e998dcd7c3030b6f3e9675fd293d3db5fb3",
+    "build": "8be177ca0848038468f6b09c4e7a850bd0f3d8bae81c148cd9a30a1fb2e899c7",
+    "typecheck": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+    "release": "066aaa6096d3e151add867a84da26457de761ce181902647b08ca79e71231c68"
+  }
+}
