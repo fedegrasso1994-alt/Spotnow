@@ -1,0 +1,209 @@
+{
+  "baseline": "dcce61b7c4ec86c7d627202eb56f6414e7df98aa",
+  "classification": "TEST FLAKE",
+  "environment": "isolated local PGlite; no remote calls or deployments",
+  "original_assertion_matrix": [
+    {
+      "rome_time": "07:59:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_IMMUTABLE",
+      "old_assert_pass": true
+    },
+    {
+      "rome_time": "08:00:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_IMMUTABLE",
+      "old_assert_pass": true
+    },
+    {
+      "rome_time": "15:59:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_IMMUTABLE",
+      "old_assert_pass": true
+    },
+    {
+      "rome_time": "16:00:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_IMMUTABLE",
+      "old_assert_pass": true
+    },
+    {
+      "rome_time": "23:59:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_DAY",
+      "old_assert_pass": false
+    },
+    {
+      "rome_time": "00:00:00",
+      "overlap": "DD_WINDOW_OVERLAP",
+      "incomplete": "DD_POLICY_INCOMPLETE",
+      "old_assert_expected": "DD_WINDOW_IMMUTABLE",
+      "old_actual": "DD_WINDOW_IMMUTABLE",
+      "old_assert_pass": true
+    }
+  ],
+  "corrected_matrix": {
+    "cases": [
+      "07:59",
+      "08:00",
+      "15:59",
+      "16:00",
+      "23:59",
+      "00:00"
+    ],
+    "result": "6/6 PASS",
+    "immutable_error": "DD_WINDOW_IMMUTABLE",
+    "original_midnight_error": "DD_WINDOW_DAY"
+  },
+  "dst": {
+    "spring": [
+      "2026-03-29T01:59:59+01:00",
+      "2026-03-29T03:00:00+02:00"
+    ],
+    "autumn": [
+      "2026-10-25T02:30:00+02:00",
+      "2026-10-25T02:30:00+01:00"
+    ],
+    "result": "4/4 PASS"
+  },
+  "consecutive_targeted_runs": [
+    {
+      "run": 1,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 2,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 3,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 4,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 5,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 6,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 7,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 8,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 9,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 10,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 11,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 12,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 13,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 14,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 15,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 16,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 17,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 18,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 19,
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "run": 20,
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "matrix_test_totals": {
+    "tests": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_integrity": "PASS",
+  "qod_draft_045_sha256": "f6aee4ef113bf9584d35fa350c375764e5c521553c7c20e6b0081c4c0487b8c2",
+  "runtime_changed": false,
+  "remote_environments_accessed": false,
+  "spotted_targeted": {
+    "tests": 57,
+    "pass": 57,
+    "fail": 0
+  },
+  "qod_draft_preserved_local_stash": "fffa99c2e607d89e5db18213686958ad18389337",
+  "test_clock_absent_from_release": true,
+  "full_suite": {
+    "command": "pnpm test",
+    "tests": 625,
+    "pass": 625,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 127737.171833
+  },
+  "gate": "DD TIME-DEPENDENT TEST: GO"
+}
