@@ -79,3 +79,9 @@
 #spotted .spotted-qod-answers .spotted-post{padding:14px;margin:14px 0 0;background:var(--surface)}
 #spotted .spotted-qod-answers .spotted-actions{gap:6px}
 #spotted .spotted-qod-answers .spotted-actions .btn{padding:10px;min-width:0}
+
+/* Share stays tertiary; only the authorized deep-link target is highlighted. */
+#spotted .spotted-secondary-actions .spotted-share{display:inline-flex;align-items:center;gap:6px}
+#spotted .spotted-share .spotted-icon{width:16px;height:16px;flex-basis:16px}
+#spotted .spotted-share-target{outline:1px solid var(--coral);outline-offset:4px;border-radius:8px}
+#spotted .spotted-copy-link{width:100%;box-sizing:border-box;background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;margin-top:8px}

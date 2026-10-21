@@ -1,3 +1,4 @@
+import{shareContent,shareUrl,shareUnavailable}from './spotted-share.js';
 import{mountSpottedQod}from'./spotted-qod-ui.js';
 import {spottedIcon,spottedEmpty}from'./spotted-presentation.js';
 import {romanticError}from'./spotted-romantic.js';
@@ -5,7 +6,7 @@ import {spottedLength,spottedError} from './spotted-social.js';
 /** One community feed and one-level threads; all authority remains in RPCs.
  * @param {any} options
  */
-export function mountSpotted({root,api,document:doc=globalThis.document,schedule=setTimeout,cancel=clearTimeout,operationId=()=>crypto.randomUUID()}){
+export function mountSpotted({root,api,document:doc=globalThis.document,schedule=setTimeout,cancel=clearTimeout,operationId=()=>crypto.randomUUID(),sharePlatform=undefined,origin=globalThis.location?.origin}){
  const el=(tag,text='',cls='')=>{const n=doc.createElement(tag);n.textContent=text;n.className=cls;return n;};
  const button=(text,run,cls='btn btn-ghost')=>{const n=el('button',text,cls);n.type='button';n.onclick=run;return n;};
  const panel=el('section','','spotted-social'),disclosure=el('p','Anonimo per gli altri membri. Soma può identificare l’autore per moderazione. Non pubblicare dati personali.','privacy-note'),status=el('p','','sub spotted-status'),list=el('div','','spotted-feed'),thread=el('section','','spotted-thread');
@@ -13,7 +14,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  status.setAttribute('role','status');status.setAttribute('aria-live','polite');thread.hidden=true;
  const retry=button('Riprova',()=>load()),more=button('Altri post',()=>load(true)),refresh=button('Aggiorna',()=>load(),'backlink spotted-refresh');refresh.prepend(spottedIcon(doc,'refresh'));retry.hidden=more.hidden=true;
  let place=null,active=false,generation=0,busy=false,posts=[],postMore=false,selected=null,commentRows=[],commentMore=false,timer=null,romanticState=null;
- let qodUi=null;
+ let qodUi=null,sharedReference=null,sharedParent=null,sharedComment=null,shareFocused=false;const shareLinks=new Map();
  const operations=new Map();
  const composer=(label,placeholder,submit)=>{
   const form=el('form','','spotted-composer'),input=el('textarea'),count=el('span','0 / 280','sub'),send=el('button',label,'btn btn-primary'),meta=el('div','','spotted-composer-meta');input.setAttribute('aria-label',placeholder);input.placeholder=placeholder;input.rows=3;send.type='submit';send.disabled=true;
@@ -31,7 +32,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  }
  const postComposer=composer('Pubblica','Scrivi alla tua community…',value=>mutate('create:'+place+':'+value,op=>api.create(place,value,op)));
  const commentComposer=composer('Commenta','Scrivi un commento…',value=>{const target=selected;return mutate('comment:'+target+':'+value,op=>api.comment(target,value,op));});
- const back=button('Tutti i post',()=>{if(busy)return;selected=null;commentRows=[];thread.hidden=true;list.hidden=false;empty.hidden=posts.length>0;postComposer.form.hidden=false;qodUi?.show();more.hidden=!postMore;commentComposer.clear();},'backlink');
+ const back=button('Tutti i post',()=>{if(busy)return;sharedReference=sharedParent=sharedComment=null;selected=null;commentRows=[];thread.hidden=true;list.hidden=false;empty.hidden=posts.length>0;postComposer.form.hidden=false;qodUi?.show();more.hidden=!postMore;commentComposer.clear();},'backlink');
  back.classList.add('spotted-back');back.prepend(spottedIcon(doc,'back'));
  const threadBody=el('div','','spotted-thread-body'),commentsList=el('div','','spotted-comments'),commentNext=button('Altri commenti',()=>loadComments(true));thread.append(back,threadBody,commentsList,commentNext,commentComposer.form);
  qodUi=api.qod?mountSpottedQod({doc,api:api.qod,composer,card,mutate,blocked:()=>busy,current:id=>active&&place===id}):null;
@@ -48,6 +49,15 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
     catch(error){if(g===generation)status.textContent=romanticError(error);}finally{if(g===generation){busy=false;update();arm();}}
    },'btn btn-ghost spotted-action spotted-romantic-cta');request.prepend(spottedIcon(doc,'spark'));request.disabled=busy||romanticState.remaining===0;request.dataset.romantic='true';request.title=romanticState.remaining===0?'Hai usato le 6 richieste disponibili oggi.':'';actions.append(request);
   }
+  if(api.share){
+   let sharing=false;const share=button('Condividi',async()=>{
+    if(sharing||busy)return;sharing=true;share.disabled=true;const g=generation,key=kind+':'+item.id;
+    try{let url=shareLinks.get(key);if(!url){url=shareUrl(origin,await api.share.create(item.id,kind));if(g!==generation)return;shareLinks.set(key,url);}
+     const result=await shareContent(url,sharePlatform);if(g===generation)status.textContent=result==='copied'?'Link copiato.':result==='cancelled'?'':'Link condiviso.';
+    }catch(error){if(g===generation&&String(error?.message).includes('SHARE_COPY_UNAVAILABLE')){const field=el('input','','spotted-copy-link');field.value=shareLinks.get(key)||'';field.readOnly=true;field.setAttribute('aria-label','Link da copiare');article.append(field);field.focus?.();field.select?.();status.textContent='Copia questo link.';}else if(g===generation)status.textContent=error?.name==='NotAllowedError'?'Link pronto. Tocca di nuovo Condividi.':String(error?.message).includes('BOARD_ACCESS')?shareUnavailable:'Non riesco a condividere il link. Riprova.';}
+    finally{sharing=false;if(g===generation)share.disabled=false;}
+   },'backlink spotted-action spotted-share');share.prepend(spottedIcon(doc,'share'));secondary.append(share);
+  }
   const report=button('Segnala',()=>{report.disabled=true;reportBox(article,item,kind);},'backlink spotted-action');secondary.append(report);
   if(item.can_delete)secondary.append(button('Elimina',()=>{const box=el('div','','spotted-confirm');box.append(el('p','Vuoi eliminare questo contenuto?'),button('Conferma eliminazione',()=>mutate('delete:'+kind+':'+item.id,op=>api.remove(item.id,kind,op)),'btn btn-ghost spotted-action'));article.append(box);},'backlink spotted-action'));
   article.append(actions,secondary);return article;
@@ -57,15 +67,15 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
  async function load(append=false){
   if(!active||!place||busy)return;const g=generation;busy=true;update();status.textContent='Caricamento…';status.dataset.tone='';empty.hidden=true;retry.hidden=true;
   try{romanticState=api.romantic?await api.romantic.settings().catch(()=>null):null;if(g!==generation)return;const page=await api.feed(place,append?posts.at(-1)?.id:null);if(g!==generation||!active)return;if(!Array.isArray(page?.items))throw Error('INVALID_RESPONSE');posts=append?[...posts,...page.items.filter(p=>!posts.some(x=>x.id===p.id))]:page.items;postMore=page.more;paint();status.textContent=posts.length?'I post restano visibili per 24 ore.':'';if(qodUi&&api.qod)await qodUi.load(place);if(g!==generation)return;if(selected&&qodUi)qodUi.root.hidden=true;busy=false;if(selected)await loadComments();}
-  catch(error){if(g===generation){posts=[];selected=null;commentRows=[];qodUi?.pause();paint();empty.hidden=true;more.hidden=true;status.textContent=spottedError(error);retry.hidden=false;}}
+  catch(error){if(g===generation){posts=[];selected=null;commentRows=[];qodUi?.pause();paint();empty.hidden=true;more.hidden=true;threadBody.replaceChildren();commentsList.replaceChildren();sharedParent=sharedComment=null;status.textContent=sharedReference?shareUnavailable:spottedError(error);retry.hidden=false;}}
   finally{if(g===generation){busy=false;update();arm();}}
  }
  async function loadComments(append=false){
   if(!active||!place||!selected||busy)return;const g=generation,id=selected;busy=true;update();status.dataset.tone='';status.textContent='Caricamento commenti…';
-  try{const page=await api.comments(id,append?commentRows.at(-1)?.id:null);if(g!==generation||selected!==id||!active)return;if(!Array.isArray(page?.items))throw Error('INVALID_RESPONSE');commentRows=append?[...commentRows,...page.items.filter(c=>!commentRows.some(x=>x.id===c.id))]:page.items;commentMore=page.more;const parent=posts.find(p=>p.id===id)||qodUi?.find(id);threadBody.replaceChildren();if(parent)threadBody.append(card(parent,'post'));commentsList.replaceChildren();for(const c of commentRows)commentsList.append(card(c,'comment'));if(!commentRows.length)commentsList.append(spottedEmpty(doc,true));commentNext.hidden=!commentMore;thread.hidden=false;list.hidden=true;empty.hidden=true;postComposer.form.hidden=more.hidden=true;if(qodUi)qodUi.root.hidden=true;status.textContent='I commenti scadono insieme al post.';}
-  catch(error){if(g===generation){commentsList.replaceChildren();thread.hidden=true;selected=null;status.textContent=spottedError(error);retry.hidden=false;}}
+  try{if(sharedReference){const target=await api.share.resolve(sharedReference);if(g!==generation||selected!==id||!active)return;if(!target?.available||target.place!==place||target.post?.id!==id)throw Error('BOARD_ACCESS');sharedParent=target.post;sharedComment=target.comment;}const page=await api.comments(id,append?commentRows.at(-1)?.id:null);if(g!==generation||selected!==id||!active)return;if(!Array.isArray(page?.items))throw Error('INVALID_RESPONSE');commentRows=append?[...commentRows,...page.items.filter(c=>!commentRows.some(x=>x.id===c.id))]:page.items;commentMore=page.more;let sharedTarget=null;const parent=posts.find(p=>p.id===id)||qodUi?.find(id)||sharedParent;threadBody.replaceChildren();if(parent)threadBody.append(card(parent,'post'));commentsList.replaceChildren();for(const c of [...commentRows,...(sharedComment&&!commentRows.some(c=>c.id===sharedComment.id)?[sharedComment]:[])]){const row=card(c,'comment');commentsList.append(row);if(c.id===sharedComment?.id){row.classList.add('spotted-share-target');row.setAttribute('tabindex','-1');sharedTarget=row;}}if(!commentRows.length)commentsList.append(spottedEmpty(doc,true));commentNext.hidden=!commentMore;thread.hidden=false;list.hidden=true;empty.hidden=true;postComposer.form.hidden=more.hidden=true;if(qodUi)qodUi.root.hidden=true;if(sharedTarget&&!shareFocused){shareFocused=true;sharedTarget.scrollIntoView?.({block:'center'});sharedTarget.focus?.({preventScroll:true});}status.textContent='I commenti scadono insieme al post.';}
+  catch(error){if(g===generation){commentsList.replaceChildren();thread.hidden=true;selected=null;threadBody.replaceChildren();commentsList.replaceChildren();sharedParent=sharedComment=null;status.textContent=sharedReference?shareUnavailable:spottedError(error);retry.hidden=false;}}
   finally{if(g===generation){busy=false;update();}}
  }
- function pause(){qodUi?.pause();romanticState=null;active=false;generation++;busy=false;if(timer!==null)cancel(timer);timer=null;posts=[];commentRows=[];list.replaceChildren();threadBody.replaceChildren();commentsList.replaceChildren();thread.hidden=true;empty.hidden=true;selected=null;}
- return {context(id){if(id!==place){pause();place=id;for(const key of operations.keys())if(!key.startsWith('romantic:'))operations.delete(key);postComposer.clear();commentComposer.clear();}active=true;void load();},refresh:()=>load(),pause,reset(){pause();place=null;operations.clear();postComposer.clear();commentComposer.clear();},isActive:()=>active};
+ function pause(){shareFocused=false;sharedReference=sharedParent=sharedComment=null;qodUi?.pause();romanticState=null;active=false;generation++;busy=false;if(timer!==null)cancel(timer);timer=null;posts=[];commentRows=[];list.replaceChildren();threadBody.replaceChildren();commentsList.replaceChildren();thread.hidden=true;empty.hidden=true;selected=null;}
+ return {context(id){if(id!==place){pause();place=id;for(const key of operations.keys())if(!key.startsWith('romantic:'))operations.delete(key);postComposer.clear();commentComposer.clear();}active=true;return load();},async openShared(target,reference){if(!active||target?.place!==place||!target?.post)return;shareFocused=false;sharedReference=reference;sharedParent=target.post;sharedComment=target.comment;selected=target.post.id;commentRows=[];await loadComments();},refresh:()=>load(),pause,reset(){pause();place=null;operations.clear();shareLinks.clear();postComposer.clear();commentComposer.clear();},isActive:()=>active};
 }

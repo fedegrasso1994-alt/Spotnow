@@ -1,4 +1,5 @@
 import{createQodApi,qodError}from'./spotted-qod.js';
+import{createShareApi}from'./spotted-share.js';
 /** Social content only. No profile authorization, Spot, Match or romantic request API. */
 import {createRomanticApi}from'./spotted-romantic.js';
 export const spottedLength=text=>[...text.trim()].length;
@@ -6,6 +7,7 @@ export function spottedError(error){const special=qodError(error);if(special)ret
 export function createSpottedApi(client){const call=async(name,args)=>{const r=await client.rpc(name,args);if(r.error)throw r.error;return r.data;};return{
  romantic:createRomanticApi(client),
  qod:createQodApi(call),
+ share:createShareApi(call),
  operation:place=>call('board_operation',{place}),
  feed:(place,after_id=null)=>call('spotted_feed',{place,after_id}),
  comments:(target_post,after_id=null)=>call('spotted_comments',{target_post,after_id}),
