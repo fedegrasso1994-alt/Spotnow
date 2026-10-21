@@ -3,7 +3,11 @@ import {createPresenceClock,oraError}from './ora.js';
 export function mountPilotOraControls({root,api,onChange,document:doc=globalThis.document,timers=globalThis}){
  const el=(tag,text='',cls='')=>{const e=doc.createElement(tag);e.textContent=text;e.className=cls;return e;};
  root.classList.add('pilot-ora');root.querySelector('.name').textContent='Scopri chi è qui ora con te';root.querySelector('.privacy-note').textContent='Seleziona la location in cui ti trovi';
+ // This shared section starts with demo/legacy markup. Clear it synchronously,
+ // before navigation can reveal it while my_presence/catalog requests are pending.
+ root.querySelector('.addr').textContent='';doc.getElementById('countPill').textContent='…';doc.getElementById('discoverTribeBtn').hidden=true;
  const box=el('div');box.id='oraControls';const status=el('p','','sub'),remaining=el('p','','sub pilot-live'),list=el('div','','list pilot-cards'),scan=el('button','Inquadra QR Place','backlink'),exit=el('button','Esci da ORA','btn btn-ghost'),change=el('button','Cambia location','backlink'),retry=el('button','Riprova','backlink');status.setAttribute('role','status');remaining.setAttribute('aria-live','off');box.append(status,remaining,list,retry,change,scan,exit);root.insertBefore(box,doc.getElementById('discoverTribeBtn'));
+ exit.hidden=change.hidden=retry.hidden=true;status.textContent='Caricamento…';
  let generation=0,busy=false,presence=null,loaded=false,expanded=false,timer=null;const clock=createPresenceClock();
  const tick=()=>{const seconds=clock.remaining();remaining.textContent=presence&&seconds>0?`Presenza attiva · ${Math.floor(seconds/3600)}h ${Math.floor(seconds%3600/60)}m ${seconds%60}s rimanenti`:'';};
  const lock=v=>{busy=v;for(const b of[scan,exit,change,retry,...list.children])b.disabled=v;};

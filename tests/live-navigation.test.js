@@ -240,6 +240,15 @@ test('NOQR signed-out entry opens login, and existing AGE restriction remains be
 });
 const oraMock=(overrides={})=>({current:async()=>null,people:async()=>({items:[],total:0,hasMore:false}),search:async()=>[],end:async()=>true,...overrides});
 const oraPresence={presence_id:'live-id',place_id:'place',venue_id:'place',name:'Locale',started_at:'2026-01-01T00:00:00Z',server_now:'2026-01-01T00:00:00Z',expires_at:'2026-01-01T04:00:00Z'};
+test('pilot ORA transition is legacy-free while presence is pending, including navigation away and back',async()=>{
+ const member={id:'pilot-iulm',name:'Università IULM Milano'},api=oraMock(),wait=deferred();
+ const ui=await boot({privacyState:async()=>({age_status:'eligible',consent_status:'active'}),onboarding:onboard({state:async()=>({complete:true,tribes:[member]})}),ora:api,tribes:async()=>[member]});
+ api.current=()=>wait.promise;ui.window.go('venue');
+ assert.equal(ui.document.querySelector('.screen.active').id,'venue');assert.equal(ui.get('discoverTribeBtn').hidden,true);assert.equal(ui.get('countPill').textContent,'…');assert.equal(ui.get('venue').querySelector('.addr').textContent,'');
+ assert.equal(ui.get('venue').querySelectorAll('button').find(b=>b.textContent==='Esci da ORA').hidden,true);
+ ui.window.go('daily');wait.resolve(oraPresence);await flush();assert.equal(ui.document.querySelector('.screen.active').id,'daily');
+ ui.window.go('venue');await flush();assert.equal(ui.get('venue').querySelector('.addr').textContent,'Locale');assert.equal(ui.get('discoverTribeBtn').hidden,true);assert.equal(ui.get('countPill').textContent,'0 ora');
+});
 test('ORA pending QR uses only new RPC; zero Tribe standard onboarding cannot skip',async()=>{
  let newCalls=0,legacy=0,p=null;const ui=await boot({privacyState:async()=>({age_status:'eligible',consent_status:'active'}),onboarding:onboard({state:async()=>({complete:true,tribes:[]})}),ora:oraMock({current:async()=>p,qr:async()=>{newCalls++;return p=oraPresence;}}),scanVenue:async()=>legacy++},false,null,{search:'?venue=pending'});
  assert.equal(ui.document.querySelector('.screen.active').id,'venue');assert.equal(newCalls,1);assert.equal(legacy,0);assert.equal(ui.storage.has('spot-pending-qr'),false);
