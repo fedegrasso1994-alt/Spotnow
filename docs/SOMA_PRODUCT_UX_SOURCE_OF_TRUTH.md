@@ -475,7 +475,7 @@ Professional/legal validation remains separate. No new guard is defined for opt-
 
 Official SOMA system post per Tribe.
 
-Responses use anonymous comments.
+Founder-approved QoD contract (2026-10-21): one anonymous answer per user / Tribe / QoD identity (Europe/Rome calendar day), independent of ordinary quota-free SPOTTED posts. Deleting an answer does not refund it. Answers reuse social posts and one-level comments; the official system question has no peer author or romantic CTA. Closed questions leave the active experience; physical retention remains a separate approval.
 
 Responses can:
 - receive likes;

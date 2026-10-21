@@ -68,3 +68,14 @@
 #spotted .spotted-comment .board-text{margin:8px 0 0}
 #spotted .spotted-comment .spotted-actions{margin-top:12px}
 #spotted .spotted-comment .spotted-secondary-actions{margin-top:4px;border-top:0}
+
+/* QoD only: reuse approved cards, typography, composer and coral accents. */
+#spotted .spotted-qod{min-width:0;padding:18px;margin:18px 0 24px;border:1px solid var(--line);border-top:2px solid var(--coral);border-radius:18px;background:var(--surface2)}
+#spotted .spotted-qod[hidden]{display:none}
+#spotted .spotted-qod-title{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:28px;letter-spacing:.03em;margin:4px 0 12px}
+#spotted .spotted-qod-official{font-size:12px;color:var(--muted);margin:0}
+#spotted .spotted-qod>.board-text{margin:0 0 14px}
+#spotted .spotted-qod-note{line-height:1.5;overflow-wrap:anywhere}
+#spotted .spotted-qod-answers .spotted-post{padding:14px;margin:14px 0 0;background:var(--surface)}
+#spotted .spotted-qod-answers .spotted-actions{gap:6px}
+#spotted .spotted-qod-answers .spotted-actions .btn{padding:10px;min-width:0}
