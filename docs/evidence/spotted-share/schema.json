@@ -1,0 +1,15 @@
+{
+  "rls": true,
+  "refs": 3,
+  "cleanup": false,
+  "discovery": false,
+  "scheduler": false,
+  "anon_table": false,
+  "auth_table": false,
+  "valid_refs": 3,
+  "anon_create": false,
+  "auth_create": true,
+  "orphan_refs": 0,
+  "anon_resolve": false,
+  "auth_resolve": true
+}

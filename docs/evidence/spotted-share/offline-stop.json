@@ -1,0 +1,10 @@
+{
+  "preview": "https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app/",
+  "deployment_id": "dpl_2svcK7Ze1jPedMxB2ThMJyfF3wtG",
+  "action": "normal synthetic-account logout after successful authorized deep-link reload",
+  "observed_title": "Soma — Nessuna connessione",
+  "observed_heading": "Sei offline",
+  "runtime_patch": false,
+  "new_bypass": false,
+  "gate": "STOP — cleanup only"
+}

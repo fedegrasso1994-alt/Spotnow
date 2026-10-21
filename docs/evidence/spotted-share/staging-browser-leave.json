@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "browser-leave",
+  "results": [
+    {
+      "name": "Browser fixture now zero-Tribe through normal leave; target denied",
+      "result": "PASS"
+    }
+  ]
+}

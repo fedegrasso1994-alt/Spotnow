@@ -1,0 +1,8 @@
+[
+  {
+    "level": "error",
+    "message": "TypeError: Failed to fetch dynamically imported module: https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app/assets/install-app-Bu95iobc.js",
+    "timestamp": "2026-10-21T17:48:44.841Z",
+    "url": "https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app/"
+  }
+]

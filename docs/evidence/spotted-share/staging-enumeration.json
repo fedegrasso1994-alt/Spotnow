@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "enumeration",
+  "results": [
+    {
+      "name": "Eligible member resolves valid reference but all bounded nearby-token guesses fail",
+      "result": "PASS"
+    }
+  ]
+}

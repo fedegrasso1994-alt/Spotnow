@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "create",
+  "results": [
+    {
+      "name": "Real normal-JWT post/comment share references",
+      "result": "PASS"
+    }
+  ]
+}

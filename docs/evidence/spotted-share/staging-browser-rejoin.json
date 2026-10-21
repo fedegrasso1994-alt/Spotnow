@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "browser-rejoin",
+  "results": [
+    {
+      "name": "Explicit normal fixture rejoin restores only live authorized resolution",
+      "result": "PASS"
+    }
+  ]
+}

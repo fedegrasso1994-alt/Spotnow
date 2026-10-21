@@ -1,0 +1,7 @@
+{
+  "synthetic_only": true,
+  "deleted_accounts": 3,
+  "password_logins_denied": 3,
+  "old_access_tokens_denied": 3,
+  "old_refresh_tokens_denied": 3
+}

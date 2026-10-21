@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "removed",
+  "results": [
+    {
+      "name": "Synthetic expired and deleted post/comment references are neutral",
+      "result": "PASS"
+    }
+  ]
+}

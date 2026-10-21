@@ -11,7 +11,7 @@ test('Share member post/comment references are opaque, stable across members and
  for(const key of['author_id','user_id','created_at','expires_at','revision'])assert.ok(!JSON.stringify(result).includes(key));assert.ok(!JSON.stringify(result).includes(ids.a));assert.deepEqual(Object.keys(result).sort(),['available','comment','place','post']);
 });
 test('Share nonmember, zero Tribe, malformed, guessed and nearby references have identical unavailable payload',async t=>{
- const d=await database(t),p=await post(d),s=await share(d,p);await asUser(d,users[8]);
+ const d=await database(t),p=await post(d),s=await share(d,p);for(let i=0;i<16;i++){const guess=s.slice(0,-2)+i.toString(16).padStart(2,'0');if(guess!==s)assert.deepEqual(await resolve(d,guess),{available:false});}await asUser(d,users[8]);
  for(const token of[s,'a'.repeat(64),'0'.repeat(64),s.slice(0,-1)+(s.endsWith('f')?'e':'f'),'short','',null])assert.deepEqual(await resolve(d,token),{available:false});
  await assert.rejects(share(d,p),/BOARD_ACCESS/);await d.query('select join_tribe($1)',[ids.w]);assert.deepEqual(await resolve(d,s),{available:false});
 });

@@ -1,0 +1,22 @@
+{
+  "tests": 672,
+  "pass": 672,
+  "fail": 0,
+  "skipped": 0,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_modified_after_deploy": false,
+  "responsive_320_390": "DEFERRED to physical-device QA",
+  "native_sheet_physical_device": "NOT VERIFIED; unit tested only",
+  "clipboard_browser_outcome": "NOT CONFIRMED; API clipboard/native sheet unit tested",
+  "fresh_tab_authorized_post": "PASS",
+  "logged_in_comment_reload": "PASS",
+  "zero_tribe_gate": "PASS",
+  "nonmember_neutral": "PASS",
+  "expired_neutral": "PASS",
+  "removed_neutral_after_retry": "PASS",
+  "last_navigation": "STOP \u2014 offline fallback after synthetic logout",
+  "auth_preview_redirect": "NOT ADDED \u2014 founder authorization pending when STOP occurred",
+  "main_production_unchanged": true,
+  "final_gate": "SPOTTED SHARE: BLOCKED"
+}

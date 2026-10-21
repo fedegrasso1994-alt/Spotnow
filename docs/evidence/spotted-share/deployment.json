@@ -1,0 +1,12 @@
+{
+  "deployment_id": "dpl_2svcK7Ze1jPedMxB2ThMJyfF3wtG",
+  "url": "https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app",
+  "target": "preview",
+  "productionUrl": null,
+  "runtime_commit": "e8a399d72bcc1da86ebc513e3134670a5fa5e2d7",
+  "branch": "codex/soma-schema-v2-staging",
+  "supabase_ref": "zjinjtkekmaqtxsuyvho",
+  "readyState": "READY",
+  "deployment_protection": "vercel_authentication",
+  "new_bypass": false
+}

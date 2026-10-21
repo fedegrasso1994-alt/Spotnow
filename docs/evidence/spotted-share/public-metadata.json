@@ -1,0 +1,25 @@
+{
+  "meta": [
+    {
+      "content": null,
+      "name": null
+    },
+    {
+      "content": "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content",
+      "name": "viewport"
+    },
+    {
+      "content": "#14151a",
+      "name": "theme-color"
+    },
+    {
+      "content": "yes",
+      "name": "apple-mobile-web-app-capable"
+    },
+    {
+      "content": "Soma",
+      "name": "apple-mobile-web-app-title"
+    }
+  ],
+  "title": "Soma"
+}

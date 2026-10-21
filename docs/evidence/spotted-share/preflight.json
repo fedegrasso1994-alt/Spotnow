@@ -1,0 +1,19 @@
+{
+  "posts": 1,
+  "cleanup": false,
+  "objects": 42,
+  "accounts": 4,
+  "comments": 1,
+  "profiles": 4,
+  "discovery": false,
+  "scheduler": false,
+  "posts_hash": "6d8805370e3731f4150e414675d4ec2c",
+  "environment": "staging",
+  "jobs_paused": true,
+  "photo_phase": "OPEN",
+  "profiles_hash": "ad4067f19890f61846176521b32aaf92",
+  "retention_paused": true,
+  "existing_create_rpc": null,
+  "existing_resolve_rpc": null,
+  "existing_share_table": null
+}
