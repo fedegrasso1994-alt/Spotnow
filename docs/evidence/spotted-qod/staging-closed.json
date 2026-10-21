@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "closed",
+  "results": [
+    {
+      "name": "Manual close removes current question and rejects answer/comment access",
+      "result": "PASS"
+    }
+  ]
+}

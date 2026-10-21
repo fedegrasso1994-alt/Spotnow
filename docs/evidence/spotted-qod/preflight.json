@@ -1,0 +1,15 @@
+{
+  "source": "read-only staging SQL Editor before migration/fixtures",
+  "accounts": 4,
+  "profiles": 4,
+  "objects": 42,
+  "posts": 1,
+  "qod_flag": false,
+  "claims_applied": false,
+  "discovery": false,
+  "jobs_paused": true,
+  "cleanup": false,
+  "scheduler": false,
+  "rate_md5": "8e5befb9c74d2bb659fceaa13d9531b4",
+  "create_md5": "d6773af07affa6cdba62221a02f9e166"
+}

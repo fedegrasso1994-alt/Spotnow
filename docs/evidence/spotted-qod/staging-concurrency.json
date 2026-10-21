@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "concurrency",
+  "results": [
+    {
+      "name": "Actual concurrent hosted answer claims exactly once; content deletion never refunds",
+      "result": "PASS"
+    }
+  ]
+}

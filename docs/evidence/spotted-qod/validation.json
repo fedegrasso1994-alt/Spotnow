@@ -1,0 +1,70 @@
+{
+  "baseline": "a06cb564b0b043114d5d85f6b7796faacc0ecc18",
+  "runtime_commit": "fe448204287888f070ac695faf36ceb0bbf122b0",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "migration": "047_spotted_qod.sql",
+  "draft_045_applied": false,
+  "full_suite": {
+    "tests": 643,
+    "pass": 643,
+    "fail": 0,
+    "skipped": 0,
+    "duration_ms": 177101.443125
+  },
+  "spotted_targeted": {
+    "tests": 75,
+    "pass": 75,
+    "fail": 0
+  },
+  "new_qod_tests": {
+    "postgres": 11,
+    "frontend": 7
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_integrity": "PASS",
+  "hosted_ui": {
+    "actual_staging_jwts": true,
+    "mocked": false,
+    "widths": [
+      320,
+      390
+    ],
+    "overflow": false,
+    "composer_submit": "PASS",
+    "already_answered": "PASS",
+    "refresh_persistence": "PASS",
+    "comment_submit": "PASS",
+    "romantic_neutral_response": "PASS",
+    "peer_anonymity": "PASS",
+    "official_cta_absent": "PASS",
+    "closed_module_absent_ordinary_feed_usable": "PASS",
+    "console_errors": 0
+  },
+  "preview": {
+    "url": "https://spot-pm8z8r3gh-fedegrasso1994-1482.vercel.app",
+    "deployment_id": "dpl_J9pke5q2xZj24sstZtuUvEPFt1if",
+    "target": "preview",
+    "protection": "vercel_authentication"
+  },
+  "main_sha_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_deployment_unchanged": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+  "final_flags": {
+    "discovery": false,
+    "cleanup": false,
+    "scheduler": false,
+    "jobs_paused": true,
+    "qod_enabled": false,
+    "retention_paused": true,
+    "confirm_email_on": true
+  },
+  "cleanup": {
+    "accounts_removed": 3,
+    "photo_objects_removed": 9,
+    "fixture_product_residue": 0,
+    "new_photo_orphans": 0,
+    "existing_untracked_staging_objects_preserved": 6,
+    "photo_technical_receipts_preserved": 3
+  },
+  "gate": "SPOTTED QOD: GO FOR REVIEW"
+}

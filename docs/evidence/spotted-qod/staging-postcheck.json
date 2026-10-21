@@ -1,0 +1,44 @@
+{
+  "source": "Supabase staging SQL Editor result, verified against screenshot staging-postcheck.jpg",
+  "accounts": 4,
+  "profiles": 4,
+  "objects": 42,
+  "posts": 1,
+  "fixture_auth": 0,
+  "fixture_profiles": 0,
+  "fixture_sessions": 0,
+  "fixture_storage": 0,
+  "fixture_venues": 0,
+  "fixture_posts": 0,
+  "fixture_claims": 0,
+  "fixture_receipts": 0,
+  "fixture_comment_quota": 0,
+  "fixture_romantic_attempts": 0,
+  "legacy_quota_rows": 1,
+  "missing_current": 0,
+  "photo_receipts": [
+    {
+      "state": "purged",
+      "writer": "settled",
+      "quota_reserved": 0
+    },
+    {
+      "state": "purged",
+      "writer": "settled",
+      "quota_reserved": 0
+    },
+    {
+      "state": "purged",
+      "writer": "settled",
+      "quota_reserved": 0
+    }
+  ],
+  "qod_enabled": false,
+  "discovery": false,
+  "jobs_paused": true,
+  "cleanup": false,
+  "scheduler": false,
+  "retention_paused": true,
+  "rate_md5": "8e5befb9c74d2bb659fceaa13d9531b4",
+  "create_md5": "d6773af07affa6cdba62221a02f9e166"
+}

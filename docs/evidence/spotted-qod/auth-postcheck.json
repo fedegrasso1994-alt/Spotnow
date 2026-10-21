@@ -1,0 +1,7 @@
+{
+  "confirm_email_on": true,
+  "synthetic_accounts_login_denied": 3,
+  "fixture_a_user_access_denied": true,
+  "fixture_a_refresh_denied": true,
+  "production_accessed": false
+}
