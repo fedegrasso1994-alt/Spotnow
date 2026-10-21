@@ -259,7 +259,7 @@ const venueScanner=createVenueScanner({screen:$('camera'),onScan:async token=>{e
 const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
 const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,onDailySpot:id=>pilotShell?.dailySpot(id),venueName:()=>state.venue?.name||''});
-const romanticRequests=pilot&&backend.spotted?.romantic?mountRomanticRequests({inboxRoot:$('matches'),settingsRoot:$('profileActions'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
+const romanticRequests=pilot&&backend.spotted?.romantic?mountRomanticRequests({settingsRoot:$('profileActions'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
 let romanticOwner;backend.onSessionChange((event,session)=>{const next=session?.user?.id||null;if(event==='SIGNED_OUT'||romanticOwner!==undefined&&romanticOwner!==next)romanticRequests?.reset();romanticOwner=next;});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,

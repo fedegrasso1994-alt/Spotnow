@@ -192,6 +192,9 @@
   .chat-empty{margin:20px auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--muted);font-size:13.5px}
 
 #onboarding{overflow-y:auto} button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+/* Nav selection stays coral; keyboard focus uses the label, without a frame. */
+.tabbar .tab:focus-visible{outline:none}
+.tabbar .tab:focus-visible>span:last-child{text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
 @media(max-width:480px){.stage{padding:0}.phone{height:100dvh;max-width:none;border:0;border-radius:0;box-shadow:none}}
 
 .person .avatar{font-size:24px}.sheet .avatar{font-size:38px}.chat-head .avatar{font-size:22px}

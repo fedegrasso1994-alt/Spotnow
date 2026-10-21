@@ -28,6 +28,14 @@ test('poll retains clickable chat rows and message bubbles',async t=>{
  const ui=setup(t);ui.go('chats');await ui.social.refresh();const row=ui.get('chatsList').children[0];await ui.social.refresh();assert.equal(ui.get('chatsList').children[0],row);
  await row.onclick();const bubble=ui.get('bubbles').children.at(-1);await ui.social.refresh();assert.equal(ui.get('bubbles').children.at(-1),bubble);
 });
+test('pilot unified MATCH preserves new-match labels and updates the same chat preview across all origins',async t=>{
+ const opened=[],ui=setup(t,{messages:async id=>{opened.push(id);return[];}},()=>{},{pilot:true});
+ const records=['TRIBE','ORA','SPOTTED'].map((origin,i)=>({id:`match-${i}`,person_id:`peer-${i}`,name:`Peer ${i}`,age:25,origin,first_message_at:null,photo_path:`peer-${i}/photo`}));
+ ui.setRecords(records);ui.go('matches');await ui.social.refresh();const rows=[...ui.get('matchesList').children];assert.equal(rows.length,3);assert.ok(rows.every(row=>row.querySelector('.tm').textContent==='❤️ Nuovo match!'));
+ await rows[1].onclick();assert.equal(opened.at(-1),'match-1');assert.equal(ui.document.querySelector('.screen.active').id,'chat');
+ ui.setRecords(records.map(row=>({...row,first_message_at:'2026-10-21T10:00:00Z',last_message:'Ciao!'})));ui.go('matches');await ui.social.refresh();const updated=ui.get('matchesList').children;assert.equal(updated.length,3);assert.ok(updated.every(row=>row.querySelector('.tm').textContent==='Ciao!'));
+ await updated[1].onclick();assert.equal(opened.at(-1),'match-1');assert.equal(ui.get('matchesList').children.length,3);
+});
 test('new match while chatting does not replace the selected conversation or draft',async t=>{
  const opened=[];const ui=setup(t,{messages:async id=>{opened.push(id);return [];}});ui.go('chats');await ui.social.refresh();await ui.get('chatsList').children[0].onclick();ui.get('chatIn').value='Bozza';
  ui.setRecords([{id:'match-a',person_id:'a',name:'Anna',age:24,venue_name:'Locale',photo_path:'a/photo'},{id:'match-b',person_id:'b',name:'Bea',age:25,venue_name:'Locale',photo_path:'b/photo'}]);await ui.social.refresh();
