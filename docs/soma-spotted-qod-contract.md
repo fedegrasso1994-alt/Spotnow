@@ -47,3 +47,7 @@ Ordinary `spotted_create_post` from 046 and technical `spotted_rate` are unchang
 Operational pause: set only `system_posts_enabled=false` in staging; ordinary SPOTTED continues. Do not reverse schema destructively or restore the old quota writer. Keep 047 additive. Migration function-source patches assert their expected prior definitions and roll back the entire transaction if dependencies differ.
 
 Validation remains technical; final privacy/UGC/safety/physical-retention policy requires professional review before pilot.
+
+## Resume review evidence
+
+The 2026-10-21 resume review is recorded in `soma-spotted-qod-resume-report-2026-10-21.md` and `evidence/spotted-qod-resume/`. No contract or runtime semantics changed. Full suite 648/648, build/typecheck and hosted synthetic functional checks PASS. Final browser reload remains BLOCKED by offline/bootstrap behavior on the reviewed Preview; 320/390 automation is independently DEFERRED by founder instruction, not a QoD blocker. Temporary deployment access was revoked and no access link is persisted here.

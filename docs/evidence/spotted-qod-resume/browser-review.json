@@ -1,0 +1,14 @@
+{
+  "preview": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/",
+  "deployment_id": "dpl_41CasDHEsSFZP3SipvfnWrYzsDsM",
+  "runtime_commit": "79519e72526a2f02f2a1254f3863ca000bccadb7",
+  "active_qod_empty_composer_answer": "PASS",
+  "peer_anonymous_answer": "PASS",
+  "like_comment_romantic_cta": "PASS",
+  "persisted_ui_writes_hosted_api": "PASS",
+  "reload_browser": "BLOCKED \u2014 offline fallback / bootstrap timeout",
+  "normal_authenticated_cli_request": "HTTP 200 application HTML, current asset",
+  "exact_network_cause": "NOT PROVEN; browser access/network/bootstrap path unresolved",
+  "temporary_access_revoked": true,
+  "responsive": "DEFERRED"
+}

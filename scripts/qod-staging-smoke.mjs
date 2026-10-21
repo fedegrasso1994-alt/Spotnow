@@ -1,10 +1,12 @@
 // Explicit normal-JWT staging smoke. Synthetic isolated actors only, never app/CI code.
 import assert from'node:assert/strict';import{readFile,writeFile,mkdir}from'node:fs/promises';
 import{createClient}from'@supabase/supabase-js';import{createBackend}from'../src/backend.js';import{createSpottedApi}from'../src/spotted-social.js';import{preflightCanaryFixtures}from'../tests/fixtures/photo-canary-generator.mjs';
-const root='.local/spotted-qod',url=process.env.VITE_SUPABASE_URL,key=process.env.VITE_SUPABASE_PUBLIC_KEY;
+const root=process.env.QOD_RUN_DIR||'.local/spotted-qod',evidence=process.env.QOD_EVIDENCE_DIR||'docs/evidence/spotted-qod',url=process.env.VITE_SUPABASE_URL,key=process.env.VITE_SUPABASE_PUBLIC_KEY;
+assert.match(root,/^\.local\/spotted-qod(?:-[a-z0-9-]+)?$/);assert.match(evidence,/^docs\/evidence\/spotted-qod(?:-[a-z0-9-]+)?$/);
 assert.equal(new URL(url).hostname,'zjinjtkekmaqtxsuyvho.supabase.co');
-const fixtures=JSON.parse(await readFile(root+'/credentials.json','utf8'));assert.equal(fixtures.length,3);assert.ok(fixtures.every(f=>f.id.startsWith('fea47000-')&&f.email.endsWith('@example.invalid')));
-const venues=['fea47000-0000-4000-9000-000000000001','fea47000-0000-4000-9000-000000000002'],uuid=()=>crypto.randomUUID(),results=[];
+const prefix=process.env.QOD_FIXTURE_PREFIX||'fea47000';assert.match(prefix,/^fea47[0-9a-f]{3}$/);
+const fixtures=JSON.parse(await readFile(root+'/credentials.json','utf8'));assert.equal(fixtures.length,3);assert.ok(fixtures.every(f=>f.id.startsWith(prefix+'-')&&f.email.endsWith('@example.invalid')));
+const venues=[`${prefix}-0000-4000-9000-000000000001`,`${prefix}-0000-4000-9000-000000000002`],uuid=()=>crypto.randomUUID(),results=[];
 const pass=name=>{results.push({name,result:'PASS'});console.log(name+': PASS');};
 const actors=[];for(const f of fixtures){const c=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}}),r=await c.auth.signInWithPassword({email:f.email,password:f.password});assert.ok(!r.error,'SYNTHETIC_LOGIN');assert.equal(r.data.user.id,f.id);actors.push({id:f.id,c,s:createSpottedApi(c),b:createBackend(c,{privacyEnabled:true,boardEnabled:true,rightsEnabled:true,onboardingEnabled:true,oraEnabled:true,spotV2Enabled:true,profileAuthorizationEnabled:true})});}
 const[A,B,C]=actors;let state={};try{state=JSON.parse(await readFile(root+'/state.json','utf8'));}catch{}const save=()=>writeFile(root+'/state.json',JSON.stringify(state,null,2),{mode:0o600});
@@ -28,7 +30,15 @@ if(phase==='concurrency'){
 if(phase==='closed'){
  assert.ok(state.qod);assert.deepEqual(await A.s.qod.current(venues[0]),{question:null});await denied(B.s.qod.answer(state.question,'Closed',await B.s.operation(venues[0])),/CLOSED/);await denied(B.s.comments(state.answer),/ACCESS/);pass('Manual close removes current question and rejects answer/comment access');state.closed=true;await save();
 }
+if(phase==='ui-postcheck'){
+ const q=(await C.s.qod.current(venues[1])).question;assert.ok(q?.answered);await denied(C.s.qod.answer(q.id,'Browser answer cannot be repeated',await C.s.operation(venues[1])),/ALREADY_ANSWERED/);
+ assert.ok((await A.s.comments(state.answer)).items.some(c=>c.text==='Un altro piccolo gesto: ricordarsi una cosa che hai raccontato.'));
+ assert.equal((await B.s.qod.answers(state.question)).items.find(a=>a.id===state.answer).likes,1);assert.equal((await A.s.feed(venues[0])).items.length,5);pass('Real Preview answer/comment/like writes persisted; ordinary posts remain independent');
+ const leave=await C.c.rpc('leave_tribe',{tribe_id:venues[1]});assert.ifError(leave.error);assert.equal((await C.b.onboarding.state()).tribes.length,0);await denied(C.s.qod.current(venues[1]),/ACCESS/);await denied(C.s.qod.answers(q.id),/CLOSED/);pass('Normal leave gives zero-Tribe state and revokes QoD access');
+ await C.b.onboarding.join(venues[1]);assert.equal((await C.s.qod.current(venues[1])).question.answered,true);await denied(C.s.qod.answer(q.id,'Rejoin cannot reset answer',await C.s.operation(venues[1])),/ALREADY_ANSWERED/);pass('Normal grace rejoin preserves consumed answer without reset');
+ state.ui=true;await save();
+}
 if(phase==='cleanup'){
  for(const a of actors){const p=await a.b.getProfile();assert.match(p.name,/^SYNTHETIC QOD [ABC]$/);assert.equal(p.id,a.id);await a.b.checkDeletion();await a.b.deleteAccount();assert.equal((await a.c.auth.getUser()).data.user,null);pass('Normal lifecycle account deletion '+a.id.slice(-1));}state.deleted=true;await save();
 }
-await mkdir('docs/evidence/spotted-qod',{recursive:true});await writeFile('docs/evidence/spotted-qod/staging-'+phase+'.json',JSON.stringify({project_ref:'zjinjtkekmaqtxsuyvho',synthetic_only:true,phase,results},null,2)+'\n');
+await mkdir(evidence,{recursive:true});await writeFile(evidence+'/staging-'+phase+'.json',JSON.stringify({project_ref:'zjinjtkekmaqtxsuyvho',synthetic_only:true,phase,results},null,2)+'\n');

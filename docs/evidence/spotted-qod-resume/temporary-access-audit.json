@@ -1,0 +1,12 @@
+{
+  "deployment_id": "dpl_41CasDHEsSFZP3SipvfnWrYzsDsM",
+  "founder_authorized": true,
+  "temporary_link_created": true,
+  "ttl_hours": 23,
+  "used_only_for_browser_review": true,
+  "revoked_after_review": true,
+  "remaining_shareable_bypasses": 0,
+  "deployment_protection_changed": false,
+  "soma_authentication_unchanged": true,
+  "link_in_source_config_docs_or_shared_logs": false
+}

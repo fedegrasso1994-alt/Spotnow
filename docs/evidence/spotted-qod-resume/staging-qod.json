@@ -1,0 +1,35 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "qod",
+  "results": [
+    {
+      "name": "Official active QoD available with no peer author or romantic target",
+      "result": "PASS"
+    },
+    {
+      "name": "First answer, exact retry and direct second answer denial",
+      "result": "PASS"
+    },
+    {
+      "name": "Peer anonymity exact projection over hosted API",
+      "result": "PASS"
+    },
+    {
+      "name": "Real concurrent like unique, one-level comment and comment like",
+      "result": "PASS"
+    },
+    {
+      "name": "Other Tribe cannot read, guess or answer",
+      "result": "PASS"
+    },
+    {
+      "name": "Five ordinary posts unaffected by QoD and absent daily quota",
+      "result": "PASS"
+    },
+    {
+      "name": "Official romantic target denied; answer/comment use existing neutral request system",
+      "result": "PASS"
+    }
+  ]
+}

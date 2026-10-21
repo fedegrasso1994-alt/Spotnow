@@ -1,0 +1,19 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "ui-postcheck",
+  "results": [
+    {
+      "name": "Real Preview answer/comment/like writes persisted; ordinary posts remain independent",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal leave gives zero-Tribe state and revokes QoD access",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal grace rejoin preserves consumed answer without reset",
+      "result": "PASS"
+    }
+  ]
+}

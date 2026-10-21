@@ -1,0 +1,11 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "setup",
+  "results": [
+    {
+      "name": "Three normal JWTs, AGE/consent/photo/profile and isolated Membership Engine",
+      "result": "PASS"
+    }
+  ]
+}

@@ -1,14 +1,15 @@
 // Explicit staging-only manual fixture preparation. Never bundled or run by app/CI.
 import {randomBytes} from 'node:crypto';
 import {mkdir,writeFile} from 'node:fs/promises';
-const root='.local/spotted-qod';await mkdir(root,{recursive:true});
-const fixtures=Array.from({length:3},(_,i)=>({id:`fea47000-0000-4000-8000-${String(i+1).padStart(12,'0')}`,email:`soma-spotted-qod-${i+1}@example.invalid`,password:randomBytes(24).toString('hex')}));
+const root=process.env.QOD_RUN_DIR||'.local/spotted-qod';if(!/^\.local\/spotted-qod(?:-[a-z0-9-]+)?$/.test(root))throw Error('QOD_PRIVATE_RUN_DIR');await mkdir(root,{recursive:true});
+const prefix=process.env.QOD_FIXTURE_PREFIX||'fea47000';if(!/^fea47[0-9a-f]{3}$/.test(prefix))throw Error('QOD_SYNTHETIC_PREFIX');
+const fixtures=Array.from({length:3},(_,i)=>({id:`${prefix}-0000-4000-8000-${String(i+1).padStart(12,'0')}`,email:`soma-spotted-qod-${prefix}-${i+1}@example.invalid`,password:randomBytes(24).toString('hex')}));
 await writeFile(root+'/credentials.json',JSON.stringify(fixtures),{mode:0o600});
-const venues=['fea47000-0000-4000-9000-000000000001','fea47000-0000-4000-9000-000000000002'];
+const venues=[`${prefix}-0000-4000-9000-000000000001`,`${prefix}-0000-4000-9000-000000000002`];
 let sql=`begin;select spot_private.board_lock();set local search_path=public,extensions;do $$begin
  if not exists(select 1 from spot_private.privacy_environment where environment='staging')or exists(select 1 from spot_private.soma_v2_control where discovery_enabled or dd_controlled_admission or not jobs_paused)or exists(select 1 from spot_private.photo_cutover_control where phase<>'OPEN'or execute_enabled or scheduler_enabled)or not(select paused from spot_private.retention_control)then raise exception 'SAFE_STAGING_REQUIRED';end if;
- if exists(select 1 from auth.users where id::text like 'fea47000-%')or exists(select 1 from venues where id::text like 'fea47000-%')then raise exception 'FIXTURE_ALREADY_EXISTS';end if;end$$;\n`;
+ if exists(select 1 from auth.users where id::text like '${prefix}-%')or exists(select 1 from venues where id::text like '${prefix}-%')then raise exception 'FIXTURE_ALREADY_EXISTS';end if;end$$;\n`;
 for(const f of fixtures)sql+=`insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at,confirmation_token,recovery_token,email_change,email_change_token_new)values('${f.id}','00000000-0000-0000-0000-000000000000','authenticated','authenticated','${f.email}',crypt('${f.password}',gen_salt('bf')),now(),'{"provider":"email","providers":["email"]}','{"synthetic_test":"spotted-qod-047"}',now(),now(),'','','','');insert into auth.identities(id,user_id,provider_id,provider,identity_data,created_at,updated_at)values(gen_random_uuid(),'${f.id}','${f.id}','email','{"sub":"${f.id}","email":"${f.email}","email_verified":true}',now(),now());\n`;
 for(let i=0;i<2;i++)sql+=`insert into venues(id,name,address,active,ora_enabled)values('${venues[i]}','SYNTHETIC QOD 047 ${i+1}','Synthetic isolated staging only',true,false);insert into spot_private.tribe_catalog(id,active,joinable)values('${venues[i]}',true,true);\n`;
-sql+=`commit;select jsonb_build_object('fixtures',(select count(*)from auth.users where id::text like 'fea47000-%'),'isolated_tribes',(select count(*)from venues where id::text like 'fea47000-%'),'discovery',(select discovery_enabled from spot_private.soma_v2_control)) seeded;`;
+sql+=`commit;select jsonb_build_object('fixtures',(select count(*)from auth.users where id::text like '${prefix}-%'),'isolated_tribes',(select count(*)from venues where id::text like '${prefix}-%'),'discovery',(select discovery_enabled from spot_private.soma_v2_control)) seeded;`;
 await writeFile(root+'/seed-private.sql',sql,{mode:0o600});console.log('Prepared 3 synthetic identities and 2 isolated Tribe definitions. No credentials emitted.');

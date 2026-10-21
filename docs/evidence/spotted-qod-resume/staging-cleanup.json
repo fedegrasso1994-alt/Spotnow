@@ -1,0 +1,19 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "cleanup",
+  "results": [
+    {
+      "name": "Normal lifecycle account deletion 1",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal lifecycle account deletion 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal lifecycle account deletion 3",
+      "result": "PASS"
+    }
+  ]
+}
