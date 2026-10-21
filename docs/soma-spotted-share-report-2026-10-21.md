@@ -39,7 +39,7 @@ A signed-out recipient sees ordinary Soma Auth, with no hidden text. The opaque 
 
 Normal password/JWT synthetic Auth and SDK callback/session restoration were exercised in the real Preview. Unit/live-navigation tests cover the mandatory-gate ordering and target preservation, including zero-Tribe + existing ORA and old QR draft conflicts. This does **not** claim a new real Google/email delivery test.
 
-The new Preview origin is absent from the staging Auth redirect allowlist. Founder approval to add only its redirect was requested; no approval had been received when the offline STOP occurred. **It was not added.** Site URL, Confirm email, provider configuration and existing redirects were unchanged. Google/email return to this new Preview remains an operational gate; otherwise Supabase uses its old Site URL.
+At the offline STOP, the new Preview origin was absent from the staging Auth redirect allowlist and approval was pending. The subsequently authorized configuration-only follow-up below resolves the missing redirect; it does not establish a new real Google/email callback PASS.
 
 ## E–F. Post/comment behavior
 
@@ -112,7 +112,7 @@ Preview remains the URL above, using only staging and unchanged Vercel Authentic
 Blockers:
 
 1. **Required STOP:** document offline fallback reproduced on the new deployment after logout. Needs separately scoped Preview/network investigation; no service-worker workaround in Share.
-2. New exact-origin Auth redirect not yet authorized/applied. Real Google/email return to this deployment is not complete.
+2. Missing exact-origin Auth redirect: RESOLVED by the authorized follow-up below. Real Google/email return to this deployment has not been retested.
 3. Native OS share and clipboard outcome still require manual device verification; automated paths pass. This is reported separately from the reproduced offline blocker.
 
 All three synthetic accounts deleted via normal delete-account/PHOTO lifecycle. Old password logins/access/refresh tokens rejected afterward. Fixture posts/comments/likes/reports/requests/Match/chat/membership/profile/Auth/session/Storage rows and **all Share references = 0**. The two synthetic catalog/venue containers were removed only after dependency guards passed.
@@ -136,5 +136,13 @@ Tests/tooling: `tests/spotted-share.test.js`, `tests/spotted-share-client.test.j
 Documentation: `docs/soma-spotted-share-contract.md`, this report, sanitized `docs/evidence/spotted-share/`.
 
 Main remains `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`. Production unchanged. No analytics/notifications work begun.
+
+## Authorized Auth redirect follow-up — 2026-10-21
+
+After explicit founder approval, added only `https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app/**` to Auth redirects in staging `zjinjtkekmaqtxsuyvho`. Saved configuration was verified after a console reload: 20 URLs, with all 19 existing entries preserved. Site URL remains `https://spot-4iyv0pnke-fedegrasso1994-1482.vercel.app/`; Confirm email remains ON (also verified through public Auth settings).
+
+No provider credentials, Site URL, other Auth settings, application source, deployment, main or Production changed. No new fixtures, bypass links or real OAuth/email callback tests were used. The runtime Preview still serves commit `e8a399d72bcc1da86ebc513e3134670a5fa5e2d7`. Evidence: `docs/evidence/spotted-share/auth-redirect-followup.json` and `screenshots/auth-redirect-saved.jpg`.
+
+Full suite rerun: 672/672 PASS, zero skipped; build PASS; typecheck PASS. The previously reproduced offline navigation remains unresolved and the Share gate stays BLOCKED.
 
 **SPOTTED SHARE: BLOCKED**

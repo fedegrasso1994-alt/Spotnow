@@ -16,7 +16,7 @@
   "expired_neutral": "PASS",
   "removed_neutral_after_retry": "PASS",
   "last_navigation": "STOP \u2014 offline fallback after synthetic logout",
-  "auth_preview_redirect": "NOT ADDED \u2014 founder authorization pending when STOP occurred",
+  "auth_preview_redirect": "ADDED after explicit founder authorization; persisted console reload verified; real OAuth/email callback not retested",
   "main_production_unchanged": true,
   "final_gate": "SPOTTED SHARE: BLOCKED"
 }
