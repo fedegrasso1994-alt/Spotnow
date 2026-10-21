@@ -1,0 +1,34 @@
+{
+  "baseline_head": "2c624b8c3999d0820ef6c6fd3185fd80d3335519",
+  "runtime_commit": "79519e72526a2f02f2a1254f3863ca000bccadb7",
+  "preview": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/",
+  "deployment_id": "dpl_41CasDHEsSFZP3SipvfnWrYzsDsM",
+  "pwa_tests": {
+    "pass": 5,
+    "fail": 0
+  },
+  "full_suite": {
+    "tests": 651,
+    "pass": 651,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_modified": false,
+  "new_bypass_created": false,
+  "deployment_protection_changed": false,
+  "main_unchanged": true,
+  "production_unchanged": true,
+  "deployed_sw_sha256": "b4931a734340363fa914d0ed4edbe7c7e2421420f12399a6c35e372e3256b8e3",
+  "repository_sw_sha256": "b4931a734340363fa914d0ed4edbe7c7e2421420f12399a6c35e372e3256b8e3",
+  "root_http_cli": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "redirects": 0
+  },
+  "browser_current_reload": "PASS logged out",
+  "original_failure_reproduced": false,
+  "upstream_root_cause": "NOT PROVEN",
+  "final_gate": "PREVIEW OFFLINE RELOAD: BLOCKED"
+}

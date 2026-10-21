@@ -1,0 +1,65 @@
+[
+  {
+    "path": "/assets/index-CQJhBGOc.js",
+    "result": [
+      "200",
+      "application/javascript; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/assets/live-CVoFdrpF.js",
+    "result": [
+      "200",
+      "application/javascript; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/assets/bacheca-THRLbLQp.js",
+    "result": [
+      "200",
+      "application/javascript; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/assets/index-D2K0kXD5.css",
+    "result": [
+      "200",
+      "text/css; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/assets/live-DXMCAE7t.css",
+    "result": [
+      "200",
+      "text/css; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/sw.js",
+    "result": [
+      "200",
+      "application/javascript; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  },
+  {
+    "path": "/offline.html",
+    "result": [
+      "200",
+      "text/html; charset=utf-8",
+      "0"
+    ],
+    "exit_code": 0
+  }
+]

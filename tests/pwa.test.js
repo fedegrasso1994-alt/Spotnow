@@ -16,3 +16,27 @@ test('offline fallback caches only a static explanation and never a navigation U
  events.fetch({request:{url:'https://spot.example/?venue=private-token',mode:'navigate',method:'GET'},respondWith:p=>response=p});
  assert.deepEqual(await response,{offline:'/offline.html'});assert.deepEqual(stored,['/offline.html']);
 });
+
+function navigationWorker(fetch,match){
+ const events={};
+ vm.runInNewContext(source,{URL,Response,fetch,caches:{match},self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler}});
+ return async()=>{let response;events.fetch({request:{url:'https://spot.example/',mode:'navigate',method:'GET'},respondWith:p=>response=p});return response;};
+}
+test('navigation HTTP errors and auth redirects do not trigger the offline explanation',async()=>{
+ for(const status of [200,302,401,403,500]){
+  const response=new Response('upstream response',{status});
+  const navigate=navigationWorker(async()=>response,async()=>assert.fail('HTTP status is not a network rejection'));
+  assert.equal(await navigate(),response);
+ }
+});
+test('navigation fetch rejection triggers fallback without consulting navigator online or Auth state',async()=>{
+ const offline=new Response('cached static offline explanation');let matches=0;
+ const navigate=navigationWorker(async()=>{throw new TypeError('Failed to fetch');},async path=>{assert.equal(path,'/offline.html');matches++;return offline;});
+ assert.equal(await navigate(),offline);assert.equal(matches,1);
+});
+test('worker retries navigation over the network after failure and never caches the failed document',async()=>{
+ let attempt=0,matches=0;const online=new Response('application HTML');
+ const navigate=navigationWorker(async()=>{if(++attempt===1)throw Error('network failure');return online;},async()=>{matches++;return undefined;});
+ const fallback=await navigate();assert.equal(fallback.status,503);
+ assert.equal(await navigate(),online);assert.equal(attempt,2);assert.equal(matches,1);
+});

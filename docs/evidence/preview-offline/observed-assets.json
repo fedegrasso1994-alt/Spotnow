@@ -1,0 +1,74 @@
+{
+  "preview": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/",
+  "assets": [
+    {
+      "kind": "stylesheet",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/fonts/fonts.css"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/index-CQJhBGOc.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/preload-helper-DjzSQ1t3.js"
+    },
+    {
+      "kind": "stylesheet",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/index-D2K0kXD5.css"
+    },
+    {
+      "kind": "font",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/fonts/inter-c940764593d0fe5d.woff2"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/live-CVoFdrpF.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/moderation-api-C44J7btg.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/domain-B514esKM.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/install-app-hBKtSbm8.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/bacheca-THRLbLQp.js"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/ui-refresh-12XFKWTs.js"
+    },
+    {
+      "kind": "stylesheet",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/live-DXMCAE7t.css"
+    },
+    {
+      "kind": "script",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/assets/install-app-Bu95iobc.js"
+    },
+    {
+      "kind": "font",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/fonts/bebas-neue-441b026df205d289.woff2"
+    },
+    {
+      "kind": "other",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/.well-known/vercel/jwe"
+    },
+    {
+      "kind": "image",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/icons/icon-192.png"
+    },
+    {
+      "kind": "other",
+      "url": "https://spot-jpm87ufx2-fedegrasso1994-1482.vercel.app/"
+    }
+  ],
+  "http_status_available": false
+}
