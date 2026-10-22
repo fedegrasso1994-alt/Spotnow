@@ -1,0 +1,27 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "phase": "verify",
+  "results": [
+    {
+      "name": "Member post/comment resolve, stable references and anonymous projection",
+      "result": "PASS"
+    },
+    {
+      "name": "Other Tribe, guessed and modified references neutral",
+      "result": "PASS"
+    },
+    {
+      "name": "Bounded nearby-token enumeration by an eligible member fails",
+      "result": "PASS"
+    },
+    {
+      "name": "Unauthenticated resolver denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal leave to zero-Tribe revokes access; explicit normal rejoin rechecks authorization",
+      "result": "PASS"
+    }
+  ]
+}

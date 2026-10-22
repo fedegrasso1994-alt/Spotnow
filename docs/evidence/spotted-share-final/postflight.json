@@ -1,0 +1,63 @@
+{
+  "postflight": {
+    "posts": 1,
+    "cleanup": false,
+    "objects": 42,
+    "accounts": 4,
+    "comments": 1,
+    "profiles": 4,
+    "rate_md5": "8e5befb9c74d2bb659fceaa13d9531b4",
+    "discovery": false,
+    "scheduler": false,
+    "create_md5": "d6773af07affa6cdba62221a02f9e166",
+    "posts_hash": "6d8805370e3731f4150e414675d4ec2c",
+    "share_refs": 0,
+    "jobs_paused": true,
+    "photo_phase": "OPEN",
+    "qod_enabled": false,
+    "fixture_auth": 0,
+    "fixture_posts": 0,
+    "profiles_hash": "ad4067f19890f61846176521b32aaf92",
+    "fixture_claims": 0,
+    "fixture_venues": 0,
+    "photo_receipts": [
+      {
+        "state": "purged",
+        "writer": "settled",
+        "quota_reserved": 0
+      },
+      {
+        "state": "purged",
+        "writer": "settled",
+        "quota_reserved": 0
+      },
+      {
+        "state": "purged",
+        "writer": "settled",
+        "quota_reserved": 0
+      }
+    ],
+    "fixture_storage": 0,
+    "missing_current": 0,
+    "fixture_profiles": 0,
+    "fixture_receipts": 0,
+    "fixture_sessions": 0,
+    "retention_paused": true,
+    "legacy_quota_rows": 1,
+    "fixture_comment_quota": 0,
+    "fixture_romantic_attempts": 0
+  },
+  "dependencies": {
+    "likes": 0,
+    "matches": 0,
+    "reports": 0,
+    "comments": 0,
+    "messages": 0,
+    "memberships": 0,
+    "preferences": 0,
+    "romantic_quota": 0,
+    "romantic_guards": 0,
+    "validated_photos": 0,
+    "romantic_requests": 0
+  }
+}

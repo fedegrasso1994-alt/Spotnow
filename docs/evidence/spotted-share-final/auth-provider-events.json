@@ -1,0 +1,80 @@
+{
+  "timezone": "Europe/Rome",
+  "date": "2026-10-21",
+  "google": [
+    {
+      "time": "20:10:11",
+      "method": "GET",
+      "path": "/authorize",
+      "status": 302,
+      "message": "Redirecting to external provider"
+    },
+    {
+      "time": "20:10:11",
+      "method": "GET",
+      "path": "/callback",
+      "status": 302,
+      "message": "Login: request completed"
+    },
+    {
+      "time": "20:10:13",
+      "method": "GET",
+      "path": "/user",
+      "status": 200
+    },
+    {
+      "time": "20:12:49",
+      "method": "POST",
+      "path": "/logout",
+      "status": 204
+    }
+  ],
+  "email": [
+    {
+      "time": "20:16:10",
+      "method": "POST",
+      "path": "/auth/v1/otp",
+      "status": 200
+    },
+    {
+      "time": "20:16:11",
+      "message": "Mail.send"
+    },
+    {
+      "time": "20:16:27",
+      "method": "POST",
+      "path": "/auth/v1/otp",
+      "status": 429,
+      "retry_after_seconds": 43
+    },
+    {
+      "time": "20:16:30",
+      "method": "POST",
+      "path": "/auth/v1/otp",
+      "status": 429,
+      "retry_after_seconds": 40
+    },
+    {
+      "time": "20:24:43",
+      "method": "GET",
+      "path": "/verify",
+      "status": 303,
+      "message": "Login: request completed"
+    },
+    {
+      "time": "20:24:46",
+      "method": "GET",
+      "path": "/user",
+      "status": 200
+    }
+  ],
+  "redirect_origin": "https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app",
+  "redirect_share_target_preserved": true,
+  "email_founder_confirmation": "Returned to Soma from the emailed link; screenshot shows authenticated SPOTTED neutral fallback",
+  "fixture_deletion_times": [
+    "20:23:48",
+    "20:23:50",
+    "20:23:52"
+  ],
+  "email_return_after_fixture_deletion": true
+}
