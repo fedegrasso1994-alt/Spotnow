@@ -576,6 +576,8 @@ Do not overbuild before choosing the minimum delivery mechanism.
 
 ## 28. Analytics instrumentation
 
+Founder-approved Analytics MVP baseline (2026-10-22): `active_day` means an authenticated interaction, including product consultation, in the Europe/Rome calendar day; polling, background, token refresh and push receipt alone are excluded. Analytics pseudonymous events/account-day records/minimal fairness counters have a 90-day physical retention cap. Genuinely anonymous rollups have a 24-calendar-month cap; removing an account ID is insufficient. Fairness instrumentation contains only account/window opportunity/assignment counters, no exposed pairs or dating/demographic segmentation. These periods do not alter product retention. Staging implementation and measurement limits: `soma-analytics-mvp-contract-2026-10-22.md`. No Admin dashboard or marketing attribution in this block.
+
 Instrument before pilot/admin dashboard.
 
 Acquisition:
