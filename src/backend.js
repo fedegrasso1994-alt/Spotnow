@@ -1,3 +1,4 @@
+import {createAnalyticsApi}from './analytics.js';
 import {createNotificationApi}from './notifications.js';
 import {createDailyDiscoveryApi}from './daily-discovery.js';
 import {createProfileAuthorizationApi}from './profile-authorization.js';
@@ -14,7 +15,7 @@ import { validProfile } from './domain.js';
 import { createRequestQueue } from './request-queue.js';
 
 /** Uses the official Supabase client, injected to keep it independent of the UI. */
-export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false,spotV2Enabled=false,profileAuthorizationEnabled=false,beforeGoogle=null,emailCodeEnabled=false}={}) {
+export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,rightsEnabled=false,moderationEnabled=false,boardEnabled=false,onboardingEnabled=false,oraEnabled=false,spotV2Enabled=false,profileAuthorizationEnabled=false,beforeGoogle=null,emailCodeEnabled=false,analyticsEnabled=false}={}) {
   const profileAuthorization=profileAuthorizationEnabled?createProfileAuthorizationApi(client):null;
   const prefetched=new Map();
   const photoQueue=createRequestQueue(4),detailQueue=createRequestQueue(2),readQueue=createRequestQueue(6),pendingReads=new Map();
@@ -37,12 +38,13 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
   return {
     ...(privacyEnabled?createPrivacyApi(client):{}),
     authEmailCodeEnabled:emailCodeEnabled,
+    ...(analyticsEnabled?{analytics:createAnalyticsApi(client)}:{}),
     ...(onboardingEnabled&&oraEnabled&&spotV2Enabled&&profileAuthorizationEnabled?{dailyDiscovery:createDailyDiscoveryApi(client)}:{}),
     ...(spotV2Enabled?{spotV2:createSpotV2Api(client)}:{}),
     ...(oraEnabled?{ora:createOraApi(client)}:{}),
     ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),
     ...(boardEnabled?{board:createBoardApi(client),spotted:createSpottedApi(client)}:{}),
-    ...(rightsEnabled?{rights:createRightsApi(client,{boardEnabled,spottedEnabled:boardEnabled&&onboardingEnabled})}:{}),
+    ...(rightsEnabled?{rights:createRightsApi(client,{boardEnabled,spottedEnabled:boardEnabled&&onboardingEnabled,analyticsEnabled})}:{}),
     ...(moderationEnabled?{moderationNotice:async()=>unwrap(await client.rpc('my_moderation_notice'))}:{}),
     async session(){return unwrap(await client.auth.getSession()).session;},
     async accountState(){return rpcRead('my_account_state');},

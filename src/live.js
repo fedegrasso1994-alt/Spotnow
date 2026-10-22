@@ -1,3 +1,4 @@
+import {createAnalytics}from './analytics.js';
 import {createNotifications,notificationEnabled}from './notifications.js';
 import {mountNotificationRequest}from './notification-request-ui.js';
 import {createShareIntent} from './spotted-share.js';
@@ -31,6 +32,7 @@ import { createSuspensionScreen } from './suspension-screen.js';
 
 const $=id=>document.getElementById(id);
 const backend=connectBackend({url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY});
+const analytics=backend.analytics?createAnalytics({api:backend.analytics,session:()=>state.session}):null;
 const pilot=Boolean(backend.onboarding&&backend.ora);
 const shareIntent=createShareIntent(location);
 const board=!pilot&&backend.board?mountBoard({root:$('tribe'),api:backend.board,peopleNodes:[$('tribeCount'),$('tribeGrid')],onPeople:()=>void renderTribe()}):null;
@@ -41,10 +43,13 @@ const oraV2=Boolean(backend.ora),presenceClock=createPresenceClock();
 const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,pilot,onChange:async p=>{state.checkin=p;presenceClock.set(p);state.venue=p?{id:p.place_id,name:p.name,address:p.address}:null;liveOffset=0;livePager.reset();go('venue',{replace:true});}}):null;
 let onboardingComplete=false,explicitQrScan=false,pilotHomePending=false,pilotNeedsTribe=true;
 const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,pilot,onDone:()=>{pilotHomePending=pilot;return hydrate();}}):null;
-const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,spottedApi:backend.spotted,dailyApi:backend.dailyDiscovery,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),onDailyState:(people,budget)=>social.syncDailyDetail(people,budget)}):null;
+const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,spottedApi:backend.spotted,dailyApi:backend.dailyDiscovery,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),analytics,onDailyState:(people,budget)=>{social.syncDailyDetail(people,budget);analytics?.discoveryPainted(people.length>0);}}):null;
 let privacy=null,existingProfile=false;
 async function choosePilotTribe(){const generation=accountGeneration;try{const progress=await backend.onboarding.state();if(generation!==accountGeneration||!state.session)return;pilotNeedsTribe=!progress.tribes.length;go('tribeOnboarding');await tribeOnboarding.open(progress);}catch(e){if(generation===accountGeneration)showToast(message(e));}}
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
+$('phone').addEventListener('pointerdown',()=>analytics?.view(activeScreen()));
+$('phone').addEventListener('keydown',()=>analytics?.view(activeScreen()));
+document.addEventListener?.('visibilitychange',()=>{if(document.visibilityState==='visible')analytics?.view(activeScreen());});
 const qrFromUrl=new URLSearchParams(location.search).get('venue');
 // OAuth/email redirects carry the current QR in their URL; a stored old token is never an ingress.
 let pendingQr=qrFromUrl,pendingQrSavedAt=Date.now();
@@ -109,6 +114,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   if(['daily','spotted'].includes(screen))pilotShell?.open(screen);
   if(screen==='tribes')void renderTribes();
   if(screen==='tribe'){board?.context(selectedTribe?.id);void renderTribe();}
+  analytics?.view(screen);
   social.onScreen(screen);
   romanticRequests?.open(screen);
   if(screen==='onboarding'){profileNotice.textContent='';$('toast').classList.remove('show');const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
@@ -238,7 +244,7 @@ async function trySaveProfile() {
 }
 function changeEmail(){$('codeForm').hidden=true;$('emailForm').hidden=false;$('loginCode').value='';$('loginStatus').textContent='';}
 $('emailForm').addEventListener('submit',async event=>{
-  event.preventDefault();const button=$('requestCodeBtn');button.disabled=true;$('loginStatus').textContent='Invio in corso…';
+  event.preventDefault();analytics?.authStart('email');const button=$('requestCodeBtn');button.disabled=true;$('loginStatus').textContent='Invio in corso…';
   try {await backend.requestCode({email:$('loginEmail').value.trim(),redirectTo:authRedirect(location,pendingQr)});if(backend.authEmailCodeEnabled){$('emailForm').hidden=true;$('codeForm').hidden=false;$('loginCode').value='';$('loginStatus').textContent='Inserisci il codice Soma ricevuto via email. In alternativa puoi usare il link nella stessa email.';$('loginCode').focus();}else $('loginStatus').textContent='Controlla la tua email e apri il link di accesso a Soma. Se il link è scaduto o già usato, richiedi una nuova email.';}
   catch(error){$('loginStatus').textContent=message(error);}
   finally{button.disabled=false;}
@@ -268,7 +274,7 @@ const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>sta
 const romanticRequests=pilot&&backend.spotted?.romantic?mountRomanticRequests({settingsRoot:$('profileActions'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
 const notificationRequest=pilot&&backend.spotted?.romantic&&notificationEnabled(import.meta.env)?mountNotificationRequest({root:$('spotted'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
 const notifications=notificationEnabled(import.meta.env)?createNotifications({api:backend.notifications,publicKey:import.meta.env.VITE_NOTIFICATIONS_VAPID_PUBLIC,root:$('profileActions'),session:()=>state.session,onTarget:async target=>{if(!target.available){go('daily',{replace:true});showToast('Questa notifica non è più disponibile.');return;}if(target.kind==='request'){go('spotted',{replace:true});await notificationRequest.open(target.request);}else if(target.kind==='dd')go('daily',{replace:true});else {const owner=state.session?.user?.id;await social.restoreChat(target.match_id,()=>state.session?.user?.id===owner);}}}):null;
-backend.onSessionChange((event,session)=>{void notifications?.account(session?.user?.id||null).catch(()=>{});notificationRequest?.reset();if(event==='SIGNED_OUT')notifications?.resetIntent();});
+backend.onSessionChange((event,session)=>{void notifications?.account(session?.user?.id||null).catch(()=>{});notificationRequest?.reset();if(event==='SIGNED_OUT'){notifications?.resetIntent();analytics?.reset();}});
 let romanticOwner;backend.onSessionChange((event,session)=>{const next=session?.user?.id||null;if(event==='SIGNED_OUT'||romanticOwner!==undefined&&romanticOwner!==next)romanticRequests?.reset();romanticOwner=next;});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,
@@ -308,7 +314,7 @@ $('existingAccountBtn').onclick=async()=>{
  }catch(error){go('login');$('loginStatus').textContent=message(error);}finally{btn.disabled=false;}
 };
 $('googleLoginBtn').onclick=async()=>{
- const btn=$('googleLoginBtn');btn.disabled=true;$('loginStatus').textContent='Apertura di Google…';
+ analytics?.authStart('google');const btn=$('googleLoginBtn');btn.disabled=true;$('loginStatus').textContent='Apertura di Google…';
  try{
   if(pendingQr)sessionStorage.setItem('spot-pending-qr',pendingQr);
   const redirect=authRedirect(location,pendingQr);

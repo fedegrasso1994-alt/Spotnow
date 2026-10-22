@@ -6,7 +6,7 @@ import {spottedLength,spottedError} from './spotted-social.js';
 /** One community feed and one-level threads; all authority remains in RPCs.
  * @param {any} options
  */
-export function mountSpotted({root,api,document:doc=globalThis.document,schedule=setTimeout,cancel=clearTimeout,operationId=()=>crypto.randomUUID(),sharePlatform=undefined,origin=globalThis.location?.origin}){
+export function mountSpotted({root,api,document:doc=globalThis.document,schedule=setTimeout,cancel=clearTimeout,operationId=()=>crypto.randomUUID(),sharePlatform=undefined,analytics=null,origin=globalThis.location?.origin}){
  const el=(tag,text='',cls='')=>{const n=doc.createElement(tag);n.textContent=text;n.className=cls;return n;};
  const button=(text,run,cls='btn btn-ghost')=>{const n=el('button',text,cls);n.type='button';n.onclick=run;return n;};
  const panel=el('section','','spotted-social'),disclosure=el('p','Anonimo per gli altri membri. Soma può identificare l’autore per moderazione. Non pubblicare dati personali.','privacy-note'),status=el('p','','sub spotted-status'),list=el('div','','spotted-feed'),thread=el('section','','spotted-thread');
@@ -53,7 +53,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
    let sharing=false;const share=button('Condividi',async()=>{
     if(sharing||busy)return;sharing=true;share.disabled=true;const g=generation,key=kind+':'+item.id;
     try{let url=shareLinks.get(key);if(!url){url=shareUrl(origin,await api.share.create(item.id,kind));if(g!==generation)return;shareLinks.set(key,url);}
-     const result=await shareContent(url,sharePlatform);if(g===generation)status.textContent=result==='copied'?'Link copiato.':result==='cancelled'?'':'Link condiviso.';
+     const shareOperation=operationId();const result=await shareContent(url,sharePlatform);if(g===generation)analytics?.shareOutcome(result,shareOperation);if(g===generation)status.textContent=result==='copied'?'Link copiato.':result==='cancelled'?'':'Link condiviso.';
     }catch(error){if(g===generation&&String(error?.message).includes('SHARE_COPY_UNAVAILABLE')){const field=el('input','','spotted-copy-link');field.value=shareLinks.get(key)||'';field.readOnly=true;field.setAttribute('aria-label','Link da copiare');article.append(field);field.focus?.();field.select?.();status.textContent='Copia questo link.';}else if(g===generation)status.textContent=error?.name==='NotAllowedError'?'Link pronto. Tocca di nuovo Condividi.':String(error?.message).includes('BOARD_ACCESS')?shareUnavailable:'Non riesco a condividere il link. Riprova.';}
     finally{sharing=false;if(g===generation)share.disabled=false;}
    },'backlink spotted-action spotted-share');share.prepend(spottedIcon(doc,'share'));secondary.append(share);

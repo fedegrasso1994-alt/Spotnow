@@ -1,13 +1,14 @@
 /** Owner-only staging access/export; no server credentials or persistent export artifacts. */
-export const RIGHTS_LABELS={account:'Account',profile:'Profilo',age:'Età dichiarata',age_history:'Conferme età conservate',consent:'Consenso dating',consent_history:'Scelte di consenso conservate',photos:'Foto e copie conservate',checkins:'Il tuo check-in attuale',tribes:'Le tue Tribe',spots:'Interessi inviati',matches:'Match',messages:'Messaggi scritti da te',blocks:'Blocchi effettuati',reports:'Segnalazioni inviate',moderation:'Stato moderazione'};
+export const RIGHTS_LABELS={account:'Account',profile:'Profilo',age:'Età dichiarata',age_history:'Conferme età conservate',consent:'Consenso dating',consent_history:'Scelte di consenso conservate',photos:'Foto e copie conservate',checkins:'Il tuo check-in attuale',tribes:'Le tue Tribe',spots:'Interessi inviati',matches:'Match',messages:'Messaggi scritti da te',blocks:'Blocchi effettuati',reports:'Segnalazioni inviate',moderation:'Stato moderazione',analytics:'Attività analytics conservata'};
 export const RIGHTS_SECTIONS=['account','profile','age','age_history','consent','consent_history','photos','checkins','tribes','spots','matches','messages','blocks','reports','moderation'];
 export function rightsEnabled(env){
  if(env.VITE_RIGHTS_PHASE1!=='true')return false;
  if(new URL(env.VITE_SUPABASE_URL).hostname!=='zjinjtkekmaqtxsuyvho.supabase.co')throw Error('Diritti disponibili solo nello staging.');
  return true;
 }
-export function createRightsApi(client,{boardEnabled=false,spottedEnabled=false}={}){
- const sections=boardEnabled?[...RIGHTS_SECTIONS,'board_posts','board_reactions','board_reports',...(spottedEnabled?['board_comments','board_likes']:[])]:RIGHTS_SECTIONS;
+export function createRightsApi(client,{boardEnabled=false,spottedEnabled=false,analyticsEnabled=false}={}){
+ const sections=boardEnabled?[...RIGHTS_SECTIONS,'board_posts','board_reactions','board_reports',...(spottedEnabled?['board_comments','board_likes']:[])]:[...RIGHTS_SECTIONS];
+ if(analyticsEnabled)sections.push('analytics');
  return {sections,async page(section,after_key='',page_size=100){
   if(!sections.includes(section))throw Error('Sezione non valida.');
   const r=await client.rpc('my_rights_page',{section,after_key,page_size});
