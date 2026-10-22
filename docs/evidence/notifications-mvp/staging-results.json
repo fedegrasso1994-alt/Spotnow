@@ -1,0 +1,101 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "results": [
+    {
+      "name": "Two isolated synthetic identities seeded; normal staging accounts untouched",
+      "result": "PASS"
+    },
+    {
+      "name": "Real password Auth AGE consent canonical photo profile and Membership Engine",
+      "result": "PASS"
+    },
+    {
+      "name": "Private synthetic Auth callback prepared without emitting credentials",
+      "result": "PASS"
+    },
+    {
+      "name": "Fresh private synthetic Auth callback prepared",
+      "result": "PASS"
+    },
+    {
+      "name": "Real owner JWT subscription registration and multi-device bindings",
+      "result": "PASS"
+    },
+    {
+      "name": "Cross-account endpoint takeover denied and revoke cannot remove another account binding",
+      "result": "PASS"
+    },
+    {
+      "name": "Real DD reciprocal allocation and repeated read idempotency with controlled admission",
+      "result": "PASS"
+    },
+    {
+      "name": "Deliverable request once with owner-authorized exact SPOTTED recipient resolver",
+      "result": "PASS"
+    },
+    {
+      "name": "Canonical hosted DD/request/unique Match/committed message events deduplicated on retries",
+      "result": "PASS"
+    },
+    {
+      "name": "Existing Match suppression creates no request notification or identity side channel",
+      "result": "PASS"
+    },
+    {
+      "name": "Hosted claim then Edge device check generic copy; foreign-account proof rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "Previously valid server proof unusable immediately after owner revoke",
+      "result": "PASS"
+    },
+    {
+      "name": "Private owner-bound tap targets and second fixture callback prepared",
+      "result": "PASS"
+    },
+    {
+      "name": "Normal delete-account engine revoked Auth and removed both synthetic profiles/photos",
+      "result": "PASS"
+    },
+    {
+      "name": "Zero synthetic Auth/profile/Storage/binding/event/delivery residues",
+      "result": "PASS"
+    }
+  ],
+  "postcheck": {
+    "accounts": 4,
+    "bindings": 0,
+    "cleanup": false,
+    "controlled_admission": false,
+    "deliveries": 0,
+    "discovery": false,
+    "events": 0,
+    "fixture_accounts": 0,
+    "fixture_objects": 0,
+    "fixture_photo_receipts": 2,
+    "fixture_profiles": 0,
+    "fixture_tribes": 0,
+    "fixture_unsafe_photo_receipts": 0,
+    "fixture_venues": 0,
+    "jobs_paused": true,
+    "missing_current": 0,
+    "notifications": {
+      "delivery_enabled": false,
+      "enabled": false,
+      "singleton": true
+    },
+    "objects": 42,
+    "posts": 1,
+    "private_rls": true,
+    "profile_hash": "ad4067f19890f61846176521b32aaf92",
+    "profiles": 4,
+    "retention_paused": true,
+    "scheduler": false,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "existing_profile_and_storage_hashes_unchanged": true,
+  "actual_browser_subscription": "NOT_OBSERVED",
+  "actual_OS_push": "NOT_VERIFIED",
+  "browser_tap": "INTERMITTENT_OFFLINE_REPRODUCED"
+}

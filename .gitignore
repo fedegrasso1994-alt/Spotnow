@@ -21,3 +21,6 @@ docs/figma-state.json
 reference/
 figma-reference.html
 tests/fixtures/
+
+# Supabase CLI local connection/cache state; never release source.
+supabase/.temp/

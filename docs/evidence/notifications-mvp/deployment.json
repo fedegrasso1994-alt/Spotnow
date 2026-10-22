@@ -1,0 +1,11 @@
+{
+  "id": "dpl_CWHd6z2bQmXUssX8FSaQfwYyZMXW",
+  "url": "https://spot-pbhht3a4y-fedegrasso1994-1482.vercel.app",
+  "ready_state": "READY",
+  "requested_target": "preview",
+  "production_url": null,
+  "source_commit": "3f17ff1523cf98eb1b9c388cc6bac48518f3ae93",
+  "supabase_project_ref": "zjinjtkekmaqtxsuyvho",
+  "public_notification_flags_exported": true,
+  "private_keys_in_bundle": false
+}

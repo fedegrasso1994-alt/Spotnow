@@ -1,0 +1,17 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "secret_names_present": [
+    "NOTIFICATIONS_VAPID_PUBLIC",
+    "NOTIFICATIONS_VAPID_PRIVATE",
+    "NOTIFICATIONS_VAPID_SUBJECT",
+    "NOTIFICATIONS_DISPATCH_SECRET",
+    "NOTIFICATIONS_PREVIEW_ORIGIN"
+  ],
+  "remote_values_accessed": false,
+  "notification_function": {
+    "name": "notifications",
+    "status": "ACTIVE",
+    "version": 5,
+    "verify_jwt": false
+  }
+}

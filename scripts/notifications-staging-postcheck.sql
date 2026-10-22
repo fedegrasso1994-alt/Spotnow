@@ -1,0 +1,28 @@
+-- Read-only aggregate verification. No user content, endpoint, key or credential output.
+select jsonb_build_object(
+ 'accounts',(select count(*)from auth.users),
+ 'profiles',(select count(*)from public.profiles),
+ 'objects',(select count(*)from storage.objects),
+ 'posts',(select count(*)from spot_private.board_posts),
+ 'profile_hash',(select md5(coalesce(jsonb_agg(to_jsonb(p)order by id)::text,''))from public.profiles p),
+ 'storage_hash',(select md5(coalesce(jsonb_agg(to_jsonb(o)order by bucket_id,name)::text,''))from storage.objects o),
+ 'fixture_accounts',(select count(*)from auth.users where id::text like 'fea47500-%'),
+ 'fixture_profiles',(select count(*)from public.profiles where id::text like 'fea47500-%'),
+ 'fixture_objects',(select count(*)from storage.objects where name like 'fea47500-%'),
+ 'fixture_venues',(select count(*)from public.venues where id::text like 'fea47500-%'),
+ 'fixture_tribes',(select count(*)from spot_private.tribe_memberships where user_id::text like 'fea47500-%'),
+ 'bindings',(select count(*)from spot_private.push_bindings),
+ 'events',(select count(*)from spot_private.notification_events),
+ 'deliveries',(select count(*)from spot_private.notification_deliveries),
+ 'notifications',(select row_to_json(c)from spot_private.notification_control c),
+ 'discovery',(select discovery_enabled from spot_private.soma_v2_control),
+ 'controlled_admission',(select dd_controlled_admission from spot_private.soma_v2_control),
+ 'jobs_paused',(select jobs_paused from spot_private.soma_v2_control),
+ 'cleanup',(select execute_enabled from spot_private.photo_cutover_control),
+ 'scheduler',(select scheduler_enabled from spot_private.photo_cutover_control),
+ 'retention_paused',(select paused from spot_private.retention_control),
+ 'missing_current',(select count(*)from public.profiles p where not exists(select 1 from storage.objects o where o.bucket_id='profile-photos'and o.name=p.photo_path)),
+ 'fixture_unsafe_photo_receipts',(select count(*)from spot_private.photo_lifecycle_sets where user_id::text like 'fea47500-%'and(state<>'purged'or writer<>'settled'or reserved_bytes<>0)),
+ 'fixture_photo_receipts',(select count(*)from spot_private.photo_lifecycle_sets where user_id::text like 'fea47500-%'),
+ 'private_rls',(select bool_and(relrowsecurity)from pg_class where oid in('spot_private.notification_control'::regclass,'spot_private.push_bindings'::regclass,'spot_private.notification_events'::regclass,'spot_private.notification_deliveries'::regclass))
+)postcheck;

@@ -2,7 +2,9 @@
 
 Data: 2026-10-22. Branch: `codex/soma-schema-v2-staging`.
 Baseline auditata: `ff72d8e943a660a01fe4109040c974fc3673cd82`.
-Stato: **NOTIFICATIONS MVP: BLOCKED**.
+Stato alla baseline auditata: **NOTIFICATIONS MVP: BLOCKED**.
+
+Aggiornamento: i quattro gap decisionali sono stati successivamente approvati dal founder. Vedere `soma-notifications-mvp-contract-2026-10-22.md` e `soma-notifications-mvp-staging-report-2026-10-22.md` per implementazione, verifiche e blocker browser residui.
 
 Questo documento completa l'audit richiesto prima dell'implementazione. Non introduce codice runtime, migration, provider, credenziali, richieste di permesso o fixture. Le proposte seguenti non sono decisioni prodotto approvate. Il §20 del task richiede STOP se trigger del permesso, delivery, ownership delle subscription o destinazione della richiesta SPOTTED sono indefiniti. La Source of Truth, §36, mantiene il delivery delle notifiche tra i TBD.
 
