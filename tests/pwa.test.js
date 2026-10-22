@@ -2,16 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+const pushRuntime=await readFile(new URL('../public/notification-runtime.js',import.meta.url),'utf8');
+function runWorker(source,context){const sandbox=vm.createContext(context);sandbox.importScripts=path=>{assert.equal(path,'/notification-runtime.js');vm.runInContext(pushRuntime,sandbox);};vm.runInContext(source,sandbox);}
 const source=await readFile(new URL('../public/sw.js',import.meta.url),'utf8');
 test('offline worker leaves photos, auth and chat API requests untouched',()=>{
- const events={};vm.runInNewContext(source,{URL,self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler}});
+ const events={};runWorker(source,{URL,self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler}});
  for(const url of ['https://project.supabase.co/auth/v1/token','https://project.supabase.co/rest/v1/messages','https://spot.example/assets/app.js']){
   events.fetch({request:{url,mode:'cors',method:'GET'},respondWith:()=>assert.fail('Private/API request intercepted')});
  }
 });
 test('offline fallback caches only a static explanation and never a navigation URL',async()=>{
  const events={},stored=[];let response;
- vm.runInNewContext(source,{self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler},caches:{open:async()=>({add:async path=>stored.push(path)}),match:async path=>({offline:path})},fetch:async()=>{throw new Error('offline');},URL,Response});
+ runWorker(source,{self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler},caches:{open:async()=>({add:async path=>stored.push(path)}),match:async path=>({offline:path})},fetch:async()=>{throw new Error('offline');},URL,Response});
  let install;events.install({waitUntil:p=>install=p});await install;
  events.fetch({request:{url:'https://spot.example/?venue=private-token',mode:'navigate',method:'GET'},respondWith:p=>response=p});
  assert.deepEqual(await response,{offline:'/offline.html'});assert.deepEqual(stored,['/offline.html']);
@@ -19,7 +21,7 @@ test('offline fallback caches only a static explanation and never a navigation U
 
 function navigationWorker(fetch,match){
  const events={};
- vm.runInNewContext(source,{URL,Response,fetch,caches:{match},self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler}});
+ runWorker(source,{URL,Response,fetch,caches:{match},self:{location:{origin:'https://spot.example'},addEventListener:(type,handler)=>events[type]=handler}});
  return async()=>{let response;events.fetch({request:{url:'https://spot.example/',mode:'navigate',method:'GET'},respondWith:p=>response=p});return response;};
 }
 test('navigation HTTP errors and auth redirects do not trigger the offline explanation',async()=>{

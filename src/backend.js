@@ -1,3 +1,4 @@
+import {createNotificationApi}from './notifications.js';
 import {createDailyDiscoveryApi}from './daily-discovery.js';
 import {createProfileAuthorizationApi}from './profile-authorization.js';
 import {createSpotV2Api}from './spot-v2.js';
@@ -71,6 +72,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
       return unwrap(await client.auth.verifyOtp(email?{email,token,type:'email'}:{phone,token,type:'sms'}));
     },
     clearPrivacyCaches:clearPhotos,
+    notifications:createNotificationApi(client),
     async signOut(){clearPhotos();unwrap(await client.auth.signOut());},
     ...(profileAuthorization?{authorizedProfile:id=>profileAuthorization.profile(id)}:{}),
     async getProfile() {

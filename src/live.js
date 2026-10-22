@@ -1,3 +1,5 @@
+import {createNotifications,notificationEnabled}from './notifications.js';
+import {mountNotificationRequest}from './notification-request-ui.js';
 import {createShareIntent} from './spotted-share.js';
 import './spotted-social.css';
 import {mountRomanticRequests}from'./spotted-romantic-ui.js';
@@ -140,6 +142,7 @@ const loadAccount=singleFlight(async(key)=>{
     let qrOraEntry=pilot&&Boolean(pendingQr)&&privacy?.state?.consent_status==='active';
     if(pilotNeedsTribe&&!pendingQr&&!shareIntent.ready()&&privacy?.state?.consent_status==='active'){const presence=await backend.ora.current();if(!current())return;presenceClock.set(presence);qrOraEntry=presenceClock.live();}
     if((!progress.complete||pilotNeedsTribe)&&!qrOraEntry){explicitQrScan=false;go('tribeOnboarding',{replace:true});await tribeOnboarding.open(progress);return;}}
+  if(notifications&&!pendingQr&&await notifications.openPending())return;
   if(pilot&&shareIntent.ready()&&!pendingQr){shareIntent.consume();pilotHomePending=false;pilotShell.openShare(shareIntent.token());return;}
   if(pilotHomePending){pilotHomePending=false;go('daily',{replace:true});return;}
   if(restoredDraft&&!noQr){pendingQr=null;restoredDraft=false;clearDraft();}
@@ -248,7 +251,7 @@ $('codeForm').addEventListener('submit',async event=>{
 });
 // Existing profile controls retain the same styling as the prototype.
 const signout=document.createElement('button');signout.className='backlink';signout.style.marginTop='18px';signout.textContent='Esci dall’account';
-signout.onclick=async()=>{try{await backend.signOut();location.reload();}catch(error){showToast(message(error));}};$('profileActions').append(signout);
+signout.onclick=async()=>{try{await notifications?.revoke();await backend.signOut();location.reload();}catch(error){showToast(message(error));}};$('profileActions').append(signout);
 async function enterApp(){
   if(entering)return;entering=true;introButton.disabled=true;
   try{if(state.session&&!state.session.user.is_anonymous)await hydrate();else go('login');}
@@ -263,6 +266,9 @@ const installPrompt=setupInstallApp();
 export function onFirstMatch(){installPrompt.showAfterMatch();}
 const social=createLiveSocial({pilot,backend,go,showToast,avatar,profile:()=>state.profile,session:()=>suspended?null:state.session,onFirstMatch,onDailySpot:id=>pilotShell?.dailySpot(id),venueName:()=>state.venue?.name||''});
 const romanticRequests=pilot&&backend.spotted?.romantic?mountRomanticRequests({settingsRoot:$('profileActions'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
+const notificationRequest=pilot&&backend.spotted?.romantic&&notificationEnabled(import.meta.env)?mountNotificationRequest({root:$('spotted'),api:backend.spotted.romantic,photoUrls:refs=>backend.photoUrls(refs),onMatch:id=>social.presentMatch(id)}):null;
+const notifications=notificationEnabled(import.meta.env)?createNotifications({api:backend.notifications,publicKey:import.meta.env.VITE_NOTIFICATIONS_VAPID_PUBLIC,root:$('profileActions'),session:()=>state.session,onTarget:async target=>{if(!target.available){go('daily',{replace:true});showToast('Questa notifica non è più disponibile.');return;}if(target.kind==='request'){go('spotted',{replace:true});await notificationRequest.open(target.request);}else if(target.kind==='dd')go('daily',{replace:true});else {const owner=state.session?.user?.id;await social.restoreChat(target.match_id,()=>state.session?.user?.id===owner);}}}):null;
+backend.onSessionChange((event,session)=>{void notifications?.account(session?.user?.id||null).catch(()=>{});notificationRequest?.reset();if(event==='SIGNED_OUT')notifications?.resetIntent();});
 let romanticOwner;backend.onSessionChange((event,session)=>{const next=session?.user?.id||null;if(event==='SIGNED_OUT'||romanticOwner!==undefined&&romanticOwner!==next)romanticRequests?.reset();romanticOwner=next;});
 
 Object.assign(window,{go,changeEmail,checkProfileValid,trySaveProfile,handlePhoto,
@@ -353,7 +359,7 @@ setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;
 function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(!oraV2&&state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();if(['daily','spotted'].includes(activeScreen()))pilotShell?.open(activeScreen());void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}
 document.addEventListener('visibilitychange',resume);window.addEventListener('online',resume);
 $('retryBootBtn').onclick=()=>location.reload();
-try{state.session=await backend.session();syncAccountControls();if(!pendingQr&&!awaitingQr&&!shareIntent.ready())restoreDraft();if(noQr&&pendingQr)rememberDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr&&!noQr)await previewVenue();else if(!awaitingQr)go('intro',{replace:true});}
+try{state.session=await backend.session();await notifications?.account(state.session?.user?.id||null);syncAccountControls();if(!pendingQr&&!awaitingQr&&!shareIntent.ready())restoreDraft();if(noQr&&pendingQr)rememberDraft();if(state.session)await hydrate();else if(pendingQr&&!awaitingQr&&!noQr)await previewVenue();else if(!awaitingQr)go('intro',{replace:true});}
 catch(error){if(!awaitingQr){go('boot',{replace:true});$('bootStatus').textContent=message(error);$('retryBootBtn').hidden=false;}}finally{booting=false;}
 
 const authError=authReturnError(location.href);

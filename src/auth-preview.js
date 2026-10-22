@@ -1,9 +1,11 @@
+import{notificationReference}from './notifications.js';
 import{pendingShare}from './spotted-share.js';
 /** Auth Preview checks and copy; no session, token or credential storage. */
 export const WELCOME_VALUE='Trova le tue crush nella tua università.';
 export function authRedirect(location,pendingQr){
  const origin=new URL(location.origin);if(origin.protocol!=='https:'&&!['localhost','127.0.0.1'].includes(origin.hostname))throw Error('AUTH_REDIRECT_INVALID');
  const url=new URL(location.pathname||'/',origin);if(url.origin!==origin.origin)throw Error('AUTH_REDIRECT_INVALID');
+ const notification=notificationReference(location);if(notification)url.searchParams.set('n',notification);
  if(pendingQr)url.searchParams.set('venue',pendingQr);const share=pendingShare(location);if(new URLSearchParams(location.search||'').has('s'))url.searchParams.set('s',share||'invalid');return url.href;
 }
 export function authReturnError(href){

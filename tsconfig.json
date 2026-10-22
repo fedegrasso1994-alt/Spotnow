@@ -52,6 +52,10 @@
     "src/daily-discovery-state.js",
     "src/daily-discovery-ui.js",
     "src/spotted-social.js",
-    "src/spotted-social-ui.js"
+    "src/spotted-social-ui.js",
+    "src/notifications.js",
+    "src/notification-request-ui.js",
+    "supabase/functions/notifications/index.ts",
+    "types/web-push.d.ts"
   ]
 }

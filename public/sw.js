@@ -7,3 +7,5 @@ self.addEventListener('fetch',event=>{
  if(event.request.mode!=='navigate'||event.request.method!=='GET'||url.origin!==self.location.origin)return;
  event.respondWith(fetch(event.request).catch(async()=>await caches.match('/offline.html')||new Response('Connessione non disponibile',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})));
 });
+// Additive push support; the navigation handler above remains unchanged.
+importScripts('/notification-runtime.js');

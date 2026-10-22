@@ -7,3 +7,8 @@ verify_jwt = true
 
 [functions.profile-photo]
 verify_jwt = true
+
+# Device-check uses its revocable opaque binding proof; dispatch requires a separate secret.
+# Supabase user JWT authorization remains inside authenticated registration/resolution RPCs.
+[functions.notifications]
+verify_jwt = false
