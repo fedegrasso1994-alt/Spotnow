@@ -1,0 +1,58 @@
+{
+  "baseline_commit": "482c3fc09770c9ae0080aa8c0b8afbf4dded044d",
+  "preview_runtime_commit": "3f17ff1523cf98eb1b9c388cc6bac48518f3ae93",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "http": {
+    "status": 200,
+    "app_html": true
+  },
+  "browser": {
+    "internal_match_chat": "PASS",
+    "notification_destination_first_attempt": "PASS",
+    "reload": "PASS",
+    "fresh_tab_authenticated": "PASS",
+    "logout": "PASS",
+    "reload_after_logout": "PASS",
+    "fresh_tab_after_logout": "PASS",
+    "false_offline_reproduced": false,
+    "os_notification_click": "DEFERRED",
+    "stale_target_ui_after_reauth": "NOT_VERIFIED",
+    "navigator_online": "NOT_OBSERVABLE",
+    "service_worker_control_state": "NOT_OBSERVABLE",
+    "network_request_error": "NOT_CAPTURED",
+    "real_offline_browser": "DEFERRED"
+  },
+  "postcheck": {
+    "accounts": 4,
+    "bindings": 0,
+    "cleanup": false,
+    "controlled_admission": false,
+    "deliveries": 0,
+    "discovery": false,
+    "events": 0,
+    "fixture_accounts": 0,
+    "fixture_objects": 0,
+    "fixture_photo_receipts": 4,
+    "fixture_profiles": 0,
+    "fixture_tribes": 0,
+    "fixture_unsafe_photo_receipts": 0,
+    "fixture_venues": 0,
+    "jobs_paused": true,
+    "missing_current": 0,
+    "notifications": {
+      "delivery_enabled": false,
+      "enabled": false,
+      "singleton": true
+    },
+    "objects": 42,
+    "posts": 1,
+    "private_rls": true,
+    "profile_hash": "ad4067f19890f61846176521b32aaf92",
+    "profiles": 4,
+    "retention_paused": true,
+    "scheduler": false,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "existing_profiles_unchanged": true,
+  "existing_storage_unchanged": true
+}

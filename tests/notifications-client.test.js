@@ -24,3 +24,24 @@ async function sw(){
 }
 test('Real SW handler execution: dedup, no body in push, binding rotation/logout discards stale delivery and click',async()=>{const f=await sw(),binding='a'.repeat(64),reference='b'.repeat(64);f.state.set('binding',{binding,check:'https://staging/check'});const payload={data:{json:()=>({binding,reference})}};await f.fire('push',payload);await f.fire('push',payload);assert.equal(f.shown.length,1);assert.equal(f.shown[0][1].body,'Hai un nuovo messaggio.');f.state.delete('binding');await f.fire('push',{data:{json:()=>({binding,reference:'c'.repeat(64)})}});await f.fire('notificationclick',{notification:{close(){},data:{binding,reference}}});assert.equal(f.shown.length,1);assert.equal(f.opened.length,0);});
 test('SW authorization rejection, expired subscription and changed binding never display protected/stale notification',async()=>{const f=await sw();f.state.set('binding',{binding:'a'.repeat(64),check:'https://staging/check'});f.unavailable();await f.fire('push',{data:{json:()=>({binding:'a'.repeat(64),reference:'b'.repeat(64)})}});assert.equal(f.shown.length,0);await f.fire('pushsubscriptionchange',{});assert.equal(f.state.size,0);});
+test('notificationclick opens only normalized own-origin opaque target; no injected URL or profile metadata',async()=>{
+ const f=await sw(),binding='a'.repeat(64),reference='b'.repeat(64);let closed=0;
+ f.state.set('binding',{binding,check:'https://staging/check'});
+ const notification={close(){closed++;},data:{binding,reference,url:'https://attacker.example/',match_id:'private'}};
+ await f.fire('notificationclick',{notification});await f.fire('notificationclick',{notification});
+ assert.equal(closed,2);assert.deepEqual(f.opened,['https://preview.example/?n='+reference,'https://preview.example/?n='+reference]);
+ assert.equal(f.shown.length,0); // click never generates another product event or display
+});
+test('notificationclick rejects missing/changed binding and malformed reference without opening a window',async()=>{
+ const f=await sw(),binding='a'.repeat(64),reference='b'.repeat(64);
+ f.state.set('binding',{binding});
+ for(const data of [{binding:'c'.repeat(64),reference},{binding,reference:'../private'},{binding,reference:'https://attacker.example/'}])
+  await f.fire('notificationclick',{notification:{close(){},data}});
+ assert.equal(f.opened.length,0);
+});
+test('notification resolver consumes intent once and safely rejects stale targets without a second navigation',async()=>{
+ const f=fixture();await f.f.account('a');let reads=0;
+ f.api.resolve=async()=>{reads++;return{available:false};};
+ assert.equal(await f.f.openPending(),true);assert.equal(await f.f.openPending(),false);
+ assert.equal(reads,1);assert.deepEqual(f.calls.filter(c=>c[0]==='target'),[['target',{available:false}]]);
+});
