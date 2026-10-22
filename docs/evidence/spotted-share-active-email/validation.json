@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-22",
+  "branch": "codex/soma-schema-v2-staging",
+  "baseline_commit": "1d1fb528ada3390bcfe93f7a73f15326b6a543cb",
+  "runtime_commit": "e8a399d72bcc1da86ebc513e3134670a5fa5e2d7",
+  "preview": "https://spot-2rhspdi2y-fedegrasso1994-1482.vercel.app/",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "fixture": {
+    "accounts": 1,
+    "tribes": 1,
+    "active_posts": 1,
+    "share_refs": 1,
+    "namespace": "fea47400",
+    "separate_email_alias_approved": true,
+    "normal_auth_age_consent_photo_membership": true
+  },
+  "email_events": {
+    "timezone": "Europe/Rome",
+    "request": {
+      "time": "08:19:05",
+      "method": "POST",
+      "path": "/otp",
+      "status": 200
+    },
+    "verification": {
+      "time": "08:20:04",
+      "method": "GET",
+      "path": "/verify",
+      "status": 303
+    }
+  },
+  "initial_active_content_email_auth": "PASS manual founder confirmation + provider logs; not a synthetic callback",
+  "pending_reference_preservation": "PASS founder confirms exact new opaque reference",
+  "initial_authorized_content": "PASS founder sees exact synthetic post; normal-JWT RPC independently resolves same live post",
+  "reload_navigation": "INCONCLUSIVE: founder reports disappearance/reappearance and unavailable fallback; cannot distinguish before vs after logout",
+  "logout_fresh_tab": "PARTIAL: founder no longer sees synthetic profile in new tab; protected post not shown in supplied fallback screenshot; exact sequence not established",
+  "false_offline": "NOT REPORTED in this attempt; screenshot is neutral unavailable, not offline.html",
+  "cache_privacy": "Static/PWA tests PASS; no conclusive live logout/cache sequence claimed",
+  "native_browser_automation": "User session not in controlled IAB; native Chrome OS permissions were pending. Real UI checks were founder-performed.",
+  "proven_new_runtime_defect": false,
+  "root_cause": "UNDETERMINED: authorization/session/sequence at fallback instant not captured",
+  "cleanup": "PASS normal account/PHOTO lifecycle and guarded synthetic container removal; see postflight.json",
+  "private_fixture_files_removed": true,
+  "full_suite": {
+    "total": 672,
+    "pass": 672,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_schema_auth_config_modified": false,
+  "new_deploy": false,
+  "main_production_unchanged": true,
+  "discovery": false,
+  "cleanup_enabled": false,
+  "scheduler_enabled": false,
+  "final_gate": "SPOTTED SHARE FINAL GATE: BLOCKED"
+}
