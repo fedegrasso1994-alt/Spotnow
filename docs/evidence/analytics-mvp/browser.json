@@ -1,0 +1,23 @@
+{
+  "frontend": "http://127.0.0.1:4179",
+  "backend": "zjinjtkekmaqtxsuyvho",
+  "browser_flow": "Real synthetic Auth bootstrap, TRIBE, SPOTTED",
+  "status": "PASS",
+  "database": {
+    "cleanup": false,
+    "discovery": false,
+    "outside_admission": 0,
+    "scheduler": false,
+    "views": [
+      {
+        "surface": "spotted",
+        "total": 1
+      },
+      {
+        "surface": "tribe",
+        "total": 1
+      }
+    ]
+  },
+  "console_errors": 0
+}

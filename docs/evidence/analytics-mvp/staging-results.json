@@ -1,0 +1,95 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "results": [
+    {
+      "name": "Real Auth; non-admitted synthetic C receives no analytics",
+      "result": "PASS"
+    },
+    {
+      "name": "Canonical signup/profile/onboarding/membership with real PHOTO unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "Real frontend staging browser hold completed",
+      "result": "PASS"
+    },
+    {
+      "name": "Concurrent observation/retry dedup and one active day",
+      "result": "PASS"
+    },
+    {
+      "name": "Real SPOTTED request -> unified Match -> two-way chat, retries unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "Canonical counts exact; no content/email in analytics",
+      "result": "PASS"
+    },
+    {
+      "name": "Rights after revocation; own export excludes counterpart and private table access denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Real physical 90-day purge dry-run/execute/retry; product data untouched",
+      "result": "PASS"
+    }
+  ],
+  "canonical_counts": [
+    {
+      "event": "auth_success",
+      "n": 2
+    },
+    {
+      "event": "conversation_started",
+      "n": 1
+    },
+    {
+      "event": "first_match",
+      "n": 2
+    },
+    {
+      "event": "match_created",
+      "n": 1
+    },
+    {
+      "event": "message_sent",
+      "n": 2
+    },
+    {
+      "event": "onboarding_complete",
+      "n": 2
+    },
+    {
+      "event": "post_created",
+      "n": 1
+    },
+    {
+      "event": "profile_complete",
+      "n": 2
+    },
+    {
+      "event": "romantic_accepted",
+      "n": 1
+    },
+    {
+      "event": "romantic_attempt",
+      "n": 1
+    },
+    {
+      "event": "romantic_delivered",
+      "n": 1
+    },
+    {
+      "event": "screen_view",
+      "n": 3
+    },
+    {
+      "event": "signup_completed",
+      "n": 2
+    },
+    {
+      "event": "tribe_join",
+      "n": 2
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "baseline": {
+    "accounts": 4,
+    "matches": 1,
+    "messages": 2,
+    "objects": 42,
+    "posts": 1,
+    "profile_hash": "ad4067f19890f61846176521b32aaf92",
+    "profiles": 4,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "after": {
+    "accounts": 4,
+    "matches": 1,
+    "messages": 2,
+    "objects": 42,
+    "posts": 1,
+    "profile_hash": "ad4067f19890f61846176521b32aaf92",
+    "profiles": 4,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "residual": {
+    "active_day_rows": 0,
+    "admission": 0,
+    "analytics_rows": 0,
+    "anonymous_rollups": 0,
+    "cleanup": false,
+    "discovery": false,
+    "dropped": 0,
+    "enabled": false,
+    "fairness_rows": 0,
+    "fixture_auth": 0,
+    "fixture_photo_receipts": 6,
+    "fixture_profiles": 0,
+    "fixture_storage": 0,
+    "functions": [
+      {
+        "body_md5": "92624b7c407b23de359766f3ad3b9337",
+        "name": "analytics_admitted",
+        "schema": "spot_private"
+      },
+      {
+        "body_md5": "b9683e8115aa8edfc01664cba205cf71",
+        "name": "analytics_canonical",
+        "schema": "spot_private"
+      },
+      {
+        "body_md5": "cdee40fd2933486f8e3145af0b3c6bdd",
+        "name": "analytics_emit",
+        "schema": "spot_private"
+      },
+      {
+        "body_md5": "fcba34828f35cd9be4af71bf5e0b65a0",
+        "name": "analytics_observe",
+        "schema": "public"
+      },
+      {
+        "body_md5": "8817bdc78391c88c9b28a75cf7150b4c",
+        "name": "analytics_purge",
+        "schema": "public"
+      },
+      {
+        "body_md5": "c2126f8d278f165f1cabbc82ad1bd4e8",
+        "name": "analytics_summary",
+        "schema": "public"
+      }
+    ],
+    "jobs_paused": true,
+    "missing_current": 0,
+    "notifications": false,
+    "private_rls": true,
+    "retention_paused": true,
+    "scheduler": false,
+    "test_only": true,
+    "unsafe_fixture_photo_receipts": 0,
+    "local_function_bodies_match": {
+      "analytics_admitted": true,
+      "analytics_canonical": true,
+      "analytics_emit": true,
+      "analytics_observe": true,
+      "analytics_purge": true,
+      "analytics_summary": true
+    },
+    "migration_sha256": "07aea47c234052387a0e9a7616710c9edfcf3b8592178a1fb4abc60a9391bd28"
+  }
+}
