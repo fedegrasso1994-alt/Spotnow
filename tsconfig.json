@@ -17,6 +17,8 @@
   "include": [
     "src/domain.js",
     "src/analytics.js",
+    "src/analytics-dashboard-api.js",
+    "src/analytics-dashboard.js",
     "src/backend.js",
     "supabase/functions/delete-account/index.ts",
     "types/deno.d.ts",

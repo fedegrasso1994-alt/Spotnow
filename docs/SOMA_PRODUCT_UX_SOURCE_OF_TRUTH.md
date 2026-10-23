@@ -1014,3 +1014,7 @@ Permanent instruction:
 ### Social visibility vs romantic compatibility
 - SPOTTED social content is Tribe/community access;
 - romantic delivery/requests still respect privacy/compatibility server-side without leaking hidden traits.
+
+### Private Admin Analytics dashboard (staging)
+
+Founder-approved follow-up: ADMIN-only server authorization with existing verified MFA; threshold 10 distinct contributors with complementary suppression/coarsening; unsupported KPIs shown as Non misurato and unsupported Tribe/Place filters disabled. No new collection or product semantics. Completed Rome-week filters only, private read-only aggregates; no account drilldown or moderation controls. Contract and limits: `soma-admin-dashboard-contract-2026-10-23.md`. Analytics/Discovery/Notifications/cleanup/scheduler remain OFF; professional/privacy validation and operational purge remain separate pilot gates.
