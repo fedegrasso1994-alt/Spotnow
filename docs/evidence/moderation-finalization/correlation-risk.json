@@ -1,0 +1,11 @@
+{
+  "environment": "disposable local PostgreSQL/PGlite",
+  "staging_writes": false,
+  "proposal_implemented": false,
+  "anonymous_payload_has_author_id": false,
+  "known_matches_before": 2,
+  "known_matches_after": 1,
+  "exact_author_match_disappears": true,
+  "other_match_stays": true,
+  "risk": "Applying existing global profile-block effects to an anonymous author deterministically reveals that author via named Match disappearance."
+}

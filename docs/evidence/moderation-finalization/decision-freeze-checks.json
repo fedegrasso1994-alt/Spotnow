@@ -1,0 +1,19 @@
+{
+  "baseline": "a233378866452f28762d7565ec610c0f04f7c86f",
+  "full_suite": {
+    "tests": 725,
+    "pass": 725,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "local_correlation_probe": "PASS: global block removes exact named Match",
+  "staging_writes": false,
+  "runtime_changes": false,
+  "migrations": [],
+  "chat_scope": "approved: interlocutor report/block only",
+  "hold_review": "approved: manual every 30 days, keep/release/escalate, no auto-release",
+  "appeal_center": "excluded: manual support channel approved",
+  "pending_decision": "anonymous block scope vs existing named relationships",
+  "gate": "MODERATION FINALIZATION: BLOCKED"
+}
