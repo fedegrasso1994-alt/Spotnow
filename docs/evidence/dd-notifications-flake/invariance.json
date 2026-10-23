@@ -1,0 +1,314 @@
+{
+  "baseline": "52e39dadd6493918834fee270b018e51c984e763",
+  "classification": "A. TEST/HARNESS FLAKE",
+  "runtime_diff": [],
+  "migration054_blob": "a45f16732d58ba06b03d51644adb3baa1ea6e64e",
+  "purge_executors_unchanged": true,
+  "photo_unchanged": true,
+  "staging_access": "READ ONLY; no fixture or data mutation",
+  "staging_state_identical_except_observation_time": true,
+  "before": {
+    "at": "2026-10-23T18:48:24.732405+00:00",
+    "baseline": {
+      "auth": 4,
+      "matches": 1,
+      "messages": 2,
+      "objects": 42,
+      "profile_hash": "ad4067f19890f61846176521b32aaf92",
+      "profiles": 4,
+      "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+    },
+    "controls": {
+      "analytics": false,
+      "discovery": false,
+      "notifications": false,
+      "ops": {
+        "email": false,
+        "enabled": false,
+        "purge_ready": false
+      },
+      "phase_a": {
+        "manual_enabled": false,
+        "scheduler_enabled": false,
+        "singleton": true
+      },
+      "photo": {
+        "cleanup": false,
+        "phase": "OPEN",
+        "scheduler": false
+      },
+      "retention_paused": true
+    },
+    "cron": [
+      {
+        "active": false,
+        "name": "soma-photo02-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-photo02-cutover-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-privacy-retention-staging",
+        "schedule": "* * * * *"
+      }
+    ],
+    "cron_timezone": "GMT",
+    "fixtures": {
+      "auth": 0,
+      "completed_photo_receipts": 1,
+      "pending_photo_deletion": 0,
+      "profile": 0,
+      "storage": 0
+    },
+    "functions": [
+      {
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "hash": "860ebe3393e5b51d4b7ff0082ec63808",
+        "name": "phase_a_candidates",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "936c4a359b7e9ba5de22b3a938e57838",
+        "name": "phase_a_fk_check",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "24d527ec0dc3173254dfc599cea62183",
+        "name": "phase_a_held",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "55aea8c8628dcd7811713814484beadc",
+        "name": "photo_metadata_purge",
+        "schema": "public"
+      },
+      {
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "hash": "88c94cfe3e98384129f97399a6ea2ebf",
+        "name": "retention_phase_a_batch",
+        "schema": "public"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "bbe497278ce3178ace3145d09e501609",
+        "name": "retention_phase_a_status",
+        "schema": "public"
+      }
+    ],
+    "migration054": true,
+    "permissions": {
+      "anon_batch": false,
+      "authenticated_batch": false,
+      "authenticated_runs": false,
+      "service_batch": true
+    },
+    "project_ref": "zjinjtkekmaqtxsuyvho",
+    "runs": [
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "observability",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "notifications",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "dd",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "analytics",
+        "status": "completed"
+      },
+      {
+        "count": 4,
+        "dry_run": false,
+        "path": "notifications",
+        "status": "completed"
+      }
+    ]
+  },
+  "after": {
+    "at": "2026-10-23T18:58:22.797105+00:00",
+    "baseline": {
+      "auth": 4,
+      "matches": 1,
+      "messages": 2,
+      "objects": 42,
+      "profile_hash": "ad4067f19890f61846176521b32aaf92",
+      "profiles": 4,
+      "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+    },
+    "controls": {
+      "analytics": false,
+      "discovery": false,
+      "notifications": false,
+      "ops": {
+        "email": false,
+        "enabled": false,
+        "purge_ready": false
+      },
+      "phase_a": {
+        "manual_enabled": false,
+        "scheduler_enabled": false,
+        "singleton": true
+      },
+      "photo": {
+        "cleanup": false,
+        "phase": "OPEN",
+        "scheduler": false
+      },
+      "retention_paused": true
+    },
+    "cron": [
+      {
+        "active": false,
+        "name": "soma-photo02-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-photo02-cutover-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-privacy-retention-staging",
+        "schedule": "* * * * *"
+      }
+    ],
+    "cron_timezone": "GMT",
+    "fixtures": {
+      "auth": 0,
+      "completed_photo_receipts": 1,
+      "pending_photo_deletion": 0,
+      "profile": 0,
+      "storage": 0
+    },
+    "functions": [
+      {
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "hash": "860ebe3393e5b51d4b7ff0082ec63808",
+        "name": "phase_a_candidates",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "936c4a359b7e9ba5de22b3a938e57838",
+        "name": "phase_a_fk_check",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "24d527ec0dc3173254dfc599cea62183",
+        "name": "phase_a_held",
+        "schema": "spot_private"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "55aea8c8628dcd7811713814484beadc",
+        "name": "photo_metadata_purge",
+        "schema": "public"
+      },
+      {
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "hash": "88c94cfe3e98384129f97399a6ea2ebf",
+        "name": "retention_phase_a_batch",
+        "schema": "public"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "hash": "bbe497278ce3178ace3145d09e501609",
+        "name": "retention_phase_a_status",
+        "schema": "public"
+      }
+    ],
+    "migration054": true,
+    "permissions": {
+      "anon_batch": false,
+      "authenticated_batch": false,
+      "authenticated_runs": false,
+      "service_batch": true
+    },
+    "project_ref": "zjinjtkekmaqtxsuyvho",
+    "runs": [
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "observability",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "notifications",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "dd",
+        "status": "completed"
+      },
+      {
+        "count": 1,
+        "dry_run": true,
+        "path": "analytics",
+        "status": "completed"
+      },
+      {
+        "count": 4,
+        "dry_run": false,
+        "path": "notifications",
+        "status": "completed"
+      }
+    ]
+  },
+  "main": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "build": "PASS",
+  "typecheck": "PASS",
+  "test_commit": "e49d57dab07886dddfb599f29fb25bf0574744f4"
+}

@@ -1,0 +1,245 @@
+{
+  "scope": "Twelve independent local PGlite databases; fixed server noon Rome; six eligible Tribe members; two subscribed; only generation seed varies.",
+  "results": [
+    {
+      "generation": "00000000-0000-4000-8000-000000000001",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000002",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": false,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": false,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000003",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": false,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": false,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000004",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000005",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "partial",
+      "profiles_count": 3,
+      "a_sees_b": false,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": false,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000006",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000007",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000008",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": false,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": false,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000009",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000010",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "partial",
+      "profiles_count": 3,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000011",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": true,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": true,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "generation": "00000000-0000-4000-8000-000000000012",
+      "fixture": {
+        "members": 6,
+        "eligible": 6
+      },
+      "server_now": "2026-10-21T11:00:00+01:00",
+      "status": "ready",
+      "profiles_count": 4,
+      "a_sees_b": false,
+      "legacy_items_present": false,
+      "legacy_people_present": false,
+      "original_assertion_passes": false,
+      "notification_counts": [
+        {
+          "kind": "dd",
+          "n": 2
+        }
+      ]
+    }
+  ]
+}

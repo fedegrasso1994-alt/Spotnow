@@ -1,0 +1,289 @@
+{
+  "plan": {
+    "targeted_runs": 20,
+    "relevant_runs": 1,
+    "consecutive_full_runs": 3,
+    "test_concurrency": 2,
+    "stop_on_first_failure": true
+  },
+  "results": [
+    {
+      "name": "targeted-01",
+      "started": "2026-10-23T18:51:11.878Z",
+      "finished": "2026-10-23T18:51:14.626Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-02",
+      "started": "2026-10-23T18:51:14.626Z",
+      "finished": "2026-10-23T18:51:17.051Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-03",
+      "started": "2026-10-23T18:51:17.051Z",
+      "finished": "2026-10-23T18:51:19.476Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-04",
+      "started": "2026-10-23T18:51:19.476Z",
+      "finished": "2026-10-23T18:51:21.986Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-05",
+      "started": "2026-10-23T18:51:21.986Z",
+      "finished": "2026-10-23T18:51:24.401Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-06",
+      "started": "2026-10-23T18:51:24.402Z",
+      "finished": "2026-10-23T18:51:26.824Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-07",
+      "started": "2026-10-23T18:51:26.824Z",
+      "finished": "2026-10-23T18:51:29.234Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-08",
+      "started": "2026-10-23T18:51:29.234Z",
+      "finished": "2026-10-23T18:51:31.653Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-09",
+      "started": "2026-10-23T18:51:31.654Z",
+      "finished": "2026-10-23T18:51:34.102Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-10",
+      "started": "2026-10-23T18:51:34.103Z",
+      "finished": "2026-10-23T18:51:36.570Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-11",
+      "started": "2026-10-23T18:51:36.570Z",
+      "finished": "2026-10-23T18:51:38.994Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-12",
+      "started": "2026-10-23T18:51:38.995Z",
+      "finished": "2026-10-23T18:51:41.414Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-13",
+      "started": "2026-10-23T18:51:41.415Z",
+      "finished": "2026-10-23T18:51:43.840Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-14",
+      "started": "2026-10-23T18:51:43.840Z",
+      "finished": "2026-10-23T18:51:46.492Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-15",
+      "started": "2026-10-23T18:51:46.492Z",
+      "finished": "2026-10-23T18:51:48.976Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-16",
+      "started": "2026-10-23T18:51:48.976Z",
+      "finished": "2026-10-23T18:51:51.409Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-17",
+      "started": "2026-10-23T18:51:51.409Z",
+      "finished": "2026-10-23T18:51:53.816Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-18",
+      "started": "2026-10-23T18:51:53.817Z",
+      "finished": "2026-10-23T18:51:56.263Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-19",
+      "started": "2026-10-23T18:51:56.264Z",
+      "finished": "2026-10-23T18:51:58.677Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "targeted-20",
+      "started": "2026-10-23T18:51:58.678Z",
+      "finished": "2026-10-23T18:52:01.142Z",
+      "exit_code": 0,
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "dd-notifications",
+      "started": "2026-10-23T18:52:01.143Z",
+      "finished": "2026-10-23T18:52:38.610Z",
+      "exit_code": 0,
+      "tests": 119,
+      "pass": 119,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "full-1",
+      "started": "2026-10-23T18:52:38.611Z",
+      "finished": "2026-10-23T18:55:01.996Z",
+      "exit_code": 0,
+      "tests": 776,
+      "pass": 776,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "full-2",
+      "started": "2026-10-23T18:55:01.996Z",
+      "finished": "2026-10-23T18:57:30.796Z",
+      "exit_code": 0,
+      "tests": 776,
+      "pass": 776,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    {
+      "name": "full-3",
+      "started": "2026-10-23T18:57:30.797Z",
+      "finished": "2026-10-23T19:00:14.700Z",
+      "exit_code": 0,
+      "tests": 776,
+      "pass": 776,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    }
+  ],
+  "completed": true,
+  "relevant_files": [
+    "daily-discovery-ui.test.js",
+    "daily-discovery.test.js",
+    "dd-controlled-admission.test.js",
+    "dd-idempotent-read.test.js",
+    "dd-outgoing-spot.test.js",
+    "dd-time-dependence.test.js",
+    "discovery-policy.test.js",
+    "discovery-privacy.test.js",
+    "notifications-client.test.js",
+    "notifications-staging-build.test.js",
+    "notifications.test.js"
+  ]
+}
