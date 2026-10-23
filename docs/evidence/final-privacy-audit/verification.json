@@ -1,0 +1,26 @@
+{
+  "source_commit": "0d7a3b8a1c01822277a4de77815a0c79a0c04e10",
+  "staging_ref": "zjinjtkekmaqtxsuyvho",
+  "mode": "READ_ONLY_AUDIT",
+  "tests": {
+    "total": 776,
+    "pass": 776,
+    "fail": 0,
+    "skip": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_changed": false,
+  "schema_changed": false,
+  "consent_or_policy_changed": false,
+  "fixtures_created": false,
+  "main": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_accessed": false,
+  "limits": [
+    "No legal compliance opinion",
+    "No new live adversarial/auth/delete/restore test",
+    "Provider console/agreements/log TTL unverified",
+    "First automatic Phase A tick not observed"
+  ],
+  "document_sha256": "4cb2a365dd6cd7a2dfe56620db0b88c12146a03cf897d155091f29baa2ed1a33"
+}

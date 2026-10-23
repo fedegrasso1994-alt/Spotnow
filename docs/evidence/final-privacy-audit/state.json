@@ -1,0 +1,210 @@
+{
+  "analytics": {
+    "dropped": 0,
+    "enabled": false,
+    "installed_at": "2026-10-22T17:46:35.430238+00:00",
+    "singleton": true,
+    "test_only": true
+  },
+  "at": "2026-10-23T20:27:35.069152+00:00",
+  "bucket": [
+    {
+      "allowed_mime_types": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ],
+      "file_size_limit": 8388608,
+      "id": "profile-photos",
+      "public": false
+    }
+  ],
+  "consent_versions": [
+    {
+      "required": false,
+      "status": "placeholder",
+      "version": "dating-staging-v1"
+    },
+    {
+      "required": true,
+      "status": "placeholder",
+      "version": "dating-staging-v2"
+    }
+  ],
+  "jobs": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    }
+  ],
+  "notifications": {
+    "delivery_enabled": false,
+    "enabled": false,
+    "singleton": true
+  },
+  "operational_roles": 0,
+  "ops": {
+    "dropped": 0,
+    "email_enabled": false,
+    "enabled": false,
+    "purge_ready": false,
+    "retention": "14 days",
+    "singleton": true,
+    "test_only": true
+  },
+  "photo": {
+    "execute_enabled": false,
+    "phase": "OPEN",
+    "scheduler_enabled": false
+  },
+  "policies": [
+    {
+      "batch_size": 100,
+      "category": "interests",
+      "duration": "90 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "empty_matches",
+      "duration": "90 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "closed_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "diagnostic_logs",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "security_logs",
+      "duration": "30 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "technical_receipts",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "released_safety_metadata",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "inactive_chats",
+      "duration": "1 year",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "privacy_operation_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "expired_consent_challenges",
+      "duration": "24:00:00",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "checkins",
+      "duration": "24:00:00",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "board_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "board_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "board_posts",
+      "duration": "00:00:01",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    }
+  ],
+  "retention": {
+    "manual_enabled": true,
+    "scheduler_enabled": true,
+    "singleton": true
+  },
+  "v2": {
+    "comments_enabled": true,
+    "dd_admission_changed_at": "2026-10-22T16:17:18.40243+00:00",
+    "dd_admission_changed_by": "postgres",
+    "dd_controlled_admission": false,
+    "discovery_enabled": false,
+    "jobs_paused": true,
+    "membership_enabled": false,
+    "ora_enabled": true,
+    "requests_enabled": true,
+    "share_enabled": false,
+    "singleton": true,
+    "spot_enabled": true,
+    "system_posts_enabled": false
+  }
+}

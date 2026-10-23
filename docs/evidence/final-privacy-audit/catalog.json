@@ -1,0 +1,5664 @@
+{
+  "foreign_keys": [
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "age_events_user_id_fkey",
+      "schema": "spot_private",
+      "table": "age_events"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "account_eligibility_user_id_fkey",
+      "schema": "spot_private",
+      "table": "account_eligibility"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "consent_state_user_id_fkey",
+      "schema": "spot_private",
+      "table": "consent_state"
+    },
+    {
+      "definition": "FOREIGN KEY (version) REFERENCES spot_private.consent_versions(version)",
+      "name": "consent_state_version_fkey",
+      "schema": "spot_private",
+      "table": "consent_state"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "consent_challenges_user_id_fkey",
+      "schema": "spot_private",
+      "table": "consent_challenges"
+    },
+    {
+      "definition": "FOREIGN KEY (version) REFERENCES spot_private.consent_versions(version)",
+      "name": "consent_challenges_version_fkey",
+      "schema": "spot_private",
+      "table": "consent_challenges"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "consent_events_user_id_fkey",
+      "schema": "spot_private",
+      "table": "consent_events"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "venue_codes_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "venue_codes"
+    },
+    {
+      "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE SET NULL",
+      "name": "safety_holds_actor_id_fkey",
+      "schema": "spot_private",
+      "table": "safety_holds"
+    },
+    {
+      "definition": "FOREIGN KEY (user_a) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "matches_user_a_fkey",
+      "schema": "public",
+      "table": "matches"
+    },
+    {
+      "definition": "FOREIGN KEY (user_b) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "matches_user_b_fkey",
+      "schema": "public",
+      "table": "matches"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+      "name": "matches_venue_id_fkey",
+      "schema": "public",
+      "table": "matches"
+    },
+    {
+      "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE",
+      "name": "messages_match_id_fkey",
+      "schema": "public",
+      "table": "messages"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "messages_sender_id_fkey",
+      "schema": "public",
+      "table": "messages"
+    },
+    {
+      "definition": "FOREIGN KEY (blocked_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "blocks_blocked_id_fkey",
+      "schema": "public",
+      "table": "blocks"
+    },
+    {
+      "definition": "FOREIGN KEY (blocker_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "blocks_blocker_id_fkey",
+      "schema": "public",
+      "table": "blocks"
+    },
+    {
+      "definition": "FOREIGN KEY (linked_tribe_id) REFERENCES spot_private.tribe_catalog(id) ON DELETE SET NULL",
+      "name": "venues_linked_tribe_id_fkey",
+      "schema": "public",
+      "table": "venues"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)",
+      "name": "moderators_user_id_fkey",
+      "schema": "spot_private",
+      "table": "moderators"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "tribe_memberships_user_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_memberships"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+      "name": "tribe_memberships_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_memberships"
+    },
+    {
+      "definition": "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "profiles_id_fkey",
+      "schema": "public",
+      "table": "profiles"
+    },
+    {
+      "definition": "FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL",
+      "name": "reports_assigned_to_fkey",
+      "schema": "spot_private",
+      "table": "reports"
+    },
+    {
+      "definition": "FOREIGN KEY (reporter_id) REFERENCES profiles(id)",
+      "name": "reports_reporter_id_fkey",
+      "schema": "spot_private",
+      "table": "reports"
+    },
+    {
+      "definition": "FOREIGN KEY (target_id) REFERENCES profiles(id)",
+      "name": "reports_target_id_fkey",
+      "schema": "spot_private",
+      "table": "reports"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "account_deletions_user_id_fkey",
+      "schema": "spot_private",
+      "table": "account_deletions"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "photo_assets_user_id_fkey",
+      "schema": "spot_private",
+      "table": "photo_assets"
+    },
+    {
+      "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+      "name": "safety_evidence_hold_id_fkey",
+      "schema": "spot_private",
+      "table": "safety_evidence"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "checkins_user_id_fkey",
+      "schema": "public",
+      "table": "checkins"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+      "name": "checkins_venue_id_fkey",
+      "schema": "public",
+      "table": "checkins"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "photo_legacy_user_id_fkey",
+      "schema": "spot_private",
+      "table": "photo_legacy"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "photo_upload_accounts_user_id_fkey",
+      "schema": "spot_private",
+      "table": "photo_upload_accounts"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "photo_upload_jobs_user_id_fkey",
+      "schema": "spot_private",
+      "table": "photo_upload_jobs"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "validated_photos_user_id_fkey",
+      "schema": "spot_private",
+      "table": "validated_photos"
+    },
+    {
+      "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id)",
+      "name": "moderation_audit_actor_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (report_id) REFERENCES spot_private.reports(id)",
+      "name": "moderation_audit_report_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (target_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "moderation_audit_target_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)",
+      "name": "suspensions_user_id_fkey",
+      "schema": "spot_private",
+      "table": "suspensions"
+    },
+    {
+      "definition": "FOREIGN KEY (granted_by) REFERENCES auth.users(id) ON DELETE SET NULL",
+      "name": "moderation_roles_granted_by_fkey",
+      "schema": "spot_private",
+      "table": "moderation_roles"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "moderation_roles_user_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_roles"
+    },
+    {
+      "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "moderation_role_events_actor_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_role_events"
+    },
+    {
+      "definition": "FOREIGN KEY (target_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "moderation_role_events_target_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_role_events"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_membership_id) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE SET NULL",
+      "name": "interests_origin_membership_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_presence_id) REFERENCES checkins(presence_id) ON DELETE SET NULL",
+      "name": "interests_origin_presence_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE SET NULL",
+      "name": "interests_origin_window_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "interests_recipient_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "interests_sender_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+      "name": "interests_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "interests"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_quota_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "board_quota_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "board_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_receipts_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_receipts"
+    },
+    {
+      "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+      "name": "board_reactions_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reactions"
+    },
+    {
+      "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "board_reactions_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reactions"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_reactions_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reactions"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_allocations_user_id_fkey",
+      "schema": "spot_private",
+      "table": "discovery_allocations"
+    },
+    {
+      "definition": "FOREIGN KEY (window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE CASCADE",
+      "name": "discovery_allocations_window_id_fkey",
+      "schema": "spot_private",
+      "table": "discovery_allocations"
+    },
+    {
+      "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+      "name": "board_evidence_hold_id_fkey",
+      "schema": "spot_private",
+      "table": "board_evidence"
+    },
+    {
+      "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_audit_actor_id_fkey",
+      "schema": "spot_private",
+      "table": "board_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+      "name": "board_audit_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (report_id) REFERENCES spot_private.board_reports(id) ON DELETE CASCADE",
+      "name": "board_audit_report_id_fkey",
+      "schema": "spot_private",
+      "table": "board_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (romantic_request_id) REFERENCES spot_private.board_romantic_requests(id) ON DELETE SET NULL",
+      "name": "board_audit_romantic_request_id_fkey",
+      "schema": "spot_private",
+      "table": "board_audit"
+    },
+    {
+      "definition": "FOREIGN KEY (id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "tribe_catalog_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_catalog"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "tribe_account_state_user_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_account_state"
+    },
+    {
+      "definition": "FOREIGN KEY (tribe_id) REFERENCES spot_private.tribe_catalog(id) ON DELETE CASCADE",
+      "name": "tribe_rejoin_guards_tribe_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_rejoin_guards"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "tribe_rejoin_guards_user_id_fkey",
+      "schema": "spot_private",
+      "table": "tribe_rejoin_guards"
+    },
+    {
+      "definition": "FOREIGN KEY (policy_version) REFERENCES spot_private.discovery_policy(version)",
+      "name": "discovery_windows_policy_version_fkey",
+      "schema": "spot_private",
+      "table": "discovery_windows"
+    },
+    {
+      "definition": "FOREIGN KEY (membership_a) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE CASCADE",
+      "name": "discovery_exposures_membership_a_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (membership_b) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE CASCADE",
+      "name": "discovery_exposures_membership_b_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (tribe_id) REFERENCES spot_private.tribe_catalog(id) ON DELETE CASCADE",
+      "name": "discovery_exposures_tribe_id_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_exposures_user_a_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_exposures_user_b_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE CASCADE",
+      "name": "discovery_exposures_window_id_fkey",
+      "schema": "spot_private",
+      "table": "discovery_exposures"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_fairness_buckets_user_id_fkey",
+      "schema": "spot_private",
+      "table": "discovery_fairness_buckets"
+    },
+    {
+      "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_pair_memory_user_a_fkey",
+      "schema": "spot_private",
+      "table": "discovery_pair_memory"
+    },
+    {
+      "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "discovery_pair_memory_user_b_fkey",
+      "schema": "spot_private",
+      "table": "discovery_pair_memory"
+    },
+    {
+      "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_comments_author_id_fkey",
+      "schema": "spot_private",
+      "table": "board_comments"
+    },
+    {
+      "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "board_comments_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_comments"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_preferences_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_preferences"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+      "name": "board_request_attempts_origin_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_request_attempts"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_post_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+      "name": "board_request_attempts_origin_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_request_attempts"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_request_attempts_sender_id_fkey",
+      "schema": "spot_private",
+      "table": "board_request_attempts"
+    },
+    {
+      "definition": "FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL",
+      "name": "board_reports_assigned_to_fkey",
+      "schema": "spot_private",
+      "table": "board_reports"
+    },
+    {
+      "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+      "name": "board_reports_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reports"
+    },
+    {
+      "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "board_reports_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reports"
+    },
+    {
+      "definition": "FOREIGN KEY (reporter_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_reports_reporter_id_fkey",
+      "schema": "spot_private",
+      "table": "board_reports"
+    },
+    {
+      "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_posts_author_id_fkey",
+      "schema": "spot_private",
+      "table": "board_posts"
+    },
+    {
+      "definition": "FOREIGN KEY (parent_qod_id) REFERENCES spot_private.board_posts(id) ON DELETE RESTRICT",
+      "name": "board_posts_parent_qod_id_fkey",
+      "schema": "spot_private",
+      "table": "board_posts"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "board_posts_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "board_posts"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_comment_quota_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_comment_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "board_comment_quota_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "board_comment_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_request_pair_guards_user_a_fkey",
+      "schema": "spot_private",
+      "table": "board_request_pair_guards"
+    },
+    {
+      "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_request_pair_guards_user_b_fkey",
+      "schema": "spot_private",
+      "table": "board_request_pair_guards"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "ora_spot_daily_quota_user_id_fkey",
+      "schema": "spot_private",
+      "table": "ora_spot_daily_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (place_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "ora_spot_place_quota_place_id_fkey",
+      "schema": "spot_private",
+      "table": "ora_spot_place_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id, local_date) REFERENCES spot_private.ora_spot_daily_quota(user_id, local_date) ON DELETE CASCADE",
+      "name": "ora_spot_place_quota_user_id_local_date_fkey",
+      "schema": "spot_private",
+      "table": "ora_spot_place_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "account_onboarding_user_id_fkey",
+      "schema": "spot_private",
+      "table": "account_onboarding"
+    },
+    {
+      "definition": "FOREIGN KEY (context_id) REFERENCES venues(id) ON DELETE SET NULL",
+      "name": "spot_v2_intents_context_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (exposure_id) REFERENCES spot_private.discovery_exposures(id) ON DELETE SET NULL",
+      "name": "spot_v2_intents_exposure_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE SET NULL",
+      "name": "spot_v2_intents_match_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (presence_id) REFERENCES checkins(presence_id) ON DELETE SET NULL",
+      "name": "spot_v2_intents_presence_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "spot_v2_intents_recipient_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "spot_v2_intents_sender_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_intents"
+    },
+    {
+      "definition": "FOREIGN KEY (intent_id) REFERENCES spot_private.spot_v2_intents(id) ON DELETE CASCADE",
+      "name": "spot_v2_operations_intent_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_operations"
+    },
+    {
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "spot_v2_operations_recipient_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_operations"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+      "name": "spot_v2_operations_sender_id_fkey",
+      "schema": "spot_private",
+      "table": "spot_v2_operations"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_request_quota_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_request_quota"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "dd_admission_accounts_user_id_fkey",
+      "schema": "spot_private",
+      "table": "dd_admission_accounts"
+    },
+    {
+      "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+      "name": "board_likes_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_likes"
+    },
+    {
+      "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "board_likes_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_likes"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_likes_user_id_fkey",
+      "schema": "spot_private",
+      "table": "board_likes"
+    },
+    {
+      "definition": "FOREIGN KEY (attempt_id) REFERENCES spot_private.board_request_attempts(id) ON DELETE SET NULL",
+      "name": "board_romantic_requests_attempt_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE SET NULL",
+      "name": "board_romantic_requests_match_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+      "name": "board_romantic_requests_origin_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (origin_post_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+      "name": "board_romantic_requests_origin_post_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (recipient_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_romantic_requests_recipient_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (sender_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "board_romantic_requests_sender_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE SET NULL",
+      "name": "board_romantic_requests_venue_id_fkey",
+      "schema": "spot_private",
+      "table": "board_romantic_requests"
+    },
+    {
+      "definition": "FOREIGN KEY (answer_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+      "name": "qod_answer_claims_answer_id_fkey",
+      "schema": "spot_private",
+      "table": "qod_answer_claims"
+    },
+    {
+      "definition": "FOREIGN KEY (question_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "qod_answer_claims_question_id_fkey",
+      "schema": "spot_private",
+      "table": "qod_answer_claims"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "qod_answer_claims_user_id_fkey",
+      "schema": "spot_private",
+      "table": "qod_answer_claims"
+    },
+    {
+      "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+      "name": "spotted_share_refs_comment_id_fkey",
+      "schema": "spot_private",
+      "table": "spotted_share_refs"
+    },
+    {
+      "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+      "name": "spotted_share_refs_post_id_fkey",
+      "schema": "spot_private",
+      "table": "spotted_share_refs"
+    },
+    {
+      "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "push_bindings_owner_id_fkey",
+      "schema": "spot_private",
+      "table": "push_bindings"
+    },
+    {
+      "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "notification_events_owner_id_fkey",
+      "schema": "spot_private",
+      "table": "notification_events"
+    },
+    {
+      "definition": "FOREIGN KEY (binding_id) REFERENCES spot_private.push_bindings(id) ON DELETE CASCADE",
+      "name": "notification_deliveries_binding_id_fkey",
+      "schema": "spot_private",
+      "table": "notification_deliveries"
+    },
+    {
+      "definition": "FOREIGN KEY (event_id) REFERENCES spot_private.notification_events(id) ON DELETE CASCADE",
+      "name": "notification_deliveries_event_id_fkey",
+      "schema": "spot_private",
+      "table": "notification_deliveries"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "analytics_admission_user_id_fkey",
+      "schema": "spot_private",
+      "table": "analytics_admission"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "analytics_days_user_id_fkey",
+      "schema": "spot_private",
+      "table": "analytics_days"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "analytics_fairness_user_id_fkey",
+      "schema": "spot_private",
+      "table": "analytics_fairness"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "analytics_events_user_id_fkey",
+      "schema": "spot_private",
+      "table": "analytics_events"
+    },
+    {
+      "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "anonymous_blocks_author_id_fkey",
+      "schema": "spot_private",
+      "table": "anonymous_blocks"
+    },
+    {
+      "definition": "FOREIGN KEY (blocker_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+      "name": "anonymous_blocks_blocker_id_fkey",
+      "schema": "spot_private",
+      "table": "anonymous_blocks"
+    },
+    {
+      "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE SET NULL",
+      "name": "moderation_reviews_actor_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_reviews"
+    },
+    {
+      "definition": "FOREIGN KEY (board_action_id) REFERENCES spot_private.board_audit(id) ON DELETE CASCADE",
+      "name": "moderation_reviews_board_action_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_reviews"
+    },
+    {
+      "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+      "name": "moderation_reviews_hold_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_reviews"
+    },
+    {
+      "definition": "FOREIGN KEY (profile_action_id) REFERENCES spot_private.moderation_audit(id) ON DELETE CASCADE",
+      "name": "moderation_reviews_profile_action_id_fkey",
+      "schema": "spot_private",
+      "table": "moderation_reviews"
+    }
+  ],
+  "observed_at": "2026-10-23T20:25:20.488131+00:00",
+  "policies": [
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "venues_read",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "venues",
+      "using": "active"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "checkins_read_own",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "checkins",
+      "using": "(user_id = ( SELECT auth.uid() AS uid))"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "blocks_read_own",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "blocks",
+      "using": "(blocker_id = ( SELECT auth.uid() AS uid))"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "profiles_read",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "profiles",
+      "using": "(id = ( SELECT auth.uid() AS uid))"
+    },
+    {
+      "check": null,
+      "command": "DELETE",
+      "name": "blocks_delete_own",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "blocks",
+      "using": "(blocker_id = ( SELECT auth.uid() AS uid))"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "matches_read",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "matches",
+      "using": "spot_private.can_use_match(id)"
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "messages_read",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "messages",
+      "using": "spot_private.can_use_match(match_id)"
+    },
+    {
+      "check": "((id = auth.uid()) AND spot_private.can_write_profile() AND spot_private.can_publish_photo(id, photo_path))",
+      "command": "INSERT",
+      "name": "profiles_insert",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "profiles",
+      "using": null
+    },
+    {
+      "check": "false",
+      "command": "INSERT",
+      "name": "photos_insert_own",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "storage",
+      "table": "objects",
+      "using": null
+    },
+    {
+      "check": null,
+      "command": "SELECT",
+      "name": "photos_read_allowed",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "storage",
+      "table": "objects",
+      "using": "false"
+    },
+    {
+      "check": "((blocker_id = auth.uid()) AND spot_private.can_write_profile())",
+      "command": "INSERT",
+      "name": "blocks_insert_own",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "blocks",
+      "using": null
+    },
+    {
+      "check": "((id = auth.uid()) AND spot_private.can_write_profile() AND spot_private.can_publish_photo(id, photo_path))",
+      "command": "UPDATE",
+      "name": "profiles_update",
+      "roles": [
+        "authenticated"
+      ],
+      "schema": "public",
+      "table": "profiles",
+      "using": "((id = auth.uid()) AND spot_private.can_write_profile())"
+    }
+  ],
+  "tables": [
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "request_fingerprint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "age_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "declared_age",
+          "not_null": false,
+          "type": "integer"
+        },
+        {
+          "name": "statement_version",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "method",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "attested_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        }
+      ],
+      "name": "account_eligibility",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "instance_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "token",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "user_id",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "revoked",
+          "not_null": false,
+          "type": "boolean"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "parent",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "session_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "refresh_tokens",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "environment",
+          "not_null": true,
+          "type": "text"
+        }
+      ],
+      "name": "privacy_environment",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "version",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "purpose",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "text_content",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "text_hash",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "required",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "consent_versions",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "instance_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "aud",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "role",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "email",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "encrypted_password",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "email_confirmed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "invited_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "confirmation_token",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "confirmation_sent_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "recovery_token",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "recovery_sent_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "email_change_token_new",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "email_change",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "email_change_sent_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "last_sign_in_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "raw_app_meta_data",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "raw_user_meta_data",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "is_super_admin",
+          "not_null": false,
+          "type": "boolean"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "phone",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "phone_confirmed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "phone_change",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "phone_change_token",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "phone_change_sent_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "confirmed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "email_change_token_current",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "email_change_confirm_status",
+          "not_null": false,
+          "type": "smallint"
+        },
+        {
+          "name": "banned_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "reauthentication_token",
+          "not_null": false,
+          "type": "character varying(255)"
+        },
+        {
+          "name": "reauthentication_sent_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "is_sso_user",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "deleted_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "is_anonymous",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "users",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "instance_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "payload",
+          "not_null": false,
+          "type": "json"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "ip_address",
+          "not_null": true,
+          "type": "character varying(64)"
+        }
+      ],
+      "name": "audit_log_entries",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "provider_id",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "identity_data",
+          "not_null": true,
+          "type": "jsonb"
+        },
+        {
+          "name": "provider",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "last_sign_in_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "email",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        }
+      ],
+      "name": "identities",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "version",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "changed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "consent_state",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "factor_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "aal",
+          "not_null": false,
+          "type": "auth.aal_level"
+        },
+        {
+          "name": "not_after",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "refreshed_at",
+          "not_null": false,
+          "type": "timestamp without time zone"
+        },
+        {
+          "name": "user_agent",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "ip",
+          "not_null": false,
+          "type": "inet"
+        },
+        {
+          "name": "tag",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "oauth_client_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "refresh_token_hmac_key",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "refresh_token_counter",
+          "not_null": false,
+          "type": "bigint"
+        },
+        {
+          "name": "scopes",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "sessions",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "friendly_name",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "factor_type",
+          "not_null": true,
+          "type": "auth.factor_type"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "auth.factor_status"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "secret",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "phone",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "last_challenged_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "web_authn_credential",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "web_authn_aaguid",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "last_webauthn_challenge_data",
+          "not_null": false,
+          "type": "jsonb"
+        }
+      ],
+      "name": "mfa_factors",
+      "rls": true,
+      "schema": "auth"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "token",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "version",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "consent_challenges",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "version",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "text_hash",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "consent_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": true,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "bucket_id",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "owner",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "last_accessed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "metadata",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "path_tokens",
+          "not_null": false,
+          "type": "text[]"
+        },
+        {
+          "name": "version",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "owner_id",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "user_metadata",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "archived_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "is_delete_marker",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "is_versioned",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "objects",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "anon_select": true,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "name",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "owner",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "public",
+          "not_null": false,
+          "type": "boolean"
+        },
+        {
+          "name": "avif_autodetection",
+          "not_null": false,
+          "type": "boolean"
+        },
+        {
+          "name": "file_size_limit",
+          "not_null": false,
+          "type": "bigint"
+        },
+        {
+          "name": "allowed_mime_types",
+          "not_null": false,
+          "type": "text[]"
+        },
+        {
+          "name": "owner_id",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "type",
+          "not_null": true,
+          "type": "storage.buckettype"
+        },
+        {
+          "name": "versioning_status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "lifecycle_configuration",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "lifecycle_configuration_generation",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "buckets",
+      "rls": true,
+      "schema": "storage"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "category",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "duration",
+          "not_null": true,
+          "type": "interval"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "version",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "validation",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "batch_size",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "retention_policies",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "paused",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "retention_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "hold_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "request_fingerprint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "actor_ref",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "safety_hold_audit",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "qr_token",
+          "not_null": true,
+          "type": "uuid"
+        }
+      ],
+      "name": "venue_codes",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "category",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "code",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "privacy_logs",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "category",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "policy_version",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "dry_run",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "candidates",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "purged",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "completed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "moderation_counts",
+          "not_null": true,
+          "type": "jsonb"
+        }
+      ],
+      "name": "retention_runs",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "category",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "target",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "case_reference",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "reason_code",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "released_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "actor_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "current_status",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_due_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_outcome",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "safety_holds",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_a",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_b",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "first_message_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "matches",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "match_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "body",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "client_nonce",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "messages",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "blocker_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "blocked_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "blocks",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "name",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "address",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "active",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "ora_enabled",
+          "not_null": false,
+          "type": "boolean"
+        },
+        {
+          "name": "linked_tribe_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "venues",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "moderators",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "last_checkin_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "membership_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "membership_source",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "tribe_memberships",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "name",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "age",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "gender",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "preference",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "updated_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "occupation",
+          "not_null": true,
+          "type": "text"
+        }
+      ],
+      "name": "profiles",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "reporter_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "target_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "details",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "reviewed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "client_nonce",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "closed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "queue_state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "assigned_to",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "claim_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "reports",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "activity_window",
+          "not_null": false,
+          "type": "interval"
+        }
+      ],
+      "name": "tribe_settings",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "started_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "account_deletions",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "preview",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "thumbnail_path",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "updated_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "detail_path",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "photo_assets",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "hold_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "report_reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "report_status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "archived_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "safety_evidence",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": true,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "checked_in_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "presence_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "presence_source",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "checkins",
+      "rls": true,
+      "schema": "public"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        }
+      ],
+      "name": "photo_legacy",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "starts",
+          "not_null": true,
+          "type": "timestamp with time zone[]"
+        }
+      ],
+      "name": "photo_upload_accounts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "request_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "input_sha",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "lease_token",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "lease_until",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "attempts",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "legacy_path",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "photo_upload_jobs",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "preview",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "canonical_sha",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "canonical_bytes",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "source_format",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "source_width",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "source_height",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "normalizer_version",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "validated_photos",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "completed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "error_code",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "claim_token",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "claim_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "retries",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "photo_cleanup_accounts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "actor_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "report_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "note",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "operation_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "target_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "reason_code",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "previous_state",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "new_state",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "request",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "target_type",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "current_status",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_due_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_outcome",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "moderation_audit",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "code",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "first_seen",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "resolved_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_lifecycle_anomalies",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "revoked_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "until_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "suspensions",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "photo_path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "request_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "lease_token",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "writer",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "reserved_bytes",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "not_before",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "completed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "claim_token",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "claim_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "retries",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "error_code",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "evidence",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "manifest",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "last_attempt_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_reason",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_since",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_operator",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_evidence",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_quota_exempt",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "reconcile_attempts",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "photo_lifecycle_sets",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "role",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "active",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "granted_by",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "changed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "moderation_roles",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "actor_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "target_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "previous_role",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "new_role",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "moderation_role_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "lease",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "payload",
+          "not_null": true,
+          "type": "jsonb"
+        },
+        {
+          "name": "actor",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_review_audit",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "recipient_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "sender_checkin",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "interest_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_kind",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "origin_membership_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_presence_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_window_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "logical_status",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "invalidated_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "invalidation_reason",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "operation_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "interests",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "day",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "board_quota",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "fingerprint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "result_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "board_receipts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "phase",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "epoch",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "canary_users",
+          "not_null": true,
+          "type": "uuid[]"
+        },
+        {
+          "name": "execute_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "scheduler_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "cleanup_all",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "smoke_epoch",
+          "not_null": false,
+          "type": "bigint"
+        },
+        {
+          "name": "release_sha",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "changed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_cutover_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "lease",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "protocol",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "writer",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "manifest",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "evidence",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "completed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_cutover_attempts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "completed",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_cutover_deletions",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "owner_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "path",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "previous_path",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "operator_id",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "evidence_ref",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "epoch",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "photo_cutover_audit",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "post_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "comment_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "board_reactions",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "window_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "exposure_count",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "spots_used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "discovery_allocations",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "hold_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "body",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "archived_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "content_kind",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "board_evidence",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "actor_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "report_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "action",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "operation_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "fingerprint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "content_kind",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "comment_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "romantic_request_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "target_type",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "target_internal_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "reason_code",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "previous_state",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "new_state",
+          "not_null": false,
+          "type": "jsonb"
+        },
+        {
+          "name": "current_status",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "review_due_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "review_outcome",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "board_audit",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "active",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "joinable",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "tribe_catalog",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "configuration_state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "configuration_started_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        }
+      ],
+      "name": "tribe_account_state",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "tribe_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "rejoin_not_before",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "tribe_rejoin_guards",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "version",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "paused",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "timezone",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "morning_start",
+          "not_null": false,
+          "type": "time without time zone"
+        },
+        {
+          "name": "afternoon_start",
+          "not_null": false,
+          "type": "time without time zone"
+        },
+        {
+          "name": "nightly_end",
+          "not_null": false,
+          "type": "time without time zone"
+        },
+        {
+          "name": "recurrence_floor",
+          "not_null": true,
+          "type": "interval"
+        },
+        {
+          "name": "recurrence_target",
+          "not_null": true,
+          "type": "interval"
+        },
+        {
+          "name": "exposure_retention",
+          "not_null": false,
+          "type": "interval"
+        },
+        {
+          "name": "fairness_retention",
+          "not_null": false,
+          "type": "interval"
+        },
+        {
+          "name": "pair_memory_retention",
+          "not_null": false,
+          "type": "interval"
+        }
+      ],
+      "name": "discovery_policy",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "local_date",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "slot",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "policy_version",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "starts_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "ends_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "generation_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "lease_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "discovery_windows",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "window_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_a",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_b",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "tribe_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "membership_a",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "membership_b",
+          "not_null": true,
+          "type": "uuid"
+        }
+      ],
+      "name": "discovery_exposures",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "bucket_date",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "opportunities",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "exposures",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "purge_after",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "discovery_fairness_buckets",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_a",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_b",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "last_exposed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "purge_after",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "discovery_pair_memory",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "post_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "author_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "body",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "hidden",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "removed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        }
+      ],
+      "name": "board_comments",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "receive_romantic_requests",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "board_preferences",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "fingerprint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "origin_post_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_comment_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "claim_token",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "lease_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "attempts",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "purge_after",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "board_request_attempts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "membership_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "ora_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "spot_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "discovery_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "comments_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "requests_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "system_posts_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "share_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "jobs_paused",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "dd_controlled_admission",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "dd_admission_changed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "dd_admission_changed_by",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "soma_v2_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "post_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "reporter_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "assigned_to",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "claim_until",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "closed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "comment_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "board_reports",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "author_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "body",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "hidden",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "post_kind",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "editorial_key",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "question_day",
+          "not_null": false,
+          "type": "date"
+        },
+        {
+          "name": "parent_qod_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "board_posts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "bucket_start",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "board_comment_quota",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_a",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_b",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "retry_not_before",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "purge_after",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "board_request_pair_guards",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "timezone",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "daily_limit",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "place_daily_limit",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "quota_retention",
+          "not_null": false,
+          "type": "interval"
+        }
+      ],
+      "name": "ora_spot_policy",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "local_date",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "ora_spot_daily_quota",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "place_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "local_date",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "ora_spot_place_quota",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "completed_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "account_onboarding",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "recipient_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "context_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "presence_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "membership_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "exposure_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "valid_until",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "match_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "spot_v2_intents",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "recipient_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "exposure_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "intent_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "result",
+          "not_null": true,
+          "type": "jsonb"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "spot_v2_operations",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "revision",
+          "not_null": true,
+          "type": "bigint"
+        }
+      ],
+      "name": "spot_v2_fence",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "day",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "used",
+          "not_null": true,
+          "type": "integer"
+        }
+      ],
+      "name": "board_request_quota",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "admitted",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "reason",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "changed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "changed_by",
+          "not_null": true,
+          "type": "text"
+        }
+      ],
+      "name": "dd_admission_accounts",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "post_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "comment_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "board_likes",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "attempt_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "sender_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "recipient_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "venue_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "origin_post_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "origin_comment_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "resolved_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "purge_after",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "declined_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "match_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "board_romantic_requests",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "question_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "answer_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "qod_answer_claims",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "token",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "post_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "comment_id",
+          "not_null": false,
+          "type": "uuid"
+        }
+      ],
+      "name": "spotted_share_refs",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "delivery_enabled",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "notification_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "owner_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "endpoint",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "p256dh",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "auth_key",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "binding_key",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "active",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "push_bindings",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "kind",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "canonical_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "owner_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "target_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "reference",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "expires_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "notification_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "event_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "binding_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "lease",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "attempts",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "next_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "updated_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "result",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "notification_deliveries",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "test_only",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "dropped",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "installed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "analytics_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        }
+      ],
+      "name": "analytics_admission",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "day",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "analytics_days",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "day",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "slot",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "opportunities",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "assignments",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "analytics_fairness",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "period",
+          "not_null": true,
+          "type": "date"
+        },
+        {
+          "name": "metric",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "value",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "reviewed_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "analytics_anonymous_rollups",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "user_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "event",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "surface",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "channel",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "entry",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "source",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "dedupe",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "analytics_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "blocker_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "author_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "anonymous_blocks",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "test_only",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "email_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "retention",
+          "not_null": true,
+          "type": "interval"
+        },
+        {
+          "name": "dropped",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "purge_ready",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "ops_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "hold_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "board_action_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "profile_action_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "actor_id",
+          "not_null": false,
+          "type": "uuid"
+        },
+        {
+          "name": "outcome",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "reason_code",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "moderation_reviews",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "request_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "ops_admission",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "bigint"
+        },
+        {
+          "name": "request_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "source",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "result",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "error_class",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "duration_ms",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "created_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "ops_events",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "operation",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "source",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "rule",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "state",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "opened_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "last_failure_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "last_success_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "occurrences",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "resolved_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "email_state",
+          "not_null": true,
+          "type": "text"
+        }
+      ],
+      "name": "ops_incidents",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "last_success_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "last_failure_at",
+          "not_null": false,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "failure_class",
+          "not_null": false,
+          "type": "text"
+        },
+        {
+          "name": "last_duration_ms",
+          "not_null": false,
+          "type": "integer"
+        },
+        {
+          "name": "consecutive_failures",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "updated_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        }
+      ],
+      "name": "ops_jobs",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "expected_interval",
+          "not_null": false,
+          "type": "interval"
+        }
+      ],
+      "name": "ops_job_policy",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "manual_enabled",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "scheduler_enabled",
+          "not_null": true,
+          "type": "boolean"
+        }
+      ],
+      "name": "retention_phase_a_control",
+      "rls": true,
+      "schema": "spot_private"
+    },
+    {
+      "anon_select": false,
+      "authenticated_select": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "not_null": true,
+          "type": "uuid"
+        },
+        {
+          "name": "path",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "dry_run",
+          "not_null": true,
+          "type": "boolean"
+        },
+        {
+          "name": "batch_limit",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "started_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "finished_at",
+          "not_null": true,
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "not_null": true,
+          "type": "text"
+        },
+        {
+          "name": "eligible",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "deleted",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "protected",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "skipped",
+          "not_null": true,
+          "type": "integer"
+        },
+        {
+          "name": "error_code",
+          "not_null": false,
+          "type": "text"
+        }
+      ],
+      "name": "retention_phase_a_runs",
+      "rls": true,
+      "schema": "spot_private"
+    }
+  ]
+}
