@@ -1,0 +1,627 @@
+[
+  {
+    "definition": "FOREIGN KEY (user_id, local_date) REFERENCES spot_private.ora_spot_daily_quota(user_id, local_date) ON DELETE CASCADE",
+    "references": "spot_private.ora_spot_daily_quota",
+    "table": "spot_private.ora_spot_place_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.account_onboarding"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.venue_codes"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_fairness_buckets"
+  },
+  {
+    "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+    "references": "venues",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE",
+    "references": "matches",
+    "table": "messages"
+  },
+  {
+    "definition": "FOREIGN KEY (reporter_id) REFERENCES profiles(id)",
+    "references": "profiles",
+    "table": "spot_private.reports"
+  },
+  {
+    "definition": "FOREIGN KEY (target_id) REFERENCES profiles(id)",
+    "references": "profiles",
+    "table": "spot_private.reports"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id)",
+    "references": "profiles",
+    "table": "spot_private.suspensions"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)",
+    "references": "auth.users",
+    "table": "spot_private.moderators"
+  },
+  {
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id)",
+    "references": "auth.users",
+    "table": "spot_private.moderation_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (report_id) REFERENCES spot_private.reports(id)",
+    "references": "spot_private.reports",
+    "table": "spot_private.moderation_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.tribe_memberships"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id)",
+    "references": "venues",
+    "table": "spot_private.tribe_memberships"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.account_deletions"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.photo_assets"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.photo_legacy"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.photo_upload_accounts"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.photo_upload_jobs"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.validated_photos"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.account_eligibility"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.age_events"
+  },
+  {
+    "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_pair_memory"
+  },
+  {
+    "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_pair_memory"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.consent_state"
+  },
+  {
+    "definition": "FOREIGN KEY (version) REFERENCES spot_private.consent_versions(version)",
+    "references": "spot_private.consent_versions",
+    "table": "spot_private.consent_state"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.consent_challenges"
+  },
+  {
+    "definition": "FOREIGN KEY (version) REFERENCES spot_private.consent_versions(version)",
+    "references": "spot_private.consent_versions",
+    "table": "spot_private.consent_challenges"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.consent_events"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_membership_id) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE SET NULL",
+    "references": "spot_private.tribe_memberships",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_presence_id) REFERENCES checkins(presence_id) ON DELETE SET NULL",
+    "references": "checkins",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE SET NULL",
+    "references": "spot_private.discovery_windows",
+    "table": "spot_private.interests"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.analytics_admission"
+  },
+  {
+    "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_comments"
+  },
+  {
+    "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_comments"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_preferences"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_request_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_comment_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.board_comment_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+    "references": "spot_private.safety_holds",
+    "table": "spot_private.safety_evidence"
+  },
+  {
+    "definition": "FOREIGN KEY (sender_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_request_attempts"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_post_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_request_attempts"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_request_attempts"
+  },
+  {
+    "definition": "FOREIGN KEY (attempt_id) REFERENCES spot_private.board_request_attempts(id) ON DELETE SET NULL",
+    "references": "spot_private.board_request_attempts",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (sender_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (recipient_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE SET NULL",
+    "references": "venues",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.moderation_roles"
+  },
+  {
+    "definition": "FOREIGN KEY (granted_by) REFERENCES auth.users(id) ON DELETE SET NULL",
+    "references": "auth.users",
+    "table": "spot_private.moderation_roles"
+  },
+  {
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.moderation_role_events"
+  },
+  {
+    "definition": "FOREIGN KEY (target_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.moderation_role_events"
+  },
+  {
+    "definition": "FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL",
+    "references": "auth.users",
+    "table": "spot_private.reports"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_post_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (origin_comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_request_pair_guards"
+  },
+  {
+    "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_request_pair_guards"
+  },
+  {
+    "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_reactions"
+  },
+  {
+    "definition": "FOREIGN KEY (target_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.moderation_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_reports"
+  },
+  {
+    "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE SET NULL",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (romantic_request_id) REFERENCES spot_private.board_romantic_requests(id) ON DELETE SET NULL",
+    "references": "spot_private.board_romantic_requests",
+    "table": "spot_private.board_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.board_posts"
+  },
+  {
+    "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_posts"
+  },
+  {
+    "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_reactions"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_reactions"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (venue_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.board_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_receipts"
+  },
+  {
+    "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_reports"
+  },
+  {
+    "definition": "FOREIGN KEY (reporter_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_reports"
+  },
+  {
+    "definition": "FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL",
+    "references": "auth.users",
+    "table": "spot_private.board_reports"
+  },
+  {
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (report_id) REFERENCES spot_private.board_reports(id) ON DELETE CASCADE",
+    "references": "spot_private.board_reports",
+    "table": "spot_private.board_audit"
+  },
+  {
+    "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+    "references": "spot_private.safety_holds",
+    "table": "spot_private.board_evidence"
+  },
+  {
+    "definition": "FOREIGN KEY (id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.tribe_catalog"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.tribe_account_state"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.tribe_rejoin_guards"
+  },
+  {
+    "definition": "FOREIGN KEY (tribe_id) REFERENCES spot_private.tribe_catalog(id) ON DELETE CASCADE",
+    "references": "spot_private.tribe_catalog",
+    "table": "spot_private.tribe_rejoin_guards"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.ora_spot_daily_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE SET NULL",
+    "references": "matches",
+    "table": "spot_private.board_romantic_requests"
+  },
+  {
+    "definition": "FOREIGN KEY (policy_version) REFERENCES spot_private.discovery_policy(version)",
+    "references": "spot_private.discovery_policy",
+    "table": "spot_private.discovery_windows"
+  },
+  {
+    "definition": "FOREIGN KEY (window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE CASCADE",
+    "references": "spot_private.discovery_windows",
+    "table": "spot_private.discovery_allocations"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_allocations"
+  },
+  {
+    "definition": "FOREIGN KEY (window_id) REFERENCES spot_private.discovery_windows(id) ON DELETE CASCADE",
+    "references": "spot_private.discovery_windows",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (user_a) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (user_b) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (tribe_id) REFERENCES spot_private.tribe_catalog(id) ON DELETE CASCADE",
+    "references": "spot_private.tribe_catalog",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (membership_a) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE CASCADE",
+    "references": "spot_private.tribe_memberships",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (membership_b) REFERENCES spot_private.tribe_memberships(membership_id) ON DELETE CASCADE",
+    "references": "spot_private.tribe_memberships",
+    "table": "spot_private.discovery_exposures"
+  },
+  {
+    "definition": "FOREIGN KEY (place_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "references": "venues",
+    "table": "spot_private.ora_spot_place_quota"
+  },
+  {
+    "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (context_id) REFERENCES venues(id) ON DELETE SET NULL",
+    "references": "venues",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (presence_id) REFERENCES checkins(presence_id) ON DELETE SET NULL",
+    "references": "checkins",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (exposure_id) REFERENCES spot_private.discovery_exposures(id) ON DELETE SET NULL",
+    "references": "spot_private.discovery_exposures",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE SET NULL",
+    "references": "matches",
+    "table": "spot_private.spot_v2_intents"
+  },
+  {
+    "definition": "FOREIGN KEY (sender_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.spot_v2_operations"
+  },
+  {
+    "definition": "FOREIGN KEY (recipient_id) REFERENCES profiles(id) ON DELETE CASCADE",
+    "references": "profiles",
+    "table": "spot_private.spot_v2_operations"
+  },
+  {
+    "definition": "FOREIGN KEY (intent_id) REFERENCES spot_private.spot_v2_intents(id) ON DELETE CASCADE",
+    "references": "spot_private.spot_v2_intents",
+    "table": "spot_private.spot_v2_operations"
+  },
+  {
+    "definition": "FOREIGN KEY (parent_qod_id) REFERENCES spot_private.board_posts(id) ON DELETE RESTRICT",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_posts"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.dd_admission_accounts"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.board_likes"
+  },
+  {
+    "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.board_likes"
+  },
+  {
+    "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.board_likes"
+  },
+  {
+    "definition": "FOREIGN KEY (question_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.qod_answer_claims"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.qod_answer_claims"
+  },
+  {
+    "definition": "FOREIGN KEY (answer_id) REFERENCES spot_private.board_posts(id) ON DELETE SET NULL",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.qod_answer_claims"
+  },
+  {
+    "definition": "FOREIGN KEY (post_id) REFERENCES spot_private.board_posts(id) ON DELETE CASCADE",
+    "references": "spot_private.board_posts",
+    "table": "spot_private.spotted_share_refs"
+  },
+  {
+    "definition": "FOREIGN KEY (comment_id) REFERENCES spot_private.board_comments(id) ON DELETE CASCADE",
+    "references": "spot_private.board_comments",
+    "table": "spot_private.spotted_share_refs"
+  },
+  {
+    "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.push_bindings"
+  },
+  {
+    "definition": "FOREIGN KEY (owner_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.notification_events"
+  },
+  {
+    "definition": "FOREIGN KEY (event_id) REFERENCES spot_private.notification_events(id) ON DELETE CASCADE",
+    "references": "spot_private.notification_events",
+    "table": "spot_private.notification_deliveries"
+  },
+  {
+    "definition": "FOREIGN KEY (binding_id) REFERENCES spot_private.push_bindings(id) ON DELETE CASCADE",
+    "references": "spot_private.push_bindings",
+    "table": "spot_private.notification_deliveries"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.analytics_events"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.analytics_days"
+  },
+  {
+    "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.analytics_fairness"
+  },
+  {
+    "definition": "FOREIGN KEY (blocker_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.anonymous_blocks"
+  },
+  {
+    "definition": "FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "references": "auth.users",
+    "table": "spot_private.anonymous_blocks"
+  },
+  {
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE SET NULL",
+    "references": "auth.users",
+    "table": "spot_private.safety_holds"
+  },
+  {
+    "definition": "FOREIGN KEY (hold_id) REFERENCES spot_private.safety_holds(id) ON DELETE CASCADE",
+    "references": "spot_private.safety_holds",
+    "table": "spot_private.moderation_reviews"
+  },
+  {
+    "definition": "FOREIGN KEY (board_action_id) REFERENCES spot_private.board_audit(id) ON DELETE CASCADE",
+    "references": "spot_private.board_audit",
+    "table": "spot_private.moderation_reviews"
+  },
+  {
+    "definition": "FOREIGN KEY (profile_action_id) REFERENCES spot_private.moderation_audit(id) ON DELETE CASCADE",
+    "references": "spot_private.moderation_audit",
+    "table": "spot_private.moderation_reviews"
+  },
+  {
+    "definition": "FOREIGN KEY (actor_id) REFERENCES auth.users(id) ON DELETE SET NULL",
+    "references": "auth.users",
+    "table": "spot_private.moderation_reviews"
+  }
+]

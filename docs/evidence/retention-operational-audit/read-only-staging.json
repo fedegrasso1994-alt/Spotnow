@@ -1,0 +1,342 @@
+{
+  "at": "2026-10-23T17:29:15.764896+00:00",
+  "controls": {
+    "analytics": {
+      "dropped": 0,
+      "enabled": false,
+      "installed_at": "2026-10-22T17:46:35.430238+00:00",
+      "singleton": true,
+      "test_only": true
+    },
+    "notifications": {
+      "delivery_enabled": false,
+      "enabled": false,
+      "singleton": true
+    },
+    "ops": {
+      "dropped": 0,
+      "email_enabled": false,
+      "enabled": false,
+      "purge_ready": false,
+      "retention": "14 days",
+      "singleton": true,
+      "test_only": true
+    },
+    "photo": {
+      "cleanup_all": false,
+      "execute_enabled": false,
+      "phase": "OPEN",
+      "scheduler_enabled": false
+    },
+    "retention": {
+      "paused": true,
+      "singleton": true
+    },
+    "v2": {
+      "comments_enabled": true,
+      "dd_admission_changed_at": "2026-10-22T16:17:18.40243+00:00",
+      "dd_admission_changed_by": "postgres",
+      "dd_controlled_admission": false,
+      "discovery_enabled": false,
+      "jobs_paused": true,
+      "membership_enabled": false,
+      "ora_enabled": true,
+      "requests_enabled": true,
+      "share_enabled": false,
+      "singleton": true,
+      "spot_enabled": true,
+      "system_posts_enabled": false
+    }
+  },
+  "counts": {
+    "analytics_events": 0,
+    "auth": 4,
+    "dd_exposures": 0,
+    "open_holds": 0,
+    "ops_events": 0,
+    "overdue_holds": 0,
+    "profiles": 4,
+    "storage": 42
+  },
+  "cron": [
+    {
+      "active": false,
+      "jobname": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "jobname": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "jobname": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    }
+  ],
+  "cron_last24h": null,
+  "dd_policy": [
+    {
+      "afternoon_start": null,
+      "enabled": false,
+      "exposure_retention": null,
+      "fairness_retention": null,
+      "morning_start": null,
+      "nightly_end": null,
+      "pair_memory_retention": null,
+      "paused": true,
+      "recurrence_floor": "72:00:00",
+      "recurrence_target": "168:00:00",
+      "timezone": "Europe/Rome",
+      "version": 1
+    },
+    {
+      "afternoon_start": "16:00:00",
+      "enabled": false,
+      "exposure_retention": "30 days",
+      "fairness_retention": "30 days",
+      "morning_start": "08:00:00",
+      "nightly_end": "00:00:00",
+      "pair_memory_retention": "30 days",
+      "paused": true,
+      "recurrence_floor": "72:00:00",
+      "recurrence_target": "168:00:00",
+      "timezone": "Europe/Rome",
+      "version": 2
+    }
+  ],
+  "environment": [
+    "staging"
+  ],
+  "policies": [
+    {
+      "batch_size": 100,
+      "category": "board_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "board_posts",
+      "duration": "00:00:01",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "board_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "checkins",
+      "duration": "24:00:00",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "closed_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "diagnostic_logs",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "empty_matches",
+      "duration": "90 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "expired_consent_challenges",
+      "duration": "24:00:00",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "inactive_chats",
+      "duration": "1 year",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "interests",
+      "duration": "90 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "privacy_operation_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 3
+    },
+    {
+      "batch_size": 100,
+      "category": "released_safety_metadata",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "security_logs",
+      "duration": "30 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    },
+    {
+      "batch_size": 100,
+      "category": "technical_receipts",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY",
+      "version": 1
+    }
+  ],
+  "purge_functions": [
+    {
+      "args": "",
+      "hash": "96628d4765a54e712eb9c8e27b618e39",
+      "name": "photo02_metadata_purge_before_review",
+      "schema": "public"
+    },
+    {
+      "args": "",
+      "hash": "5749e99aa2ff37423e409bba1d6e09f9",
+      "name": "photo02_metadata_purge_before_cutover",
+      "schema": "public"
+    },
+    {
+      "args": "a uuid, b uuid",
+      "hash": "a1919aae26ca6c9eace9bfd102cc145f",
+      "name": "retention_pair_lock",
+      "schema": "spot_private"
+    },
+    {
+      "args": "category text, target text",
+      "hash": "8568cce3b57524e5ed211458b080bc72",
+      "name": "retention_held",
+      "schema": "spot_private"
+    },
+    {
+      "args": "category text, duration interval, enabled boolean, paused boolean",
+      "hash": "6aa3d50924a8b6848e10bad021d3f4ff",
+      "name": "privacy_retention_config",
+      "schema": "public"
+    },
+    {
+      "args": "",
+      "hash": "8a6f4d76a62587a3d0d187e2b0b9688c",
+      "name": "privacy_retention_status",
+      "schema": "public"
+    },
+    {
+      "args": "category text, operation_id uuid, dry_run boolean",
+      "hash": "30448fa3875b39b6b34da0c6d688c54d",
+      "name": "moderation_prior_retention_run",
+      "schema": "public"
+    },
+    {
+      "args": "dry_run boolean",
+      "hash": "48402fb24999991c92854ceaba602576",
+      "name": "ops_purge",
+      "schema": "public"
+    },
+    {
+      "args": "category text",
+      "hash": "b21ff6c4b386b9aec99636af38c93562",
+      "name": "retention_candidates",
+      "schema": "spot_private"
+    },
+    {
+      "args": "enabled boolean, dry_run boolean",
+      "hash": "9885e446921bf31c1924619728ece965",
+      "name": "privacy_retention_schedule",
+      "schema": "public"
+    },
+    {
+      "args": "dry_run boolean",
+      "hash": "365dbae8d553103b6b169d522ba39de8",
+      "name": "privacy_retention_dispatch",
+      "schema": "public"
+    },
+    {
+      "args": "",
+      "hash": "f78d8f590b252ddefd7c91f3da6eb967",
+      "name": "privacy_retention_scheduler_status",
+      "schema": "public"
+    },
+    {
+      "args": "category text, operation_id uuid, dry_run boolean",
+      "hash": "ee8cc9a297b7c320341702decc55ee56",
+      "name": "privacy_retention_run",
+      "schema": "public"
+    },
+    {
+      "args": "category text, operation_id uuid, dry_run boolean",
+      "hash": "335326ee49b767cfee3d436add4bb31a",
+      "name": "board_prior_retention_run",
+      "schema": "public"
+    },
+    {
+      "args": "",
+      "hash": "8ce27892e7c3c4048d175d978c6fbf85",
+      "name": "notification_prune",
+      "schema": "public"
+    },
+    {
+      "args": "",
+      "hash": "55aea8c8628dcd7811713814484beadc",
+      "name": "photo_metadata_purge",
+      "schema": "public"
+    },
+    {
+      "args": "dry_run boolean",
+      "hash": "8817bdc78391c88c9b28a75cf7150b4c",
+      "name": "analytics_purge",
+      "schema": "public"
+    },
+    {
+      "args": "kind text, target text, people uuid[], window_id uuid",
+      "hash": "5809e124e59c8f87dec120c7eccf12c5",
+      "name": "dd_retention_held",
+      "schema": "spot_private"
+    },
+    {
+      "args": "batch_limit integer",
+      "hash": "23454935d6d4b79aaeae26bdd0da9dc9",
+      "name": "dd_retention_preview",
+      "schema": "spot_private"
+    }
+  ]
+}
