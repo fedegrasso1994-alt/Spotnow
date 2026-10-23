@@ -1,0 +1,20 @@
+{
+  "classification": "runner ECONNRESET before TLS; not proof of provider outage",
+  "inventory": {
+    "admission": 5,
+    "fixture_accounts": 2,
+    "fixture_holds": 0,
+    "fixture_photo_sets": 0,
+    "fixture_profiles": 0,
+    "fixture_storage": 0,
+    "ops_enabled": false,
+    "unexpected_prefix": 0
+  },
+  "recovery": {
+    "fixture_auth": 0,
+    "ops_admission": 0,
+    "ops_enabled": false,
+    "ops_events": 0
+  },
+  "mechanism": "verified synthetic scope; existing deletion barrier/claim/prepare/finish around only disposable Auth rows; no lifecycle bypass"
+}

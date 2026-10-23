@@ -1,0 +1,37 @@
+{
+  "scope": "Completed API run before hosted background-lifetime change; not evidence of final background persistence",
+  "results": [
+    {
+      "name": "Actual password login, ADMIN role and TOTP MFA; normal user and AAL1 denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Actual invalid API requests observed for ORA, chat, SPOTTED, moderation, DD and Analytics; no product mutation",
+      "result": "PASS"
+    },
+    {
+      "name": "Hosted PHOTO safe validation failure and response correlation; no upload/decoder rule changed",
+      "result": "PASS"
+    },
+    {
+      "name": "Hosted notification dispatch rejected without dedicated secret; feature remains intentionally OFF",
+      "result": "PASS"
+    },
+    {
+      "name": "Injected internal boundary failures reach hosted recorder, dedup one incident and distinguish successful retry; email OFF",
+      "result": "PASS"
+    },
+    {
+      "name": "Hosted evidence safe enum-only payloads; client source separated; OFF not incident",
+      "result": "PASS"
+    },
+    {
+      "name": "Diagnostic 14-day physical purge, dry-run and repeated execution; product retention untouched",
+      "result": "PASS"
+    },
+    {
+      "name": "Role revocation and logout reject stale operational access",
+      "result": "PASS"
+    }
+  ]
+}

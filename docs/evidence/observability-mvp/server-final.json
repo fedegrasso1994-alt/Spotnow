@@ -1,0 +1,144 @@
+{
+  "accounts": 4,
+  "active_cron": 0,
+  "admission": 0,
+  "at": "2026-10-23T17:04:16.082297+00:00",
+  "controls": {
+    "analytics": false,
+    "cleanup": false,
+    "discovery": false,
+    "notifications": false,
+    "retention_paused": true,
+    "scheduler": false
+  },
+  "events": 0,
+  "fixture_auth": 0,
+  "fixture_deletion_receipts": 10,
+  "fixture_pending_deletion": 0,
+  "fixture_profiles": 0,
+  "fixture_storage": 0,
+  "function_hashes": {
+    "ops_expected_off": "08bd2bb89c9b478f84e0ee4ff454efd0",
+    "ops_health": "f6f296e02812d4b776c37409062b2368",
+    "ops_observe": "5f43f3f33a4140371d57aa390076725a",
+    "ops_operation_valid": "43429580d6bf389290a90b200dba2584",
+    "ops_purge": "48402fb24999991c92854ceaba602576",
+    "ops_recent": "d1d871cce57633d443d069ad01e04f08",
+    "ops_record": "76dd37114cd03d06f48301d5cc4c6128",
+    "ops_record_server": "4ce3edd1399874ac3e84fc3b74e64dae"
+  },
+  "incidents": 0,
+  "job_policies": [
+    {
+      "expected_interval": null,
+      "operation": "analytics.purge"
+    },
+    {
+      "expected_interval": null,
+      "operation": "notifications.dispatch"
+    },
+    {
+      "expected_interval": null,
+      "operation": "notifications.prune"
+    },
+    {
+      "expected_interval": null,
+      "operation": "ops.purge"
+    },
+    {
+      "expected_interval": "00:01:00",
+      "operation": "photo.cleanup"
+    },
+    {
+      "expected_interval": "00:01:00",
+      "operation": "privacy.retention"
+    }
+  ],
+  "job_state": 0,
+  "missing_current_photos": 0,
+  "objects": 42,
+  "ops": {
+    "dropped": 0,
+    "email_enabled": false,
+    "enabled": false,
+    "purge_ready": false,
+    "retention": "14 days",
+    "singleton": true,
+    "test_only": true
+  },
+  "permission_checks": {
+    "anonymous_health": false,
+    "authenticated_server_record": false,
+    "client_purge": false,
+    "client_raw_table": false
+  },
+  "profile_hash": "ad4067f19890f61846176521b32aaf92",
+  "profiles": 4,
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "roles": 0,
+  "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7",
+  "candidate_sha256": "83550a4a7ae7796e0c9bac018d3355ede0f5e168a663fe78176aec2bef9b4e4f",
+  "source_hashes_match": true,
+  "edge_functions": [
+    {
+      "slug": "photo-assets",
+      "status": "ACTIVE",
+      "version": 18,
+      "verify_jwt": true
+    },
+    {
+      "slug": "delete-account",
+      "status": "ACTIVE",
+      "version": 12,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-jpeg",
+      "status": "ACTIVE",
+      "version": 11,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-png",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-webp",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-lifecycle",
+      "status": "ACTIVE",
+      "version": 15,
+      "verify_jwt": true
+    },
+    {
+      "slug": "privacy-retention",
+      "status": "ACTIVE",
+      "version": 7,
+      "verify_jwt": true
+    },
+    {
+      "slug": "profile-photo",
+      "status": "ACTIVE",
+      "version": 8,
+      "verify_jwt": true
+    },
+    {
+      "slug": "notifications",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": false
+    },
+    {
+      "slug": "operations",
+      "status": "ACTIVE",
+      "version": 4,
+      "verify_jwt": true
+    }
+  ]
+}

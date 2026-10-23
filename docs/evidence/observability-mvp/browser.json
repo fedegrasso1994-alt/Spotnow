@@ -1,0 +1,9 @@
+{
+  "login": "PASS",
+  "totp_mfa": "PASS",
+  "private_health": "PASS",
+  "request_lookup": "PASS",
+  "logout_remaining_pre": 0,
+  "frontend": "localhost:4596",
+  "backend": "zjinjtkekmaqtxsuyvho"
+}

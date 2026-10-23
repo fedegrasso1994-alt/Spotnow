@@ -1,0 +1,19 @@
+{
+  "full_suite": {
+    "tests": 756,
+    "pass": 756,
+    "fail": 0,
+    "skipped": 0
+  },
+  "new_operational_tests": 19,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "staging_api": "Prior complete run PASS; final background run BLOCKED by collector request timeout",
+  "browser": "PASS local actual frontend to hosted staging",
+  "email_delivery": "DISABLED: no approved configured transport",
+  "ordinary_collection": "OFF, purge readiness false",
+  "known_baseline_flake": "DD Notifications test was intermittent in earlier full runs; not fixed here",
+  "production_modified": false,
+  "main_modified": false,
+  "final_gate": "OBSERVABILITY MVP: BLOCKED"
+}
