@@ -1,0 +1,9 @@
+{
+  "control": {
+    "manual_enabled": false,
+    "scheduler_enabled": false,
+    "singleton": true
+  },
+  "dispatch_while_paused": "NONE",
+  "pause_command_check": "PASS"
+}

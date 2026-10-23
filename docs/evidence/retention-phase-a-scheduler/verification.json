@@ -1,0 +1,15 @@
+{
+  "full_suite": {
+    "tests": 776,
+    "pass_count": 776,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "replay": "same four receipts with replay=true; no additional deletion",
+  "manual_http_smoke": "PASS",
+  "automatic_tick": "NOT YET OBSERVED",
+  "first_expected_tick": "2026-10-24T03:00:00Z",
+  "runtime_changes": false,
+  "migration054_blob": "a45f16732d58ba06b03d51644adb3baa1ea6e64e"
+}

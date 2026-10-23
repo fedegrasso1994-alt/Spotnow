@@ -1,0 +1,33 @@
+{
+  "control": {
+    "manual_enabled": true,
+    "scheduler_enabled": true,
+    "singleton": true
+  },
+  "jobs": [
+    {
+      "active": false,
+      "jobid": 1,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "jobid": 2,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "jobid": 4,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "active": false,
+      "jobid": 3,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    }
+  ]
+}

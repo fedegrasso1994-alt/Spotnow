@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-23T19:49:57.783206+00:00",
+  "candidates": [
+    {
+      "eligible": 0,
+      "path": "notifications",
+      "protected": 0
+    },
+    {
+      "eligible": 0,
+      "path": "analytics",
+      "protected": 0
+    },
+    {
+      "eligible": 0,
+      "path": "observability",
+      "protected": 0
+    },
+    {
+      "eligible": 0,
+      "path": "dd",
+      "protected": 0
+    }
+  ],
+  "cron_timezone": "GMT",
+  "jobs": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    }
+  ],
+  "phase_a": {
+    "manual_enabled": false,
+    "scheduler_enabled": false,
+    "singleton": true
+  },
+  "vault_credential_present": true
+}
