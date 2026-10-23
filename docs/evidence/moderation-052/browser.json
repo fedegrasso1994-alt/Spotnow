@@ -1,0 +1,10 @@
+{
+  "login": "PASS",
+  "real_mfa": "PASS",
+  "staff_queue": "PASS",
+  "manual_keep_ui": "PASS (first controlled batch)",
+  "on_demand_case_context": "PASS",
+  "logout_review_rows": 0,
+  "frontend": "localhost:4595",
+  "backend": "zjinjtkekmaqtxsuyvho"
+}

@@ -1,0 +1,18 @@
+{
+  "full_suite": {
+    "tests": 737,
+    "pass": 737,
+    "fail": 0,
+    "skipped": 0
+  },
+  "new_postgres_finalization_tests": 11,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "main_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_touched": false,
+  "hosted_qod_smoke": "NOT RUN: system_posts_enabled OFF; covered in PostgreSQL local tests",
+  "browser_path": "localhost frontend to hosted staging",
+  "controlled_batches": 3,
+  "second_batch": "API PASS, browser harness timeout; finally cleanup PASS",
+  "final_batch": "API/browser/cleanup PASS"
+}
