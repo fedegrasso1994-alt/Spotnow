@@ -1,0 +1,26 @@
+{
+  "source_commit": "d9e96e1b512749bbc33859727d3a32ebc36e9623",
+  "tests": {
+    "targeted": 3,
+    "targeted_pass": 3,
+    "full": 779,
+    "full_pass": 779,
+    "failed": 0,
+    "skipped": 0
+  },
+  "initial_local_drill_failure": "fresh PGlite session missing fixture-only soma.test_clock; fixed harness session setup only",
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_modified": false,
+  "schema_modified": false,
+  "data_or_flags_modified": false,
+  "cloud_fixture_created": false,
+  "provisioning_performed": false,
+  "cloud_restore_performed": false,
+  "vercel_rollback_performed": false,
+  "production_accessed": false,
+  "main_modified": false,
+  "scope": "documentation, read-only metadata, local synthetic PostgreSQL drills",
+  "gate": "OPS / RECOVERY / SUPPORT: BLOCKED",
+  "controls_before_after_identical": true
+}

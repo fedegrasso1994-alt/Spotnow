@@ -1,0 +1,103 @@
+{
+  "staging_ref": "zjinjtkekmaqtxsuyvho",
+  "backup_api": {
+    "region": "eu-west-1",
+    "pitr_enabled": false,
+    "listed_backups": null,
+    "physical_backup_metadata_empty": true,
+    "plan": "UNKNOWN / TO VERIFY",
+    "cloud_restore_performed": false
+  },
+  "isolated_existing_branches": 0,
+  "secrets": {
+    "project_ref": "zjinjtkekmaqtxsuyvho",
+    "names": [
+      "NOTIFICATIONS_DISPATCH_SECRET",
+      "NOTIFICATIONS_PREVIEW_ORIGIN",
+      "NOTIFICATIONS_VAPID_PRIVATE",
+      "NOTIFICATIONS_VAPID_PUBLIC",
+      "NOTIFICATIONS_VAPID_SUBJECT",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_DB_URL",
+      "SUPABASE_JWKS",
+      "SUPABASE_PUBLISHABLE_KEYS",
+      "SUPABASE_SECRET_KEYS",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_URL"
+    ],
+    "values_retained": false
+  },
+  "functions": [
+    {
+      "slug": "photo-assets",
+      "status": "ACTIVE",
+      "version": 18,
+      "verify_jwt": true
+    },
+    {
+      "slug": "delete-account",
+      "status": "ACTIVE",
+      "version": 12,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-jpeg",
+      "status": "ACTIVE",
+      "version": 11,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-png",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-webp",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-lifecycle",
+      "status": "ACTIVE",
+      "version": 15,
+      "verify_jwt": true
+    },
+    {
+      "slug": "privacy-retention",
+      "status": "ACTIVE",
+      "version": 7,
+      "verify_jwt": true
+    },
+    {
+      "slug": "profile-photo",
+      "status": "ACTIVE",
+      "version": 8,
+      "verify_jwt": true
+    },
+    {
+      "slug": "notifications",
+      "status": "ACTIVE",
+      "version": 9,
+      "verify_jwt": false
+    },
+    {
+      "slug": "operations",
+      "status": "ACTIVE",
+      "version": 7,
+      "verify_jwt": true
+    }
+  ],
+  "vercel": {
+    "project": "spot-now",
+    "project_id": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ",
+    "team_id": "team_wlAVvnWmjj5TSD0TS72gXO92",
+    "team_slug": "fedegrasso1994-1482",
+    "project_list": "PASS",
+    "preview_deployments_list_http": 403,
+    "rollback_executed": false,
+    "protection_changed": false
+  },
+  "google_cloud": "NOT ACCESSED"
+}

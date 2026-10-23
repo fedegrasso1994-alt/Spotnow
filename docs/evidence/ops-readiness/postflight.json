@@ -1,0 +1,102 @@
+{
+  "active_jobs": [
+    {
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "anomalies": null,
+  "at": "2026-10-23T21:41:13.654501+00:00",
+  "controls": {
+    "analytics": {
+      "enabled": false,
+      "test_only": true
+    },
+    "legacy_retention_paused": true,
+    "notifications": {
+      "delivery_enabled": false,
+      "enabled": false,
+      "singleton": true
+    },
+    "ops": {
+      "email": false,
+      "enabled": false,
+      "purge_ready": false,
+      "test_only": true
+    },
+    "phase_a": {
+      "manual_enabled": true,
+      "scheduler_enabled": true,
+      "singleton": true
+    },
+    "photo": {
+      "cleanup": false,
+      "phase": "OPEN",
+      "scheduler": false
+    },
+    "v2": {
+      "comments_enabled": true,
+      "dd_admission_changed_at": "2026-10-22T16:17:18.40243+00:00",
+      "dd_admission_changed_by": "postgres",
+      "dd_controlled_admission": false,
+      "discovery_enabled": false,
+      "jobs_paused": true,
+      "membership_enabled": false,
+      "ora_enabled": true,
+      "requests_enabled": true,
+      "share_enabled": false,
+      "singleton": true,
+      "spot_enabled": true,
+      "system_posts_enabled": false
+    }
+  },
+  "current_photo_missing": 0,
+  "phase_a_cron_runs": 0,
+  "photo_writer_states": [
+    {
+      "n": 4,
+      "state": "current",
+      "writer": "settled"
+    },
+    {
+      "n": 3,
+      "state": "review",
+      "writer": "unknown"
+    },
+    {
+      "n": 112,
+      "state": "purged",
+      "writer": "settled"
+    },
+    {
+      "n": 8,
+      "state": "ready",
+      "writer": "settled"
+    }
+  ],
+  "roles": {
+    "admin": 0,
+    "moderator": 0
+  },
+  "timezone": "GMT",
+  "variant_references_missing": 0,
+  "versions": [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "010",
+    "011",
+    "012",
+    "013",
+    "014",
+    "015",
+    "016",
+    "054"
+  ]
+}
