@@ -50,6 +50,44 @@ test('OPS: ADMIN AAL1, missing verified factor, revoked role and anonymous canno
  await assert.rejects(call(d,'retention_phase_a_batch($1,$2,true,100)',['analytics',uuid()]),/permission denied/);
 });
 
+test('OPS Phase A: moderator AAL1/factor loss/revocation deny direct RPC, including simulated logout and fresh login',async t=>{
+ const d=await currentDatabase(t);await initialAdmin(d);
+ await call(d,"moderation_role_set($1,'MODERATOR',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b,'aal1');await assert.rejects(call(d,'moderation_review_queue()'),/DENIED/);
+ await aal(d,ids.b);await call(d,'moderation_review_queue()');
+ await admin(d);await d.query("update auth.mfa_factors set status='unverified' where user_id=$1",[ids.b]);
+ await aal(d,ids.b);await assert.rejects(call(d,'moderation_review_queue()'),/DENIED/);
+ await admin(d);await d.query("update auth.mfa_factors set status='verified' where user_id=$1",[ids.b]);
+ await aal(d,ids.a);await call(d,"moderation_role_set($1,'REVOKED',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b);await assert.rejects(call(d,'moderation_review_queue()'),/DENIED/);
+ await admin(d);await d.query("select set_config('request.jwt.claims','',false)");await d.query("select set_config('request.jwt.claim.sub','',false)");
+ await aal(d,ids.b);await assert.rejects(call(d,'moderation_review_queue()'),/DENIED/);
+ await assert.rejects(call(d,'admin_analytics_dashboard()'),/DENIED|REQUIRED|ACCESS/);
+});
+
+test('OPS Phase A: revoked ADMIN cannot retain access; recovery on new principal never reauthorizes old AAL2 claims',async t=>{
+ const d=await currentDatabase(t);await initialAdmin(d);
+ await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b);await call(d,'ops_health()');await call(d,'admin_analytics_dashboard()');
+ await aal(d,ids.a);await call(d,"moderation_role_set($1,'REVOKED',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b);await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
+ await assert.rejects(call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,uuid()]),/DENIED/);
+ // Re-granting the SAME UUID deliberately restores role access even to still-valid
+ // aal2 claims. Prove this limitation rather than claiming JWT revocation exists.
+ await aal(d,ids.a);await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b);await call(d,'ops_health()');
+ await aal(d,ids.a);await call(d,"moderation_role_set($1,'REVOKED',$2)",[ids.b,uuid()]);
+ await admin(d);await d.query("insert into auth.mfa_factors(user_id,status)values($1,'verified')",[ids.c]);
+ await aal(d,ids.a);const op=uuid();await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,op]);
+ await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,op]);
+ await aal(d,ids.c,'aal1');await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
+ await aal(d,ids.c);await call(d,'ops_health()');
+ await aal(d,ids.b);await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
+ // Fresh login is a new local claims context, not a hosted Auth login assertion.
+ await aal(d,ids.b,'aal1');await assert.rejects(call(d,'admin_analytics_dashboard()'),/DENIED|REQUIRED|ACCESS/);
+ await aal(d,ids.b);await assert.rejects(call(d,'admin_analytics_dashboard()'),/DENIED|REQUIRED|ACCESS/);
+});
+
 test('OPS: current-schema isolated restore resurrects snapshot gates/data; quarantine blocks writes and purge, DB cannot recover bytes',async t=>{
  const d=await currentDatabase(t);
  const rows=(await d.query('select id,photo_path from profiles order by id')).rows;

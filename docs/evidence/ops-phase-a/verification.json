@@ -1,0 +1,58 @@
+{
+  "baseline": "8a3067a30253cfe6d2cd5cebc9c55384556b2a39",
+  "staging_project_ref": "zjinjtkekmaqtxsuyvho",
+  "targeted": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "skipped": 0
+  },
+  "first_full": {
+    "tests": 783,
+    "pass": 783,
+    "fail": 0,
+    "skipped": 0
+  },
+  "final_full": {
+    "tests": 783,
+    "pass": 783,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "diff_check": "PASS",
+  "pre_post_unchanged": {
+    "history": true,
+    "roles": true,
+    "counts": true,
+    "profile_fingerprint": true,
+    "storage_fingerprint": true,
+    "controls": true,
+    "jobs": true
+  },
+  "migration_repairs": 0,
+  "remote_account_grants": 0,
+  "new_cloud_fixtures": 0,
+  "cloud_auth_mfa_recovery": "NOT_RUN_OWNER_INTERACTION_REQUIRED",
+  "protected_paths_unchanged": [
+    "src",
+    "public",
+    "index.html",
+    "supabase/migrations",
+    "supabase/functions",
+    "supabase/config.toml",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml"
+  ],
+  "log_sha256": {
+    ".local/ops-phase-a/targeted-final.log": "16af09781171599d5a5f75d9986c360ba546a3e65aace973d3cc4ab743b755e7",
+    ".local/ops-phase-a/tests.log": "af4c2f6b6b48099d8fc9ea4d4846c1285cdf8271827c07dc77ca031f78c44170",
+    ".local/ops-phase-a/tests-final.log": "90760f8f68ebee0e5679eb91c74999ffa90149ed67faed82ee84113be0c325c3",
+    ".local/ops-phase-a/build.log": "2642c9463839be4a94d88375c58c4d0fcbc370315ab578a83496c185b739941c",
+    ".local/ops-phase-a/typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "production_contacted": false,
+  "final_gate": "OPS PHASE A: BLOCKED"
+}

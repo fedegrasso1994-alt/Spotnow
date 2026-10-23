@@ -1,0 +1,936 @@
+{
+  "at": "2026-10-23T23:02:45.357849+00:00",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "local_platform": {
+    "version": "18.3"
+  },
+  "history_registered": 17,
+  "active_files": 53,
+  "unregistered": [
+    "017",
+    "018",
+    "019",
+    "020",
+    "021",
+    "022",
+    "023",
+    "024",
+    "025",
+    "026",
+    "027",
+    "028",
+    "029",
+    "030",
+    "031",
+    "032",
+    "033",
+    "034",
+    "035",
+    "036",
+    "037",
+    "038",
+    "039",
+    "040",
+    "041",
+    "042",
+    "043",
+    "044",
+    "046",
+    "047",
+    "048",
+    "049",
+    "050",
+    "051",
+    "052",
+    "053"
+  ],
+  "registered_exact_file": [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "010",
+    "011",
+    "012",
+    "013",
+    "014",
+    "015"
+  ],
+  "registered_not_byte_proven": [
+    "016",
+    "054"
+  ],
+  "duplicate_active_ids": 0,
+  "history_without_active_file": [],
+  "repairs_executed": 0,
+  "local_replay": [
+    "Supabase Auth/Storage platform stubs and verified public-schema default ACL prerequisites; no hosted Auth or Storage bytes",
+    "cutover/prepare.sql plus empty-writer close before017",
+    "privacy_staging_enable with local owner/session claims before025",
+    "029 snapshot-specific data-only migration rejected and skipped; no real snapshot copied",
+    "045 superseded draft absent; never synthesized or applied",
+    "cron/pg_net/Vault/Edge/Auth provider configuration not reconstructed"
+  ],
+  "comparison": {
+    "tables": {
+      "equal": 99,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    },
+    "columns": {
+      "equal": 635,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    },
+    "indexes": {
+      "equal": 175,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    },
+    "policies": {
+      "equal": 12,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    },
+    "triggers": {
+      "equal": 61,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    },
+    "functions": {
+      "equal": 279,
+      "local_only": 0,
+      "live_only": 5,
+      "different": 0
+    },
+    "constraints": {
+      "equal": 422,
+      "local_only": 466,
+      "live_only": 0,
+      "different": 0
+    },
+    "relation_access": {
+      "equal": 297,
+      "local_only": 0,
+      "live_only": 0,
+      "different": 0
+    }
+  },
+  "function_bodies": {
+    "local": 279,
+    "live": 284,
+    "matching": 279
+  },
+  "details": {
+    "tables": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 99
+    },
+    "columns": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 635
+    },
+    "indexes": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 175
+    },
+    "policies": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 12
+    },
+    "triggers": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 61
+    },
+    "functions": {
+      "local_only": [],
+      "live_only": [
+        "public.photo02_staging_scheduler(enable boolean)",
+        "public.photo_cutover_scheduler_configure(project_ref text, enabled boolean)",
+        "public.privacy_retention_dispatch(dry_run boolean)",
+        "public.privacy_retention_schedule(enabled boolean, dry_run boolean)",
+        "public.privacy_retention_scheduler_status()"
+      ],
+      "different": [],
+      "equal": 279
+    },
+    "constraints": {
+      "local_only": [
+        "public.blocks.blocks_blocked_id_not_null",
+        "public.blocks.blocks_blocker_id_not_null",
+        "public.blocks.blocks_created_at_not_null",
+        "public.checkins.checkins_checked_in_at_not_null",
+        "public.checkins.checkins_expires_at_not_null",
+        "public.checkins.checkins_user_id_not_null",
+        "public.checkins.checkins_venue_id_not_null",
+        "public.matches.matches_created_at_not_null",
+        "public.matches.matches_id_not_null",
+        "public.matches.matches_user_a_not_null",
+        "public.matches.matches_user_b_not_null",
+        "public.matches.matches_venue_id_not_null",
+        "public.messages.messages_body_not_null",
+        "public.messages.messages_created_at_not_null",
+        "public.messages.messages_id_not_null",
+        "public.messages.messages_match_id_not_null",
+        "public.messages.messages_sender_id_not_null",
+        "public.profiles.profiles_age_not_null",
+        "public.profiles.profiles_gender_not_null",
+        "public.profiles.profiles_id_not_null",
+        "public.profiles.profiles_name_not_null",
+        "public.profiles.profiles_occupation_not_null",
+        "public.profiles.profiles_photo_path_not_null",
+        "public.profiles.profiles_updated_at_not_null",
+        "public.venues.venues_active_not_null",
+        "public.venues.venues_address_not_null",
+        "public.venues.venues_id_not_null",
+        "public.venues.venues_name_not_null",
+        "spot_private.account_deletions.account_deletions_started_at_not_null",
+        "spot_private.account_deletions.account_deletions_user_id_not_null",
+        "spot_private.account_eligibility.account_eligibility_method_not_null",
+        "spot_private.account_eligibility.account_eligibility_revision_not_null",
+        "spot_private.account_eligibility.account_eligibility_statement_version_not_null",
+        "spot_private.account_eligibility.account_eligibility_status_not_null",
+        "spot_private.account_eligibility.account_eligibility_user_id_not_null",
+        "spot_private.account_onboarding.account_onboarding_user_id_not_null",
+        "spot_private.age_events.age_events_created_at_not_null",
+        "spot_private.age_events.age_events_operation_id_not_null",
+        "spot_private.age_events.age_events_request_fingerprint_not_null",
+        "spot_private.age_events.age_events_status_not_null",
+        "spot_private.age_events.age_events_user_id_not_null",
+        "spot_private.analytics_admission.analytics_admission_user_id_not_null",
+        "spot_private.analytics_anonymous_rollups.analytics_anonymous_rollups_created_at_not_null",
+        "spot_private.analytics_anonymous_rollups.analytics_anonymous_rollups_metric_not_null",
+        "spot_private.analytics_anonymous_rollups.analytics_anonymous_rollups_period_not_null",
+        "spot_private.analytics_anonymous_rollups.analytics_anonymous_rollups_reviewed_at_not_null",
+        "spot_private.analytics_anonymous_rollups.analytics_anonymous_rollups_value_not_null",
+        "spot_private.analytics_control.analytics_control_dropped_not_null",
+        "spot_private.analytics_control.analytics_control_enabled_not_null",
+        "spot_private.analytics_control.analytics_control_installed_at_not_null",
+        "spot_private.analytics_control.analytics_control_singleton_not_null",
+        "spot_private.analytics_control.analytics_control_test_only_not_null",
+        "spot_private.analytics_days.analytics_days_created_at_not_null",
+        "spot_private.analytics_days.analytics_days_day_not_null",
+        "spot_private.analytics_days.analytics_days_user_id_not_null",
+        "spot_private.analytics_events.analytics_events_channel_not_null",
+        "spot_private.analytics_events.analytics_events_created_at_not_null",
+        "spot_private.analytics_events.analytics_events_dedupe_not_null",
+        "spot_private.analytics_events.analytics_events_entry_not_null",
+        "spot_private.analytics_events.analytics_events_event_not_null",
+        "spot_private.analytics_events.analytics_events_id_not_null",
+        "spot_private.analytics_events.analytics_events_source_not_null",
+        "spot_private.analytics_events.analytics_events_surface_not_null",
+        "spot_private.analytics_events.analytics_events_user_id_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_assignments_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_created_at_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_day_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_opportunities_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_slot_not_null",
+        "spot_private.analytics_fairness.analytics_fairness_user_id_not_null",
+        "spot_private.anonymous_blocks.anonymous_blocks_author_id_not_null",
+        "spot_private.anonymous_blocks.anonymous_blocks_blocker_id_not_null",
+        "spot_private.anonymous_blocks.anonymous_blocks_created_at_not_null",
+        "spot_private.anonymous_blocks.anonymous_blocks_id_not_null",
+        "spot_private.board_audit.board_audit_action_not_null",
+        "spot_private.board_audit.board_audit_created_at_not_null",
+        "spot_private.board_audit.board_audit_fingerprint_not_null",
+        "spot_private.board_audit.board_audit_id_not_null",
+        "spot_private.board_comment_quota.board_comment_quota_bucket_start_not_null",
+        "spot_private.board_comment_quota.board_comment_quota_used_not_null",
+        "spot_private.board_comment_quota.board_comment_quota_user_id_not_null",
+        "spot_private.board_comment_quota.board_comment_quota_venue_id_not_null",
+        "spot_private.board_comments.board_comments_author_id_not_null",
+        "spot_private.board_comments.board_comments_body_not_null",
+        "spot_private.board_comments.board_comments_created_at_not_null",
+        "spot_private.board_comments.board_comments_hidden_not_null",
+        "spot_private.board_comments.board_comments_id_not_null",
+        "spot_private.board_comments.board_comments_post_id_not_null",
+        "spot_private.board_comments.board_comments_revision_not_null",
+        "spot_private.board_evidence.board_evidence_archived_at_not_null",
+        "spot_private.board_evidence.board_evidence_body_not_null",
+        "spot_private.board_evidence.board_evidence_hold_id_not_null",
+        "spot_private.board_evidence.board_evidence_reason_not_null",
+        "spot_private.board_likes.board_likes_user_id_not_null",
+        "spot_private.board_posts.board_posts_body_not_null",
+        "spot_private.board_posts.board_posts_created_at_not_null",
+        "spot_private.board_posts.board_posts_expires_at_not_null",
+        "spot_private.board_posts.board_posts_hidden_not_null",
+        "spot_private.board_posts.board_posts_id_not_null",
+        "spot_private.board_posts.board_posts_revision_not_null",
+        "spot_private.board_posts.board_posts_venue_id_not_null",
+        "spot_private.board_preferences.board_preferences_receive_romantic_requests_not_null",
+        "spot_private.board_preferences.board_preferences_user_id_not_null",
+        "spot_private.board_quota.board_quota_day_not_null",
+        "spot_private.board_quota.board_quota_used_not_null",
+        "spot_private.board_quota.board_quota_user_id_not_null",
+        "spot_private.board_quota.board_quota_venue_id_not_null",
+        "spot_private.board_reactions.board_reactions_kind_not_null",
+        "spot_private.board_reactions.board_reactions_post_id_not_null",
+        "spot_private.board_reactions.board_reactions_user_id_not_null",
+        "spot_private.board_receipts.board_receipts_action_not_null",
+        "spot_private.board_receipts.board_receipts_created_at_not_null",
+        "spot_private.board_receipts.board_receipts_fingerprint_not_null",
+        "spot_private.board_receipts.board_receipts_operation_id_not_null",
+        "spot_private.board_receipts.board_receipts_user_id_not_null",
+        "spot_private.board_reports.board_reports_created_at_not_null",
+        "spot_private.board_reports.board_reports_id_not_null",
+        "spot_private.board_reports.board_reports_reason_not_null",
+        "spot_private.board_reports.board_reports_revision_not_null",
+        "spot_private.board_reports.board_reports_state_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_attempts_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_created_at_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_fingerprint_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_id_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_operation_id_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_purge_after_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_sender_id_not_null",
+        "spot_private.board_request_attempts.board_request_attempts_state_not_null",
+        "spot_private.board_request_pair_guards.board_request_pair_guards_purge_after_not_null",
+        "spot_private.board_request_pair_guards.board_request_pair_guards_retry_not_before_not_null",
+        "spot_private.board_request_pair_guards.board_request_pair_guards_user_a_not_null",
+        "spot_private.board_request_pair_guards.board_request_pair_guards_user_b_not_null",
+        "spot_private.board_request_quota.board_request_quota_day_not_null",
+        "spot_private.board_request_quota.board_request_quota_used_not_null",
+        "spot_private.board_request_quota.board_request_quota_user_id_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_created_at_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_expires_at_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_id_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_origin_kind_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_purge_after_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_recipient_id_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_sender_id_not_null",
+        "spot_private.board_romantic_requests.board_romantic_requests_status_not_null",
+        "spot_private.consent_challenges.consent_challenges_expires_at_not_null",
+        "spot_private.consent_challenges.consent_challenges_revision_not_null",
+        "spot_private.consent_challenges.consent_challenges_token_not_null",
+        "spot_private.consent_challenges.consent_challenges_used_not_null",
+        "spot_private.consent_events.consent_events_action_not_null",
+        "spot_private.consent_events.consent_events_created_at_not_null",
+        "spot_private.consent_events.consent_events_operation_id_not_null",
+        "spot_private.consent_events.consent_events_user_id_not_null",
+        "spot_private.consent_state.consent_state_changed_at_not_null",
+        "spot_private.consent_state.consent_state_revision_not_null",
+        "spot_private.consent_state.consent_state_status_not_null",
+        "spot_private.consent_state.consent_state_user_id_not_null",
+        "spot_private.consent_versions.consent_versions_purpose_not_null",
+        "spot_private.consent_versions.consent_versions_required_not_null",
+        "spot_private.consent_versions.consent_versions_status_not_null",
+        "spot_private.consent_versions.consent_versions_text_content_not_null",
+        "spot_private.consent_versions.consent_versions_text_hash_not_null",
+        "spot_private.consent_versions.consent_versions_version_not_null",
+        "spot_private.dd_admission_accounts.dd_admission_accounts_admitted_not_null",
+        "spot_private.dd_admission_accounts.dd_admission_accounts_changed_at_not_null",
+        "spot_private.dd_admission_accounts.dd_admission_accounts_changed_by_not_null",
+        "spot_private.dd_admission_accounts.dd_admission_accounts_reason_not_null",
+        "spot_private.dd_admission_accounts.dd_admission_accounts_user_id_not_null",
+        "spot_private.discovery_allocations.discovery_allocations_exposure_count_not_null",
+        "spot_private.discovery_allocations.discovery_allocations_spots_used_not_null",
+        "spot_private.discovery_allocations.discovery_allocations_user_id_not_null",
+        "spot_private.discovery_allocations.discovery_allocations_window_id_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_id_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_membership_a_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_membership_b_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_tribe_id_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_user_a_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_user_b_not_null",
+        "spot_private.discovery_exposures.discovery_exposures_window_id_not_null",
+        "spot_private.discovery_fairness_buckets.discovery_fairness_buckets_bucket_date_not_null",
+        "spot_private.discovery_fairness_buckets.discovery_fairness_buckets_exposures_not_null",
+        "spot_private.discovery_fairness_buckets.discovery_fairness_buckets_opportunities_not_null",
+        "spot_private.discovery_fairness_buckets.discovery_fairness_buckets_purge_after_not_null",
+        "spot_private.discovery_fairness_buckets.discovery_fairness_buckets_user_id_not_null",
+        "spot_private.discovery_pair_memory.discovery_pair_memory_last_exposed_at_not_null",
+        "spot_private.discovery_pair_memory.discovery_pair_memory_purge_after_not_null",
+        "spot_private.discovery_pair_memory.discovery_pair_memory_user_a_not_null",
+        "spot_private.discovery_pair_memory.discovery_pair_memory_user_b_not_null",
+        "spot_private.discovery_policy.discovery_policy_enabled_not_null",
+        "spot_private.discovery_policy.discovery_policy_paused_not_null",
+        "spot_private.discovery_policy.discovery_policy_recurrence_floor_not_null",
+        "spot_private.discovery_policy.discovery_policy_recurrence_target_not_null",
+        "spot_private.discovery_policy.discovery_policy_timezone_not_null",
+        "spot_private.discovery_policy.discovery_policy_version_not_null",
+        "spot_private.discovery_windows.discovery_windows_ends_at_not_null",
+        "spot_private.discovery_windows.discovery_windows_id_not_null",
+        "spot_private.discovery_windows.discovery_windows_local_date_not_null",
+        "spot_private.discovery_windows.discovery_windows_policy_version_not_null",
+        "spot_private.discovery_windows.discovery_windows_slot_not_null",
+        "spot_private.discovery_windows.discovery_windows_starts_at_not_null",
+        "spot_private.discovery_windows.discovery_windows_state_not_null",
+        "spot_private.interests.interests_created_at_not_null",
+        "spot_private.interests.interests_recipient_id_not_null",
+        "spot_private.interests.interests_sender_id_not_null",
+        "spot_private.interests.interests_venue_id_not_null",
+        "spot_private.moderation_audit.moderation_audit_action_not_null",
+        "spot_private.moderation_audit.moderation_audit_actor_id_not_null",
+        "spot_private.moderation_audit.moderation_audit_created_at_not_null",
+        "spot_private.moderation_audit.moderation_audit_id_not_null",
+        "spot_private.moderation_audit.moderation_audit_note_not_null",
+        "spot_private.moderation_reviews.moderation_reviews_created_at_not_null",
+        "spot_private.moderation_reviews.moderation_reviews_operation_id_not_null",
+        "spot_private.moderation_reviews.moderation_reviews_outcome_not_null",
+        "spot_private.moderation_reviews.moderation_reviews_reason_code_not_null",
+        "spot_private.moderation_role_events.moderation_role_events_created_at_not_null",
+        "spot_private.moderation_role_events.moderation_role_events_operation_id_not_null",
+        "spot_private.moderation_roles.moderation_roles_active_not_null",
+        "spot_private.moderation_roles.moderation_roles_changed_at_not_null",
+        "spot_private.moderation_roles.moderation_roles_role_not_null",
+        "spot_private.moderation_roles.moderation_roles_user_id_not_null",
+        "spot_private.moderators.moderators_created_at_not_null",
+        "spot_private.moderators.moderators_user_id_not_null",
+        "spot_private.notification_control.notification_control_delivery_enabled_not_null",
+        "spot_private.notification_control.notification_control_enabled_not_null",
+        "spot_private.notification_control.notification_control_singleton_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_attempts_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_binding_id_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_event_id_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_id_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_next_at_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_state_not_null",
+        "spot_private.notification_deliveries.notification_deliveries_updated_at_not_null",
+        "spot_private.notification_events.notification_events_canonical_id_not_null",
+        "spot_private.notification_events.notification_events_created_at_not_null",
+        "spot_private.notification_events.notification_events_expires_at_not_null",
+        "spot_private.notification_events.notification_events_id_not_null",
+        "spot_private.notification_events.notification_events_kind_not_null",
+        "spot_private.notification_events.notification_events_owner_id_not_null",
+        "spot_private.notification_events.notification_events_reference_not_null",
+        "spot_private.notification_events.notification_events_target_id_not_null",
+        "spot_private.ops_admission.ops_admission_created_at_not_null",
+        "spot_private.ops_admission.ops_admission_request_id_not_null",
+        "spot_private.ops_control.ops_control_dropped_not_null",
+        "spot_private.ops_control.ops_control_email_enabled_not_null",
+        "spot_private.ops_control.ops_control_enabled_not_null",
+        "spot_private.ops_control.ops_control_purge_ready_not_null",
+        "spot_private.ops_control.ops_control_retention_not_null",
+        "spot_private.ops_control.ops_control_singleton_not_null",
+        "spot_private.ops_control.ops_control_test_only_not_null",
+        "spot_private.ops_events.ops_events_created_at_not_null",
+        "spot_private.ops_events.ops_events_duration_ms_not_null",
+        "spot_private.ops_events.ops_events_id_not_null",
+        "spot_private.ops_events.ops_events_operation_not_null",
+        "spot_private.ops_events.ops_events_request_id_not_null",
+        "spot_private.ops_events.ops_events_result_not_null",
+        "spot_private.ops_events.ops_events_source_not_null",
+        "spot_private.ops_incidents.ops_incidents_email_state_not_null",
+        "spot_private.ops_incidents.ops_incidents_id_not_null",
+        "spot_private.ops_incidents.ops_incidents_last_failure_at_not_null",
+        "spot_private.ops_incidents.ops_incidents_occurrences_not_null",
+        "spot_private.ops_incidents.ops_incidents_opened_at_not_null",
+        "spot_private.ops_incidents.ops_incidents_operation_not_null",
+        "spot_private.ops_incidents.ops_incidents_rule_not_null",
+        "spot_private.ops_incidents.ops_incidents_source_not_null",
+        "spot_private.ops_incidents.ops_incidents_state_not_null",
+        "spot_private.ops_job_policy.ops_job_policy_operation_not_null",
+        "spot_private.ops_jobs.ops_jobs_consecutive_failures_not_null",
+        "spot_private.ops_jobs.ops_jobs_operation_not_null",
+        "spot_private.ops_jobs.ops_jobs_updated_at_not_null",
+        "spot_private.ora_spot_daily_quota.ora_spot_daily_quota_local_date_not_null",
+        "spot_private.ora_spot_daily_quota.ora_spot_daily_quota_used_not_null",
+        "spot_private.ora_spot_daily_quota.ora_spot_daily_quota_user_id_not_null",
+        "spot_private.ora_spot_place_quota.ora_spot_place_quota_local_date_not_null",
+        "spot_private.ora_spot_place_quota.ora_spot_place_quota_place_id_not_null",
+        "spot_private.ora_spot_place_quota.ora_spot_place_quota_used_not_null",
+        "spot_private.ora_spot_place_quota.ora_spot_place_quota_user_id_not_null",
+        "spot_private.ora_spot_policy.ora_spot_policy_daily_limit_not_null",
+        "spot_private.ora_spot_policy.ora_spot_policy_enabled_not_null",
+        "spot_private.ora_spot_policy.ora_spot_policy_place_daily_limit_not_null",
+        "spot_private.ora_spot_policy.ora_spot_policy_singleton_not_null",
+        "spot_private.ora_spot_policy.ora_spot_policy_timezone_not_null",
+        "spot_private.photo_assets.photo_assets_photo_path_not_null",
+        "spot_private.photo_assets.photo_assets_preview_not_null",
+        "spot_private.photo_assets.photo_assets_updated_at_not_null",
+        "spot_private.photo_assets.photo_assets_user_id_not_null",
+        "spot_private.photo_cleanup_accounts.photo_cleanup_accounts_created_at_not_null",
+        "spot_private.photo_cleanup_accounts.photo_cleanup_accounts_retries_not_null",
+        "spot_private.photo_cleanup_accounts.photo_cleanup_accounts_state_not_null",
+        "spot_private.photo_cleanup_accounts.photo_cleanup_accounts_user_id_not_null",
+        "spot_private.photo_cutover_attempts.photo_cutover_attempts_created_at_not_null",
+        "spot_private.photo_cutover_attempts.photo_cutover_attempts_path_not_null",
+        "spot_private.photo_cutover_attempts.photo_cutover_attempts_protocol_not_null",
+        "spot_private.photo_cutover_attempts.photo_cutover_attempts_user_id_not_null",
+        "spot_private.photo_cutover_attempts.photo_cutover_attempts_writer_not_null",
+        "spot_private.photo_cutover_audit.photo_cutover_audit_action_not_null",
+        "spot_private.photo_cutover_audit.photo_cutover_audit_created_at_not_null",
+        "spot_private.photo_cutover_audit.photo_cutover_audit_epoch_not_null",
+        "spot_private.photo_cutover_audit.photo_cutover_audit_id_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_canary_users_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_changed_at_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_cleanup_all_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_epoch_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_execute_enabled_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_phase_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_scheduler_enabled_not_null",
+        "spot_private.photo_cutover_control.photo_cutover_control_singleton_not_null",
+        "spot_private.photo_cutover_deletions.photo_cutover_deletions_completed_not_null",
+        "spot_private.photo_cutover_deletions.photo_cutover_deletions_created_at_not_null",
+        "spot_private.photo_cutover_deletions.photo_cutover_deletions_user_id_not_null",
+        "spot_private.photo_legacy.photo_legacy_photo_path_not_null",
+        "spot_private.photo_legacy.photo_legacy_user_id_not_null",
+        "spot_private.photo_lifecycle_anomalies.photo_lifecycle_anomalies_code_not_null",
+        "spot_private.photo_lifecycle_anomalies.photo_lifecycle_anomalies_first_seen_not_null",
+        "spot_private.photo_lifecycle_anomalies.photo_lifecycle_anomalies_path_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_created_at_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_photo_path_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_reconcile_attempts_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_reserved_bytes_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_retries_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_review_quota_exempt_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_state_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_user_id_not_null",
+        "spot_private.photo_lifecycle_sets.photo_lifecycle_sets_writer_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_action_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_actor_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_created_at_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_operation_id_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_path_not_null",
+        "spot_private.photo_review_audit.photo_review_audit_payload_not_null",
+        "spot_private.photo_upload_accounts.photo_upload_accounts_starts_not_null",
+        "spot_private.photo_upload_accounts.photo_upload_accounts_user_id_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_attempts_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_input_sha_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_lease_token_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_lease_until_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_photo_path_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_request_id_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_status_not_null",
+        "spot_private.photo_upload_jobs.photo_upload_jobs_user_id_not_null",
+        "spot_private.privacy_environment.privacy_environment_environment_not_null",
+        "spot_private.privacy_environment.privacy_environment_singleton_not_null",
+        "spot_private.privacy_logs.privacy_logs_category_not_null",
+        "spot_private.privacy_logs.privacy_logs_code_not_null",
+        "spot_private.privacy_logs.privacy_logs_created_at_not_null",
+        "spot_private.privacy_logs.privacy_logs_id_not_null",
+        "spot_private.push_bindings.push_bindings_active_not_null",
+        "spot_private.push_bindings.push_bindings_auth_key_not_null",
+        "spot_private.push_bindings.push_bindings_binding_key_not_null",
+        "spot_private.push_bindings.push_bindings_created_at_not_null",
+        "spot_private.push_bindings.push_bindings_endpoint_not_null",
+        "spot_private.push_bindings.push_bindings_expires_at_not_null",
+        "spot_private.push_bindings.push_bindings_id_not_null",
+        "spot_private.push_bindings.push_bindings_owner_id_not_null",
+        "spot_private.push_bindings.push_bindings_p256dh_not_null",
+        "spot_private.qod_answer_claims.qod_answer_claims_question_id_not_null",
+        "spot_private.qod_answer_claims.qod_answer_claims_user_id_not_null",
+        "spot_private.reports.reports_created_at_not_null",
+        "spot_private.reports.reports_details_not_null",
+        "spot_private.reports.reports_id_not_null",
+        "spot_private.reports.reports_queue_state_not_null",
+        "spot_private.reports.reports_reason_not_null",
+        "spot_private.reports.reports_reporter_id_not_null",
+        "spot_private.reports.reports_revision_not_null",
+        "spot_private.reports.reports_status_not_null",
+        "spot_private.reports.reports_target_id_not_null",
+        "spot_private.retention_control.retention_control_paused_not_null",
+        "spot_private.retention_control.retention_control_singleton_not_null",
+        "spot_private.retention_phase_a_control.retention_phase_a_control_manual_enabled_not_null",
+        "spot_private.retention_phase_a_control.retention_phase_a_control_scheduler_enabled_not_null",
+        "spot_private.retention_phase_a_control.retention_phase_a_control_singleton_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_batch_limit_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_deleted_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_dry_run_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_eligible_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_finished_at_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_operation_id_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_path_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_protected_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_skipped_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_started_at_not_null",
+        "spot_private.retention_phase_a_runs.retention_phase_a_runs_status_not_null",
+        "spot_private.retention_policies.retention_policies_batch_size_not_null",
+        "spot_private.retention_policies.retention_policies_category_not_null",
+        "spot_private.retention_policies.retention_policies_duration_not_null",
+        "spot_private.retention_policies.retention_policies_enabled_not_null",
+        "spot_private.retention_policies.retention_policies_validation_not_null",
+        "spot_private.retention_policies.retention_policies_version_not_null",
+        "spot_private.retention_runs.retention_runs_candidates_not_null",
+        "spot_private.retention_runs.retention_runs_category_not_null",
+        "spot_private.retention_runs.retention_runs_completed_at_not_null",
+        "spot_private.retention_runs.retention_runs_dry_run_not_null",
+        "spot_private.retention_runs.retention_runs_moderation_counts_not_null",
+        "spot_private.retention_runs.retention_runs_operation_id_not_null",
+        "spot_private.retention_runs.retention_runs_policy_version_not_null",
+        "spot_private.retention_runs.retention_runs_purged_not_null",
+        "spot_private.safety_evidence.safety_evidence_archived_at_not_null",
+        "spot_private.safety_evidence.safety_evidence_hold_id_not_null",
+        "spot_private.safety_evidence.safety_evidence_report_reason_not_null",
+        "spot_private.safety_evidence.safety_evidence_report_status_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_action_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_actor_ref_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_created_at_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_hold_id_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_id_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_operation_id_not_null",
+        "spot_private.safety_hold_audit.safety_hold_audit_request_fingerprint_not_null",
+        "spot_private.safety_holds.safety_holds_case_reference_not_null",
+        "spot_private.safety_holds.safety_holds_category_not_null",
+        "spot_private.safety_holds.safety_holds_created_at_not_null",
+        "spot_private.safety_holds.safety_holds_id_not_null",
+        "spot_private.safety_holds.safety_holds_reason_code_not_null",
+        "spot_private.safety_holds.safety_holds_review_at_not_null",
+        "spot_private.safety_holds.safety_holds_target_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_comments_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_dd_controlled_admission_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_discovery_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_jobs_paused_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_membership_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_ora_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_requests_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_share_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_singleton_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_spot_enabled_not_null",
+        "spot_private.soma_v2_control.soma_v2_control_system_posts_enabled_not_null",
+        "spot_private.spot_v2_fence.spot_v2_fence_revision_not_null",
+        "spot_private.spot_v2_fence.spot_v2_fence_singleton_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_created_at_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_id_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_origin_kind_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_recipient_id_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_sender_id_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_state_not_null",
+        "spot_private.spot_v2_intents.spot_v2_intents_valid_until_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_created_at_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_operation_id_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_origin_kind_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_recipient_id_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_result_not_null",
+        "spot_private.spot_v2_operations.spot_v2_operations_sender_id_not_null",
+        "spot_private.spotted_share_refs.spotted_share_refs_post_id_not_null",
+        "spot_private.spotted_share_refs.spotted_share_refs_token_not_null",
+        "spot_private.suspensions.suspensions_created_at_not_null",
+        "spot_private.suspensions.suspensions_kind_not_null",
+        "spot_private.suspensions.suspensions_reason_not_null",
+        "spot_private.suspensions.suspensions_user_id_not_null",
+        "spot_private.tribe_account_state.tribe_account_state_configuration_state_not_null",
+        "spot_private.tribe_account_state.tribe_account_state_revision_not_null",
+        "spot_private.tribe_account_state.tribe_account_state_user_id_not_null",
+        "spot_private.tribe_catalog.tribe_catalog_active_not_null",
+        "spot_private.tribe_catalog.tribe_catalog_id_not_null",
+        "spot_private.tribe_catalog.tribe_catalog_joinable_not_null",
+        "spot_private.tribe_memberships.tribe_memberships_user_id_not_null",
+        "spot_private.tribe_memberships.tribe_memberships_venue_id_not_null",
+        "spot_private.tribe_rejoin_guards.tribe_rejoin_guards_rejoin_not_before_not_null",
+        "spot_private.tribe_rejoin_guards.tribe_rejoin_guards_tribe_id_not_null",
+        "spot_private.tribe_rejoin_guards.tribe_rejoin_guards_user_id_not_null",
+        "spot_private.tribe_settings.tribe_settings_singleton_not_null",
+        "spot_private.validated_photos.validated_photos_canonical_bytes_not_null",
+        "spot_private.validated_photos.validated_photos_canonical_sha_not_null",
+        "spot_private.validated_photos.validated_photos_normalizer_version_not_null",
+        "spot_private.validated_photos.validated_photos_photo_path_not_null",
+        "spot_private.validated_photos.validated_photos_preview_not_null",
+        "spot_private.validated_photos.validated_photos_source_format_not_null",
+        "spot_private.validated_photos.validated_photos_source_height_not_null",
+        "spot_private.validated_photos.validated_photos_source_width_not_null",
+        "spot_private.validated_photos.validated_photos_user_id_not_null",
+        "spot_private.venue_codes.venue_codes_qr_token_not_null",
+        "spot_private.venue_codes.venue_codes_venue_id_not_null"
+      ],
+      "live_only": [],
+      "different": [],
+      "equal": 422
+    },
+    "relation_access": {
+      "local_only": [],
+      "live_only": [],
+      "different": [],
+      "equal": 297
+    }
+  },
+  "supplementary": [
+    {
+      "file": "supabase/cutover/prepare.sql",
+      "sha256": "20cb842c58bc763d24192ecb763a72da9877e6a04f1c6977db2f165356ac6fc6",
+      "functions": [
+        {
+          "name": "spot_private.photo_cutover_lock",
+          "file_source_md5": "455556042fa415daba2cddb1dd60cc80",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_lock(exclusive boolean)",
+              "source_md5": "455556042fa415daba2cddb1dd60cc80",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_admit",
+          "file_source_md5": "d140ad2589b5e7b9e66aa3249c893be0",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_admit(owner_id uuid, protocol text)",
+              "source_md5": "d140ad2589b5e7b9e66aa3249c893be0",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_job_guard",
+          "file_source_md5": "0745b924fd74f0f58f7bde2bf9db1bfd",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_job_guard()",
+              "source_md5": "0745b924fd74f0f58f7bde2bf9db1bfd",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_profile_guard",
+          "file_source_md5": "5a4d51374c2b15245b1b10a802d9a2d3",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_profile_guard()",
+              "source_md5": "5a4d51374c2b15245b1b10a802d9a2d3",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_delete_guard",
+          "file_source_md5": "b7e3a3513ac9f65fdc1250485b303391",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_delete_guard()",
+              "source_md5": "b7e3a3513ac9f65fdc1250485b303391",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_auth_deleted",
+          "file_source_md5": "6cada4966aab6b383cf57f9527e03087",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_auth_deleted()",
+              "source_md5": "6cada4966aab6b383cf57f9527e03087",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_status",
+          "file_source_md5": "f6f3024426318d203169516eb5c6f420",
+          "live": [
+            {
+              "key": "public.photo_cutover_status()",
+              "source_md5": "f6f3024426318d203169516eb5c6f420",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_assert_drained",
+          "file_source_md5": "d5fb389cc9918eec26133395878edb85",
+          "live": [
+            {
+              "key": "public.photo_cutover_assert_drained()",
+              "source_md5": "d5fb389cc9918eec26133395878edb85",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_bridge_begin",
+          "file_source_md5": "35680a1cfb3226d0bd4f47cb5aeb739b",
+          "live": [
+            {
+              "key": "public.photo_cutover_bridge_begin(target_user uuid, request_id uuid, input_sha text, legacy_path text)",
+              "source_md5": "35680a1cfb3226d0bd4f47cb5aeb739b",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_bridge_intent",
+          "file_source_md5": "5ed9fc95f0875d3522c04bf395a1ad58",
+          "live": [
+            {
+              "key": "public.photo_cutover_bridge_intent(target_user uuid, path text, lease uuid, write_manifest jsonb)",
+              "source_md5": "5ed9fc95f0875d3522c04bf395a1ad58",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_bridge_receipt",
+          "file_source_md5": "2a4ac96e2779f4f453ce2736ef980118",
+          "live": [
+            {
+              "key": "public.photo_cutover_bridge_receipt(target_user uuid, path text, lease uuid, terminal boolean)",
+              "source_md5": "2a4ac96e2779f4f453ce2736ef980118",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_resolve",
+          "file_source_md5": "1eb7dbd04a0fc8b15d4545c5a8132d2e",
+          "live": [
+            {
+              "key": "public.photo_cutover_resolve(path text, lease uuid, operator_id text, evidence_code text, evidence_ref text)",
+              "source_md5": "1eb7dbd04a0fc8b15d4545c5a8132d2e",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.photo_cutover_stop_cron",
+          "file_source_md5": "1e740275fc55ce3f7fd7fcac56f94114",
+          "live": [
+            {
+              "key": "spot_private.photo_cutover_stop_cron()",
+              "source_md5": "1e740275fc55ce3f7fd7fcac56f94114",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.photo_cutover_set",
+          "file_source_md5": "ab31279aaaa7cea47000b73637abc5d0",
+          "live": [
+            {
+              "key": "public.photo_cutover_set(action text, operator_id text, evidence_ref text, release_sha text, canary_users uuid[])",
+              "source_md5": "ab31279aaaa7cea47000b73637abc5d0",
+              "match": true
+            }
+          ]
+        }
+      ],
+      "note": "Explicit unnumbered dependency, not a new migration to execute here."
+    },
+    {
+      "file": "supabase/cutover/scheduler.sql",
+      "sha256": "a8d26987b195e6a58aa53416d0e8156ee44d1a39521d4d0f3f2452694bbd523f",
+      "functions": [
+        {
+          "name": "public.photo_cutover_scheduler_configure",
+          "file_source_md5": "0d83537ae817e4778a43dd645447a88a",
+          "live": [
+            {
+              "key": "public.photo_cutover_scheduler_configure(project_ref text, enabled boolean)",
+              "source_md5": "0d83537ae817e4778a43dd645447a88a",
+              "match": true
+            }
+          ]
+        }
+      ],
+      "note": "Explicit unnumbered dependency, not a new migration to execute here."
+    },
+    {
+      "file": "supabase/staging/017_photo_lifecycle_scheduler.sql",
+      "sha256": "3bb9b93c4cb142cf5b1009011227e9f8400c1ef4cca9e3350e471cda3f482603",
+      "functions": [
+        {
+          "name": "public.photo02_staging_scheduler",
+          "file_source_md5": "3fb9a4863b871b4aacd51bc939bc889c",
+          "live": [
+            {
+              "key": "public.photo02_staging_scheduler(enable boolean)",
+              "source_md5": "3fb9a4863b871b4aacd51bc939bc889c",
+              "match": true
+            }
+          ]
+        }
+      ],
+      "note": "Explicit unnumbered dependency, not a new migration to execute here."
+    },
+    {
+      "file": "supabase/privacy-staging-scheduler.sql",
+      "sha256": "5886d02da929825dfcc802c5b6daf939646f49355d2e00926dc94fe609bab376",
+      "functions": [
+        {
+          "name": "public.privacy_retention_schedule",
+          "file_source_md5": "9885e446921bf31c1924619728ece965",
+          "live": [
+            {
+              "key": "public.privacy_retention_schedule(enabled boolean, dry_run boolean)",
+              "source_md5": "9885e446921bf31c1924619728ece965",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.privacy_retention_dispatch",
+          "file_source_md5": "365dbae8d553103b6b169d522ba39de8",
+          "live": [
+            {
+              "key": "public.privacy_retention_dispatch(dry_run boolean)",
+              "source_md5": "365dbae8d553103b6b169d522ba39de8",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.privacy_retention_scheduler_status",
+          "file_source_md5": "f78d8f590b252ddefd7c91f3da6eb967",
+          "live": [
+            {
+              "key": "public.privacy_retention_scheduler_status()",
+              "source_md5": "f78d8f590b252ddefd7c91f3da6eb967",
+              "match": true
+            }
+          ]
+        }
+      ],
+      "note": "Explicit unnumbered dependency, not a new migration to execute here."
+    },
+    {
+      "file": "supabase/staging/bacheca-nonce-alignment.sql",
+      "sha256": "88cd6282245279b390c4048a352e4d423b44ea88e1e5db8a95d9d1b9051fafd4",
+      "functions": [
+        {
+          "name": "public.board_operation",
+          "file_source_md5": "301d016232b251b5b09c397e86b8c7d9",
+          "live": [
+            {
+              "key": "public.board_operation(place uuid)",
+              "source_md5": "301d016232b251b5b09c397e86b8c7d9",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "spot_private.board_operation_valid",
+          "file_source_md5": "d2ac000ec2fb4b5011d571be0f87aa6f",
+          "live": [
+            {
+              "key": "spot_private.board_operation_valid(op uuid)",
+              "source_md5": "d2ac000ec2fb4b5011d571be0f87aa6f",
+              "match": true
+            }
+          ]
+        },
+        {
+          "name": "public.board_create",
+          "file_source_md5": "79eb5983111d667182e7e32489a1bb0d",
+          "live": [
+            {
+              "key": "public.board_create(place uuid, message_text text, operation_id uuid)",
+              "source_md5": "79eb5983111d667182e7e32489a1bb0d",
+              "match": true
+            }
+          ]
+        }
+      ],
+      "note": "Historical candidate alignment;026 final includes it. Never blindly replay."
+    }
+  ]
+}

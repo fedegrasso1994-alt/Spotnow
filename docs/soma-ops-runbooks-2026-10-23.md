@@ -78,6 +78,8 @@ Modello di comunicazione **interno candidato, non inviato**: percorso interessat
 
 ## RB-F — Moderazione / safety escalation
 
+Provisioning/recovery staff: seguire la [procedura Phase A](soma-ops-staff-provisioning-recovery-2026-10-24.md). Non regrantare un UUID compromesso presumendo che logout/refresh-revoke invalidi ogni access JWT AAL2 già emesso. Nessun provisioning umano completato dalla sola prova SQL locale.
+
 1. Intake in canale già approvato e caso privato; safety urgente→owner immediato secondo copertura disponibile, non promessa24/7. Nessun accesso università/venue ai dati individuali.
 2. Solo staff nominativo + MFA/AAL2 entra in coda; claim/revision prima dell'azione. Risolvere autore anonimo solo per quel caso e finalità safety, mai comunicarlo a reporter/peer.
 3. Review minima contenuto on-demand; niente reader generale chat o copia permanente messaggi nel report. ChatMVP: segnalazione+blocco interlocutore/conversazione.

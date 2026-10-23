@@ -4,6 +4,8 @@
 
 **OPS / RECOVERY / SUPPORT: BLOCKED.** Preparazione documentale e verifiche locali completate, readiness del pilot non chiusa. Non è un incidente attivo né un NO-GO del codice core. Non sono autorizzati produzione, main, nuovi account esterni, billing, DNS, restore distruttivi o nuove durate.
 
+Follow-up24ottobre: [OPS Phase A — ruoli e migration history](soma-ops-phase-a-closure-2026-10-24.md). Audit aggiornato:279corpi funzione e99tabelle applicative ricostruiti con eccezioni documentate;36versioni ancora non registrate, nessun repair per supposizione. ADMIN/MODERATOR operativi ancora assenti. [Recovery staff](soma-ops-staff-provisioning-recovery-2026-10-24.md) precisa il rischio del regrant sullo stesso UUID mentre vecchi JWT AAL2 possono essere ancora validi; revoca ruolo immediata, ripristino solo dopo gate sessioni/identità. Nessun altro blocker rivalutato da quel task.
+
 ## A. Matrice readiness
 
 READY significa capacità dimostrata nel perimetro indicato, non certificazione generale. PARTIAL: implementazione/prova incompleta; MISSING: capacità/evidenza necessaria non disponibile; UNKNOWN / TO VERIFY: dato non verificato, non assenza presunta.

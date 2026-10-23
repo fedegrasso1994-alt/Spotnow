@@ -1,0 +1,180 @@
+{
+  "at": "2026-10-23T23:02:45.357849+00:00",
+  "controls": {
+    "notifications": {
+      "delivery_enabled": false,
+      "enabled": false,
+      "singleton": true
+    },
+    "phase_a": {
+      "manual_enabled": true,
+      "scheduler_enabled": true,
+      "singleton": true
+    },
+    "photo": {
+      "execute": false,
+      "phase": "OPEN",
+      "scheduler": false
+    },
+    "v2": {
+      "comments_enabled": true,
+      "dd_admission_changed_at": "2026-10-22T16:17:18.40243+00:00",
+      "dd_admission_changed_by": "postgres",
+      "dd_controlled_admission": false,
+      "discovery_enabled": false,
+      "jobs_paused": true,
+      "membership_enabled": false,
+      "ora_enabled": true,
+      "requests_enabled": true,
+      "share_enabled": false,
+      "singleton": true,
+      "spot_enabled": true,
+      "system_posts_enabled": false
+    }
+  },
+  "counts": {
+    "auth": 4,
+    "matches": 1,
+    "messages": 2,
+    "profiles": 4,
+    "storage": 42
+  },
+  "environment": "staging",
+  "history": [
+    {
+      "name": "profiles_checkins",
+      "statement_count": 1,
+      "statements_md5": "b444c7dd0c0cbeec4736ec7b946af2ef",
+      "version": "001"
+    },
+    {
+      "name": "matches_messages",
+      "statement_count": 1,
+      "statements_md5": "a4bb7e37dc7d7ab3bd180ea7cbe42a70",
+      "version": "002"
+    },
+    {
+      "name": "reports",
+      "statement_count": 1,
+      "statements_md5": "8e151a74226ad3763def2a66197d5355",
+      "version": "003"
+    },
+    {
+      "name": "suspensions",
+      "statement_count": 1,
+      "statements_md5": "996b8032b98c0e6966c400d15f239ede",
+      "version": "004"
+    },
+    {
+      "name": "account_status",
+      "statement_count": 1,
+      "statements_md5": "3c27d99a5156ca4c532e946e5224bcee",
+      "version": "005"
+    },
+    {
+      "name": "moderation_panel",
+      "statement_count": 1,
+      "statements_md5": "988d918f2a0265b68b79bcb6b6485a93",
+      "version": "006"
+    },
+    {
+      "name": "tribes",
+      "statement_count": 1,
+      "statements_md5": "fc514831d10d8eb730fde40745160c48",
+      "version": "007"
+    },
+    {
+      "name": "account_deletion",
+      "statement_count": 1,
+      "statements_md5": "afa80991251c36945b8955136f1f2b82",
+      "version": "008"
+    },
+    {
+      "name": "adversarial_revision",
+      "statement_count": 1,
+      "statements_md5": "363ba3f9b2fb57be3717b8bf6c586668",
+      "version": "009"
+    },
+    {
+      "name": "profile_occupation",
+      "statement_count": 1,
+      "statements_md5": "372e2d0c09d5fe3bf70b884bbc58fc22",
+      "version": "010"
+    },
+    {
+      "name": "load_scaling",
+      "statement_count": 1,
+      "statements_md5": "b57ed562667dde992a159c78439271da",
+      "version": "011"
+    },
+    {
+      "name": "photo_assets",
+      "statement_count": 1,
+      "statements_md5": "96f239e06fbcacb37657462f8c4fc0f0",
+      "version": "012"
+    },
+    {
+      "name": "detail_photo_assets",
+      "statement_count": 1,
+      "statements_md5": "fa426ab64cfda4bc0753fdcd20a2eb2d",
+      "version": "013"
+    },
+    {
+      "name": "discovery_presence_privacy",
+      "statement_count": 1,
+      "statements_md5": "ed95e9c8d11482373832aca06ce5647a",
+      "version": "014"
+    },
+    {
+      "name": "private_profile_preference",
+      "statement_count": 1,
+      "statements_md5": "41ce864ebfdc7f80b130c7a497557119",
+      "version": "015"
+    },
+    {
+      "name": "authoritative_photo_uploads",
+      "statement_count": 0,
+      "statements_md5": "d41d8cd98f00b204e9800998ecf8427e",
+      "version": "016"
+    },
+    {
+      "name": "retention_phase_a",
+      "statement_count": 24,
+      "statements_md5": "dc7e91c6fb163f1a1051f4dba5587877",
+      "version": "054"
+    }
+  ],
+  "jobs": [
+    {
+      "active": false,
+      "id": 1,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "id": 2,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "id": 3,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "id": 4,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "profile_fingerprint": "98e43d4c040a5e4b95b251c1f8eb20e9",
+  "roles": {
+    "admins": 0,
+    "events": 0,
+    "moderators": 0
+  },
+  "storage_fingerprint": "6e351ae5b7cde8bba2aa3bcfc3ab4cd0"
+}
