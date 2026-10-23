@@ -1,0 +1,67 @@
+{
+  "baseline": "731cfb91d387b347fb674e0263c15bd2c420b505",
+  "targeted": {
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "skipped": 0
+  },
+  "first_full": {
+    "tests": 770,
+    "pass": 769,
+    "fail": 1,
+    "skipped": 0
+  },
+  "intermediate_full": {
+    "tests": 772,
+    "pass": 772,
+    "fail": 0,
+    "skipped": 0
+  },
+  "final_full": {
+    "tests": 773,
+    "pass": 772,
+    "fail": 1,
+    "skipped": 0
+  },
+  "failure": {
+    "file": "tests/notifications.test.js",
+    "line": 26,
+    "name": "DD committed reciprocal availability once/window; repeated reads cannot notify again and overnight is silent",
+    "preexisting": true,
+    "not_fixed": true
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "scheduler_activated": false,
+  "source_parity": [
+    {
+      "name": "spot_private.phase_a_held",
+      "matches": true
+    },
+    {
+      "name": "spot_private.phase_a_fk_check",
+      "matches": true
+    },
+    {
+      "name": "spot_private.phase_a_candidates",
+      "matches": true
+    },
+    {
+      "name": "public.retention_phase_a_batch",
+      "matches": true
+    },
+    {
+      "name": "public.retention_phase_a_status",
+      "matches": true
+    }
+  ],
+  "sha256": {
+    "supabase/migrations/054_retention_phase_a.sql": "7a9a7acf27fb909243e2b38a030e355106f80c29445c8e46b7c7c32bad685455",
+    "supabase/functions/_shared/retention-phase-a.js": "d1f9e21d895a7b6500054bfa7e66fa6b2928d2d4bf68fd90acbada5eda76a65c",
+    "supabase/functions/operations/index.ts": "7e3dd08664fbddcc9d93ef96d3efff0d3dd497c15b048c949e39d30a77825f32"
+  },
+  "final_gate": "RETENTION PHASE A: BLOCKED",
+  "implementation_commit": "7ced51ba6cebab677d9e48c093c4ba1f72a93a8d",
+  "photo_metadata_source_unchanged": true
+}

@@ -1,0 +1,91 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "baseline": {
+    "active_cron": 0,
+    "auth": 4,
+    "discovery": false,
+    "manual": false,
+    "notifications": false,
+    "photo_cleanup": false,
+    "photo_scheduler": false,
+    "profiles": 4,
+    "storage": 42,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "after": {
+    "active_cron": 0,
+    "auth": 4,
+    "discovery": false,
+    "manual": false,
+    "notifications": false,
+    "photo_cleanup": false,
+    "photo_scheduler": false,
+    "profiles": 4,
+    "storage": 42,
+    "storage_hash": "94a9f5b6fc83f6345287b4c1e714c4f7"
+  },
+  "runs": [
+    {
+      "claim_while_off": [],
+      "prune": {
+        "batch_limit": 100,
+        "deleted": 0,
+        "dry_run": false,
+        "eligible": 0,
+        "error_code": null,
+        "finished_at": "2026-10-23T18:05:59.667044+00:00",
+        "operation_id": "32da19a4-edcd-4ed9-9e8d-e681aa19628f",
+        "path": "notifications",
+        "protected": 2,
+        "skipped": 0,
+        "started_at": "2026-10-23T18:05:59.658359+00:00",
+        "status": "completed"
+      },
+      "writer_active": true
+    },
+    {
+      "batch_limit": 100,
+      "deleted": 1,
+      "dry_run": false,
+      "eligible": 1,
+      "error_code": null,
+      "finished_at": "2026-10-23T18:06:28.753401+00:00",
+      "operation_id": "4794b7b1-4a01-41f2-82a8-73adc0d52a1e",
+      "path": "notifications",
+      "protected": 1,
+      "skipped": 0,
+      "started_at": "2026-10-23T18:06:28.721386+00:00",
+      "status": "completed"
+    },
+    {
+      "batch_limit": 100,
+      "deleted": 1,
+      "dry_run": false,
+      "eligible": 1,
+      "error_code": null,
+      "finished_at": "2026-10-23T18:06:32.668879+00:00",
+      "operation_id": "94132fbb-85e3-4326-8f83-11e64a4bb556",
+      "path": "notifications",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-23T18:06:32.659736+00:00",
+      "status": "completed"
+    },
+    {
+      "batch_limit": 100,
+      "deleted": 0,
+      "dry_run": false,
+      "eligible": 0,
+      "error_code": null,
+      "finished_at": "2026-10-23T18:06:35.960566+00:00",
+      "operation_id": "f5115f87-3cef-4774-92bf-51dc45dd8d5e",
+      "path": "notifications",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-23T18:06:35.956953+00:00",
+      "status": "completed"
+    }
+  ],
+  "scope": "Two live PostgreSQL sessions, real notification_finish and guarded prune; notification_claim stays OFF. No external delivery. Synthetic auth fixture removed through normal deletion lifecycle; concluded PHOTO receipts retain their existing seven-day semantics.",
+  "passed": true
+}
