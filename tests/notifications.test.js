@@ -21,10 +21,45 @@ test('Transport contains opaque refs only, generic copy, 410 expiry, 429 bounded
 test('Notification intent opaque and staging flag isolated',()=>{assert.equal(notificationReference({search:'?n='+key}),key);assert.equal(notificationReference({search:'?n=internal-id'}),null);assert.equal(notificationEnabled({VITE_NOTIFICATIONS_MVP:'true',VITE_SUPABASE_URL:'https://zjinjtkekmaqtxsuyvho.supabase.co'}),true);assert.equal(notificationEnabled({VITE_NOTIFICATIONS_MVP:'true',VITE_SUPABASE_URL:'https://qlucwdjcjomwyziegxrn.supabase.co'}),false);});
 test('SW fetch/navigation logic unchanged; push handlers isolated and no protected caching',async()=>{const sw=await readFile('public/sw.js','utf8'),runtime=await readFile('public/notification-runtime.js','utf8');assert.ok(sw.includes("event.respondWith(fetch(event.request).catch(async()=>await caches.match('/offline.html')"));assert.ok(sw.includes("importScripts('/notification-runtime.js')"));assert.ok(!runtime.includes('caches.'));assert.ok(runtime.includes("self.addEventListener('notificationclick'"));assert.ok(runtime.includes("if(latest?.binding!==p.binding)return"));});
 
+// Six eligible members are intentionally preserved: a valid drop need not pair A with B.
+async function discoveryWindow(d,generation){
+ await admin(d);
+ assert.equal((await d.query('select clock_timestamp()stamp')).rows[0].stamp.toISOString(),'2026-10-21T10:00:00.000Z');
+ await d.query("insert into spot_private.discovery_windows(local_date,slot,policy_version,starts_at,ends_at,generation_id)select local_date,slot,2,starts_at,ends_at,$1 from spot_private.dd_clock_at(clock_timestamp())",[generation]);
+ await d.exec('update spot_private.soma_v2_control set discovery_enabled=true;update spot_private.discovery_policy set enabled=true,paused=false where version=2');
+ await asUser(d,ids.a);
+}
+function allocatedProfiles(drop){
+ assert.ok(['ready','partial'].includes(drop.status),drop.status);
+ assert.ok(Array.isArray(drop.profiles),'DD public contract uses profiles');
+ assert.ok(drop.profiles.length>0&&drop.profiles.length<=4);
+ assert.equal(new Set(drop.profiles.map(p=>p.id)).size,drop.profiles.length);
+ return drop.profiles.map(p=>p.id);
+}
 test('DD committed reciprocal availability once/window; repeated reads cannot notify again and overnight is silent',async t=>{
- const d=await database(t);await enable(d);await register(d);await asUser(d,ids.b);await register(d,other,ep+'b');await admin(d);await d.exec("update spot_private.soma_v2_control set discovery_enabled=true;update spot_private.discovery_policy set enabled=true,paused=false where version=2");await asUser(d,ids.a);
- const first=await call(d,'my_daily_discovery()');assert.ok(first.items?.length||first.people?.length||JSON.stringify(first).includes(ids.b));assert.deepEqual(await stats(d),[{kind:'dd',n:2}]);await asUser(d,ids.a);await call(d,'my_daily_discovery()');await asUser(d,ids.b);await call(d,'my_daily_discovery()');assert.deepEqual(await stats(d),[{kind:'dd',n:2}]);
- await admin(d);await d.query("select set_config('soma.test_clock','2026-10-22T03:00:00+02:00',false)");await asUser(d,ids.a);await call(d,'my_daily_discovery()');assert.deepEqual(await stats(d),[{kind:'dd',n:2}]);
+ for(const[seed,pairsAB]of[[1,true],[2,false]])await t.test('fixed generation '+seed+(pairsAB?' pairs A/B':' does not pair A/B'),async t=>{
+  const d=await database(t);await enable(d);await register(d);await asUser(d,ids.b);await register(d,other,ep+'b');
+  await discoveryWindow(d,`00000000-0000-4000-8000-${String(seed).padStart(12,'0')}`);
+  const first=await call(d,'my_daily_discovery()'),peers=allocatedProfiles(first);
+  assert.equal(peers.includes(ids.b),pairsAB,'regression covers both valid allocation shapes');
+  // Reciprocity applies to the peers actually assigned, not a predetermined subscriber.
+  for(const peer of peers){await asUser(d,peer);const reciprocal=await call(d,'my_daily_discovery()');assert.ok(allocatedProfiles(reciprocal).includes(ids.a));assert.equal(reciprocal.window_id,first.window_id);}
+  await asUser(d,ids.b);const second=await call(d,'my_daily_discovery()');assert.equal(allocatedProfiles(second).includes(ids.a),pairsAB);
+  await admin(d);const events=(await d.query("select id,owner_id,target_id from spot_private.notification_events where kind='dd'order by owner_id")).rows;
+  assert.deepEqual(events.map(e=>e.owner_id),[ids.a,ids.b]);assert.ok(events.every(e=>e.target_id===first.window_id));
+  await asUser(d,ids.a);const repeated=await call(d,'my_daily_discovery()');assert.deepEqual(repeated.profiles,first.profiles);
+  await asUser(d,ids.b);await call(d,'my_daily_discovery()');assert.deepEqual(await stats(d),[{kind:'dd',n:2}]);
+  await admin(d);assert.deepEqual((await d.query("select id,owner_id,target_id from spot_private.notification_events where kind='dd'order by owner_id")).rows,events);
+  await d.query("select set_config('soma.test_clock','2026-10-22T03:00:00+02:00',false)");await asUser(d,ids.a);
+  const overnight=await call(d,'my_daily_discovery()');assert.equal(overnight.status,'waiting_window');assert.deepEqual(overnight.profiles,[]);assert.deepEqual(await stats(d),[{kind:'dd',n:2}]);
+ });
+});
+test('DD allocation remains valid with Notifications OFF; subscriptions cannot bypass the pause',async t=>{
+ const d=await database(t);await enable(d);await register(d);await asUser(d,ids.b);await register(d,other,ep+'b');await admin(d);
+ await d.exec('update spot_private.notification_control set enabled=false,delivery_enabled=false');
+ await discoveryWindow(d,'00000000-0000-4000-8000-000000000002');const first=await call(d,'my_daily_discovery()');allocatedProfiles(first);
+ const again=await call(d,'my_daily_discovery()');assert.deepEqual(again.profiles,first.profiles);assert.deepEqual(await stats(d),[]);
+ await admin(d);assert.equal((await d.query('select count(*)::int n from spot_private.push_bindings')).rows[0].n,2);await service(d);assert.deepEqual(await call(d,'notification_claim()'),[]);
 });
 test('No DD availability for empty allocation, notification control pause does not activate Discovery',async t=>{const d=await database(t);await enable(d);await register(d);await call(d,'my_daily_discovery()');assert.deepEqual(await stats(d),[]);await admin(d);assert.equal((await d.query('select discovery_enabled from spot_private.soma_v2_control')).rows[0].discovery_enabled,false);});
 test('Recipient opt-out or deleted Match neutralizes existing notification; no token grants authorization',async t=>{const d=await database(t);await enable(d);await register(d);const p=await post(d);await asUser(d,ids.b);await submit(d,p);await admin(d);const ref=(await d.query("select reference from spot_private.notification_events where kind='request'")).rows[0].reference;await asUser(d,ids.a);await call(d,'spotted_romantic_opt_in($1)',[false]);assert.deepEqual(await call(d,'notification_resolve($1)',[ref]),{available:false});await match(d);await admin(d);const m=(await d.query("select reference,target_id from spot_private.notification_events where kind='match'")).rows[0];await d.query('delete from matches where id=$1',[m.target_id]);await asUser(d,ids.a);assert.deepEqual(await call(d,'notification_resolve($1)',[m.reference]),{available:false});});
