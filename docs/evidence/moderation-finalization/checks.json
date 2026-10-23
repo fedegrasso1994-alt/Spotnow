@@ -1,0 +1,21 @@
+{
+  "baseline": "02607a40cee88d8e859a68a81cff33c88df2e714",
+  "targeted": {
+    "tests": 94,
+    "pass": 94,
+    "fail": 0
+  },
+  "full": {
+    "tests": 725,
+    "pass": 725,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "staging_access": "READ_ONLY",
+  "new_authenticated_staging_e2e": "NOT_RUN_STOP_GATE",
+  "new_migrations": [],
+  "runtime_changes": false,
+  "production_changes": false,
+  "gate": "MODERATION FINALIZATION: BLOCKED"
+}

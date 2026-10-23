@@ -1,0 +1,96 @@
+{
+  "accounts": 4,
+  "active_holds": 0,
+  "analytics": false,
+  "cleanup": false,
+  "content_reports": 0,
+  "discovery": false,
+  "function_metadata": [
+    {
+      "md5": "875d5a966b218baf2aa1b0087e13c9a9",
+      "mentions_blocks": true,
+      "signature": "block_profile(uuid)"
+    },
+    {
+      "md5": "e1cfb029439802f7dbe3bdcd98c5c182",
+      "mentions_blocks": false,
+      "signature": "board_moderation_action(uuid,text,uuid,bigint,integer)"
+    },
+    {
+      "md5": "c90d3a4715011712c8a2c9e7865901d7",
+      "mentions_blocks": false,
+      "signature": "board_moderation_queue(text,timestamp with time zone,uuid,integer)"
+    },
+    {
+      "md5": "376fb6dfb31d7abf8aa5c62da8bc634b",
+      "mentions_blocks": true,
+      "signature": "spot_private.can_use_match(uuid)"
+    },
+    {
+      "md5": "18daeae44c087a03ebf2a366407ae636",
+      "mentions_blocks": false,
+      "signature": "spot_private.moderation_role()"
+    },
+    {
+      "md5": "d6dcc045c6e3aafb05824ec6d8d7cdbe",
+      "mentions_blocks": false,
+      "signature": "spot_private.spotted_comment_visible(uuid)"
+    },
+    {
+      "md5": "583c675f6b7510ac5ab6c5760dc592c7",
+      "mentions_blocks": false,
+      "signature": "spot_private.spotted_post_visible(uuid)"
+    },
+    {
+      "md5": "2067934a7c7013fc320cc0a5662f1f46",
+      "mentions_blocks": false,
+      "signature": "spotted_resolve_share(text)"
+    }
+  ],
+  "notifications": false,
+  "policies": [
+    {
+      "category": "board_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    },
+    {
+      "category": "board_posts",
+      "duration": "00:00:01",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    },
+    {
+      "category": "board_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    },
+    {
+      "category": "closed_reports",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    },
+    {
+      "category": "privacy_operation_metadata",
+      "duration": "7 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    },
+    {
+      "category": "released_safety_metadata",
+      "duration": "180 days",
+      "enabled": false,
+      "validation": "DESIGN_ONLY"
+    }
+  ],
+  "profile_reports": 0,
+  "profiles": 4,
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "retention_paused": true,
+  "scheduler": false,
+  "staff_roles": 0,
+  "storage_objects": 42
+}

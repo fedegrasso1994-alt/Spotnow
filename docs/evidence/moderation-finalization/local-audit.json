@@ -1,0 +1,25 @@
+{
+  "environment": "local disposable PostgreSQL/PGlite",
+  "staging_mutated": false,
+  "block_via_public_rpc": true,
+  "romantic_pending_invalidated": true,
+  "blocked_viewer_still_sees_post": true,
+  "blocker_still_sees_blocked_authors_comment": true,
+  "blocked_viewer_can_like": true,
+  "blocked_viewer_share_resolves": true,
+  "moderated_post_share_result": {
+    "available": false
+  },
+  "board_audit_columns": [
+    "id",
+    "actor_id",
+    "report_id",
+    "action",
+    "operation_id",
+    "fingerprint",
+    "created_at",
+    "content_kind",
+    "comment_id",
+    "romantic_request_id"
+  ]
+}
