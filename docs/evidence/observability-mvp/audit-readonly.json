@@ -1,0 +1,168 @@
+{
+  "controls": {
+    "analytics": false,
+    "analytics_dropped": 0,
+    "cleanup": false,
+    "discovery": false,
+    "notification_delivery": false,
+    "notifications": false,
+    "retention_paused": true,
+    "scheduler": false
+  },
+  "cron_jobs": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    }
+  ],
+  "cron_results_24h": [],
+  "observed_at": "2026-10-23T10:58:24.215776+00:00",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "technical_columns": {
+    "notification_deliveries": [
+      "id",
+      "event_id",
+      "binding_id",
+      "state",
+      "lease",
+      "attempts",
+      "next_at",
+      "updated_at",
+      "result"
+    ],
+    "photo_cleanup_accounts": [
+      "user_id",
+      "state",
+      "created_at",
+      "completed_at",
+      "error_code",
+      "claim_token",
+      "claim_until",
+      "retries"
+    ],
+    "photo_lifecycle_sets": [
+      "photo_path",
+      "user_id",
+      "request_id",
+      "lease_token",
+      "state",
+      "writer",
+      "reserved_bytes",
+      "created_at",
+      "not_before",
+      "completed_at",
+      "claim_token",
+      "claim_until",
+      "retries",
+      "error_code",
+      "evidence",
+      "manifest",
+      "last_attempt_at",
+      "review_reason",
+      "review_since",
+      "review_operator",
+      "review_evidence",
+      "review_quota_exempt",
+      "reconcile_attempts"
+    ],
+    "retention_runs": [
+      "operation_id",
+      "category",
+      "policy_version",
+      "dry_run",
+      "candidates",
+      "purged",
+      "completed_at",
+      "moderation_counts"
+    ]
+  },
+  "edge_functions": [
+    {
+      "slug": "photo-assets",
+      "status": "ACTIVE",
+      "version": 14,
+      "verify_jwt": true
+    },
+    {
+      "slug": "delete-account",
+      "status": "ACTIVE",
+      "version": 8,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-jpeg",
+      "status": "ACTIVE",
+      "version": 7,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-png",
+      "status": "ACTIVE",
+      "version": 5,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-normalize-webp",
+      "status": "ACTIVE",
+      "version": 5,
+      "verify_jwt": true
+    },
+    {
+      "slug": "photo-lifecycle",
+      "status": "ACTIVE",
+      "version": 11,
+      "verify_jwt": true
+    },
+    {
+      "slug": "privacy-retention",
+      "status": "ACTIVE",
+      "version": 5,
+      "verify_jwt": true
+    },
+    {
+      "slug": "profile-photo",
+      "status": "ACTIVE",
+      "version": 4,
+      "verify_jwt": true
+    },
+    {
+      "slug": "notifications",
+      "status": "ACTIVE",
+      "version": 5,
+      "verify_jwt": false
+    }
+  ],
+  "baseline_commit": "0655a8f7674dbf0f33eb3421955a73c836263d9e",
+  "cloud_mutations": false,
+  "raw_logs_read": false,
+  "production_accessed": false,
+  "checks": {
+    "full_suite": {
+      "tests": 737,
+      "pass": 736,
+      "fail": 1,
+      "skipped": 0
+    },
+    "failure": "notifications.test.js:24 DD committed reciprocal availability",
+    "single_recheck": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0
+    },
+    "classification": "baseline intermittent failure, cause unproven; no patch",
+    "build": "PASS",
+    "typecheck": "PASS",
+    "runtime_changes": false
+  }
+}
