@@ -1,3 +1,5 @@
+import{setupOperationalRuntime}from './operational-runtime.js';
+setupOperationalRuntime(import.meta.env);
 import {setupViewport} from './viewport.js';
 setupViewport();
 import {setupDiagnostics} from './diagnostics.js';
@@ -6,7 +8,9 @@ const demo = new URLSearchParams(location.search).get('demo') === '1';
 if(import.meta.env.PROD&&'serviceWorker' in navigator){const register=()=>{void navigator.serviceWorker.register('/sw.js').catch(()=>{});};if(document.readyState==='complete')register();else window.addEventListener('load',register,{once:true});}
 if(demo){document.title='Soma — demo';const label=document.querySelector('#intro .eyebrow');if(label)label.textContent='Soma · demo con dati fittizi';}
 const dashboard=new URLSearchParams(location.search).get('analytics')==='1';
-if(dashboard){
+const health=new URLSearchParams(location.search).get('health')==='1';
+if(health){if(import.meta.env.VITE_OBSERVABILITY_MVP==='true'&&new URL(import.meta.env.VITE_SUPABASE_URL).hostname==='zjinjtkekmaqtxsuyvho.supabase.co')await import('./operational-health.js');else document.getElementById('phone').textContent='Salute operativa non disponibile.';
+} else if(dashboard){
  const {dashboardEnabled}=await import('./analytics-dashboard-api.js');
  if(dashboardEnabled(import.meta.env))await import('./analytics-dashboard.js');
  else document.getElementById('phone').textContent='Dashboard non disponibile.';
@@ -18,6 +22,6 @@ if(dashboard){
 } else {
   await import('./live.js');
 }
-if(!dashboard&&new URLSearchParams(location.search).get('admin')!=='1'){
+if(!health&&!dashboard&&new URLSearchParams(location.search).get('admin')!=='1'){
   const {setupInstallApp}=await import('./install-app.js');setupInstallApp();
 }

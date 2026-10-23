@@ -3,3 +3,6 @@ declare namespace Deno {
  const env: {get(name:string):string|undefined};
  function serve(handler:(request:Request)=>Response|Promise<Response>):void;
 }
+
+/** Supabase hosted background lifetime; no scheduler or new provider. */
+declare const EdgeRuntime:{waitUntil(task:Promise<unknown>):void};

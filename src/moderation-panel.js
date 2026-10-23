@@ -1,9 +1,10 @@
+import{operationalFetch,operationalEnabled}from './operational.js';
 import{mountModerationReviews}from'./moderation-reviews.js';
 import {boardEnabled}from './bacheca.js';
 import {mountBoardModeration}from './bacheca-moderation.js';
 import{createClient}from'@supabase/supabase-js';import{boundedFetch}from'./request.js';import{createModerationApi,moderationEnabled}from'./moderation-api.js';import './admin.css';
 if(!moderationEnabled(import.meta.env))throw Error('Staging only');
-const client=createClient(import.meta.env.VITE_SUPABASE_URL,import.meta.env.VITE_SUPABASE_PUBLIC_KEY,{global:{fetch:boundedFetch()},auth:{storageKey:'soma-moderation-staging',persistSession:true}}),api=createModerationApi(client);
+const client=createClient(import.meta.env.VITE_SUPABASE_URL,import.meta.env.VITE_SUPABASE_PUBLIC_KEY,{global:{fetch:operationalFetch(boundedFetch(),{url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY,enabled:operationalEnabled(import.meta.env)})},auth:{storageKey:'soma-moderation-staging',persistSession:true}}),api=createModerationApi(client);
 const root=document.getElementById('phone');root.replaceChildren();root.classList.add('admin-panel');
 const el=(tag,text='')=>{const e=document.createElement(tag);e.textContent=text;return e;};const title=el('h1','Soma — Moderazione staging'),status=el('p');status.setAttribute('role','status');root.append(title,status);
 const form=el('form'),email=el('input'),password=el('input'),sign=el('button','Accedi');email.type='email';email.placeholder='Account moderatore dedicato';email.required=true;password.type='password';password.placeholder='Password';password.required=true;email.setAttribute('aria-label','Email moderatore');password.setAttribute('aria-label','Password moderatore');form.append(email,password,sign);root.append(form);

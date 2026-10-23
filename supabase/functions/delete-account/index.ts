@@ -1,7 +1,9 @@
+import {operationalHandler,operationalRecorder} from '../_shared/operational-edge.js';
 import {cleanupPhotoAccount} from '../_shared/photo-lifecycle.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 const headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type'};
-Deno.serve(async request=>{
+const opsAdmin=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
+Deno.serve(operationalHandler('photo.cleanup',async request=>{
  if(request.method==='OPTIONS')return new Response('ok',{headers});
  const reply=(body:object,status=200)=>new Response(JSON.stringify(body),{status,headers:{...headers,'Content-Type':'application/json'}});
  if(request.method!=='POST')return reply({error:'Method not allowed'},405);
@@ -25,4 +27,4 @@ Deno.serve(async request=>{
  if(barrier.data===true)return reply({error:'Preparazione foto ancora in corso. Attendi un minuto e riprova.'},409);
  try{if(!await cleanupPhotoAccount(admin,id))return reply({error:'Cancellazione in preparazione. Riprova tra poco.'},409);}catch{return reply({error:'Cancellazione in corso. Riprova tra poco.'},503);}
  return reply({deleted:true});
-});
+},{record:operationalRecorder(opsAdmin)}));

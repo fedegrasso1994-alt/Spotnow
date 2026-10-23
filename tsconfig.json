@@ -60,6 +60,10 @@
     "src/notifications.js",
     "src/notification-request-ui.js",
     "supabase/functions/notifications/index.ts",
-    "types/web-push.d.ts"
+    "types/web-push.d.ts",
+    "src/operational.js",
+    "src/operational-health.js",
+    "src/operational-runtime.js",
+    "supabase/functions/operations/index.ts"
   ]
 }

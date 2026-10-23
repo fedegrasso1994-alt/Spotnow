@@ -1,3 +1,4 @@
+import{operationalFetch,operationalEnabled}from './operational.js';
 /// <reference types="vite/client" />
 import{createClient}from'@supabase/supabase-js';
 import{boundedFetch}from'./request.js';
@@ -5,7 +6,7 @@ import{dashboardEnabled,createDashboardApi,metricText,dashboardSections}from'./a
 import './admin.css';
 import './analytics-dashboard.css';
 if(!dashboardEnabled(import.meta.env))throw Error('Dashboard disabled');
-const client=createClient(import.meta.env.VITE_SUPABASE_URL,import.meta.env.VITE_SUPABASE_PUBLIC_KEY,{global:{fetch:boundedFetch()},auth:{storageKey:'soma-analytics-admin-staging',persistSession:true}});
+const client=createClient(import.meta.env.VITE_SUPABASE_URL,import.meta.env.VITE_SUPABASE_PUBLIC_KEY,{global:{fetch:operationalFetch(boundedFetch(),{url:import.meta.env.VITE_SUPABASE_URL,publicKey:import.meta.env.VITE_SUPABASE_PUBLIC_KEY,enabled:operationalEnabled(import.meta.env)})},auth:{storageKey:'soma-analytics-admin-staging',persistSession:true}});
 const read=createDashboardApi(client),root=document.getElementById('phone');
 root.replaceChildren();root.classList.add('admin-panel','analytics-dashboard');
 const el=(tag,text='')=>{const e=document.createElement(tag);e.textContent=text;return e;};

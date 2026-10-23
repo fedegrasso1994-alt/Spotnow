@@ -1,8 +1,10 @@
+import {operationalHandler,operationalRecorder} from '../_shared/operational-edge.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 import webpush from 'npm:web-push@3.6.7';
 import {dispatchNotifications,NOTIFICATION_COPY,notificationInput} from '../_shared/notification-delivery.js';
 const ref='zjinjtkekmaqtxsuyvho';
-Deno.serve(async req=>{
+const opsAdmin=createClient(Deno.env.get('SUPABASE_URL')||'https://invalid.local',Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'',{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
+const notificationHandler=async(req:Request)=>{
  const origin=Deno.env.get('NOTIFICATIONS_PREVIEW_ORIGIN')||'';
  const headers={'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Headers':'content-type, authorization, apikey','Access-Control-Allow-Methods':'POST, OPTIONS'};
  const reply=(status:number,value:unknown)=>new Response(JSON.stringify(value),{status,headers});
@@ -30,4 +32,5 @@ Deno.serve(async req=>{
   webpush.setVapidDetails(subject,publicKey,privateKey);
   return reply(200,await dispatchNotifications({rpc,send:(subscription:unknown,payload:string,options:unknown)=>webpush.sendNotification(subscription,payload,options)}));
  }catch{return reply(503,{error:'NOTIFICATION_UNAVAILABLE'});}
-});
+};
+Deno.serve(async req=>{let action;try{if(req.method==='POST')action=(await notificationInput(req.clone())).action;}catch{}const op=action==='prune'?'notifications.prune':action==='dispatch'?'notifications.dispatch':'notifications.subscribe';return operationalHandler(op,notificationHandler,{record:operationalRecorder(opsAdmin),job:action==='prune'||action==='dispatch',summary:true})(req);});

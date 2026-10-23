@@ -1025,3 +1025,7 @@ Permanent instruction:
 ### Private Admin Analytics dashboard (staging)
 
 Founder-approved follow-up: ADMIN-only server authorization with existing verified MFA; threshold 10 distinct contributors with complementary suppression/coarsening; unsupported KPIs shown as Non misurato and unsupported Tribe/Place filters disabled. No new collection or product semantics. Completed Rome-week filters only, private read-only aggregates; no account drilldown or moderation controls. Contract and limits: `soma-admin-dashboard-contract-2026-10-23.md`. Analytics/Discovery/Notifications/cleanup/scheduler remain OFF; professional/privacy validation and operational purge remain separate pilot gates.
+
+### Operational observability baseline (staging)
+
+Founder-approved 2026-10-23: first-party technical diagnostics have a separate 14-day retention; private ADMIN + MFA operational view and deduplicated incidents use the approved conservative thresholds. No cross-session identity tracking or product content. Client signals are non-authoritative. Automatic email destination explicitly approved: somadatingapp@gmail.com, no backup recipient yet. No reusable application email transport is evidenced, so email stays OFF until separately configured and delivery verified. Collection remains synthetic-only/OFF after tests; ordinary collection requires physical-purge readiness. Discovery/Notifications/cleanup/scheduler are not enabled for observability. Contract and coverage limits: `soma-observability-mvp-contract-2026-10-23.md`. No product or Analytics retention changes.
