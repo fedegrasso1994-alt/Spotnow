@@ -1,0 +1,21 @@
+{
+  "real_login": true,
+  "real_totp_mfa": true,
+  "real_staging_rpc": true,
+  "reload": "PASS",
+  "period_filter": "PASS",
+  "entity_filters": "disabled",
+  "mobile": [
+    {
+      "width": 320,
+      "documentWidth": 320
+    },
+    {
+      "width": 390,
+      "documentWidth": 390
+    }
+  ],
+  "logout_cards": 0,
+  "logged_out_reload_cards": 0,
+  "synthetic_fixture_only": true
+}

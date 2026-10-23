@@ -1,0 +1,23 @@
+{
+  "targeted_tests": {
+    "pass": 9,
+    "fail": 0
+  },
+  "full_suite": {
+    "pass": 725,
+    "fail": 0,
+    "duration_ms": 164487.683917
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "earlier_full_run": {
+    "pass": 724,
+    "fail": 1,
+    "test": "Notifications DD committed reciprocal availability",
+    "isolated_recheck": "PASS",
+    "changed": false
+  },
+  "no_production_deploy": true,
+  "no_main_merge": true,
+  "new_vercel_preview": false
+}

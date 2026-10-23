@@ -1,0 +1,30 @@
+{
+  "migration_sha256": "216ca03be54546ddb93caca7bf90d89e8b109688e70f98ab479afd8e925e7ac1",
+  "function_md5": {
+    "dashboard_count": "bf7dd89b68f701bec92b090c16cfdc1b",
+    "admin_analytics_dashboard": "ce1d456456f626762767101d9d3db521"
+  },
+  "accounts": 4,
+  "analytics": false,
+  "canonical_md5": "b9683e8115aa8edfc01664cba205cf71",
+  "cleanup": false,
+  "dashboard_count_md5": "bf7dd89b68f701bec92b090c16cfdc1b",
+  "dashboard_md5": "ce1d456456f626762767101d9d3db521",
+  "discovery": false,
+  "events": 0,
+  "fixture_auth": 0,
+  "fixture_completed_deletion_receipts": 1,
+  "fixture_objects": 0,
+  "fixture_photo_sets": 0,
+  "fixture_roles": 0,
+  "jobs_paused": true,
+  "missing_current": 0,
+  "notifications": false,
+  "objects": 42,
+  "profiles": 4,
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "roles": 0,
+  "scheduler": false,
+  "summary_md5": "c2126f8d278f165f1cabbc82ad1bd4e8",
+  "test_only": true
+}
