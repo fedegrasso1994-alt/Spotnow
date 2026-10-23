@@ -666,6 +666,13 @@ Extend to:
 
 Blocking from anonymous content must resolve author server-side without exposing identity.
 
+Founder freeze (2026-10-23): anonymous SPOTTED blocks are separate from explicit profile blocks. They hide anonymous content/interactions and suppress new anonymous deliveries; existing nominal relationships (Match/chat and requests already received) remain unchanged. They do not silently remove known profiles from ORA/TRIBE. Explicit profile blocking remains global and also applies to SPOTTED visibility. No anonymous author ID may be exposed through blocks, exports or the normal API.
+
+Closed-pilot chat reporting targets the interlocutor/conversation, not an individual message. No general moderator chat reader or permanent message copy in reports/audit is introduced. Appeals use the existing manual support/privacy/safety channel, without an in-app appeal center.
+
+Moderation actions record minimal categorical actor/target/reason/state transitions, without content copies. Open safety holds receive manual review every 30 days with keep / release / escalate; no auto-release. Releasing a hold/review does not republish content or revoke account sanctions. Legal retention, lawful bases and maximum hold duration remain a separate pre-pilot professional gate.
+
+
 ---
 
 ## 31. Retention / jobs

@@ -8,6 +8,7 @@ export function createSpottedApi(client){const call=async(name,args)=>{const r=a
  romantic:createRomanticApi(client),
  qod:createQodApi(call),
  share:createShareApi(call),
+ blockAuthor:(content_id,content_kind,operation_id)=>call('spotted_block_author',{content_id,content_kind,operation_id}),
  operation:place=>call('board_operation',{place}),
  feed:(place,after_id=null)=>call('spotted_feed',{place,after_id}),
  comments:(target_post,after_id=null)=>call('spotted_comments',{target_post,after_id}),

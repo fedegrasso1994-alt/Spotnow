@@ -59,6 +59,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
    },'backlink spotted-action spotted-share');share.prepend(spottedIcon(doc,'share'));secondary.append(share);
   }
   const report=button('Segnala',()=>{report.disabled=true;reportBox(article,item,kind);},'backlink spotted-action');secondary.append(report);
+  if(!item.can_delete&&api.blockAuthor){const hide=button('Blocca autore in SPOTTED',()=>mutate('block:'+kind+':'+item.id,op=>api.blockAuthor(item.id,kind,op),'Contenuti anonimi bloccati. Match, chat e richieste già ricevute restano invariati.'),'backlink spotted-action');hide.title='Blocca contenuti e nuove interazioni anonime SPOTTED. Per bloccare un contatto noto, usa il suo profilo o la chat.';secondary.append(hide);}
   if(item.can_delete)secondary.append(button('Elimina',()=>{const box=el('div','','spotted-confirm');box.append(el('p','Vuoi eliminare questo contenuto?'),button('Conferma eliminazione',()=>mutate('delete:'+kind+':'+item.id,op=>api.remove(item.id,kind,op)),'btn btn-ghost spotted-action'));article.append(box);},'backlink spotted-action'));
   article.append(actions,secondary);return article;
  }

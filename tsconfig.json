@@ -47,6 +47,7 @@
     "types/photo-codecs.d.ts",
     "supabase/functions/photo-lifecycle/index.ts",
     "src/moderation-api.js",
+    "src/moderation-reviews.js",
     "src/bacheca.js",
     "src/bacheca-ui.js",
     "src/bacheca-moderation.js",

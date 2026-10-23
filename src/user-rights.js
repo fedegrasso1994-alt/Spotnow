@@ -7,7 +7,7 @@ export function rightsEnabled(env){
  return true;
 }
 export function createRightsApi(client,{boardEnabled=false,spottedEnabled=false,analyticsEnabled=false}={}){
- const sections=boardEnabled?[...RIGHTS_SECTIONS,'board_posts','board_reactions','board_reports',...(spottedEnabled?['board_comments','board_likes']:[])]:[...RIGHTS_SECTIONS];
+ const sections=boardEnabled?[...RIGHTS_SECTIONS,'board_posts','board_reactions','board_reports',...(spottedEnabled?['board_comments','board_likes','anonymous_blocks']:[])]:[...RIGHTS_SECTIONS];
  if(analyticsEnabled)sections.push('analytics');
  return {sections,async page(section,after_key='',page_size=100){
   if(!sections.includes(section))throw Error('Sezione non valida.');
