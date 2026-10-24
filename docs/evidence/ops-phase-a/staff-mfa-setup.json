@@ -1,0 +1,39 @@
+{
+  "baseline": "528360da6e675fb64f9dc18687e7e34003f89eb0",
+  "targeted": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "skipped": 0
+  },
+  "full": {
+    "tests": 790,
+    "pass": 790,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "local_setup_bundle": "PASS",
+  "local_http_assets": "HTTP200/no-store",
+  "local_post": "HTTP405",
+  "preflight": {
+    "staging": true,
+    "nominated_accounts": 2,
+    "confirmed": 2,
+    "existing_roles": 0,
+    "profiles": 0,
+    "mfa_factors": 0
+  },
+  "human_enrollment": "PENDING_OWNER_ACTION",
+  "human_relogin_mfa": "PENDING_OWNER_ACTION",
+  "role_grants": 0,
+  "production_touched": false,
+  "public_config_and_ids": "ignored local file, mode0600; no passwords or MFA secrets",
+  "log_sha256": {
+    "targeted.log": "5841cfd80e5b00d8963c1ce0869668f64c08908f3459b6c1bfca30bda3d7456e",
+    "full-tests.log": "cd436fe789b263a4f78dbd478cddc8693b07a2a549603f499bc5e4c6218e27ab",
+    "build.log": "317553eaf3ad1aa991b5c9d547efcad64d1ad6bdbd768a72545153cb992f9bed",
+    "typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
