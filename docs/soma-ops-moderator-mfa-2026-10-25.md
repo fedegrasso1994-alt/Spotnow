@@ -22,12 +22,17 @@ are never included in evidence.
 
 ## Live verification
 
-PENDING owner interaction: login, enroll TOTP if no factors, verify AAL2,
-logout, new login, second challenge/AAL2. Do not declare completion or provision
-roles until owner confirmation and safe metadata verification.
+PASS: founder confirms initial login/enrollment/challenge AAL2, logout, fresh
+login and second MFA challenge/AAL2. Read-only verification at
+2026-10-25T18:54:10.772037Z confirms staging, exactly one TOTP verified,
+zero unverified factors, latest session AAL2, and no moderation role.
+The logout/fresh-login sequence is owner-confirmed; the metadata independently
+confirms current factor/AAL status, not a reconstructed session history.
+No ADMIN operations were performed. No role provisioning was performed.
 
 ## Verification
 
 Single-account configuration test covers wrong UID, broadened account list and
 incompatible repair configuration. Full suite 797/797 PASS; build and typecheck PASS. Local setup HTTP 200.
-Live MODERATOR verification remains PENDING; no role assigned.
+Live MODERATOR MFA verification PASS; no role assigned.
+This evidence-only update does not change the previously tested setup/runtime.
