@@ -1,0 +1,25 @@
+{
+  "environment": "staging",
+  "fence_md5": "0b875ba28ca80765f779aefac848f8e7",
+  "guard_md5": "f10377af4480bb2ecdacd914f2d27398",
+  "migration_055": true,
+  "private_guard": true,
+  "private_receipts": true,
+  "receipts": 0,
+  "roles": 0,
+  "targeted_tests": {
+    "pass": 26,
+    "fail": 0
+  },
+  "full_tests": {
+    "pass": 802,
+    "fail": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "guard_blocks_role_write": true,
+  "guard_waits_for_role_write": true,
+  "read_only_guard_safe": true,
+  "live_privileged_canary": "DEFERRED_TO_SEPARATELY_AUTHORIZED_PROVISIONING",
+  "real_role_grants": 0
+}

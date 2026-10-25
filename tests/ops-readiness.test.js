@@ -4,22 +4,22 @@ import {readFile} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
 import {qodDatabase,ids,admin,asUser,call,uuid} from './helpers/qod-database.js';
 
+import {staffSession} from './helpers/staff-session.js';
+
 // Disposable local PostgreSQL only: no remote Auth, secrets, Storage or provider client.
 async function currentDatabase(t){
  const d=await qodDatabase(t);await admin(d);
  await d.exec('alter table auth.users add column if not exists created_at timestamptz default now()');
- for(const name of ['048_spotted_share.sql','049_notifications_mvp.sql','050_analytics_mvp.sql','051_admin_analytics_dashboard.sql','052_moderation_finalization.sql','053_operational_observability.sql','054_retention_phase_a.sql'])
+ for(const name of ['048_spotted_share.sql','049_notifications_mvp.sql','050_analytics_mvp.sql','051_admin_analytics_dashboard.sql','052_moderation_finalization.sql','053_operational_observability.sql','054_retention_phase_a.sql','055_staff_session_revocation.sql'])
   await d.exec(await readFile('supabase/migrations/'+name,'utf8'));
  return d;
 }
-async function aal(d,person,level='aal2'){
- await asUser(d,person);await d.query("select set_config('request.jwt.claims',$1,false)",[JSON.stringify({aal:level})]);
-}
+const aal=staffSession;
 async function initialAdmin(d){
  await admin(d);
  // Owner bootstrap is fixture setup, NOT an operational provisioning bypass.
  await d.query("insert into spot_private.moderation_roles(user_id,role)values($1,'ADMIN')",[ids.a]);
- await d.query("insert into auth.mfa_factors(user_id,status)values($1,'verified'),($2,'verified')",[ids.a,ids.b]);
+ await d.query("insert into auth.mfa_factors(user_id,status,factor_type)values($1,'verified','totp'),($2,'verified','totp')",[ids.a,ids.b]);
  await aal(d,ids.a);
 }
 
@@ -42,7 +42,7 @@ test('OPS: ADMIN AAL1, missing verified factor, revoked role and anonymous canno
  await aal(d,ids.a,'aal1');await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
  await admin(d);await d.query('delete from auth.mfa_factors where user_id=$1',[ids.a]);
  await aal(d,ids.a);await assert.rejects(call(d,'admin_analytics_dashboard()'),/DENIED|REQUIRED|ACCESS/);
- await admin(d);await d.query("insert into auth.mfa_factors(user_id,status)values($1,'verified')",[ids.a]);
+ await admin(d);await d.query("insert into auth.mfa_factors(user_id,status,factor_type)values($1,'verified','totp')",[ids.a]);
  await d.query('update spot_private.moderation_roles set active=false where user_id=$1',[ids.a]);
  await aal(d,ids.a);await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
  await admin(d);await d.exec('set role anon');
@@ -68,16 +68,16 @@ test('OPS Phase A: moderator AAL1/factor loss/revocation deny direct RPC, includ
 test('OPS Phase A: revoked ADMIN cannot retain access; recovery on new principal never reauthorizes old AAL2 claims',async t=>{
  const d=await currentDatabase(t);await initialAdmin(d);
  await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.b,uuid()]);
- await aal(d,ids.b);await call(d,'ops_health()');await call(d,'admin_analytics_dashboard()');
+ const oldSession=await aal(d,ids.b);await call(d,'ops_health()');await call(d,'admin_analytics_dashboard()');
  await aal(d,ids.a);await call(d,"moderation_role_set($1,'REVOKED',$2)",[ids.b,uuid()]);
  await aal(d,ids.b);await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);
  await assert.rejects(call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,uuid()]),/DENIED/);
- // Re-granting the SAME UUID deliberately restores role access even to still-valid
- // aal2 claims. Prove this limitation rather than claiming JWT revocation exists.
+ // Same old provider session cannot regain privileges after a regrant.
  await aal(d,ids.a);await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.b,uuid()]);
+ await aal(d,ids.b,'aal2',oldSession);await assert.rejects(call(d,'ops_health()'),/DENIED/);
  await aal(d,ids.b);await call(d,'ops_health()');
  await aal(d,ids.a);await call(d,"moderation_role_set($1,'REVOKED',$2)",[ids.b,uuid()]);
- await admin(d);await d.query("insert into auth.mfa_factors(user_id,status)values($1,'verified')",[ids.c]);
+ await admin(d);await d.query("insert into auth.mfa_factors(user_id,status,factor_type)values($1,'verified','totp')",[ids.c]);
  await aal(d,ids.a);const op=uuid();await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,op]);
  await call(d,"moderation_role_set($1,'ADMIN',$2)",[ids.c,op]);
  await aal(d,ids.c,'aal1');await assert.rejects(call(d,'ops_health()'),/DENIED|REQUIRED|ACCESS/);

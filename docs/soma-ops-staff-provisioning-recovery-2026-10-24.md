@@ -1,5 +1,12 @@
 # Staging staff — provisioning, revoca e recovery
 
+> Aggiornamento 25 ottobre: migration055 staging applicata. Il contratto corrente
+> di sessione/revoca è [staff session hardening](soma-staff-session-revocation-2026-10-25.md).
+> Le sezioni sotto che descrivono il limite dei vecchi JWT sono evidenza storica
+> pre-055, non la policy corrente. Nessun ruolo reale ancora assegnato.
+> Dopo ogni primo grant/regrant: nuovo login dopo il grant + MFA; il vecchio
+> AAL2 pre-grant non basta. Non attendere un TTL come alternativa al nuovo guard.
+
 Perimetro: solo `zjinjtkekmaqtxsuyvho`, schema attuale025/051/052/053. Questo è un processo operativo, non una nuova API o una delega cloud. Nessuna procedura di questo documento è stata eseguita su account reali. Stato: **provisioning e recovery umano live BLOCKED**, test SQL locali PASS nel report Phase A.
 
 ## Ruoli effettivi

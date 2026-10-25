@@ -1,5 +1,8 @@
 # OPS ADMIN/MODERATOR provisioning gate — 2026-10-25
 
+> Evidenza storica del blocker pre-055. Risoluzione: [hardening staging](soma-staff-session-revocation-2026-10-25.md).
+> Il provisioning reale resta non eseguito; il nuovo guard è pronto per quel task separato.
+
 Status: **OPS ADMIN/MODERATOR PROVISIONING: BLOCKED**.
 Scope: staging only. No grants, revocations, factor mutations or account deletions
 were executed. Both nominated accounts remain dedicated staging accounts without

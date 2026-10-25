@@ -5,6 +5,7 @@ export async function database({limit=19}={}){
  await db.exec(`create role anon;create role authenticated;create role service_role;create schema auth;create schema storage;
  create table auth.users(id uuid primary key,is_anonymous boolean not null default false);
  create table auth.mfa_factors(id uuid primary key default gen_random_uuid(),user_id uuid references auth.users(id)on delete cascade,factor_type text,status text,secret text,created_at timestamptz,updated_at timestamptz);
+ create table auth.sessions(id uuid primary key,user_id uuid references auth.users(id)on delete cascade,created_at timestamptz not null default clock_timestamp(),not_after timestamptz,aal text,factor_id uuid references auth.mfa_factors(id)on delete cascade);
  create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
  create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);
