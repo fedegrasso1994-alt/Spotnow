@@ -1,0 +1,10 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOMA — provisioning canary staging</title><link rel="stylesheet" href="/style.css"></head><body><main>
+<h1>Canary ruoli — solo staging</h1><p>Solo i due account operativi nominati. Nessun enrollment/reset MFA. Non condividere screenshot, password, OTP o sessioni.</p>
+<label for="account">Account</label><select id="account"></select>
+<form id="login"><label for="email">Email account selezionato</label><input id="email" type="email" required autocomplete="username"><label for="password">Password</label><input id="password" type="password" required autocomplete="current-password"><button>Nuovo login</button></form>
+<form id="verify"><label for="code">Codice autenticatore</label><input id="code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required autocomplete="off"><button>Verifica MFA</button></form>
+<label for="phase">Fase indicata da Codex</label><select id="phase"></select><button id="probe">Verifica accessi</button>
+<button id="grant">ADMIN: assegna MODERATOR tramite RPC</button><button id="revoke">ADMIN: revoca MODERATOR per canary</button><button id="restore">ADMIN: ripristina MODERATOR per canary</button><button id="logout">Esci e verifica vecchia sessione</button>
+<p id="status" role="status"></p><pre id="summary"></pre>
+<p>Non chiudere la scheda prima dei test revoke/regrant: la stessa sessione deve restare in memoria per la verifica. Un nuovo login non è un sostituto per il test stale.</p>
+</main><script type="module" src="/setup.js"></script></body></html>
