@@ -13,6 +13,8 @@ export function validateConfig(config){
  if(!Array.isArray(accounts)||!accounts.length||new Set(accounts.map(a=>a.id)).size!==accounts.length||new Set(accounts.map(a=>a.label)).size!==accounts.length||accounts.some(a=>!['ADMIN','MODERATOR'].includes(a.label)||!uuid.test(a.id)))throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
  if(config.repair){
   if(accounts.length!==1||accounts[0].label!=='ADMIN'||config.repair.accountId!==accounts[0].id||!uuid.test(config.repair.factorId)||!/^admin-[a-z0-9-]{1,64}$/.test(config.repair.attemptKey))throw Error('ADMIN_REPAIR_ONLY');
+ }else if(config.scopeAccountId){
+  if(accounts.length!==1||accounts[0].id!==config.scopeAccountId)throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
  }else if(accounts.length!==2)throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
  return config;
 }

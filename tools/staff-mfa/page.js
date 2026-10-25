@@ -8,6 +8,13 @@ let stage='READY';
 $('repair').hidden=!config.repair;$('enroll').hidden=Boolean(config.repair);
 if(config.repair){document.title='SOMA — riparazione MFA ADMIN · un tentativo';$('heading').textContent='Riparazione MFA — solo ADMIN staging';$('intro').textContent='Custode: Federico. Solo ADMIN autorizzato; MODERATOR escluso. Nessun ruolo viene assegnato.';$('directions').textContent='Chiudi la vecchia scheda. Login ADMIN → riparazione mirata → scansione privata → Verifica MFA → Esci → nuovo login ADMIN → Verifica MFA → Esci. Non ricaricare mentre il QR è attivo. In caso di errore enrollment: STOP, nessun nuovo tentativo.';}
 for(const a of config.accounts){const option=document.createElement('option');option.value=a.id;option.textContent=a.label+' — '+a.id;$('account').append(option);}
+if(config.scopeAccountId&&!config.repair){
+ const label=config.accounts[0].label;
+ document.title=`SOMA — MFA ${label} staging`;
+ $('heading').textContent=`Setup MFA — solo ${label} staging`;
+ $('intro').textContent=`Custode: Federico. Solo ${label} autorizzato. Nessun ruolo viene assegnato.`;
+ $('directions').textContent='Login → se esiste un fattore verified usa Verifica MFA; altrimenti Attiva MFA solo se non esistono fattori → scansione privata → Verifica MFA → Esci → nuovo login → Verifica MFA. Se enrollment fallisce, STOP. Non ricaricare mentre il QR è attivo.';
+}
 function clearQr(){$('qr').removeAttribute('src');$('qr').hidden=true;$('code').value='';}
 function render(){
  $('account').disabled=busy||session;$('login').hidden=session;
