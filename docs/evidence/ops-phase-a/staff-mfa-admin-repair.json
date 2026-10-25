@@ -1,0 +1,33 @@
+{
+  "baseline": "272a135691db4504ead27f0c80957272d3aabbfe",
+  "target": "ADMIN only, nominated staging account",
+  "svg_fix": "XML prolog/comments plus browser DOMParser; img rendering remains isolated",
+  "preflight": "exact authorized TOTP still unverified; no verified factors or assigned role",
+  "targeted": {
+    "tests": 13,
+    "pass": 13,
+    "fail": 0,
+    "skipped": 0
+  },
+  "full": {
+    "tests": 796,
+    "pass": 796,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "local_smoke": "ADMIN-only configuration; exact authorized factor; persistent attempt unused at preflight; no Auth request by agent",
+  "live_removal": "PENDING_OWNER_AUTH_SESSION",
+  "live_enrollment": "PENDING_OWNER_AUTH_SESSION",
+  "mfa_verified_aal2_and_relogin": "PENDING_OWNER_INTERACTION",
+  "role_grants": 0,
+  "moderator_auth_access": false,
+  "production_touched": false,
+  "log_sha256": {
+    "targeted.log": "356e11b6588fc8916492f24d6705e5cbec9018130c74e11047397c54491c7ad4",
+    "full-tests.log": "89c602e95303b9db2e481eacdbe1a437ebd607e05edeb47d66c620dd189255a1",
+    "build.log": "57b6b8dbb26048e561f3248253ae1cc262510399e1e6f54129a5755ea10782c2",
+    "typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

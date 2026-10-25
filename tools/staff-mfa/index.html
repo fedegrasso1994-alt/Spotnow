@@ -1,10 +1,11 @@
 <!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SOMA — MFA staging locale</title><link rel="stylesheet" href="/style.css"></head><body><main>
-<h1>Setup MFA — solo staging</h1><p>Custode: Federico. ADMIN e MODERATOR sono le destinazioni previste: <strong>nessun ruolo viene assegnato da questa pagina.</strong></p>
+<h1 id="heading">Setup MFA — solo staging</h1><p id="intro">Custode: Federico. ADMIN e MODERATOR sono le destinazioni previste: <strong>nessun ruolo viene assegnato da questa pagina.</strong></p>
 <p>Login, QR e codici transitano solo tra questo browser e Auth Supabase staging. Nessun salvataggio di sessione nel browser. Non condividere screenshot.</p>
 <label for="account">Account dedicato</label><select id="account"></select>
 <form id="login"><label for="email">Email dell’account selezionato</label><input id="email" type="email" required autocomplete="username"><label for="password">Password</label><input id="password" type="password" required autocomplete="current-password"><button id="login-button">Accedi</button></form>
 <button id="enroll" type="button" disabled>Attiva MFA</button><img id="qr" hidden alt="QR MFA privato: scansionare solo con il proprio autenticatore">
+<button id="repair" type="button" hidden disabled>Rimuovi il solo fattore incompleto e attiva MFA — un tentativo</button>
 <form id="verify"><label for="code">Codice autenticatore</label><input id="code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="off" required><button id="verify-button" disabled>Verifica MFA</button></form>
 <button id="logout" type="button" disabled>Esci</button><p id="status" role="status" aria-live="polite">Caricamento setup…</p><pre id="summary"></pre>
-<p>Per ciascun account: login → Attiva MFA → scansione → Verifica MFA → Esci → nuovo login → Verifica MFA → Esci. Non ricaricare durante enrollment: il QR è solo in memoria.</p>
+<p id="directions">Per ciascun account: login → Attiva MFA → scansione → Verifica MFA → Esci → nuovo login → Verifica MFA → Esci. Non ricaricare durante enrollment: il QR è solo in memoria.</p>
 </main><script type="module" src="/setup.js"></script></body></html>

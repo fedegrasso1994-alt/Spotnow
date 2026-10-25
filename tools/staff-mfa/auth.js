@@ -9,7 +9,11 @@ export function validateConfig(config){
   if(key.split('.').length!==3||claims.role!=='anon'||claims.ref!=='zjinjtkekmaqtxsuyvho')throw Error('PUBLIC_KEY_REQUIRED');
  }
  const accounts=config.accounts;
- if(!Array.isArray(accounts)||accounts.length!==2||new Set(accounts.map(a=>a.id)).size!==2||new Set(accounts.map(a=>a.label)).size!==2||accounts.some(a=>!['ADMIN','MODERATOR'].includes(a.label)||!/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(a.id)))throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
+ const uuid=/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i;
+ if(!Array.isArray(accounts)||!accounts.length||new Set(accounts.map(a=>a.id)).size!==accounts.length||new Set(accounts.map(a=>a.label)).size!==accounts.length||accounts.some(a=>!['ADMIN','MODERATOR'].includes(a.label)||!uuid.test(a.id)))throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
+ if(config.repair){
+  if(accounts.length!==1||accounts[0].label!=='ADMIN'||config.repair.accountId!==accounts[0].id||!uuid.test(config.repair.factorId)||!/^admin-[a-z0-9-]{1,64}$/.test(config.repair.attemptKey))throw Error('ADMIN_REPAIR_ONLY');
+ }else if(accounts.length!==2)throw Error('EXPLICIT_ACCOUNTS_REQUIRED');
  return config;
 }
 export function stagingAuthFetch(fetcher){
@@ -20,9 +24,22 @@ export function stagingAuthFetch(fetcher){
   return fetcher(input,init);
  };
 }
-function ok(result){if(result.error)throw Error('AUTH_OPERATION_FAILED');return result.data;}
-export function createStaffSetup(client,expectedId){
- let factor=null,qr=null;
+// Codes/status only: never surface provider messages or success payloads with QR/session.
+export function safeError(error){return [error?.message==='AUTH_OPERATION_FAILED'?'AUTH_OPERATION_FAILED':/^[A-Z][A-Z0-9_]{1,80}$/.test(error?.message||'')?error.message:'OPERATION_FAILED',typeof error?.authCode==='string'&&/^[a-z0-9_]{1,80}$/.test(error.authCode)?error.authCode:null,Number.isInteger(error?.httpStatus)?'HTTP '+error.httpStatus:null].filter(Boolean).join(' · ');}
+function ok(result){if(result.error){const e=Error('AUTH_OPERATION_FAILED');e.authCode=result.error.code;e.httpStatus=result.error.status;throw e;}return result.data;}
+export function normalizeSvgQr(raw){
+ if(typeof raw!=='string'||raw.length>1024*1024)throw Error('ENROLLMENT_INCOMPLETE');
+ const image=raw.replace(/^data:image\/svg\+xml;utf-8,/, '');
+ const root=image.replace(/^\uFEFF?\s*(?:<\?xml\s[^?]*\?>\s*)?(?:<!--[\s\S]*?-->\s*)*/,'');
+ if(!/^<svg(?:\s|>)/.test(root)||!/<\/svg>\s*$/.test(root)||/<!DOCTYPE|<!ENTITY|<\?/i.test(root))throw Error('ENROLLMENT_INCOMPLETE');
+ if(typeof DOMParser!=='undefined'){
+  const parsed=new DOMParser().parseFromString(image,'image/svg+xml');
+  if(parsed.querySelector('parsererror')||parsed.documentElement.localName!=='svg'||parsed.documentElement.namespaceURI!=='http://www.w3.org/2000/svg')throw Error('ENROLLMENT_INCOMPLETE');
+ }
+ return image;
+}
+export function createStaffSetup(client,expectedId,{repair=null,claimEnrollment=null}={}){
+ let factor=null,qr=null,enrollmentAttempted=false,removalAttempted=false,removalCompleted=false;
  async function identity(){
   const data=ok(await client.auth.getUser());
   if(data.user?.id!==expectedId||data.user.is_anonymous||!data.user.email_confirmed_at)throw Error('DEDICATED_CONFIRMED_ACCOUNT_REQUIRED');
@@ -41,12 +58,31 @@ export function createStaffSetup(client,expectedId){
   },
   async enroll(){
    await identity();if(qr)return qr;
+   if(repair&&enrollmentAttempted)throw Error('ENROLLMENT_ATTEMPT_ALREADY_USED');
    const factors=ok(await client.auth.mfa.listFactors());
    if((factors.all||[]).length)throw Error('EXISTING_FACTOR_USE_VERIFY_OR_REVIEW');
+   if(repair){
+    if(repair.accountId!==expectedId||typeof claimEnrollment!=='function'||!removalCompleted)throw Error('ADMIN_REPAIR_ONLY');
+    enrollmentAttempted=true;await claimEnrollment();
+   }
    const enrolled=ok(await client.auth.mfa.enroll({factorType:'totp',friendlyName:'SOMA staging staff'}));
-   const image=enrolled.totp?.qr_code?.replace(/^data:image\/svg\+xml;utf-8,/, '');
-   if(enrolled.type!=='totp'||!enrolled.id||typeof image!=='string'||!image.startsWith('<svg'))throw Error('ENROLLMENT_INCOMPLETE');
+   if(enrolled.type!=='totp'||!enrolled.id)throw Error('ENROLLMENT_INCOMPLETE');
+   const image=normalizeSvgQr(enrolled.totp?.qr_code);
    factor=enrolled.id;qr=image;return qr;
+  },
+  async removeIncompleteFactor(){
+   await identity();
+   if(!repair||repair.accountId!==expectedId||removalAttempted)throw Error('ADMIN_REPAIR_ONLY');
+   const factors=ok(await client.auth.mfa.listFactors()).all||[];
+   const level=ok(await client.auth.mfa.getAuthenticatorAssuranceLevel()).currentLevel;
+   const target=factors.find(f=>f.id===repair.factorId);
+   // AAL1 is intentional: provider denies deleting a concurrently verified factor
+   // without AAL2. Never elevate or reset global MFA to make deletion succeed.
+   if(level!=='aal1'||factors.length!==1||target?.factor_type!=='totp'||target.status!=='unverified')throw Error('REPAIR_FACTOR_NOT_UNVERIFIED');
+   removalAttempted=true;ok(await client.auth.mfa.unenroll({factorId:repair.factorId}));
+   if((ok(await client.auth.mfa.listFactors()).all||[]).length)throw Error('REPAIR_FACTOR_REMAINS');
+   removalCompleted=true;
+   return {removed:true};
   },
   async verify(code){
    await identity();if(!/^\d{6}$/.test(code))throw Error('SIX_DIGITS_REQUIRED');

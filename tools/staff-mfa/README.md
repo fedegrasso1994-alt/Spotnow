@@ -5,6 +5,45 @@ Edge o deploy. Nessuna funzione di grant/revoke ruolo. Solo Auth del progetto
 `zjinjtkekmaqtxsuyvho`. I due account ammessi sono nominati dal founder nella
 config locale ignorata, non per email o UID hardcoded nel bundle/repository.
 
+## Riparazione ADMIN autorizzata —25ottobre
+
+La configurazione attuale ammette **unicamente ADMIN**. `repair.accountId` e
+`repair.factorId` fissano l'identità e il singolo fattore autorizzati dal founder;
+`repair.attemptKey` identifica un unico tentativo. MODERATOR non è selezionabile.
+La modalità ordinaria con due account non viene riattivata da questo intervento.
+
+Chiudere la vecchia scheda prima di aprire il setup aggiornato. Dopo login ADMIN,
+il pulsante di riparazione compie, solo nella sessione personale del titolare:
+
+1. `getUser()` e `listFactors()`: UID nominato, un solo fattore, ID esatto,
+   TOTP unverified, sessione AAL1. Qualsiasi variazione→STOP.
+2. `auth.mfa.unenroll({factorId})` soltanto su quell'ID, poi nuova lettura per
+   confermare assenza. Nessun SQL DELETE, admin key, reset globale o MFA-disable.
+   Si richiede AAL1: Supabase richiede AAL2 per eliminare un fattore verified,
+   quindi una verifica concorrente deve rendere la DELETE negata, non autorizzata.
+3. Prenotazione atomica locale del singolo tentativo, poi un solo `mfa.enroll`.
+   Marker ignorato0600 creato con `open('wx')` prima della richiesta Auth. Reload
+   o due schede non possono prenotare un secondo tentativo nel nuovo setup.
+   File mai cancellato/reset automaticamente. Timeout/esito incerto→STOP.
+4. QR mostrato privatamente al titolare. Sono ammessi prologo XML/commenti
+   standard prima della radice SVG; browser verifica XML/root namespace con
+   DOMParser e rendering resta via `<img>`, mai innerHTML. Niente DTD/entity/PI.
+5. Titolare verifica codice→fattore verified/AAL2→Esci→nuovo login ADMIN→nuova
+   challenge→AAL2. Al secondo AAL2 lasciare aperto e avvisare l'agente, che può
+   leggere metadata minimi server-side, mai session token o seed.
+
+Il marker governa questo **strumento operativo**, non modifica l'API Supabase o
+impedisce al titolare di usare altri client Auth. Non riutilizzare vecchie schede
+o strumenti paralleli. Nessuna garanzia di esclusione globale viene inventata.
+Errori mostrano solo fase, codice Auth e status HTTP; il messaggio grezzo del
+provider non è copiato perché può contenere dati personali. Non condividere QR,
+OTP, screenshot o sessioni. Un errore enrollment disabilita altre mutazioni nella
+pagina; nessun retry automatico, nessun fallback a un'altra identità.
+
+La rimozione richiede la sessione personale ADMIN: l'agente non recupera la
+sessione del browser o le credenziali per eseguirla. Preparazione/test locali
+non equivalgono a rimozione/enrollment live già eseguiti.
+
 ## Esecuzione sul Mac
 
 Prerequisiti: account dedicati già creati e confermati dal titolare; Node e
@@ -49,7 +88,9 @@ Un errore generico non è prova di attivazione riuscita: serve stato verified/AA
 ## Confini di privacy e sicurezza
 
 Password/codici vanno direttamente dal browser a Supabase Auth. Il server locale
-serve esclusivamente file statici e config pubblica: rifiuta POST, Host/Origin
+serve file statici e config pubblica; in repair accetta solo la prenotazione
+vuota POST `/repair/claim` dallo stesso Origin, senza credenziali nel body.
+Rifiuta gli altri POST, Host/Origin
 estranei e path arbitrari. No request logger, proxy Auth, CDN, analytics, SDK
 esterni nuovi, service worker o session persistence. CSP blocca framing e form
 submission; connect limitato a self/staging Auth, con guard aggiuntivo che rifiuta
