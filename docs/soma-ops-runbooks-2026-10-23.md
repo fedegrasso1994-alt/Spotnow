@@ -14,7 +14,7 @@ Per ogni intervento: ID caso privato, UTC, owner, sintomo/SEV, stato iniziale, a
 2. Selezionare la precedente URL immutabile verificata, controllare ref Supabase staging e compatibilità con schema/RPC correnti. Non scegliere una vecchia shell o un frontend pre-autorizzazione036/PHOTO02.
 3. Reindirizzare la review a quella URL, preservando Deployment Protection. Una URL immutabile errata non viene sovrascritta: un eventuale nuovo deploy/alias è un'azione separata da autorizzare. Se Authredirect assente, serve la sola voce staging approvata, mai cambio Site URL improvvisato.
 4. Smoke: asset/import, login e reload/logout, nav TRIBE|SPOTTED|ORA|MATCH|PROFILO, no contenuto protetto dopo logout, diritti/foto/core nei gate consentiti. Non attivare DD/push/cleanup per verificare una shell.
-5. Se nessun deployment compatibile o accesso403: mantenere review bloccata, preparare forward-fix; non disattivare protezione né ottenere token manuali per aggirarla. In questo task la verifica live è403, NON rollback riuscito.
+5. Se nessun deployment compatibile o accesso403: mantenere review bloccata, preparare forward-fix; non disattivare protezione né ottenere token manuali per aggirarla. Follow-up 26 ottobre: 403 risolto con autorizzazione team della connessione; letture deployment disponibili. Simulazione URL immutabili A→B→A PASS sulla shell pubblica, non rollback alias o smoke autenticato. Vedi [evidenze correnti](soma-backup-restore-vercel-rollback-2026-10-26.md#g–j-vercel-accesso-inventario-e-prova).
 
 ### Production — SOLO futura autorizzazione
 
@@ -37,7 +37,7 @@ Vercel Instant Rollback ripristina build/config precedente, non aggiorna automat
 6. Recuperare sole copie canonicali ancora necessarie da manifest coerente; niente originali scartati, niente new bucket pubblico o retention PHOTO allungata. Missing/unknown/review→STOP e riconciliazione con prova, non purge per età.
 7. Solo dopo canary sintetici core, diritti, foto, permessi e assenza side effect: owner approva riapertura a gate, job ultimi. Misurare RPO/RTO effettivi, far scadere copie temporanee/manifest secondo policy approvata e revocare accessi temporanei.
 
-Oggi: API staging senza restore point dimostrato, PITRfalse, branch isolati0. Il drill locale dimostra restore schema e rischio di resurrezione, non restore cloud. La documentazione Supabase distingue [backup DB dai bytes Storage](https://supabase.com/docs/guides/platform/backups).
+Aggiornamento 26 ottobre: console staging conferma Free, senza project backups; PITR non attivo, restore-to-new-project richiede Pro. API senza timestamp/restore point dimostrato, branch isolati0. `walg_enabled:true` non certifica backup recuperabili. STOP prima di upgrade o restore. [Report e acceptance cloud](soma-backup-restore-vercel-rollback-2026-10-26.md). Il drill locale dimostra restore schema e rischio di resurrezione, non restore cloud. La documentazione Supabase distingue [backup DB dai bytes Storage](https://supabase.com/docs/guides/platform/backups).
 
 ## RB-C — Auth e outage provider
 
@@ -63,6 +63,8 @@ Modello di comunicazione **interno candidato, non inviato**: percorso interessat
 4. DB sano/bytes persi: serve backup Storage validato. DB restore senza bytes non risolve foto. Storage sano/DBperso: ricostruzione soltanto da manifest/ledger autorevoli; nome/percorso somigliante non basta. Nessun download/reupload di foto reali per un drill.
 5. Review/unknown e oggetti non attribuiti preservati, riconciliazione esplicita con prova terminale. Mai età/assenza momentanea come autorizzazione al purge. Nessun oggetto rimosso da questo task.
 6. Riapertura solo canary/nuovoepoch/gate e verifica current/varianti/ledger/quota. Cleanup e scheduler ultimi secondo PHOTO02, non attivati dalla retention generica. Eviction browser/CDN non istantanea, pixels già consegnati non richiamabili.
+
+Aggiornamento 26 ottobre: 42 oggetti metadata, bucket privato, current/variant missing metadata0; nessun GET dei bytes. Sei oggetti referenziati da asset non sono attribuiti alla semplice proiezione ledger: preservare e riconciliare, non chiamarli orfani eliminabili. Backup bytes non verificato, versioning nativo S3 non supportato; nessun drill cloud eseguito. Manifest/receipt non ricostruiscono pixels. [Limiti e mitigazione da approvare](soma-backup-restore-vercel-rollback-2026-10-26.md).
 
 ## RB-E — Secret exposure / accesso compromesso
 

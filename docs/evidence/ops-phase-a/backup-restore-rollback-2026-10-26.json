@@ -1,0 +1,130 @@
+{
+  "observed_on": "2026-10-26",
+  "vercel": {
+    "team": "team_wlAVvnWmjj5TSD0TS72gXO92",
+    "project": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ",
+    "initial_error": {
+      "status": 403,
+      "code": "forbidden",
+      "scope": "fedegrasso1994-1482",
+      "saml": false,
+      "ssoEnforced": false
+    },
+    "team_authorization": "FOUNDER_APPROVED_REAUTH_THEN_METADATA_SUCCESS",
+    "protection_before": {
+      "enabled": true,
+      "deploymentType": "all_except_custom_domains"
+    },
+    "protection_after": {
+      "enabled": true,
+      "deploymentType": "all_except_custom_domains"
+    },
+    "current": {
+      "id": "dpl_CWHd6z2bQmXUssX8FSaQfwYyZMXW",
+      "url": "spot-pbhht3a4y-fedegrasso1994-1482.vercel.app",
+      "target": null,
+      "state": "READY",
+      "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ",
+      "branch": "codex/soma-schema-v2-staging",
+      "sha": "3f17ff1523cf98eb1b9c388cc6bac48518f3ae93"
+    },
+    "previous": {
+      "id": "dpl_2svcK7Ze1jPedMxB2ThMJyfF3wtG",
+      "url": "spot-2rhspdi2y-fedegrasso1994-1482.vercel.app",
+      "target": null,
+      "state": "READY",
+      "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ",
+      "branch": "codex/soma-schema-v2-staging",
+      "sha": "e8a399d72bcc1da86ebc513e3134670a5fa5e2d7"
+    },
+    "aliases_before": [
+      {
+        "alias": "spot-now-alpha.vercel.app",
+        "deploymentId": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+        "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ"
+      },
+      {
+        "alias": "spot-now-fedegrasso1994-1482.vercel.app",
+        "deploymentId": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+        "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ"
+      }
+    ],
+    "aliases_after": [
+      {
+        "alias": "spot-now-alpha.vercel.app",
+        "deploymentId": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+        "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ"
+      },
+      {
+        "alias": "spot-now-fedegrasso1994-1482.vercel.app",
+        "deploymentId": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+        "projectId": "prj_zJG3gK7HboAKb0H6XMlF6yRZ5sWZ"
+      }
+    ],
+    "drill": {
+      "kind": "READ_ONLY_IMMUTABLE_URL_FALLBACK",
+      "order": [
+        "dpl_CWHd6z2bQmXUssX8FSaQfwYyZMXW",
+        "dpl_2svcK7Ze1jPedMxB2ThMJyfF3wtG",
+        "dpl_CWHd6z2bQmXUssX8FSaQfwYyZMXW"
+      ],
+      "browser_result": "Soma welcome rendered on A, B, A",
+      "current_entry": "/assets/index-pQLF8Mq3.js",
+      "previous_entry": "/assets/index-DUWZ0SkY.js",
+      "entry_config_staging": true,
+      "alias_mutations": 0,
+      "deployments_created": 0,
+      "production_rollback_performed": false,
+      "auth_login_performed": false
+    }
+  },
+  "database": {
+    "project_ref": "zjinjtkekmaqtxsuyvho",
+    "plan": "FREE_UI_CONFIRMED",
+    "backup_api": {
+      "backups": null,
+      "physical_backup_data": {},
+      "pitr_enabled": false,
+      "region": "eu-west-1",
+      "walg_enabled": true
+    },
+    "latest_recoverable_backup_at": null,
+    "branches": [],
+    "restore": "NOT_EXECUTED_NO_VERIFIABLE_BACKUP_OR_PAID_ISOLATED_TARGET"
+  },
+  "storage": {
+    "native_versioning": "UNSUPPORTED_OFFICIAL_DOCUMENTATION",
+    "bytes_backup_verified": false,
+    "objects_downloaded": 0,
+    "mutations": 0,
+    "object_metadata_count": 42,
+    "bucket_private": true,
+    "current_photos": 4,
+    "current_missing_metadata": 0,
+    "variant_missing_metadata": 0,
+    "outside_simple_ledger_projection": 6,
+    "outside_projection_referenced_by_assets": 6,
+    "asset_rows_linked_to_ledger_for_these_objects": 0,
+    "classification": "PRESERVE_RECONCILIATION_REQUIRED_NOT_PROVEN_DELETABLE_ORPHANS",
+    "review_unknown_sets": 3,
+    "byte_integrity_verified": false
+  },
+  "verification": {
+    "targeted_pass": 12,
+    "full_pass": 806,
+    "full_fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "cloud_fixtures_created": 0,
+    "roles_modified": 0,
+    "active_staff_roles": {
+      "admin": 1,
+      "moderator": 1
+    },
+    "retention_phase_a_schedule": "0 3 * * *",
+    "scheduler_mutations": 0,
+    "runtime_files_changed": 0,
+    "main_sha": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+    "gate": "BLOCKED"
+  }
+}

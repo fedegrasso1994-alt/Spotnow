@@ -6,6 +6,16 @@
 
 Follow-up24ottobre: [OPS Phase A — ruoli e migration history](soma-ops-phase-a-closure-2026-10-24.md). Audit aggiornato:279corpi funzione e99tabelle applicative ricostruiti con eccezioni documentate;36versioni ancora non registrate, nessun repair per supposizione. ADMIN/MODERATOR operativi ancora assenti. [Recovery staff](soma-ops-staff-provisioning-recovery-2026-10-24.md) precisa il rischio del regrant sullo stesso UUID mentre vecchi JWT AAL2 possono essere ancora validi; revoca ruolo immediata, ripristino solo dopo gate sessioni/identità. Nessun altro blocker rivalutato da quel task.
 
+## Aggiornamento vincolante — 26 ottobre 2026
+
+Le sezioni datate 23/24 ottobre sotto restano evidenze storiche; per i seguenti punti prevalgono i follow-up:
+
+- [Staff finale](soma-final-staging-staff-provisioning-2026-10-25.md): ADMIN/MODERATOR dedicati provisionati in staging, MFA e revoca sessioni verificati; non più assenti. Nessun grant in questo task.
+- [Backup/restore e rollback](soma-backup-restore-vercel-rollback-2026-10-26.md): Vercel403 risolto, due Preview/SHA verificati, fallback read-only A→B→A PASS; rollback alias/auth completo ancora non provato. Protezione e alias invariati.
+- Supabase staging Free confermato: niente project backups disponibili, PITR OFF, nessun restore point recuperabile verificato. Restore isolato cloud bloccato prima di upgrade/creazione. Backup bytes Storage non verificato; 42 oggetti metadata preservati.
+- OP07/08/09 recovery restano blocker; OP20 resta PARTIAL per mancata prova di rollback route/alias e smoke autenticato. RPO/RTO non dimostrati. Non confondere shell Preview con recovery dati riuscito.
+- Suite attuale 806/806, targeted recovery/staff 12/12, build/typecheck PASS. Nessun runtime/config/Production/main modificato. Gli altri blocker non sono rivalutati o chiusi da questo follow-up.
+
 ## A. Matrice readiness
 
 READY significa capacità dimostrata nel perimetro indicato, non certificazione generale. PARTIAL: implementazione/prova incompleta; MISSING: capacità/evidenza necessaria non disponibile; UNKNOWN / TO VERIFY: dato non verificato, non assenza presunta.
