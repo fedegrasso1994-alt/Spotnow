@@ -1,0 +1,43 @@
+{
+  "scope": "staging-only",
+  "source_ref": "zjinjtkekmaqtxsuyvho",
+  "gcp_project": "rare-array-510414-d9",
+  "checkpoint_id": "8f5b8523-d5a2-49ab-b99b-04388e7b4c76",
+  "snapshot_at": "2026-10-26T12:31:15.980443Z",
+  "encrypted_size": 2242848,
+  "ciphertext_sha256": "b33c06483d24a207b0536105206435875eed332ff55031723925753e56991c9c",
+  "gcs_upload": true,
+  "anonymous_object_http_status": 403,
+  "manual_gcs_download_size_and_hash_match": true,
+  "aead_and_manifest_hash_verification": "PASS",
+  "verified_files": 44,
+  "verified_photo_objects": 42,
+  "restore_database": "BLOCKED",
+  "restore_atomic_rollback": true,
+  "restored_application_tables_after_rollback": 0,
+  "blocker_constraint": "staff_revoked_sessions_session_id_fkey",
+  "blocker_reason": "session-dependent child data included while auth.sessions data excluded",
+  "storage_api_restore": "NOT_RUN",
+  "authenticated_restore_smoke": "NOT_RUN",
+  "post_cutoff_replay": "NOT_RUN",
+  "rpo_target_hours": 24,
+  "rpo_attested": false,
+  "rto_attested": false,
+  "automatic_checkpoint_schedule_enabled": false,
+  "decrypted_restore_temporary_files_removed": true,
+  "runtime_schema_photo_production_changed": false,
+  "main_sha": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "targeted_tests": {
+    "pass": 15,
+    "fail": 0
+  },
+  "status": "BACKUP / RESTORE RECOVERY: BLOCKED",
+  "full_tests": {
+    "pass": 821,
+    "fail": 0,
+    "skipped": 0,
+    "consecutive_runs": 2
+  },
+  "build": "PASS",
+  "typecheck": "PASS"
+}

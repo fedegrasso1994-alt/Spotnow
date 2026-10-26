@@ -1,5 +1,7 @@
 # SOMA — Backup recovery: infrastruttura e gate locale
 
+**Aggiornamento successivo:** [primo checkpoint GCS e restore isolato](soma-backup-checkpoint-restore-2026-10-26.md). Docker ora operativo e archivio scaricato/verificato; restore atomico bloccato dalla dipendenza delle ricevute staff da sessioni Auth escluse. Le sezioni seguenti descrivono il checkpoint infrastrutturale precedente, non lo stato finale della ripresa.
+
 26 ottobre 2026. Branch `codex/soma-schema-v2-staging`; baseline `96e6977b4319be8ad613770a490210da161432ff`. Stato: **BACKUP / RESTORE RECOVERY: BLOCKED**. Bucket predisposto, nessun checkpoint reale o restore dimostrato. Non è chiusura del disaster recovery né pilot GO.
 
 ## Decision freeze vigente
