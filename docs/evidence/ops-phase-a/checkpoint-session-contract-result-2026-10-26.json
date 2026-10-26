@@ -1,0 +1,44 @@
+{
+  "status": "CHECKPOINT SESSION DEPENDENCY: BLOCKED",
+  "scope": "checkpoint-tooling-staging-only",
+  "baseline": "4fd95b3f6201fce3a886d0d33c83c5ad03ea6492",
+  "contract_version": 2,
+  "catalog_tables": 136,
+  "new_excluded_data": [
+    "spot_private.staff_revoked_sessions"
+  ],
+  "runtime_migration_changed": false,
+  "targeted_tests": {
+    "pass": 22,
+    "fail": 0
+  },
+  "full_tests": {
+    "pass": 823,
+    "fail": 0,
+    "skipped": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "staff_guard_proof": "PostgreSQL-backed synthetic model; not a real GoTrue login",
+  "capture_phase": "inventory",
+  "capture_error": "RECOVERY_UNCLASSIFIED_SESSION_DEPENDENCY",
+  "new_dependency": {
+    "child": "auth.saml_relay_states",
+    "parent": "auth.flow_state",
+    "constraint": "saml_relay_states_flow_state_id_fkey"
+  },
+  "new_dump_generated": false,
+  "new_archive_generated": false,
+  "new_key_generated": false,
+  "new_gcs_upload": false,
+  "isolated_restore": "NOT_RUN",
+  "storage_restore": "NOT_RUN",
+  "real_auth_mfa_recovery": "NOT_RUN",
+  "rpo_attested": false,
+  "rto_attested": false,
+  "staging_data_mutated": false,
+  "staff_roles_mfa_mutated": false,
+  "photo_changed": false,
+  "main_production_changed": false,
+  "main_sha": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
+}

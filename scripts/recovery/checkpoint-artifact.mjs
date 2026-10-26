@@ -4,6 +4,7 @@ import { open, mkdir, rename, rm, lstat } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
+import { validateContract } from './session-contract.mjs';
 
 export const SOURCE = 'zjinjtkekmaqtxsuyvho';
 const MAGIC = Buffer.from('SOMA-RECOVERY-1\n');
@@ -28,6 +29,7 @@ export function validateManifest(m) {
       !Number.isFinite(Date.parse(m.snapshot_at)) ||
       !Array.isArray(m.files) || !m.files.length || m.files.length > 100000)
     fail('CHECKPOINT_MANIFEST');
+  validateContract(m.contract);
   const names = new Set();
   for (const f of m.files) {
     if (!nameOK(f.name) || names.has(f.name) ||
@@ -44,11 +46,11 @@ export function validateManifest(m) {
   return m;
 }
 
-export async function makeManifest({ sourceRef = SOURCE, snapshotAt, files }) {
+export async function makeManifest({ sourceRef = SOURCE, snapshotAt, files, contract }) {
   const entries = [];
   for (const { input, ...entry } of files) entries.push({ ...entry, ...await fileDigest(input) });
   return validateManifest({ version: 1, source_ref: sourceRef,
-    checkpoint_id: randomUUID(), snapshot_at: snapshotAt, files: entries });
+    checkpoint_id: randomUUID(), snapshot_at: snapshotAt, contract, files: entries });
 }
 
 function checkKey(key) { if (!Buffer.isBuffer(key) || key.length !== 32) fail('CHECKPOINT_KEY'); }

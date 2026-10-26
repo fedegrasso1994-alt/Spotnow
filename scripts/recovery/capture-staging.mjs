@@ -9,6 +9,7 @@ import { join, resolve, isAbsolute } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { sourceEnvironment, sourceProcess, DOCKER } from './source-connection.mjs';
 import { SOURCE, makeManifest, sealCheckpoint, fileDigest } from './checkpoint-artifact.mjs';
+import { EXCLUDED_DATA, makeContract } from './session-contract.mjs';
 
 const fail = code => { throw new Error(code); };
 export function storageDownloadArgs(object,target){
@@ -57,12 +58,14 @@ export async function captureStaging(root) {
   session.stdin.write(await readFile(new URL('./snapshot-inventory.sql',import.meta.url),'utf8')+'\n');
   const inventoryLine=await lines.next();if(inventoryLine.done)fail('RECOVERY_INVENTORY_UNAVAILABLE');
   const meta=checkInventory(JSON.parse(inventoryLine.value));
+  const contract=makeContract(meta.checkpoint_tables,meta.foreign_keys);
+  if(meta.auth_token_fields_nonempty!==0)fail('RECOVERY_AUTH_TOKEN_DATA_PRESENT');
   meta.source_ref=SOURCE;meta.exported_snapshot_id=snapshotId;
   await writeFile(join(root,'inventory.private.json'),JSON.stringify(meta),{flag:'wx',mode:0o600});
   phase='database-dump';
   const p=sourceProcess(env,'pg_dump',['--format=custom','--role=postgres','--snapshot='+snapshotId,
    '--schema=public','--schema=spot_private','--schema=auth','--schema=storage','--schema=extensions','--schema=supabase_migrations',
-   ...['auth.sessions','auth.refresh_tokens','auth.one_time_tokens','auth.flow_state','auth.mfa_challenges','auth.mfa_amr_claims'].map(t=>'--exclude-table-data='+t)]);
+   ...EXCLUDED_DATA.map(t=>'--exclude-table-data='+t)]);
   p.stdin.end();const dumpEnd=once(p,'close');
   p.stderr.pipe(createWriteStream(join(root,'dump.private.log'),{flags:'a',mode:0o600}));
   await pipeline(p.stdout,createWriteStream(join(root,'database.dump'),{flags:'wx',mode:0o600}));
@@ -87,7 +90,7 @@ export async function captureStaging(root) {
   if((await end)[0]!==0)fail('RECOVERY_SOURCE_SNAPSHOT_LOST');session=null;
   phase='seal';
   const keyDir=resolve('.local/recovery-keys');await mkdir(keyDir,{recursive:true,mode:0o700});
-  const manifest=await makeManifest({snapshotAt:meta.snapshot_at,files});
+  const manifest=await makeManifest({snapshotAt:meta.snapshot_at,files,contract});
   keyPath=join(keyDir,manifest.checkpoint_id+'.key');const key=randomBytes(32);
   const k=await open(keyPath,'wx',0o600);await k.writeFile(key);await k.sync();await k.close();
   const output=join(root,manifest.checkpoint_id+'.soma.enc');

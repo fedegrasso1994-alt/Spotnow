@@ -7,6 +7,7 @@ import { randomBytes, createCipheriv } from 'node:crypto';
 import { makeManifest, validateManifest, sealCheckpoint, openCheckpoint, fileDigest } from '../scripts/recovery/checkpoint-artifact.mjs';
 import { parseSourceEnvironment } from '../scripts/recovery/source-connection.mjs';
 import { checkInventory, storageDownloadArgs } from '../scripts/recovery/capture-staging.mjs';
+import {makeContract,EXCLUDED_DATA}from'../scripts/recovery/session-contract.mjs';
 
 async function fixture(t) {
   const root = await mkdtemp(join(tmpdir(), 'soma-recovery-test-'));
@@ -19,7 +20,7 @@ async function fixture(t) {
   await writeFile(files[0].input, 'SYNTHETIC DB ARTIFACT ONLY');
   await writeFile(files[1].input, '{"synthetic":true}');
   await writeFile(files[2].input, randomBytes(65537));
-  const manifest = await makeManifest({ snapshotAt: '2026-10-26T12:00:00Z', files });
+  const manifest = await makeManifest({ snapshotAt: '2026-10-26T12:00:00Z', files, contract:makeContract([...EXCLUDED_DATA,'auth.users'],[]) });
   return { root, files, manifest, key: randomBytes(32), output: join(root, 'checkpoint.enc') };
 }
 
@@ -59,7 +60,7 @@ test('RECOVERY: missing and changed inputs never publish a valid artifact; retry
   await writeFile(f.files[2].input, 'changed after snapshot');
   await assert.rejects(sealCheckpoint(f), /CHECKPOINT_FILE_CHANGED/);
   await assert.rejects(access(f.output));
-  const manifest = await makeManifest({ snapshotAt: f.manifest.snapshot_at, files: f.files });
+  const manifest = await makeManifest({ snapshotAt: f.manifest.snapshot_at, files: f.files, contract:f.manifest.contract });
   assert.notEqual(manifest.checkpoint_id, f.manifest.checkpoint_id);
   await sealCheckpoint({ ...f, manifest });
   await openCheckpoint({ input: f.output, key: f.key, outputDir: join(f.root, 'retry') });

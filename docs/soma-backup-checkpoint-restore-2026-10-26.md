@@ -1,5 +1,7 @@
 # SOMA — primo checkpoint GCS e restore isolato
 
+**Follow-up:** [contratto sessioni v2](soma-checkpoint-session-contract-2026-10-26.md): fix candidato staff testato, nuovo capture fermato prima del dump su dipendenza SAML non classificata. Il restore fallito qui sotto resta l'ultima prova DB reale; nessun restore v2 attestato.
+
 26 ottobre 2026. Branch `codex/soma-schema-v2-staging`, baseline `32c5346c7d640ec3c41b864a3682d4aac51da031`.
 
 **BACKUP / RESTORE RECOVERY: BLOCKED**. L'archivio è stato recuperato da GCS e verificato; il restore DB è fallito atomicamente. Nessun restore point attestato, nessun GO pilot.

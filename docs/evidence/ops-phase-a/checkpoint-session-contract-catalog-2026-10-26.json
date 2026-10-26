@@ -1,0 +1,693 @@
+{
+  "status": "CANDIDATE_BLOCKED",
+  "contract_version": 2,
+  "source_ref": "zjinjtkekmaqtxsuyvho",
+  "tables": [
+    {
+      "table": "auth.audit_log_entries",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.custom_oauth_providers",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.flow_state",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.identities",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.instances",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.mfa_amr_claims",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.mfa_challenges",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.mfa_factors",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.mfa_recovery_code_sets",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.mfa_recovery_codes",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.oauth_authorizations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.oauth_client_states",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.oauth_clients",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.oauth_consents",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.one_time_tokens",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.refresh_tokens",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.saml_providers",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.saml_relay_states",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": false
+    },
+    {
+      "table": "auth.schema_migrations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.scim_tokens",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.scim_users",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.sessions",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.sso_domains",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.sso_providers",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.users",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.webauthn_challenges",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "auth.webauthn_credentials",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.blocks",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.checkins",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.matches",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.messages",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.profiles",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "public.venues",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.account_deletions",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.account_eligibility",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.account_onboarding",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.age_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_admission",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_anonymous_rollups",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_days",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.analytics_fairness",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.anonymous_blocks",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_audit",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_comment_quota",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_comments",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_evidence",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_likes",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_posts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_preferences",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_quota",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_reactions",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_receipts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_reports",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_request_attempts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_request_pair_guards",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_request_quota",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.board_romantic_requests",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.consent_challenges",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.consent_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.consent_state",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.consent_versions",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.dd_admission_accounts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_allocations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_exposures",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_fairness_buckets",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_pair_memory",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_policy",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.discovery_windows",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.interests",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.moderation_audit",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.moderation_reviews",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.moderation_role_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.moderation_roles",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.moderators",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.notification_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.notification_deliveries",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.notification_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_admission",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_events",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_incidents",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_job_policy",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ops_jobs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ora_spot_daily_quota",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ora_spot_place_quota",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.ora_spot_policy",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_assets",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_cleanup_accounts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_cutover_attempts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_cutover_audit",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_cutover_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_cutover_deletions",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_legacy",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_lifecycle_anomalies",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_lifecycle_sets",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_review_audit",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_upload_accounts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.photo_upload_jobs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.privacy_environment",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.privacy_logs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.push_bindings",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.qod_answer_claims",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.reports",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.retention_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.retention_phase_a_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.retention_phase_a_runs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.retention_policies",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.retention_runs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.safety_evidence",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.safety_hold_audit",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.safety_holds",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.soma_v2_control",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.spot_v2_fence",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.spot_v2_intents",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.spot_v2_operations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.spotted_share_refs",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.staff_revoked_sessions",
+      "candidate_action": "deliberately_exclude",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.suspensions",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.tribe_account_state",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.tribe_catalog",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.tribe_memberships",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.tribe_rejoin_guards",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.tribe_settings",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.validated_photos",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "spot_private.venue_codes",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.buckets",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.buckets_analytics",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.buckets_vectors",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.migrations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.objects",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.s3_multipart_uploads",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.s3_multipart_uploads_parts",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "storage.vector_indexes",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    },
+    {
+      "table": "supabase_migrations.schema_migrations",
+      "candidate_action": "restore_directly",
+      "approved_for_restore": true
+    }
+  ],
+  "unclassified_dependency": {
+    "child": "auth.saml_relay_states",
+    "parent": "auth.flow_state",
+    "constraint": "saml_relay_states_flow_state_id_fkey"
+  },
+  "row_contents_included": false
+}
