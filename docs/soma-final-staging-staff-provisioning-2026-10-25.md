@@ -94,3 +94,31 @@ role-revocation process plus055; no alternative recovery endpoint.
 
 Final live role/session canary, revoke/regrant and logout proofs remain PENDING
 owner Auth interaction. This checkpoint is not a provisioning GO.
+
+## Checkpoint 26 October — MODERATOR complete, ADMIN cycle in progress
+
+The local enum/boolean evidence records MODERATOR AAL1 denial, authorized
+moderation-only access, revoke denial, regrant-stale denial, real logout-stale
+denial, new login/AAL1 denial, restored moderation-only access, and a final
+logout-stale denial. ADMIN fresh login/MFA allowed probes also PASS.
+
+There is intentionally no ADMIN self-revoke button: existing role-set prohibits
+changing one's own role. With only one nominated ADMIN, the documented authorized
+owner procedure is required. No extra ADMIN or client bypass was introduced.
+
+Only ADMIN was revoked server-side in a locked transaction, using existing055
+trigger/fence and atomic role-event audit. Actor is null for this owner operation;
+the founder request to complete the ADMIN cycle is the external authorization.
+Operation `c6c76640-19a7-4b64-9ee0-f0e7037b0d0b`, event `2026-10-26T07:36:41.942501+00:00` (UTC).
+
+Postcheck: ADMIN inactive; MODERATOR active with identical role/fence to precheck;
+verified factor counts unchanged (one each). No MFA/account/schema/runtime change.
+
+Current gate: owner must use the UNCHANGED ADMIN browser session, phase `revoked`,
+to prove actual RPC denial. Regrant SQL is prepared but NOT EXECUTED. It will only
+be executed after that evidence PASS. Then the same session must also pass the
+`regranted_stale` denial before real logout and fresh login/MFA/restored checks.
+No task completion or final provisioning GO is claimed at this checkpoint.
+
+Last code baseline remains806/806 tests PASS, targeted28/28, build/typecheck PASS.
+This checkpoint changes documentation only; no additional runtime tests needed.
