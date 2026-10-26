@@ -16,6 +16,8 @@ Le sezioni datate 23/24 ottobre sotto restano evidenze storiche; per i seguenti 
 - OP07/08/09 recovery restano blocker; OP20 resta PARTIAL per mancata prova di rollback route/alias e smoke autenticato. RPO/RTO non dimostrati. Non confondere shell Preview con recovery dati riuscito.
 - Suite attuale 806/806, targeted recovery/staff 12/12, build/typecheck PASS. Nessun runtime/config/Production/main modificato. Gli altri blocker non sono rivalutati o chiusi da questo follow-up.
 
+Follow-up strategia: [Backup strategy + isolated restore plan](soma-backup-strategy-isolated-restore-plan-2026-10-26.md), READY FOR DECISION. Raccomandazione ibrida e parametri candidati ancora da approvare; nessun backup/scheduler attivato, nessuna chiusura del gate recovery.
+
 ## A. Matrice readiness
 
 READY significa capacità dimostrata nel perimetro indicato, non certificazione generale. PARTIAL: implementazione/prova incompleta; MISSING: capacità/evidenza necessaria non disponibile; UNKNOWN / TO VERIFY: dato non verificato, non assenza presunta.

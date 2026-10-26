@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-26",
+  "baseline": "df544c34413e4c69e29f9c7e21cebc60dde96c0b",
+  "branch": "codex/soma-schema-v2-staging",
+  "scope": "DOCUMENTED_STRATEGY_NO_BACKUP_ENABLEMENT",
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "current_backup_capability": {
+    "backups": null,
+    "physical_backup_data": {},
+    "pitr_enabled": false,
+    "region": "eu-west-1",
+    "walg_enabled": true
+  },
+  "existing_isolated_branches": [],
+  "recommendation": "HYBRID_REQUIRES_FOUNDER_DECISION",
+  "candidate_only": {
+    "composite_interval_hours": 12,
+    "backup_retention_days": 7,
+    "incomplete_and_drill_max_hours": 24,
+    "replay_journal_days": 8
+  },
+  "proof": {
+    "kind": "EXISTING_SYNTHETIC_LOCAL_PGLITE_RESTORE_AND_SEPARATE_MEMORY_BYTES",
+    "cloud_restore": false,
+    "encrypted_exporter_tested": false,
+    "hosted_auth_restore_tested": false,
+    "storage_bytes_downloaded": 0,
+    "real_data_exports": 0
+  },
+  "verification": {
+    "targeted_pass": 12,
+    "full_pass": 806,
+    "full_fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "new_runtime_or_scripts": 0,
+    "cloud_mutations": 0,
+    "new_schedulers": 0,
+    "main_unchanged": true,
+    "production_unchanged": true
+  },
+  "strategy_gate": "READY_FOR_DECISION",
+  "operational_recovery_gate": "BLOCKED"
+}

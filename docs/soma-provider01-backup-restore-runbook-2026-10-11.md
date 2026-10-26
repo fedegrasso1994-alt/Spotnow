@@ -2,6 +2,8 @@
 
 Design soltanto; nessun backup/export reale creato in PROVIDER-01. Owner Federico + tecnico nominativo, revisione retention/diritti da professionista. Nessun originale foto reintrodotto. Applicare solo con autorizzazione successiva e prove sintetiche.
 
+Aggiornamento 26 ottobre: [strategia consolidata e decisioni necessarie](soma-backup-strategy-isolated-restore-plan-2026-10-26.md). Prevale per capacità/prezzi verificati e prossima scelta architetturale. Durate e destinazioni sono ancora proposte, nessun export/backup attivato. Il precedente divieto di export laptop riguarda copie non governate: il nuovo documento valuta soltanto supporto offline dedicato cifrato, ancora da autorizzare.
+
 ## Copie e obiettivi distinti
 
 | Piano candidato | DB/Auth | Storage foto | RTO candidato |
