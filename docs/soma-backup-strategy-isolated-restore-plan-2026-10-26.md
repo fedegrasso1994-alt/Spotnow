@@ -4,6 +4,10 @@
 
 **BACKUP STRATEGY: READY FOR DECISION** significa che le opzioni e le autorizzazioni necessarie sono definite. Il gate precedente di disaster recovery resta **BLOCKED** fino al drill cloud e alla verifica dei bytes.
 
+## Decision freeze successivo e stato operativo
+
+Prevale ora il [freeze e report infrastruttura](soma-backup-recovery-infrastructure-2026-10-26.md): checkpoint giornaliero,7d, GCS nel progetto SOMA esistente, Pro organizzazione condivisa autorizzato; non la proposta12h o nuovo progettoSupabase sotto. Bucket creato ma ancora vuoto; recovery BLOCKED, nessun RPO/RTO dimostrato. Il resto di questo documento conserva il confronto/proposte storici.
+
 ## Baseline ed evidenze
 
 - Letti Product/UX source of truth, [OPS](SOMA_OPS_RECOVERY_SUPPORT_PREPILOT.md), [audit recovery live](soma-backup-restore-vercel-rollback-2026-10-26.md), [runbook candidato precedente](soma-provider01-backup-restore-runbook-2026-10-11.md), PHOTO/Storage, [Retention Phase A](soma-retention-phase-a-scheduler-staging-2026-10-23.md) e [Observability](soma-observability-mvp-staging-report-2026-10-23.md).

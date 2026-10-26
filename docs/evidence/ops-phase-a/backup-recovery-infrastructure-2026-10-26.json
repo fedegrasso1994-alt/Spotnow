@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-26",
+  "baseline": "96e6977b4319be8ad613770a490210da161432ff",
+  "gcp_project": "rare-array-510414-d9",
+  "supabase_source": "zjinjtkekmaqtxsuyvho",
+  "billing_link_verified": true,
+  "supabase_pro_verified": true,
+  "supabase_billing_observation": {
+    "current_usd": 25,
+    "projected_usd": 34.73,
+    "not_final_invoice": true
+  },
+  "latest_provider_backup_observed_utc": "2026-10-26T00:26:52Z",
+  "bucket": {
+    "name": "soma-staging-backups-rare-array-510414-d9",
+    "location": "europe-west1",
+    "class": "STANDARD",
+    "public_access_prevention": true,
+    "uniform_access": true,
+    "retention_seconds": 604800,
+    "retention_locked": false,
+    "soft_delete_enabled": false,
+    "versioning_enabled": false,
+    "lifecycle": {
+      "action": "Delete",
+      "age_days": 7,
+      "async_expiry_not_yet_tested": true
+    },
+    "provider_encryption": "GOOGLE_MANAGED",
+    "uploaded_objects": 0,
+    "iam": {
+      "project_iam_changed": false,
+      "new_grants": 0,
+      "service_accounts_created": 0,
+      "removed_bucket_convenience_binding": "projectViewer",
+      "preserved_bucket_convenience_bindings": [
+        "projectOwner",
+        "projectEditor"
+      ],
+      "bulk_removal_rejected_by_auto_review": true,
+      "bulk_removal_applied": false,
+      "automated_writer_identity_configured": false
+    }
+  },
+  "checkpoint": {
+    "status": "NOT_CREATED",
+    "real_data_exports": 0,
+    "source_objects_downloaded": 0,
+    "encryption_key_generated": false,
+    "manifest_published": false,
+    "isolated_restore_executed": false,
+    "replay_verified": false,
+    "rpo_measured": null,
+    "rto_measured": null
+  },
+  "blocker": {
+    "kind": "LOCAL_ISOLATED_RUNTIME_UNAVAILABLE",
+    "docker_found": false,
+    "pg_dump_found": false,
+    "psql_found": false,
+    "cli_native_runtime_not_exposed": true,
+    "manual_action": "Install and start Docker Desktop; owner accepts license/system permissions"
+  },
+  "verification": {
+    "targeted_pass": 12,
+    "full_pass": 806,
+    "full_fail": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "checkpoint_specific_tests": "NOT_RUN_IMPLEMENTATION_PENDING",
+    "runtime_files_changed": 0,
+    "production_mutations": 0,
+    "main_sha_unchanged": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287"
+  },
+  "gate": "BLOCKED"
+}

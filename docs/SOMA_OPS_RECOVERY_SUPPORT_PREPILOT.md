@@ -18,6 +18,8 @@ Le sezioni datate 23/24 ottobre sotto restano evidenze storiche; per i seguenti 
 
 Follow-up strategia: [Backup strategy + isolated restore plan](soma-backup-strategy-isolated-restore-plan-2026-10-26.md), READY FOR DECISION. Raccomandazione ibrida e parametri candidati ancora da approvare; nessun backup/scheduler attivato, nessuna chiusura del gate recovery.
 
+Follow-up infrastruttura backup: [bucket GCS e gate restore locale](soma-backup-recovery-infrastructure-2026-10-26.md). Pro e billing GCP verificati, bucket privato creato con retention/lifecycle7d e soft deleteOFF confermato. Nessun checkpoint/upload/restore: runtime locale ancora da predisporre, recovery BLOCKED. Le proposte precedenti 12h/destinazione non sono più la baseline approvata.
+
 ## A. Matrice readiness
 
 READY significa capacità dimostrata nel perimetro indicato, non certificazione generale. PARTIAL: implementazione/prova incompleta; MISSING: capacità/evidenza necessaria non disponibile; UNKNOWN / TO VERIFY: dato non verificato, non assenza presunta.
