@@ -122,3 +122,15 @@ No task completion or final provisioning GO is claimed at this checkpoint.
 
 Last code baseline remains806/806 tests PASS, targeted28/28, build/typecheck PASS.
 This checkpoint changes documentation only; no additional runtime tests needed.
+
+### ADMIN regrant checkpoint — 26 October
+
+Owner-confirmed `ADMIN revoked: PASS` is independently present in minimized local
+canary evidence (2026-10-26T07:39:14.272Z), four actual RPCs denied. Only then
+owner regrant was executed with operation
+`9b1c6da2-cfeb-4c95-a89a-018df22e1bd8`, using the prepared exact-UID transaction,
+staging/055/state/MFA guards and atomic audit. ADMIN is active again; postcheck
+confirms MODERATOR role/fence and verified factor counts unchanged.
+
+Pending: same ADMIN client `regranted_stale` denial, real logout, fresh login/MFA
+and `restored` success, then final audit. No final provisioning GO yet.
