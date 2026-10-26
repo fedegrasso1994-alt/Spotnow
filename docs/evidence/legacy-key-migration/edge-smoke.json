@@ -1,0 +1,19 @@
+[
+  {
+    "step": "normalizer-modern-apikey",
+    "status": 200,
+    "code": null
+  },
+  {
+    "step": "photo-lifecycle-modern-apikey",
+    "status": 200
+  },
+  {
+    "step": "retention-modern-dry-run",
+    "status": 200
+  },
+  {
+    "step": "notifications-no-dispatch-secret-denied",
+    "status": 401
+  }
+]

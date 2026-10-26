@@ -1,3 +1,4 @@
+import {stagingServerKey,stagingAdminClient}from '../supabase/functions/_shared/server-key.js';
 import {operationalHandler} from '../supabase/functions/_shared/operational-edge.js';
 import {cleanupPhotoAccount} from '../supabase/functions/_shared/photo-lifecycle.js';
 import test from 'node:test';
@@ -11,7 +12,7 @@ function endpoint(valid=true,storageFails=false,barrier=false){
  const admin={auth:{getUser:async token=>{calls.push(['auth',token]);return valid?{data:{user:{id:'caller'}},error:null}:{data:{user:null},error:{}};},admin:{getUserById:async id=>{calls.push(['getUser',id]);return {data:{user:{id}}};},deleteUser:async id=>{calls.push(['delete',id]);return {error:null};}}},
  storage:{from:()=>({list:async id=>{calls.push(['list',id]);const files=listed?[]:[{id:'file-id',name:'photo.png'}];listed=true;return {data:files,error:storageFails?{}:null};},remove:async names=>{calls.push(['remove',names]);return {error:null};}})},
  rpc:async(name,args)=>{calls.push([name,args]);return {data:name==='photo_deletion_barrier'?barrier:name==='claim_photo_account_cleanup'?'claim':null,error:null};}};
- vm.runInNewContext(source,{Deno:{env:{get:()=> 'test'},serve:f=>handler=f},createClient:()=>admin,cleanupPhotoAccount,operationalHandler,operationalRecorder:()=>async()=>{},Response,Request});return {handler,calls};
+ vm.runInNewContext(source,{Deno:{env:{get:name=>({SUPABASE_URL:'https://zjinjtkekmaqtxsuyvho.supabase.co',SUPABASE_SECRET_KEYS:JSON.stringify({default:'sb_secret_SYNTHETIC_ONLY'})})[name]},serve:f=>handler=f},stagingServerKey,stagingAdminClient,createClient:()=>admin,cleanupPhotoAccount,operationalHandler,operationalRecorder:()=>async()=>{},Response,Request});return {handler,calls};
 }
 test('account deletion validates JWT and ignores a forged target user',async()=>{
  const {handler,calls}=endpoint();const response=await handler(new Request('https://test',{method:'POST',headers:{Authorization:'Bearer token'},body:JSON.stringify({user_id:'victim',confirm:true})}));

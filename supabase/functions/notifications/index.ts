@@ -1,9 +1,10 @@
+import {stagingServerKey,stagingAdminClient} from '../_shared/server-key.js';
 import {operationalHandler,operationalRecorder} from '../_shared/operational-edge.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 import webpush from 'npm:web-push@3.6.7';
 import {dispatchNotifications,NOTIFICATION_COPY,notificationInput} from '../_shared/notification-delivery.js';
 const ref='zjinjtkekmaqtxsuyvho';
-const opsAdmin=createClient(Deno.env.get('SUPABASE_URL')||'https://invalid.local',Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'',{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
+const opsAdmin=stagingAdminClient(createClient,Deno.env.get('SUPABASE_URL')||'https://invalid.local',stagingServerKey(name=>Deno.env.get(name)),{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
 const notificationHandler=async(req:Request)=>{
  const origin=Deno.env.get('NOTIFICATIONS_PREVIEW_ORIGIN')||'';
  const headers={'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Origin':origin,'Vary':'Origin','Access-Control-Allow-Headers':'content-type, authorization, apikey','Access-Control-Allow-Methods':'POST, OPTIONS'};
@@ -14,7 +15,7 @@ const notificationHandler=async(req:Request)=>{
  if(new URL(url).hostname!==`${ref}.supabase.co`)return reply(503,{error:'STAGING_ONLY'});
  if(Number(req.headers.get('content-length'))>2048)return reply(413,{error:'SIZE'});
  let input;try{input=await notificationInput(req);}catch(error){return reply(error.message==='SIZE'?413:400,{error:'INPUT'});}
- const client=createClient(url,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'',{auth:{persistSession:false,autoRefreshToken:false}});
+ const client=stagingAdminClient(createClient,url,stagingServerKey(name=>Deno.env.get(name)),{auth:{persistSession:false,autoRefreshToken:false}});
  const rpc=async(name:string,args:Record<string,unknown>)=>{const r=await client.rpc(name,args);if(r.error)throw Error('NOTIFICATION_RPC');return r.data;};
  try{
   if(input.action==='check'){

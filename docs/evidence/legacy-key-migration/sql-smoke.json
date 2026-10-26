@@ -1,0 +1,15 @@
+[
+  {
+    "name": "photo02_staging_scheduler",
+    "modern_server_allowed": true,
+    "public_missing_malformed_denied": true
+  },
+  {
+    "name": "photo_cutover_scheduler_configure",
+    "modern_server_allowed": true,
+    "public_missing_malformed_denied": true
+  },
+  {
+    "wrong_project_denied": true
+  }
+]

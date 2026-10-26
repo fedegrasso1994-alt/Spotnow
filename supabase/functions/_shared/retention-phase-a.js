@@ -15,6 +15,6 @@ export async function retentionPhaseA(admin,{operation_id,dry_run=true,batch_lim
 }
 /** Verify role through a service-only RPC, never through decoded/unverified JWT claims. */
 export async function retentionServiceAuthorized(token,{url,key,fetcher=fetch}){
- if(!token)return false;if(token===key)return true;
+ if(!token)return false;if(token===key)return !key.startsWith('sb_secret_');
  try{const r=await fetcher(url+'/rest/v1/rpc/retention_phase_a_status',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:'{}',signal:AbortSignal.timeout(5000)});if(!r.ok)return false;const d=await r.json();return typeof d?.control?.scheduler_enabled==='boolean'&&Array.isArray(d.runs);}catch{return false;}
 }

@@ -1,9 +1,10 @@
+import {stagingServerKey,stagingAdminClient} from '../_shared/server-key.js';
 import {operationalHandler,operationalRecorder} from '../_shared/operational-edge.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 import {privacyRetentionHandler} from '../_shared/privacy-retention.js';
 const url=Deno.env.get('SUPABASE_URL')!;
-const serviceKey=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const admin=createClient(url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
+const serviceKey=stagingServerKey(name=>Deno.env.get(name));
+const admin=stagingAdminClient(createClient,url,serviceKey,{auth:{persistSession:false,autoRefreshToken:false}});
 // A previously issued service JWT may differ from the runtime key. Verify its database role,
 // never trust an unsigned JWT payload or a successful generic Auth request.
 const authorizeService=async(token:string)=>{

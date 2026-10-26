@@ -1,14 +1,15 @@
+import {stagingServerKey,stagingAdminClient} from '../_shared/server-key.js';
 import {operationalHandler,operationalRecorder} from '../_shared/operational-edge.js';
 import {cleanupPhotoAccount} from '../_shared/photo-lifecycle.js';
 import {createClient} from 'npm:@supabase/supabase-js@2.117.2';
 const headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization, x-client-info, apikey, content-type'};
-const opsAdmin=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
+const opsAdmin=stagingAdminClient(createClient,Deno.env.get('SUPABASE_URL')!,stagingServerKey(name=>Deno.env.get(name)),{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>fetch(input,{...init,signal:AbortSignal.timeout(3000)})}});
 Deno.serve(operationalHandler('photo.cleanup',async request=>{
  if(request.method==='OPTIONS')return new Response('ok',{headers});
  const reply=(body:object,status=200)=>new Response(JSON.stringify(body),{status,headers:{...headers,'Content-Type':'application/json'}});
  if(request.method!=='POST')return reply({error:'Method not allowed'},405);
- const url=Deno.env.get('SUPABASE_URL')!,key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
- const admin=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
+ const url=Deno.env.get('SUPABASE_URL')!,key=stagingServerKey(name=>Deno.env.get(name));
+ const admin=stagingAdminClient(createClient,url,key,{auth:{persistSession:false,autoRefreshToken:false}});
  const token=request.headers.get('Authorization')?.replace(/^Bearer\s+/i,'');
  if(!token)return reply({error:'Accedi per continuare'},401);
  const {data,error}=await admin.auth.getUser(token);

@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "step": "real-public-auth",
+      "pass": true
+    },
+    {
+      "step": "real-photo-upload-worker-canonicalization",
+      "pass": true
+    },
+    {
+      "step": "profile-owner-save-and-photo-authorized-endpoint",
+      "pass": true
+    },
+    {
+      "step": "CLI-modern-override-no-legacy-resolution-SHA256",
+      "pass": true
+    },
+    {
+      "step": "normal-delete-auth-profile-storage-clean",
+      "pass": true
+    }
+  ],
+  "fixture_deleted": true,
+  "preexisting_profiles_hash": "ad4067f19890f61846176521b32aaf92",
+  "preexisting_storage_hash": "128acb8f9ce4913cb47119e75d8b72e0",
+  "storage_objects_before_after": 42
+}

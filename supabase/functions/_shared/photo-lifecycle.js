@@ -1,3 +1,4 @@
+import {serverCredential}from './server-key.js';
 import {cutoverExecuteAllowed} from './photo-cutover.js';
 import {reviewSnapshot,recordPendingReview} from './photo-review.js';
 /** PHOTO-02 orchestration. No decoder, raw originals, or client authorization changes. */
@@ -47,8 +48,8 @@ export function photoLifecycleHandler({admin,serviceKey,authorize,log=(_summary)
  const reply=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
  if(request.method!=='POST')return reply({code:'METHOD'},405);
  const token=request.headers.get('Authorization')?.replace(/^Bearer\s+/i,'');
- if(!serviceKey||!token)return reply({code:'AUTH'},403);
- if(token!==serviceKey){let allowed=false;try{allowed=await authorize?.(token)===true;}catch{}if(!allowed)return reply({code:'AUTH'},403);}
+ if(!serviceKey||(!token&&!serverCredential(request,serviceKey)))return reply({code:'AUTH'},403);
+ if(!serverCredential(request,serviceKey)){let allowed=false;try{allowed=await authorize?.(token)===true;}catch{}if(!allowed)return reply({code:'AUTH'},403);}
  let body;try{body=await request.json();}catch{return reply({code:'INVALID'},400);}
  if(active)return reply({code:'BUSY'},409);active=true;
  try{const inventory=unwrap(await admin.rpc('photo_lifecycle_inventory'));
