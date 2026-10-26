@@ -1,136 +1,146 @@
-# Final staging ADMIN / MODERATOR provisioning — checkpoint
+# Final staging ADMIN / MODERATOR provisioning
 
-Status: **LIVE CANARY PENDING — NOT CLOSED**.
+Closed 26 October 2026, Europe/Rome. **OPS ADMIN/MODERATOR PROVISIONING: GO**.
 
-## Scope and verified baseline
+## Final accounts and access
 
-Branch `codex/soma-schema-v2-staging`, starting commit
-`df48b33f46c75c9b55d80cdc65b3ed872af4833e`. Migration055 already applied;
-no migration/schema/role-model changes in this task. Main/Production untouched.
-No backup/restore or deployment rollback.
+Project `zjinjtkekmaqtxsuyvho`, staging only. Both identities intentionally remain
+provisioned as operational accounts; neither was deleted.
 
-Read-only staging preflight: project `zjinjtkekmaqtxsuyvho`, environment staging,
-055 present and expected guard source hash. Both dedicated accounts are confirmed,
-non-anonymous/non-banned, without product profiles, one verified TOTP each, zero
-incomplete factors. Initially no roles.
+| Dedicated account UID | Final role | State | Live privileged API checks |
+|---|---|---|---|
+| `7e8b9388-f0a1-4c7f-86f2-2746096016b9` | ADMIN | active | dashboard,ops_health,ops_recent,moderation_review_queue allowed with fresh AAL2 |
+| `f6fa2d11-cc8b-42cd-abb8-f986e07d14de` | MODERATOR | active | moderation allowed; dashboard/ops and role management denied |
 
-## Provisioning performed
+MFA intact: 1 verified TOTP and 0 incomplete factors per account. No factor was
+enrolled, removed or reset. Owner retained custody of passwords/TOTP. Final
+read-only check finds 0 eligible staff sessions for each account after logout,
+while roles remain active. Next use requires normal fresh login and MFA.
 
-First ADMIN bootstrap executed atomically by authorized cloud-owner SQL:
-- target `7e8b9388-f0a1-4c7f-86f2-2746096016b9`, role ADMIN active;
-- shared role-write advisory lock, explicit environment/055/zero-roles checks;
-- both nominated account/MFA prerequisites rechecked inside the transaction;
-- normal055 trigger fences pre-grant sessions, no bypass;
-- operation `b232e40e-cb30-4194-93b6-389853eb51b6`, event timestamp
-  `2026-10-25T19:19:46.033568Z`;
-- app audit `actor_id=null`: this is an explicitly authorized founder/cloud-owner
-  bootstrap, NOT an authenticated ADMIN action before the first ADMIN exists.
-  Authorization is Federico's explicit final-staging-provisioning request in this
-  chat, linked to this operation ID; no false authenticated actor was invented.
+No raw DB, service-role, console/IAM or cloud access was granted to either account.
+ADMIN retains only its pre-existing moderation capabilities, in addition to
+analytics/ops; MODERATOR gained no ADMIN/analytics capability. Existing active-role,
+account, session identity/freshness, verified factor and AAL2 guards remain055.
 
-No role/database-console/service-role privileges are granted to the account.
-MODERATOR `f6fa2d11-cc8b-42cd-abb8-f986e07d14de` remains unassigned pending fresh
-ADMIN AAL2 canary. Its grant will use normal `moderation_role_set` from that live
-ADMIN session, with a fixed operation ID for exact retry, not owner SQL.
+## Server-side provisioning and audit
 
-## Live canary helper
+Starting commit `df48b33f46c75c9b55d80cdc65b3ed872af4833e`. Preflight verified055,
+expected live guard hash, both nominated confirmed/non-banned/non-anonymous
+accounts, no product profiles, intact MFA and no roles. No schema change,
+migration application, backend/frontend product semantics change or normal-user
+mutation occurred in this task.
 
-`tools/staff-provisioning/` is a local-only operator module, never imported by
-Soma. Build: `node scripts/build-staff-provisioning.mjs`; local server:
-`node tools/staff-provisioning/server.mjs`, bound127.0.0.1:4197.
+There are exactly 6 expected staff role events, with unique operation IDs:
 
-Configuration/public key/nominated IDs/operation IDs are local ignored files.
-Normal staging Auth login/MFA occurs directly browser-to-provider. No enrollment,
-factor removal, reset, custom JWT or account creation is offered. No credentials,
-OTP or session payload goes to loopback or evidence. Sessions are in browser memory
-only; reload loses them. The post-logout canary temporarily retains the original
-access token in a private browser closure for a single read-only probe, then
-clears it; agent/model never reads it. It is never rendered, printed or persisted.
+| Target | Transition | Method / actor | Operation ID |
+|---|---|---|---|
+| ADMIN | none→ADMIN | authorized founder/cloud-owner bootstrap | `b232e40e-cb30-4194-93b6-389853eb51b6` |
+| MODERATOR | none→MODERATOR | normal RPC, authenticated ADMIN | `af9fd0b4-f09e-43db-bbb7-ba2de0df82f4` |
+| MODERATOR | MODERATOR→REVOKED | normal RPC, authenticated ADMIN | `e028ddb1-d1f7-40ed-8690-9fedf55d750b` |
+| MODERATOR | revoked→MODERATOR | normal RPC, authenticated ADMIN | `38083326-a5dc-4d09-ac70-745fad0ba8b7` |
+| ADMIN | ADMIN→REVOKED | authorized founder/cloud-owner transaction | `c6c76640-19a7-4b64-9ee0-f0e7037b0d0b` |
+| ADMIN | revoked→ADMIN | authorized founder/cloud-owner transaction | `9b1c6da2-cfeb-4c95-a89a-018df22e1bd8` |
 
-Only explicit staging Auth/RPC paths are allowed. Canary probes call actual
-admin dashboard/health/recent/moderation APIs, discard returned content, and retain
-only operation enums and boolean results. Denial must be PostgreSQL42501; token
-expiry is not accepted as proof of055. MODERATOR role-management probe uses
-invalid/null inputs so it cannot mutate a target even if authorization regresses.
+The single ADMIN cannot self-revoke through role-set: this existing prohibition
+was preserved. Its bootstrap/revoke/regrant used explicitly authorized owner SQL,
+existing role-write advisory lock, exact nominated UID, staging/055/state/MFA
+checks, normal055 trigger/fence and atomic role-event insertion. No second ADMIN
+or recovery endpoint/backdoor was invented. Owner events intentionally have
+`actor_id=null`; the founder's explicit authorizations in this task and operation
+IDs are the external audit linkage. They are NOT represented as authenticated
+app ADMIN actions before bootstrap or while revoked. MODERATOR events record the
+actual ADMIN UID from the normal authenticated role-set RPC.
 
-Loopback evidence accepts only strict operation/role/phase enums and booleans,
-requires local Host + Origin, bounded input, and no-store. Unknown fields,
-including tokens/free text, are rejected. Evidence files are ignored and only
-minimized results will be copied to the final report. UI evidence alone is not
-proof of DB authorization: normal provider/API checks and DB audit are separately
-verified.
+The MODERATOR role/fence was independently compared before/after both owner ADMIN
+transitions and remained identical. Final audit confirms only the two nominated
+roles exist; no normal user was promoted. Source guard hash still matches055;
+role and session-receipt tables remain inaccessible to authenticated clients.
 
-## Checks completed
+## Live canary result
 
-- Anonymous direct real staging RPCs: dashboard, ops_health, ops_recent,
-  moderation_review_queue all DENIED (4/4). No authenticated/user data response
-  was obtained.
-- Targeted role/auth/MFA/session/local-harness tests28/28 PASS.
-- Full suite806/806 PASS; build PASS; typecheck PASS.
-- Local helper dedicated tests4/4 PASS after adding explicit MODERATOR
-  revoke/restore controls. No application/backend semantics changed.
+Actual owner-controlled password login and TOTP challenge were performed in the
+local canary. Privileged calls went to real staging APIs with the provider's
+normal JWT, not fabricated SQL claims. The agent did not read credentials or
+private tokens. Evidence records safe enums/booleans/timestamps only.
 
-## Required next steps — no success claimed yet
+| Gate | ADMIN | MODERATOR |
+|---|---|---|
+| Fresh login AAL1 denies privileged APIs | PASS | PASS |
+| Real MFA / new privileged session after grant | PASS | PASS |
+| Initial allowed access / separation | PASS | PASS |
+| Revoked: unchanged privileged client denied | PASS | PASS |
+| Regranted: same unchanged client still denied | PASS | PASS |
+| Real logout before new login | PASS | PASS |
+| New login + real MFA: restored permitted access | PASS | PASS |
+| Logout after restored access: original JWT read probe denied | PASS | PASS |
 
-1. Owner opens a new local canary tab, selects ADMIN, fresh password login:
-   all privileged AAL1 reads must deny. Real TOTP verification -> AAL2.
-2. ADMIN phase `allowed`: dashboard/ops/moderation surfaces must allow.
-3. ADMIN grants MODERATOR via normal RPC; retain ADMIN client in this same tab.
-4. MODERATOR fresh login/AAL1 denial -> real MFA -> phase `allowed`:
-   moderation allowed, dashboard/ops/role management denied.
-5. ADMIN uses revoke control for MODERATOR; unchanged MODERATOR client probe
-   phase `revoked` denies. ADMIN restore control; same MODERATOR client phase
-   `regranted_stale` still denies. MODERATOR logs out, logs in anew and challenges
-   MFA; phase `restored` allows moderation only, then logout-stale probe denies.
-6. For the single ADMIN, owner-authorized audited revocation/regrant (self-role RPC
-   is intentionally prohibited) with unchanged ADMIN client proving both denial
-   phases; then fresh login/MFA and restored surfaces; logout-stale probe.
-7. Read-only final audit/roles/factors/session-fence checks; no ordinary accounts
-   or MFA factors altered. Keep both dedicated accounts with final correct roles.
+Each deny probe required SQL42501 from the actual RPC. JWT expiry/network failure
+was not accepted as proof. Post-logout probes retained the old token only in a
+private browser closure for the read probe, then cleared it. It never went to
+loopback/evidence, DOM, repository or agent output. Owner confirmed the same-tab,
+unchanged-client steps; server role-event timing corroborates the sequence.
 
-If a real allowed/denied assertion fails: STOP, preserve exact minimized evidence,
-no reset/backdoor. Keep recovery as the existing owner-authorized provisioning /
-role-revocation process plus055; no alternative recovery endpoint.
+- ADMIN revoked PASS07:39:14.272Z, regranted-stale PASS07:59:49.753Z,
+  restored PASS08:01:54.846Z, final logout-stale PASS08:02:08.307Z26October.
+- MODERATOR revoked PASS07:20:50.595Z, regranted-stale PASS07:22:05.635Z,
+  restored PASS07:27:03.215Z, final logout-stale PASS07:30:09.457Z26October.
 
-Final live role/session canary, revoke/regrant and logout proofs remain PENDING
-owner Auth interaction. This checkpoint is not a provisioning GO.
+All timestamps above are explicitly UTC. No screenshots of privileged content
+were collected. The dashboard/moderation proofs are real API access checks, not
+an independent visual inspection of the full app's staff pages.
 
-## Checkpoint 26 October — MODERATOR complete, ADMIN cycle in progress
+Anonymous direct staging RPCs (dashboard,health,recent,moderation) deny 4/4.
+Normal-user, forged/malformed claims, missing/unverified factor and foreign/missing
+session denial are additionally covered by PostgreSQL tests; no existing normal
+staging user's credentials/account were accessed for testing.
 
-The local enum/boolean evidence records MODERATOR AAL1 denial, authorized
-moderation-only access, revoke denial, regrant-stale denial, real logout-stale
-denial, new login/AAL1 denial, restored moderation-only access, and a final
-logout-stale denial. ADMIN fresh login/MFA allowed probes also PASS.
+The evidence history retains one preliminary ADMIN `allowed` probe that failed
+before the later successful owner-completed login/MFA flow. It is not counted as
+passing proof or silently removed; its exact cause was not captured. No runtime
+patch was made in response. Final canary evidence includes a distinct fresh login,
+AAL1 denial, real MFA, subsequent successful allowed/restored calls and logout.
 
-There is intentionally no ADMIN self-revoke button: existing role-set prohibits
-changing one's own role. With only one nominated ADMIN, the documented authorized
-owner procedure is required. No extra ADMIN or client bypass was introduced.
+## Tooling and privacy
 
-Only ADMIN was revoked server-side in a locked transaction, using existing055
-trigger/fence and atomic role-event audit. Actor is null for this owner operation;
-the founder request to complete the ADMIN cycle is the external authorization.
-Operation `c6c76640-19a7-4b64-9ee0-f0e7037b0d0b`, event `2026-10-26T07:36:41.942501+00:00` (UTC).
+`tools/staff-provisioning/` and its build script are local operator support only,
+never imported into the product. Public staging configuration and operation IDs
+are in ignored local files; no private key is required. Normal login/MFA goes
+browser-to-Auth directly. There is no enrollment, factor removal, reset, custom
+JWT, service key, client authorization override or global logout.
 
-Postcheck: ADMIN inactive; MODERATOR active with identical role/fence to precheck;
-verified factor counts unchanged (one each). No MFA/account/schema/runtime change.
+Server evidence endpoint is loopback Host/Origin restricted, bounded,no-store,
+and accepts only predefined enum/boolean fields. Auth tokens, OTP, email,
+passwords, free text and provider response payloads are not evidence. Privileged
+RPC response data is discarded rather than logged. Session state is browser
+memory only. The loopback server was stopped after both final logouts; port 4197
+has no listener. The operator can close the test tab. Diagnostic support is not
+an externally deployed endpoint and no new provider was introduced.
 
-Current gate: owner must use the UNCHANGED ADMIN browser session, phase `revoked`,
-to prove actual RPC denial. Regrant SQL is prepared but NOT EXECUTED. It will only
-be executed after that evidence PASS. Then the same session must also pass the
-`regranted_stale` denial before real logout and fresh login/MFA/restored checks.
-No task completion or final provisioning GO is claimed at this checkpoint.
+[Minimized live evidence](evidence/ops-phase-a/staff-provisioning-live.json)
+contains complete safe probe history, summary, six server audit events and final
+role/MFA/ACL counts. No private session IDs/tokens or content are included.
 
-Last code baseline remains806/806 tests PASS, targeted28/28, build/typecheck PASS.
-This checkpoint changes documentation only; no additional runtime tests needed.
+## Verification and Git handoff
 
-### ADMIN regrant checkpoint — 26 October
+Final rerun after live canary: targeted 28/28 PASS, full 806/806 PASS, build PASS,
+typecheck PASS. No rerun-until-green or weakened assertions. Separate local tool
+unit tests 4/4 PASS. These tests cover role/MFA/session revocation and local harness
+constraints; live owner login/MFA is separately evidenced above.
 
-Owner-confirmed `ADMIN revoked: PASS` is independently present in minimized local
-canary evidence (2026-10-26T07:39:14.272Z), four actual RPCs denied. Only then
-owner regrant was executed with operation
-`9b1c6da2-cfeb-4c95-a89a-018df22e1bd8`, using the prepared exact-UID transaction,
-staging/055/state/MFA guards and atomic audit. ADMIN is active again; postcheck
-confirms MODERATOR role/fence and verified factor counts unchanged.
+No new migration (055 was already deployed). Main/origin main remain
+`d0f515e8d2c80eeae60f2d5c33dd8901558d5287`; Production unchanged. No Production
+configuration, deployment, scheduler, credential, provider, backup/restore or
+Vercel rollback operation was performed. No roles or MFA were modified during
+final checks. No new retention or product policy was introduced.
 
-Pending: same ADMIN client `regranted_stale` denial, real logout, fresh login/MFA
-and `restored` success, then final audit. No final provisioning GO yet.
+## Recovery remains the documented process
+
+Normal role management uses a healthy ADMIN AAL2 on another principal, with
+operation ID and audit. Single-ADMIN/no-healthy-ADMIN recovery requires explicitly
+authorized owner intervention, identity/custody verification and audit. After any
+grant/regrant, new login/MFA is mandatory; old sessions remain denied. Do not
+fabricate AAL2, remove receipts for live sessions, reset MFA globally, grant an
+extra ADMIN casually, lower TTL or restore the pre-055 guard as a workaround.
+Legal/backup/provider readiness outside this task is not declared complete.
+
+**OPS ADMIN/MODERATOR PROVISIONING: GO**

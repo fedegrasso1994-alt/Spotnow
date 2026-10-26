@@ -1,0 +1,1104 @@
+{
+  "status": "OPS ADMIN/MODERATOR PROVISIONING: GO",
+  "environment": "staging",
+  "summary": {
+    "ADMIN": {
+      "aal1": {
+        "at": "2026-10-26T08:01:21.879Z",
+        "role": "ADMIN",
+        "phase": "aal1",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "allowed": {
+        "at": "2026-10-26T07:31:38.348Z",
+        "role": "ADMIN",
+        "phase": "allowed",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "allowed",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "revoked": {
+        "at": "2026-10-26T07:39:14.272Z",
+        "role": "ADMIN",
+        "phase": "revoked",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "regranted_stale": {
+        "at": "2026-10-26T07:59:49.753Z",
+        "role": "ADMIN",
+        "phase": "regranted_stale",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "restored": {
+        "at": "2026-10-26T08:01:54.846Z",
+        "role": "ADMIN",
+        "phase": "restored",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "allowed",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "logout_stale": {
+        "at": "2026-10-26T08:02:08.307Z",
+        "role": "ADMIN",
+        "phase": "logout_stale",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      }
+    },
+    "MODERATOR": {
+      "aal1": {
+        "at": "2026-10-26T07:26:28.199Z",
+        "role": "MODERATOR",
+        "phase": "aal1",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "allowed": {
+        "at": "2026-10-26T07:19:02.185Z",
+        "role": "MODERATOR",
+        "phase": "allowed",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "revoked": {
+        "at": "2026-10-26T07:20:50.595Z",
+        "role": "MODERATOR",
+        "phase": "revoked",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "regranted_stale": {
+        "at": "2026-10-26T07:22:05.635Z",
+        "role": "MODERATOR",
+        "phase": "regranted_stale",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "restored": {
+        "at": "2026-10-26T07:27:03.215Z",
+        "role": "MODERATOR",
+        "phase": "restored",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "allowed",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "logout_stale": {
+        "at": "2026-10-26T07:30:09.457Z",
+        "role": "MODERATOR",
+        "phase": "logout_stale",
+        "checks": [
+          {
+            "operation": "admin_analytics_dashboard",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_health",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "ops_recent",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "moderation_review_queue",
+            "result": "denied",
+            "passed": true
+          },
+          {
+            "operation": "role_management",
+            "result": "denied",
+            "passed": true
+          }
+        ],
+        "passed": true
+      }
+    }
+  },
+  "history": [
+    {
+      "at": "2026-10-25T19:57:51.717Z",
+      "role": "ADMIN",
+      "phase": "aal1",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-25T19:58:16.556Z",
+      "role": "ADMIN",
+      "phase": "allowed",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "allowed",
+          "passed": false
+        },
+        {
+          "operation": "ops_health",
+          "result": "allowed",
+          "passed": false
+        },
+        {
+          "operation": "ops_recent",
+          "result": "allowed",
+          "passed": false
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": false
+        }
+      ],
+      "passed": false
+    },
+    {
+      "at": "2026-10-25T19:58:40.740Z",
+      "role": "ADMIN",
+      "phase": "allowed",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:17:19.617Z",
+      "role": "MODERATOR",
+      "phase": "aal1",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:19:02.185Z",
+      "role": "MODERATOR",
+      "phase": "allowed",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:20:50.595Z",
+      "role": "MODERATOR",
+      "phase": "revoked",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:22:05.635Z",
+      "role": "MODERATOR",
+      "phase": "regranted_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:23:00.281Z",
+      "role": "MODERATOR",
+      "phase": "logout_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:26:28.199Z",
+      "role": "MODERATOR",
+      "phase": "aal1",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:27:03.215Z",
+      "role": "MODERATOR",
+      "phase": "restored",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:30:09.457Z",
+      "role": "MODERATOR",
+      "phase": "logout_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "role_management",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:30:27.334Z",
+      "role": "ADMIN",
+      "phase": "logout_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:30:30.431Z",
+      "role": "ADMIN",
+      "phase": "aal1",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:31:38.348Z",
+      "role": "ADMIN",
+      "phase": "allowed",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:39:14.272Z",
+      "role": "ADMIN",
+      "phase": "revoked",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T07:59:49.753Z",
+      "role": "ADMIN",
+      "phase": "regranted_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T08:01:06.448Z",
+      "role": "ADMIN",
+      "phase": "logout_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T08:01:21.879Z",
+      "role": "ADMIN",
+      "phase": "aal1",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T08:01:54.846Z",
+      "role": "ADMIN",
+      "phase": "restored",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "allowed",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "allowed",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "at": "2026-10-26T08:02:08.307Z",
+      "role": "ADMIN",
+      "phase": "logout_stale",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_health",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "ops_recent",
+          "result": "denied",
+          "passed": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "result": "denied",
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "audit": [
+    {
+      "actor_id": null,
+      "at": "2026-10-25T19:19:46.033568+00:00",
+      "new_role": "ADMIN",
+      "operation_id": "b232e40e-cb30-4194-93b6-389853eb51b6",
+      "previous_role": null,
+      "target_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9"
+    },
+    {
+      "actor_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9",
+      "at": "2026-10-26T07:15:51.698611+00:00",
+      "new_role": "MODERATOR",
+      "operation_id": "af9fd0b4-f09e-43db-bbb7-ba2de0df82f4",
+      "previous_role": null,
+      "target_id": "f6fa2d11-cc8b-42cd-abb8-f986e07d14de"
+    },
+    {
+      "actor_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9",
+      "at": "2026-10-26T07:20:32.053126+00:00",
+      "new_role": "REVOKED",
+      "operation_id": "e028ddb1-d1f7-40ed-8690-9fedf55d750b",
+      "previous_role": "MODERATOR",
+      "target_id": "f6fa2d11-cc8b-42cd-abb8-f986e07d14de"
+    },
+    {
+      "actor_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9",
+      "at": "2026-10-26T07:21:42.591556+00:00",
+      "new_role": "MODERATOR",
+      "operation_id": "38083326-a5dc-4d09-ac70-745fad0ba8b7",
+      "previous_role": null,
+      "target_id": "f6fa2d11-cc8b-42cd-abb8-f986e07d14de"
+    },
+    {
+      "actor_id": null,
+      "at": "2026-10-26T07:36:41.942501+00:00",
+      "new_role": "REVOKED",
+      "operation_id": "c6c76640-19a7-4b64-9ee0-f0e7037b0d0b",
+      "previous_role": "ADMIN",
+      "target_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9"
+    },
+    {
+      "actor_id": null,
+      "at": "2026-10-26T07:39:30.593914+00:00",
+      "new_role": "ADMIN",
+      "operation_id": "9b1c6da2-cfeb-4c95-a89a-018df22e1bd8",
+      "previous_role": null,
+      "target_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9"
+    }
+  ],
+  "final_roles": [
+    {
+      "active": true,
+      "role": "ADMIN",
+      "session_fence": "2026-10-26T07:39:30.593351+00:00",
+      "user_id": "7e8b9388-f0a1-4c7f-86f2-2746096016b9"
+    },
+    {
+      "active": true,
+      "role": "MODERATOR",
+      "session_fence": "2026-10-26T07:21:42.591353+00:00",
+      "user_id": "f6fa2d11-cc8b-42cd-abb8-f986e07d14de"
+    }
+  ],
+  "final_security": {
+    "accounts": [
+      {
+        "eligible_staff_sessions": 0,
+        "exists": true,
+        "incomplete_factors": 0,
+        "uid": "7e8b9388-f0a1-4c7f-86f2-2746096016b9",
+        "verified_totp": 1
+      },
+      {
+        "eligible_staff_sessions": 0,
+        "exists": true,
+        "incomplete_factors": 0,
+        "uid": "f6fa2d11-cc8b-42cd-abb8-f986e07d14de",
+        "verified_totp": 1
+      }
+    ],
+    "environment": "staging",
+    "guard_md5": "f10377af4480bb2ecdacd914f2d27398",
+    "private_role_table": true,
+    "private_session_receipts": true
+  },
+  "anonymous_direct_rpc": [
+    {
+      "operation": "admin_analytics_dashboard",
+      "denied": true,
+      "status": 401
+    },
+    {
+      "operation": "ops_health",
+      "denied": true,
+      "status": 401
+    },
+    {
+      "operation": "ops_recent",
+      "denied": true,
+      "status": 401
+    },
+    {
+      "operation": "moderation_review_queue",
+      "denied": true,
+      "status": 401
+    }
+  ],
+  "notes": [
+    "Only operation enums, booleans, timestamps and nominated audit identifiers; no Auth tokens, email, OTP or user content.",
+    "One preliminary ADMIN allowed probe failed before later owner-completed successful flow; retained, not counted as passing proof.",
+    "Local normal-user and malformed-claim denial covered by PostgreSQL tests; no existing normal staging user was accessed."
+  ],
+  "final_tests": {
+    "targeted": {
+      "pass": 28,
+      "fail": 0
+    },
+    "full": {
+      "pass": 806,
+      "fail": 0
+    },
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "local_canary_server_stopped": true
+}

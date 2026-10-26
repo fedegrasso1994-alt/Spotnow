@@ -1,5 +1,12 @@
 # Staging staff — provisioning, revoca e recovery
 
+> Stato corrente26ottobre: provisioning live staging completato.
+> [Report finale](soma-final-staging-staff-provisioning-2026-10-25.md): entrambi i
+> ruoli attivi, canary revoke/regrant/logout e nuovo login/MFA PASS. Le indicazioni
+> sotto di stato BLOCKED/ruoli assenti descrivono checkpoint storici, non lo stato
+> attuale. Recovery corrente usa055 e il processo owner autorizzato documentato.
+
+
 > Aggiornamento 25 ottobre: migration055 staging applicata. Il contratto corrente
 > di sessione/revoca è [staff session hardening](soma-staff-session-revocation-2026-10-25.md).
 > Le sezioni sotto che descrivono il limite dei vecchi JWT sono evidenza storica

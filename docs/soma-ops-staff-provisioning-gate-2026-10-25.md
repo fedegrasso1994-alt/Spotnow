@@ -1,5 +1,12 @@
 # OPS ADMIN/MODERATOR provisioning gate — 2026-10-25
 
+> Stato corrente26ottobre: provisioning live staging completato.
+> [Report finale](soma-final-staging-staff-provisioning-2026-10-25.md): entrambi i
+> ruoli attivi, canary revoke/regrant/logout e nuovo login/MFA PASS. Le indicazioni
+> sotto di stato BLOCKED/ruoli assenti descrivono checkpoint storici, non lo stato
+> attuale. Recovery corrente usa055 e il processo owner autorizzato documentato.
+
+
 > Evidenza storica del blocker pre-055. Risoluzione: [hardening staging](soma-staff-session-revocation-2026-10-25.md).
 > Il provisioning reale resta non eseguito; il nuovo guard è pronto per quel task separato.
 
