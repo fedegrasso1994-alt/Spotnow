@@ -1,0 +1,19 @@
+{
+  "url": "https://spot-n6zjiy9qz-fedegrasso1994-1482.vercel.app/",
+  "runtime_sha": "ccb9d473406d71651c160bbdf73cc3762f73ccf4",
+  "google_auth_same_preview": "PASS",
+  "authenticated_reload": "PASS",
+  "tribe_discovery_off_state": "PASS",
+  "spotted_feed_composer": "PASS",
+  "ora_place_selector": "PASS",
+  "match_empty_state": "PASS",
+  "profile_render": "PASS",
+  "nav": ["TRIBE", "SPOTTED", "ORA", "MATCH", "PROFILO"],
+  "console_error_count": 0,
+  "false_offline_observed": false,
+  "product_writes_performed_for_browser_smoke": false,
+  "auth_redirect_added_with_user_approval": true,
+  "site_url_unchanged": true,
+  "active_discovery_delivery_tested": false,
+  "fresh_staff_evidence": "fresh-staff.json"
+}

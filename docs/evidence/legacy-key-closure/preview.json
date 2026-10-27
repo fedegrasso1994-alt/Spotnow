@@ -1,0 +1,26 @@
+{
+  "deployment_id": "dpl_8UUYJyycJgV6bqjBnEBT4yF5dXrb",
+  "url": "https://spot-n6zjiy9qz-fedegrasso1994-1482.vercel.app/",
+  "runtime_sha": "ccb9d473406d71651c160bbdf73cc3762f73ccf4",
+  "branch": "codex/soma-schema-v2-staging",
+  "target": "staging",
+  "static_files_verified": 44,
+  "deployment_config_verified": true,
+  "source": "isolated committed HEAD staging artifact",
+  "supabase_ref": "zjinjtkekmaqtxsuyvho",
+  "public_key_class": "publishable",
+  "production_ref_found": false,
+  "server_secret_found": false,
+  "created_at": "2026-10-27T07:42:38.087Z",
+  "ready_at": "2026-10-27T07:42:42.465Z",
+  "alias_incident": {
+    "alias": "spot-now-fedegrasso1994-1482.vercel.app",
+    "automatic_assignment_at": "2026-10-27T07:42:42.583Z",
+    "restored_at": "2026-10-27T07:45:57.235Z",
+    "restored_to": "dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh",
+    "specific_user_authorization": true,
+    "primary_alias": "spot-now-alpha.vercel.app",
+    "primary_alias_unchanged": true,
+    "production_build_env_unchanged": true
+  }
+}

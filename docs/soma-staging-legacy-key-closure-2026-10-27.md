@@ -26,4 +26,18 @@ Historical migrations, portable PHOTO/Production scripts, archived evidence and 
 
 Fresh committed-HEAD artifact/deployment and browser evidence appended after deployment. No old root dist used. Public key and core boolean flags loaded only from verified staging inputs, overriding root local Production config. No secret/Production ref in the scanned isolated artifact. No new backend/feature semantics or collection activation.
 
-No Production deployment/env/alias, main, JWT trust, sessions, MFA or checkpointv3 mutation. No legacy disablement. Final deployment evidence, Git SHA and gate recorded in final handoff.
+Runtime commit `ccb9d473406d71651c160bbdf73cc3762f73ccf4`, deployment `dpl_8UUYJyycJgV6bqjBnEBT4yF5dXrb`, target `staging`, READY. Exact URL: https://spot-n6zjiy9qz-fedegrasso1994-1482.vercel.app/ . All44 static file SHA-1 identifiers match the scanned local artifact; the additional deployment configuration matches too. Public key is publishable, explicitly supplied from ignored staging frontend input; no server secret or Production ref in artifact. Deployment metadata is in evidence/legacy-key-closure/preview.json.
+
+Only this Preview's Auth redirect was added to staging following explicit user approval. Site URL, Confirm email and providers unchanged. Browser Google sign-in completed through the existing SSO session and returned to the SAME unique Preview. Authenticated reload retained session. TRIBE displayed the expected Discovery-OFF state; SPOTTED feed/composer, ORA Place selector (no presence started), MATCH empty state and Profilo rendered. Final nav TRIBE | SPOTTED | ORA | MATCH | PROFILO, no false offline or console errors observed. No post, Spot, chat, presence or membership writes performed for browser smoke. Existing prior synthetic server/product smoke covers upload/canonicalization/update/sign/delete and Storage modern-key copy; no active DD or Notifications delivery is claimed. Screenshot preview-shell.png contains no personal content. Fresh staff AAL2 proof is separate from this product-browser login.
+
+## Deployment alias incident — restored with explicit approval
+
+Despite requesting target `staging` and no alias, Vercel automatically assigned `spot-now-fedegrasso1994-1482.vercel.app` to this Preview at2026-10-27T07:42:42.583Z. This WAS a temporary Production-alias mutation and must not be described as Production completely untouched. Work stopped for explicit user authorization. Only that alias was restored at07:45:57.235Z to previous Production deployment `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`; subsequent alias metadata verified restoration. Primary Production alias `spot-now-alpha.vercel.app` remained on the original deployment throughout. No Production build, environment, backend, secret or other alias changed. No additional deployment was attempted. Before using this API deployment path again, investigate/prevent automatic project-alias assignment; target `staging` alone is insufficient protection.
+
+Main remains `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`. JWT signing trust, MFA and checkpointv3 unchanged; only normal authorized user login occurred. Legacy keys remain enabled for rollback. PHOTO lifecycle/data and cleanup/scheduler unchanged. Privacy jobOFF; Phase A remainsON at03:00UTC; Discovery and Notifications deliveryOFF. The final evidence commit is documentation-only, so its SHA differs from the deployed runtime SHA.
+
+## Gate
+
+LEGACY KEY MIGRATION: GO FOR LEGACY DISABLEMENT REVIEW
+
+This authorizes no disablement or trust retirement. Remaining rollback-only historical material, provider reserved variables, verified legacy-JWT compatibility and name-only scheduling prerequisite are explicitly inventoried above. Disablement requires its own review and approval; automatic alias assignment is a deployment-safety follow-up before another Preview publication.
