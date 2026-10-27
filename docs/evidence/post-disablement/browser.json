@@ -1,0 +1,12 @@
+{
+  "preview": "https://spot-n6zjiy9qz-fedegrasso1994-1482.vercel.app/",
+  "existing_session_reload": "PASS",
+  "new_google_oauth_authorize_callback": "PASS_EXISTING_GOOGLE_SSO",
+  "new_oauth_session_reload": "PASS",
+  "main_sections": ["TRIBE", "SPOTTED", "ORA", "MATCH", "PROFILO"],
+  "sections_rendered": true,
+  "console_errors": 0,
+  "false_offline": false,
+  "product_writes": false,
+  "signout_or_session_revocation_performed": false
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "operation": "observability_collector",
+    "credential_class": "missing",
+    "status": 401,
+    "collection": "OFF_no_event_written"
+  },
+  {
+    "operation": "observability_collector",
+    "credential_class": "publishable",
+    "status": 401,
+    "collection": "OFF_no_event_written"
+  },
+  {
+    "operation": "observability_collector",
+    "credential_class": "modern_server",
+    "status": 200,
+    "collection": "OFF_no_event_written"
+  },
+  {
+    "operation": "retention_no_server_credential",
+    "status": 401
+  },
+  {
+    "operation": "retention_no_server_credential",
+    "status": 403
+  },
+  {
+    "operation": "notification_invalid_device_proof",
+    "status": 200,
+    "available": false
+  },
+  {
+    "operation": "notification_dispatch_no_dedicated_secret",
+    "status": 401
+  },
+  {
+    "operation": "notification_prune_no_dedicated_secret",
+    "status": 401
+  }
+]

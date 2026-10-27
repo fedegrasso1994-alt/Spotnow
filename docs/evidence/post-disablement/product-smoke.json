@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "step": "real-public-auth",
+      "pass": true
+    },
+    {
+      "step": "real-photo-upload-worker-canonicalization",
+      "pass": true
+    },
+    {
+      "step": "profile-owner-save-and-photo-authorized-endpoint",
+      "pass": true
+    },
+    {
+      "step": "other-user-RLS-photo-ownership-and-private-storage-denied",
+      "pass": true
+    },
+    {
+      "step": "user-JWT-refresh-owner-continuity",
+      "pass": true
+    },
+    {
+      "step": "CLI-modern-override-no-legacy-resolution-SHA256",
+      "pass": true
+    },
+    {
+      "step": "recovery-checkpoint-default-CLI-selection-SHA256",
+      "pass": true
+    },
+    {
+      "step": "normal-delete-auth-profile-storage-clean",
+      "pass": true
+    },
+    {
+      "step": "isolation-fixture-normal-delete-clean",
+      "pass": true
+    }
+  ],
+  "fixture_deleted": true,
+  "synthetic_accounts": 2,
+  "plaintext_photo_copies_removed": true
+}

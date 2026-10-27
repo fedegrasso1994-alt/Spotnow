@@ -1,0 +1,152 @@
+[
+  {
+    "at": "2026-10-27T17:27:11.777Z",
+    "role": "ADMIN",
+    "phase": "aal1",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T17:27:44.288Z",
+    "role": "ADMIN",
+    "phase": "allowed",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "allowed",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T17:27:48.573Z",
+    "role": "ADMIN",
+    "phase": "logout_stale",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T17:28:00.510Z",
+    "role": "MODERATOR",
+    "phase": "aal1",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "role_management",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T17:28:35.839Z",
+    "role": "MODERATOR",
+    "phase": "allowed",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "role_management",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "discovery": false,
+  "fixture_age": 0,
+  "fixture_auth": 0,
+  "fixture_consent": 0,
+  "fixture_profiles": 0,
+  "fixture_storage": 0,
+  "jobs": [
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    }
+  ],
+  "notifications": {
+    "delivery": false,
+    "enabled": false
+  },
+  "ops": {
+    "enabled": false,
+    "test_only": true
+  },
+  "photo": {
+    "cleanup": false,
+    "epoch": 12,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "profiles_hash": "ad4067f19890f61846176521b32aaf92",
+  "storage_hash": "128acb8f9ce4913cb47119e75d8b72e0"
+}
