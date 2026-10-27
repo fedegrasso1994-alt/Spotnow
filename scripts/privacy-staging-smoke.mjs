@@ -1,8 +1,8 @@
-import {stagingRequestHeaders}from './lib/staging-key-transport.mjs';
+import {stagingRequestHeaders,stagingCredentials}from './lib/staging-key-transport.mjs';
 /** Hard staging allowlist. Never accepts a production project or imports real data. */
 import {readFile,writeFile,mkdir}from'node:fs/promises';import{randomUUID}from'node:crypto';import assert from'node:assert/strict';import{createClient}from'@supabase/supabase-js';import jpeg from'jpeg-js';
 const ref='zjinjtkekmaqtxsuyvho',dir='.local/privacy-stage';await mkdir(dir,{recursive:true});
-const credentials=JSON.parse(await readFile(process.env.SOMA_STAGE_CREDENTIALS||'/private/tmp/soma-staging-credentials.json','utf8'));assert.equal(credentials.projectRef,ref);assert.equal(credentials.url,`https://${ref}.supabase.co`);
+const credentials=await stagingCredentials(JSON.parse(await readFile(process.env.SOMA_STAGE_CREDENTIALS||'/private/tmp/soma-staging-credentials.json','utf8')));assert.equal(credentials.projectRef,ref);assert.equal(credentials.url,`https://${ref}.supabase.co`);
 const admin=createClient(credentials.url,credentials.serverKey,{auth:{persistSession:false,autoRefreshToken:false}}),ok=r=>{if(r.error)throw Error(r.error.message);return r.data;};
 let manifest;try{manifest=JSON.parse(await readFile(dir+'/fixtures-private.json','utf8'));}catch{manifest={users:[],results:[]};}
 const save=()=>writeFile(dir+'/fixtures-private.json',JSON.stringify(manifest,null,2),{mode:0o600});

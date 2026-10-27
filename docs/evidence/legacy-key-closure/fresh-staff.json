@@ -1,0 +1,124 @@
+[
+  {
+    "at": "2026-10-27T07:26:38.843Z",
+    "role": "ADMIN",
+    "phase": "aal1",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T07:27:29.568Z",
+    "role": "ADMIN",
+    "phase": "allowed",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "allowed",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T07:30:16.467Z",
+    "role": "MODERATOR",
+    "phase": "aal1",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "role_management",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  {
+    "at": "2026-10-27T07:31:13.393Z",
+    "role": "MODERATOR",
+    "phase": "allowed",
+    "checks": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_health",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "ops_recent",
+        "result": "denied",
+        "passed": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "result": "allowed",
+        "passed": true
+      },
+      {
+        "operation": "role_management",
+        "result": "denied",
+        "passed": true
+      }
+    ],
+    "passed": true
+  }
+]

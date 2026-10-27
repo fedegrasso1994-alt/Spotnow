@@ -1,7 +1,7 @@
-import {stagingRequestHeaders}from './lib/staging-key-transport.mjs';
+import {stagingRequestHeaders,stagingCredentials}from './lib/staging-key-transport.mjs';
 /** Run after the staging-only setup SQL; resumes/pause verification with disposable synthetic user. */
 import fs from'node:fs/promises';import assert from'node:assert/strict';import{randomUUID}from'node:crypto';import{createClient}from'@supabase/supabase-js';import jpeg from'jpeg-js';
-const c=JSON.parse(await fs.readFile(process.env.PHOTO02_STAGE_CREDENTIALS||'/tmp/soma-photo02-stage-credentials.json','utf8'));assert.equal(c.projectRef,'zjinjtkekmaqtxsuyvho');assert.equal(c.url,'https://zjinjtkekmaqtxsuyvho.supabase.co');const admin=createClient(c.url,c.serverKey,{auth:{persistSession:false,autoRefreshToken:false}}),ok=r=>{if(r.error)throw Error(r.error.message);return r.data;},rpc=async(n,args)=>ok(await admin.rpc(n,args));
+const c=await stagingCredentials(JSON.parse(await fs.readFile(process.env.PHOTO02_STAGE_CREDENTIALS||'/tmp/soma-photo02-stage-credentials.json','utf8')));assert.equal(c.projectRef,'zjinjtkekmaqtxsuyvho');assert.equal(c.url,'https://zjinjtkekmaqtxsuyvho.supabase.co');const admin=createClient(c.url,c.serverKey,{auth:{persistSession:false,autoRefreshToken:false}}),ok=r=>{if(r.error)throw Error(r.error.message);return r.data;},rpc=async(n,args)=>ok(await admin.rpc(n,args));
 const mode=process.argv[2],file='.local/photo02-stage/scheduler-fixture-private.json';
 if(mode==='prepare'){
  await rpc('photo02_staging_scheduler',{enable:false});const password=randomUUID()+'aA1!',email=`photo02-${randomUUID()}@example.invalid`;const u=ok(await admin.auth.admin.createUser({email,password,email_confirm:true,user_metadata:{photo02_fixture:true}})).user;const client=createClient(c.url,c.publicKey,{auth:{persistSession:false,autoRefreshToken:false}}),token=ok(await client.auth.signInWithPassword({email,password})).session.access_token;

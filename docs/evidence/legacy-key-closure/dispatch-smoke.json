@@ -1,0 +1,17 @@
+[
+  {
+    "label": "missing",
+    "status": 401,
+    "denied": true
+  },
+  {
+    "label": "publishable",
+    "status": 401,
+    "denied": true
+  },
+  {
+    "label": "server",
+    "status": 200,
+    "dispatched": 0
+  }
+]
