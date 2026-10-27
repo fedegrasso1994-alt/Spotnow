@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-27T16:19:30.130Z",
+  "rows": [
+    {
+      "credential_class": "missing",
+      "operation": "postgrest_zero_rows",
+      "status": 401,
+      "error_code": null
+    },
+    {
+      "credential_class": "malformed",
+      "operation": "postgrest_zero_rows",
+      "status": 401,
+      "error_code": null
+    },
+    {
+      "credential_class": "legacy_anon",
+      "operation": "postgrest_zero_rows",
+      "status": 401,
+      "error_code": "42501"
+    },
+    {
+      "credential_class": "legacy_service_role",
+      "operation": "postgrest_zero_rows",
+      "status": 401,
+      "error_code": "42501"
+    },
+    {
+      "credential_class": "modern_publishable",
+      "operation": "postgrest_zero_rows",
+      "status": 401,
+      "error_code": "42501"
+    },
+    {
+      "credential_class": "modern_secret",
+      "operation": "postgrest_zero_rows",
+      "status": 200,
+      "error_code": null
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "phase": "after",
+  "rows": [
+    {
+      "credential_class": "legacy_anon",
+      "operation": "auth_settings",
+      "status": 200
+    }
+  ],
+  "pass": false
+}

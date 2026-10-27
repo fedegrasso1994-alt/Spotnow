@@ -1,0 +1,27 @@
+{
+  "phase": "before",
+  "at": "2026-10-27T16:18:25.656Z",
+  "rows": [
+    {
+      "credential_class": "legacy_anon",
+      "operation": "auth_settings",
+      "status": 200
+    },
+    {
+      "credential_class": "legacy_service_role",
+      "operation": "auth_settings",
+      "status": 200
+    },
+    {
+      "credential_class": "modern_publishable",
+      "operation": "auth_settings",
+      "status": 200
+    },
+    {
+      "credential_class": "modern_secret",
+      "operation": "privacy_retention_dispatch_dry_run",
+      "status": 200
+    }
+  ],
+  "pass": true
+}
