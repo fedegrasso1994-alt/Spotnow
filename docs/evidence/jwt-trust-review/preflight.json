@@ -1,0 +1,23 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "legacy_api_keys_enabled": false,
+  "provider_reads_only": true,
+  "auth_health_version": "v2.197.0",
+  "signing_keys": [
+    {"id":"aa4434fd-5d0e-4423-a6d3-6cf894d0cf41","algorithm":"HS256","status":"previously_used"},
+    {"id":"9646939e-e6fa-4f78-b2e2-b39bfed5767a","algorithm":"ES256","status":"in_use"}
+  ],
+  "session_rows": 30,
+  "refresh_rows": 39,
+  "active_roles": ["ADMIN","MODERATOR"],
+  "verified_factors": 2,
+  "incomplete_factors": 0,
+  "session_children_on_delete_cascade": ["auth.refresh_tokens","auth.mfa_amr_claims","spot_private.staff_revoked_sessions"],
+  "photo": {"phase":"OPEN","epoch":12,"cleanup":false,"scheduler":false},
+  "discovery": false,
+  "notification_delivery": false,
+  "provider_mutations": [],
+  "token_capture_performed": false,
+  "synthetic_accounts_created": 0,
+  "blocker": "SUPPORTED_PROJECT_WIDE_SESSION_REFRESH_INVALIDATION_NOT_ESTABLISHED"
+}
