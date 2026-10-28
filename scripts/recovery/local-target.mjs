@@ -15,7 +15,9 @@ export async function targetHttp(service,path,{method='GET',headers={},body}={})
  const input=JSON.stringify({service,path,method,headers,body});
  return new Promise((resolve,reject)=>{const p=spawn(DOCKER,['exec','-i',TARGET.storage,'node','--input-type=module','-e',HTTP],{stdio:['pipe','pipe','pipe']});let out='',err='';p.stdout.on('data',x=>out+=x);p.stderr.on('data',x=>{if(err.length<1000)err+=x});p.on('error',()=>reject(Error('RECOVERY_TARGET_HTTP')));p.on('close',code=>{if(code!==0)return reject(Error('RECOVERY_TARGET_HTTP'));try{const r=JSON.parse(out),bytes=Buffer.from(r.body,'base64');let data;try{data=JSON.parse(bytes.toString())}catch{}resolve({status:r.status,bytes,data,contentType:r.content_type})}catch{reject(Error('RECOVERY_TARGET_RESPONSE'))}});p.stdin.end(input);});
 }
-export async function targetSql(sql,{database='postgres'}={}){
+export async function targetSql(sql,{database='postgres',role='postgres'}={}){
  if(!/^[a-z][a-z0-9_]{0,62}$/.test(database))throw Error('RECOVERY_DB_NAME');
- return new Promise((resolve,reject)=>{const p=spawn(DOCKER,['exec','-i',TARGET.db,'psql','-U','postgres','-d',database,'-XAtq','-v','ON_ERROR_STOP=1'],{stdio:['pipe','pipe','pipe']});let out='';p.stdout.on('data',x=>out+=x);p.stderr.resume();p.on('error',()=>reject(Error('RECOVERY_TARGET_SQL')));p.on('close',code=>code===0?resolve(out):reject(Error('RECOVERY_TARGET_SQL')));p.stdin.end(sql)});
+ // Service identities use local-runtime-connection.mjs and their actual TCP credentials.
+ if(!['postgres','supabase_admin'].includes(role))throw Error('RECOVERY_DB_ROLE');
+ return new Promise((resolve,reject)=>{const p=spawn(DOCKER,['exec','-i',TARGET.db,'psql','-U',role,'-d',database,'-XAtq','-v','ON_ERROR_STOP=1'],{stdio:['pipe','pipe','pipe']});let out='';p.stdout.on('data',x=>out+=x);p.stderr.resume();p.on('error',()=>reject(Error('RECOVERY_TARGET_SQL')));p.on('close',code=>code===0?resolve(out):reject(Error('RECOVERY_TARGET_SQL')));p.stdin.end(sql)});
 }

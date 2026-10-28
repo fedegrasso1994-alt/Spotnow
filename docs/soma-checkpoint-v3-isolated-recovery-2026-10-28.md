@@ -1,5 +1,7 @@
 # Checkpoint v3 — durable Auth / isolated recovery
 
+**Follow-up:** [retry bootstrap](soma-local-restore-bootstrap-retry-2026-10-28.md): owner blocker risolto, DB/ACL/RLS e ruoli runtime PASS nell'unico retry autorizzato; recovery complessivo ancora BLOCKED su un fallimento distinto nella suite completa. Questo documento conserva l'esito storico del primo tentativo.
+
 28 ottobre 2026. Branch `codex/soma-schema-v2-staging`, baseline `5eeebf11e34fff8f23efc480661c13dc8d84ee19`.
 
 **CHECKPOINT V3 + ISOLATED RECOVERY: BLOCKED**. Archivio v3 prodotto e verificato; l'unico restore si è fermato su ownership nel target locale, con rollback completo. Nessun recovery point o RPO/RTO attestato. Il logout globale del progetto **non è più un blocker**. Nessuna rotazione sorgente o cancellazione manuale di sessioni.
