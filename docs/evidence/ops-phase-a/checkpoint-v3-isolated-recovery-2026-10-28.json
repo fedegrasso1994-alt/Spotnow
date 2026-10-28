@@ -1,0 +1,68 @@
+{
+  "scope": "staging recovery tooling only",
+  "source_ref": "zjinjtkekmaqtxsuyvho",
+  "baseline": "5eeebf11e34fff8f23efc480661c13dc8d84ee19",
+  "contract_version": 3,
+  "manifest_version": 3,
+  "live_v3_archive_created": true,
+  "archive": {
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "snapshot_at": "2026-10-28T07:40:43.624898+00:00",
+    "size": 2315372,
+    "sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+    "files": 46,
+    "storage_objects": 42,
+    "auth_projection_files": 2,
+    "authenticated_open_and_file_hashes": "PASS",
+    "cloud_uploaded": false,
+    "restore_attested": false
+  },
+  "isolated_v3_restore_attempts": 1,
+  "restore": {
+    "database": "soma_recovery_v3_20261028",
+    "sqlstate": "42501",
+    "provider_error": "must be able to SET ROLE supabase_admin",
+    "restore_login": "postgres",
+    "restore_login_superuser": false,
+    "transaction_rolled_back": true,
+    "auth_tables_after_rollback": 0,
+    "application_tables_after_rollback": 0,
+    "decrypted_payload_removed": true,
+    "owner_or_constraints_bypassed": false
+  },
+  "source_synthetic_user_access_probes": [
+    {"service": "local Auth", "method": "GET", "path": "/user", "status": 403, "result": "source kid unrecognized"},
+    {"service": "local PostgREST", "method": "GET", "path": "/", "status": 401, "code": "PGRST301"},
+    {"service": "local Storage", "method": "GET", "path": "/bucket", "status": 400, "code": "AccessDenied"}
+  ],
+  "preliminary_probes_are_post_restore_proof": false,
+  "source_staff_token_rejection": "NOT_RUN",
+  "source_refresh_rejection": "NOT_RUN",
+  "fresh_target_login_mfa": "NOT_RUN",
+  "storage_positive_path": "NOT_RUN",
+  "security_replay": "planner tested; independent journal and executor pending",
+  "fixture_cleanup": {
+    "created_accounts_sequential_total": 2,
+    "roles": ["USER"],
+    "normal_delete_account": "PASS",
+    "fresh_login_after_delete": "DENIED",
+    "profile_photo_created": false,
+    "private_capabilities_and_key_erased": true,
+    "independent_sql_residue_check": "NOT_RUN"
+  },
+  "blocker": {
+    "kind": "local_restore_owner_dependency",
+    "operation": "preserving source provider ownership",
+    "required_role": "supabase_admin",
+    "initial_reader_authorization_gate": "RESOLVED by explicit founder read-only approval",
+    "bypass_attempted": false
+  },
+  "tests": {"targeted_pass": 27, "initial_full_pass": 847, "final_full_pass": 848, "final_full_fail": 0, "final_full_skipped": 0, "build": "PASS", "typecheck": "PASS"},
+  "rpo": "NOT_ATTESTED",
+  "rto": "NOT_ATTESTED",
+  "source_sessions_deleted_manually": false,
+  "source_trust_mfa_staff_modified": false,
+  "runtime_schema_modified": false,
+  "main_production_modified": false,
+  "status": "CHECKPOINT V3 + ISOLATED RECOVERY: BLOCKED"
+}

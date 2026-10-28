@@ -16,11 +16,14 @@ async function fixture(t) {
     { name: 'database.dump', kind: 'database', input: join(root, 'db') },
     { name: 'metadata.json', kind: 'metadata', input: join(root, 'metadata') },
     { name: 'photos/canonical.bin', kind: 'photo', input: join(root, 'photo'), bucket: 'profile-photos', storage_key: 'synthetic/photo.jpg' },
+    { name: 'auth-projection/users.csv', kind:'auth_projection',auth_table:'auth.users',input:join(root,'users.csv') },
+    { name: 'auth-projection/identities.csv', kind:'auth_projection',auth_table:'auth.identities',input:join(root,'identities.csv') },
   ];
   await writeFile(files[0].input, 'SYNTHETIC DB ARTIFACT ONLY');
   await writeFile(files[1].input, '{"synthetic":true}');
   await writeFile(files[2].input, randomBytes(65537));
-  const manifest = await makeManifest({ snapshotAt: '2026-10-26T12:00:00Z', files, contract:makeContract([...EXCLUDED_DATA,'auth.users'],[]) });
+  await writeFile(files[3].input,'SYNTHETIC DURABLE USER\n');await writeFile(files[4].input,'');
+  const manifest = await makeManifest({ snapshotAt: '2026-10-26T12:00:00Z', files, contract:makeContract([...EXCLUDED_DATA],[]) });
   return { root, files, manifest, key: randomBytes(32), output: join(root, 'checkpoint.enc') };
 }
 
@@ -33,6 +36,20 @@ test('RECOVERY: authenticated streaming archive round-trip preserves DB, mapping
   assert.equal((await stat(f.output)).mode & 0o777, 0o600);
   assert.equal((await stat(dir)).mode & 0o777, 0o700);
   assert.equal((await readFile(f.output)).includes(Buffer.from('SYNTHETIC DB')), false);
+});
+
+for(const version of [1,2])test(`RECOVERY: authenticated obsolete manifest v${version} is rejected before extraction`,async t=>{
+ const f=await fixture(t),m={...f.manifest,version};
+ const magic=Buffer.from('SOMA-RECOVERY-1\n'),nonce=randomBytes(12),c=createCipheriv('aes-256-gcm',f.key,nonce);c.setAAD(magic);
+ const encoded=Buffer.from(JSON.stringify(m)),len=Buffer.alloc(4);len.writeUInt32BE(encoded.length);
+ const parts=await Promise.all(f.files.map(x=>readFile(x.input)));
+ await writeFile(f.output,Buffer.concat([magic,nonce,c.update(Buffer.concat([len,encoded,...parts])),c.final(),c.getAuthTag()]));
+ const dir=join(f.root,'obsolete');await assert.rejects(openCheckpoint({input:f.output,key:f.key,outputDir:dir}),/MANIFEST/);await assert.rejects(access(dir));
+});
+
+test('RECOVERY: both named durable Auth projection files are mandatory',async t=>{
+ const f=await fixture(t);
+ for(const table of ['auth.users','auth.identities'])assert.throws(()=>validateManifest({...f.manifest,files:f.manifest.files.filter(x=>x.auth_table!==table)}),/AUTH_PROJECTION_REQUIRED/);
 });
 
 for (const mutation of ['ciphertext', 'tag', 'nonce', 'header', 'truncate']) {

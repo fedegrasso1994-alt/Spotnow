@@ -10,8 +10,14 @@ import { pathToFileURL } from 'node:url';
 import { sourceEnvironment, sourceProcess, DOCKER } from './source-connection.mjs';
 import { SOURCE, makeManifest, sealCheckpoint, fileDigest } from './checkpoint-artifact.mjs';
 import { EXCLUDED_DATA, makeContract } from './session-contract.mjs';
+import {AUTH_EMPTY_REQUIRED,AUTH_PROJECTED,projectionSelect,validateAuthColumns}from'./auth-durable.mjs';
+import {SECURITY_SNAPSHOT_SQL}from'./security-replay.mjs';
 
 const fail = code => { throw new Error(code); };
+export function projectionSnapshotSql(table,snapshotId){
+ if(!/^[A-Fa-f0-9-]+$/.test(snapshotId))fail('RECOVERY_SNAPSHOT_UNAVAILABLE');
+ return `set role postgres;begin isolation level repeatable read read only;set transaction snapshot '${snapshotId}';copy (${projectionSelect(table)})to stdout with(format csv);commit;`;
+}
 export function storageDownloadArgs(object,target){
  if(object.bucket!=='profile-photos'||!isAbsolute(target)||!object.storage_key?.match(/^[a-zA-Z0-9_/-]+(?:\.[a-zA-Z0-9_-]+)+$/)||object.storage_key.includes('..'))fail('RECOVERY_DOWNLOAD_SCOPE');
  return ['storage','cp','--experimental','--project-ref',SOURCE,'ss:///'+object.bucket+'/'+object.storage_key,target];
@@ -59,7 +65,11 @@ export async function captureStaging(root) {
   const inventoryLine=await lines.next();if(inventoryLine.done)fail('RECOVERY_INVENTORY_UNAVAILABLE');
   const meta=checkInventory(JSON.parse(inventoryLine.value));
   const contract=makeContract(meta.checkpoint_tables,meta.foreign_keys);
-  if(meta.auth_token_fields_nonempty!==0)fail('RECOVERY_AUTH_TOKEN_DATA_PRESENT');
+  session.stdin.write(`select jsonb_build_object('columns',(select jsonb_object_agg(t.name,t.cols)from(select table_schema||'.'||table_name name,jsonb_agg(column_name order by ordinal_position)cols from information_schema.columns where table_schema='auth'and table_name in('users','identities')group by table_schema,table_name)t),'external_rows',(${AUTH_EMPTY_REQUIRED.map(t=>`(select count(*)from ${t})`).join('+')}),'unsupported_users',(select count(*)from auth.users where is_super_admin is true or is_sso_user or instance_id is distinct from'00000000-0000-0000-0000-000000000000'::uuid))::text;\n`);
+  const auditLine=await lines.next();if(auditLine.done)fail('RECOVERY_AUTH_AUDIT');const audit=JSON.parse(auditLine.value);validateAuthColumns(audit.columns);
+  if(audit.external_rows!==0||audit.unsupported_users!==0)fail('RECOVERY_AUTH_EXTERNAL_CONFIGURATION_REQUIRED');
+  meta.auth_projection_audit={field_catalog_verified:true,external_rows:0,unsupported_users:0};
+  session.stdin.write(SECURITY_SNAPSHOT_SQL+'\n');const securityLine=await lines.next();if(securityLine.done)fail('RECOVERY_SECURITY_SNAPSHOT');meta.security_snapshot=JSON.parse(securityLine.value);
   meta.source_ref=SOURCE;meta.exported_snapshot_id=snapshotId;
   await writeFile(join(root,'inventory.private.json'),JSON.stringify(meta),{flag:'wx',mode:0o600});
   phase='database-dump';
@@ -77,6 +87,16 @@ export async function captureStaging(root) {
   await mkdir(join(root,'photos'),{mode:0o700});
   const files=[{input:join(root,'database.dump'),name:'database.dump',kind:'database'},
    {input:join(root,'inventory.private.json'),name:'inventory.json',kind:'metadata'}];
+  phase='auth-projection';await mkdir(join(root,'auth-projection'),{mode:0o700});
+  for(const table of AUTH_PROJECTED){
+   const name='auth-projection/'+table.slice(5)+'.csv',input=join(root,name);
+   const ap=sourceProcess(env,'psql',['-XAtq','-v','ON_ERROR_STOP=1']);const end=once(ap,'close');
+   ap.stderr.pipe(createWriteStream(join(root,'projection.private.log'),{flags:'a',mode:0o600}));
+   ap.stdin.end(projectionSnapshotSql(table,snapshotId));
+   await pipeline(ap.stdout,createWriteStream(input,{flags:'wx',mode:0o600}));if((await end)[0]!==0)fail('RECOVERY_AUTH_PROJECTION');
+   files.push({input,name,kind:'auth_projection',auth_table:table});
+  }
+  phase='storage-copy';
   // Individual immutable keys from the snapshot, never a recursive live listing/refill.
   for(let i=0;i<meta.objects.length;i++){
    const o=meta.objects[i],name='photos/'+String(i).padStart(6,'0')+'.jpg',input=join(root,name);
@@ -98,7 +118,8 @@ export async function captureStaging(root) {
   await writeFile(join(root,'sealed-summary.json'),JSON.stringify({...sealed,snapshot_at:meta.snapshot_at,objects:meta.objects.length,source_ref:SOURCE,cloud_uploaded:false}),{flag:'wx',mode:0o600});
   // Restore proof must use the sealed archive, not accidentally reuse the capture plaintext.
   await rm(join(root,'photos'),{recursive:true});
-  for(const name of ['database.dump','inventory.private.json','dump-toc.private.txt','source.private.log','dump.private.log','parse.private.log','storage.private.log'])await rm(join(root,name),{force:true});
+  await rm(join(root,'auth-projection'),{recursive:true});
+  for(const name of ['database.dump','inventory.private.json','dump-toc.private.txt','source.private.log','dump.private.log','parse.private.log','projection.private.log','storage.private.log'])await rm(join(root,name),{force:true});
   return {...sealed,snapshot_at:meta.snapshot_at,objects:meta.objects.length,cloud_uploaded:false};
  } catch(error){
   if(session){session.stdin.end('rollback;\n');session.kill();}

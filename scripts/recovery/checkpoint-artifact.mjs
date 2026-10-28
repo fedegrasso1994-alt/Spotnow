@@ -24,7 +24,7 @@ export async function fileDigest(path) {
 }
 
 export function validateManifest(m) {
-  if (m?.version !== 1 || m.source_ref !== SOURCE ||
+  if (m?.version !== 3 || m.source_ref !== SOURCE ||
       !/^[0-9a-f-]{36}$/.test(m.checkpoint_id ?? '') ||
       !Number.isFinite(Date.parse(m.snapshot_at)) ||
       !Array.isArray(m.files) || !m.files.length || m.files.length > 100000)
@@ -33,8 +33,8 @@ export function validateManifest(m) {
   const names = new Set();
   for (const f of m.files) {
     if (!nameOK(f.name) || names.has(f.name) ||
-        !Number.isSafeInteger(f.size) || f.size <= 0 || !/^[0-9a-f]{64}$/.test(f.sha256 ?? '') ||
-        !['database', 'metadata', 'photo'].includes(f.kind)) fail('CHECKPOINT_FILE_MANIFEST');
+        !Number.isSafeInteger(f.size) || f.size < 0 || f.size===0&&f.kind!=='auth_projection' || !/^[0-9a-f]{64}$/.test(f.sha256 ?? '') ||
+        !['database', 'metadata', 'photo','auth_projection'].includes(f.kind)) fail('CHECKPOINT_FILE_MANIFEST');
     names.add(f.name);
     if (f.kind === 'photo' && (f.bucket !== 'profile-photos' || !nameOK(f.storage_key)))
       fail('CHECKPOINT_PHOTO_MAPPING');
@@ -43,13 +43,15 @@ export function validateManifest(m) {
       !m.files.some(f => f.kind === 'metadata')) fail('CHECKPOINT_DATABASE_METADATA_REQUIRED');
   const photoKeys = m.files.filter(f => f.kind === 'photo').map(f => f.storage_key);
   if (new Set(photoKeys).size !== photoKeys.length) fail('CHECKPOINT_DUPLICATE_MAPPING');
+  const auth=m.files.filter(f=>f.kind==='auth_projection');
+  if(auth.length!==2||!['auth.users','auth.identities'].every(table=>auth.filter(f=>f.auth_table===table&&f.name==='auth-projection/'+table.slice(5)+'.csv').length===1))fail('CHECKPOINT_AUTH_PROJECTION_REQUIRED');
   return m;
 }
 
 export async function makeManifest({ sourceRef = SOURCE, snapshotAt, files, contract }) {
   const entries = [];
   for (const { input, ...entry } of files) entries.push({ ...entry, ...await fileDigest(input) });
-  return validateManifest({ version: 1, source_ref: sourceRef,
+  return validateManifest({ version: 3, source_ref: sourceRef,
     checkpoint_id: randomUUID(), snapshot_at: snapshotAt, contract, files: entries });
 }
 
@@ -126,7 +128,8 @@ export async function openCheckpoint({ input, key, outputDir }) {
         const output = join(outputDir, f.name);
         await mkdir(dirname(output), { recursive: true, mode: 0o700 });
         if (offset + f.size > (await p.stat()).size) fail('CHECKPOINT_TRUNCATED');
-        await pipeline(createReadStream(plain, { start: offset, end: offset + f.size - 1 }),
+        if(f.size===0){const empty=await open(output,'wx',0o600);await empty.close();}
+        else await pipeline(createReadStream(plain, { start: offset, end: offset + f.size - 1 }),
           createWriteStream(output, { flags: 'wx', mode: 0o600 }));
         const actual = await fileDigest(output);
         if (actual.size !== f.size || actual.sha256 !== f.sha256) fail('CHECKPOINT_HASH_MISMATCH');

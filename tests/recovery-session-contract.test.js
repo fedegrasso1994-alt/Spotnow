@@ -6,16 +6,16 @@ import {validateManifest}from'../scripts/recovery/checkpoint-artifact.mjs';
 import {qodDatabase,ids,admin,call}from'./helpers/qod-database.js';
 import {staffSession}from'./helpers/staff-session.js';
 
-test('RECOVERY contract v2 classifies every table, excludes receipt DATA only and refuses a new dependent child',()=>{
- const names=[...EXCLUDED_DATA,'auth.users','auth.mfa_factors','spot_private.moderation_roles'];
- const fk={child:'spot_private.staff_revoked_sessions',parent:'auth.sessions'};
+test('RECOVERY contract v3 projects durable Auth, excludes all transient/MFA state and refuses a new dependent child',()=>{
+ const names=[...EXCLUDED_DATA,'spot_private.moderation_roles'];
+ const fk={child:'spot_private.staff_revoked_sessions',parent:'auth.sessions',name:'synthetic_fk',child_columns:['session_id'],parent_columns:['id']};
  const c=makeContract(names,[fk]);assert.equal(c.tables.length,names.length);
  assert.equal(c.tables.find(x=>x.table===fk.child).action,'deliberately_exclude');
  assert.equal(c.tables.find(x=>x.table==='spot_private.moderation_roles').action,'restore_directly');
- assert.throws(()=>makeContract([...names,'public.new_session_child'],[fk,{child:'public.new_session_child',parent:'auth.sessions'}]),/UNCLASSIFIED_SESSION_DEPENDENCY/);
- assert.throws(()=>validateContract({...c,version:1}),/CONTRACT_VERSION/);
+ assert.throws(()=>makeContract([...names,'public.new_session_child'],[fk,{...fk,child:'public.new_session_child'}]),/UNCLASSIFIED_SESSION_DEPENDENCY/);
+ for(const version of[1,2])assert.throws(()=>validateContract({...c,version}),/CONTRACT_VERSION/);
  assert.throws(()=>validateContract({...c,tables:c.tables.slice(1)}));
- assert.throws(()=>validateManifest({version:1,source_ref:'zjinjtkekmaqtxsuyvho',checkpoint_id:'10000000-0000-4000-8000-000000000001',snapshot_at:'2026-10-26',files:[{}]}),/CONTRACT_VERSION/);
+ assert.throws(()=>validateManifest({version:1,source_ref:'zjinjtkekmaqtxsuyvho',checkpoint_id:'10000000-0000-4000-8000-000000000001',snapshot_at:'2026-10-26',files:[{}]}),/MANIFEST/);
 });
 
 test('RECOVERY PostgreSQL: empty-session barrier preserves roles/fences/FK; old staff denied, fresh MFA model allowed, revoke/regrant/logout remain enforced',async t=>{
@@ -24,8 +24,9 @@ test('RECOVERY PostgreSQL: empty-session barrier preserves roles/fences/FK; old 
  for(const f of ['048_spotted_share','049_notifications_mvp','050_analytics_mvp','051_admin_analytics_dashboard','052_moderation_finalization','053_operational_observability','054_retention_phase_a','055_staff_session_revocation'])await d.exec(await readFile('supabase/migrations/'+f+'.sql','utf8'));
  // The shared unit harness models only sessions/factors. Empty provider tables
  // complete the barrier's catalog; no placeholder Auth rows are inserted.
- for(const name of ['refresh_tokens','one_time_tokens','flow_state','mfa_challenges','mfa_amr_claims'])
-  await d.exec('create table if not exists auth.'+name+'(id uuid primary key)');
+ for(const table of EXCLUDED_DATA.filter(x=>x.startsWith('auth.')&&!['auth.users','auth.mfa_factors'].includes(x)))
+  await d.exec('create table if not exists '+table+'(id uuid primary key)');
+ for(const col of['confirmation_token','recovery_token','email_change_token_new','email_change_token_current','phone_change_token','reauthentication_token'])await d.exec('alter table auth.users add column if not exists '+col+' text');
  await d.query("insert into auth.mfa_factors(user_id,status,factor_type)values($1,'verified','totp'),($2,'verified','totp')",[ids.a,ids.b]);
  await d.query("insert into spot_private.moderation_roles(user_id,role)values($1,'ADMIN'),($2,'MODERATOR')",[ids.a,ids.b]);
  const oldA=await staffSession(d,ids.a),oldB=await staffSession(d,ids.b);
@@ -36,9 +37,11 @@ test('RECOVERY PostgreSQL: empty-session barrier preserves roles/fences/FK; old 
  await assert.rejects(d.exec(SESSION_BARRIER_SQL),/SESSION_BARRIER_NOT_EMPTY/);
  // Equivalent source state of an empty-session restore; FK cascade remains enabled.
  await d.exec('delete from auth.sessions');
+ await d.exec('delete from auth.mfa_factors');
  await d.exec(SESSION_BARRIER_SQL);
  assert.deepEqual((await d.query('select user_id,role,active,session_not_before from spot_private.moderation_roles order by user_id')).rows,before);
  await assert.rejects(d.query('insert into spot_private.staff_revoked_sessions values($1)',[oldA]),/foreign key/);
+ await d.query("insert into auth.mfa_factors(user_id,status,factor_type)values($1,'verified','totp'),($2,'verified','totp')",[ids.a,ids.b]);
  for(const [person,sid,surface]of[[ids.a,oldA,'ops_health()'],[ids.b,oldB,'moderation_review_queue()']]){
   await staffSession(d,person,'aal2',sid);await assert.rejects(call(d,surface),/DENIED/);
   await staffSession(d,person,'aal1');await assert.rejects(call(d,surface),/DENIED/);
