@@ -1,5 +1,7 @@
 # Recovery v3 — clock harness fix e prosecuzione Storage
 
+**Follow-up:** [bootstrap approvato e gate Auth](soma-recovery-bootstrap-fix-2026-10-29.md): REST e Storage bootstrap PASS; nuovo blocker di caricamento utente GoTrue sui campi transitori NULL. Esito storico sotto preservato.
+
 29 ottobre 2026, branch `codex/soma-schema-v2-staging`.
 
 **ISOLATED RECOVERY V3: BLOCKED**. Il test moderation è corretto e verde. Il DB restaurato è stato riutilizzato; byte Storage e accesso privato sono verificati. La prosecuzione si ferma sul bootstrap API locale: PostgREST richiede uno schema assente e il bootstrap Storage aggiunge una funzione non presente nell'inventario del checkpoint. Nessun secondo restore, rimozione di vincoli o workaround applicato. Auth/MFA recovery e RPO/RTO non sono attestati.

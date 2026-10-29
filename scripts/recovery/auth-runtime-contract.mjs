@@ -13,7 +13,7 @@ export function recoveredEnvironment(service,env){
   out.GOTRUE_JWT_ISSUER=RECOVERY_ORIGIN+'/auth/v1';out.GOTRUE_URI_ALLOW_LIST=RECOVERY_ORIGIN+'/**';
   out.GOTRUE_DISABLE_SIGNUP='true';out.GOTRUE_MFA_TOTP_ENROLL_ENABLED='true';out.GOTRUE_MFA_TOTP_VERIFY_ENABLED='true';out.LOG_LEVEL='error';
   for(const k of Object.keys(out))if(/^GOTRUE_EXTERNAL_.*_ENABLED$/.test(k)&&k!=='GOTRUE_EXTERNAL_EMAIL_ENABLED')out[k]='false';
- }else out.PGRST_LOG_LEVEL='error';
+ }else{out.PGRST_LOG_LEVEL='error';out.PGRST_DB_SCHEMAS='public';}
  for(const[k,v]of Object.entries(out))if(!/^[A-Z_][A-Z0-9_]*$/.test(k)||/[\r\n\0]/.test(v)||v.includes('zjinjtkekmaqtxsuyvho')||v.includes('qlucwdjcjomwyziegxrn'))throw Error('RECOVERY_RUNTIME_ENV');
  return out;
 }

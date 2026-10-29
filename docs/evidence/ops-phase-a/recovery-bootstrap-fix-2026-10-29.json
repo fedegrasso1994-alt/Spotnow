@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-29",
+  "status": "ISOLATED RECOVERY V3: BLOCKED",
+  "baseline": "540fd4a10631cb490688dad7872d6ce83c7d7798",
+  "postgrest_config": "public",
+  "bootstrap": {
+    "pass": true,
+    "classification": "RECREATE BY PROVIDER BOOTSTRAP",
+    "migration_before": 73,
+    "migration_after": 74,
+    "migration_applied_once": true,
+    "all_original_objects_checked": 1547,
+    "added": [
+      "FUNCTION storage.enforce_versioning_status_transition()",
+      "TRIGGER storage.buckets enforce_versioning_status_transition"
+    ],
+    "removed_constraint": "buckets_versioning_dark_check",
+    "owners_acl_rls_preserved": true,
+    "bootstrap_contract_version": 1,
+    "checkpoint_contract_version": 3,
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "archive_sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+    "archive_unchanged": true
+  },
+  "startup": {
+    "started_at": "2026-10-29T08:01:06.770Z",
+    "source_writes": 0,
+    "restore_attempts": 0,
+    "stages": [
+      {
+        "service": "rest",
+        "health": 200,
+        "schemas": "public",
+        "other_schema_status": 406,
+        "anonymous_profiles_status": 401,
+        "server_status": 200
+      },
+      {
+        "service": "auth",
+        "health": 200
+      },
+      {
+        "service": "storage",
+        "health": 200
+      }
+    ],
+    "transient": {
+      "factors": 0,
+      "refresh": 0,
+      "sessions": 0,
+      "flow_state": 0
+    },
+    "pass": true
+  },
+  "storage": {
+    "pass": true,
+    "http_verified": 42,
+    "unauthenticated_status": 400,
+    "public_route_status": 400,
+    "orphans": 0,
+    "missing_canonical": 0,
+    "private_bucket": true,
+    "photo_ledger_unchanged": true
+  },
+  "auth_blocker": {
+    "pass": false,
+    "stage": "recovered-auth-user-load",
+    "http_status": 500,
+    "provider_error": "unexpected_failure",
+    "exact_cause": "confirmation_token: converting NULL to string is unsupported",
+    "state": {
+      "roles": [
+        {
+          "role": "ADMIN",
+          "active": true
+        },
+        {
+          "role": "MODERATOR",
+          "active": true
+        }
+      ],
+      "sessions": 0,
+      "user_rows": 7,
+      "flow_state": 0,
+      "mfa_factors": 0,
+      "refresh_tokens": 0,
+      "replay_cleanup": {
+        "state": "pending",
+        "error_code": "STORAGE"
+      },
+      "confirmation_token_null": 7,
+      "replay_identity_present": true
+    },
+    "services_stopped": true,
+    "source_writes": 0,
+    "auth_payload_unchanged": true,
+    "restore_attempts": 0,
+    "rpo": null,
+    "rto": null
+  },
+  "test_results": {
+    "targeted": {
+      "pass": 62,
+      "total": 62
+    },
+    "full": {
+      "pass": 860,
+      "total": 860,
+      "fail": 0,
+      "skip": 0,
+      "cancel": 0
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "full_suite_runs": 1
+  },
+  "source_jwt_rejection": "NOT_EXECUTED",
+  "source_refresh_rejection": "NOT_EXECUTED",
+  "fresh_user_login": "BLOCKED",
+  "staff_mfa": "NOT_EXECUTED",
+  "rpo": null,
+  "rto": null,
+  "production_changed": false,
+  "main_changed": false,
+  "staging_writes": false,
+  "photo_semantics_changed": false,
+  "new_db_restore_attempts": 0,
+  "manual_action_required_now": false
+}
