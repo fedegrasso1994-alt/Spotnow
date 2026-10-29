@@ -5,6 +5,7 @@ import {readFile,writeFile,rm,open} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {openCheckpoint,fileDigest} from './checkpoint-artifact.mjs';
 import {PROJECTIONS} from './auth-durable.mjs';
+import {authTransientSql} from './auth-transient-reconstruction.mjs';
 import {SESSION_BARRIER_SQL} from './session-contract.mjs';
 import {DOCKER,TARGET,targetSql,targetEnvironment} from './local-target.mjs';
 import {IMPORT_ROLE,DATABASE_OWNER,RETRY_DATABASE,assertPreflight,schemaSecurity,assertDumpContract,assertSecurityEquivalent,createRetryDatabaseSql} from './restore-bootstrap.mjs';
@@ -46,8 +47,10 @@ try{
  r=await docker(['cp',join(plain,'restore.list'),TARGET.db+':'+remote+'/restore.list']);if(r.code)throw Error('RECOVERY_LOCAL_STAGE');
  const sections=[];for(const section of ['pre-data','data','post-data']){r=await docker(['exec',TARGET.db,'pg_restore','--exit-on-error','--section='+section,'--use-list='+remote+'/restore.list','--file=-',remote+'/database.dump']);if(r.code)throw Error('RECOVERY_DUMP_SQL');sections.push(r.out);}
  const projections=['auth.users','auth.identities'].map(t=>`\\copy ${t}(${PROJECTIONS[t].map(x=>'"'+x.column+'"').join(',')}) from '${remote}/auth-projection/${t.slice(5)}.csv' with(format csv)`).join('\n');
+ const inventory=JSON.parse(await readFile(join(plain,manifest.files.find(f=>f.kind==='metadata').name),'utf8'));
+ const inert=authTransientSql(manifest.contract,inventory.security_snapshot.users.map(x=>x.id));
  phase='single-restore-transaction';evidence.attempts=1;
- r=await docker(pgargs(RETRY_DATABASE),'\\set ON_ERROR_STOP on\n\\set VERBOSITY verbose\nbegin;\n'+sections[0]+'\n'+projections+'\n'+sections[1]+'\n'+sections[2]+'\n'+SESSION_BARRIER_SQL+'\ncommit;\n');
+ r=await docker(pgargs(RETRY_DATABASE),'\\set ON_ERROR_STOP on\n\\set VERBOSITY verbose\nbegin;\n'+sections[0]+'\n'+projections+'\n'+sections[1]+'\n'+sections[2]+'\n'+inert+'\n'+SESSION_BARRIER_SQL+'\ncommit;\n');
  if(r.code){evidence.error={sqlstate:/ERROR:\s+([A-Z0-9]{5}):/.exec(r.err)?.[1]||null,constraint:/constraint "([a-zA-Z0-9_]+)"/.exec(r.err)?.[1]||null};throw Error('RECOVERY_NEW_BLOCKER_STOP');}
  evidence.database_restore='PASS';phase='ownership-acl-rls-proof';
  evidence.security=assertSecurityEquivalent(expected,schemaSecurity(await dumpSql(RETRY_DATABASE)));

@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-29",
+  "status": "ISOLATED RECOVERY V3: BLOCKED",
+  "remaining_gate": "human_source_and_recovered_auth_mfa_proofs_pending",
+  "baseline": "f522f5a4c454d648f1a2d6b912e314d996a33c50",
+  "reconstruction": {
+    "pass": true,
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "archive_sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+    "policy": {
+      "version": 1,
+      "table": "auth.users",
+      "classification": "TRANSIENT AUTH STATE",
+      "payload": "excluded",
+      "reconstruction": "canonical empty string",
+      "fields": [
+        "confirmation_token",
+        "recovery_token",
+        "email_change_token_new",
+        "email_change"
+      ]
+    },
+    "users": 7,
+    "before_nulls": {
+      "email_change": 7,
+      "recovery_token": 7,
+      "confirmation_token": 7,
+      "email_change_token_new": 7
+    },
+    "after_nulls": {
+      "email_change": 0,
+      "recovery_token": 0,
+      "confirmation_token": 0,
+      "email_change_token_new": 0
+    },
+    "durable_and_identity_invariant": true,
+    "source_writes": 0,
+    "sessions_created": 0,
+    "payload_unchanged": true
+  },
+  "loader": {
+    "pass": true,
+    "login_performed": false,
+    "health": 200,
+    "users_loaded": 7,
+    "users_expected": 7,
+    "empty_token_status": 400,
+    "state": {
+      "factors": 0,
+      "sessions": 0,
+      "flow_state": 0,
+      "canonical_rows": 7,
+      "refresh_tokens": 0
+    },
+    "source_writes": 0,
+    "auth_starts": 1
+  },
+  "replay": {
+    "pass": true,
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "actions": 1,
+    "engine": "existing PHOTO-02 account deletion orchestration",
+    "source_writes": 0,
+    "auth_identity_absent": true,
+    "unrelated_auth_digest": "49ae8b4891bc9da888c350fc2066e73d",
+    "unrelated_auth_unchanged": true,
+    "completed_at": "2026-10-29T16:26:18.414Z"
+  },
+  "replay_idempotency": {
+    "pass": true,
+    "engine_calls": 0,
+    "unrelated_auth_unchanged": true,
+    "expired_snapshot_rejected_before_engine": true,
+    "snapshot_refreshed_read_only": true
+  },
+  "private_review_preflight": {
+    "page": 200,
+    "foreign_origin": 403,
+    "admin_route": 403,
+    "without_source_custody": {
+      "status": 400,
+      "code": "SOURCE_PROOF_REQUIRED"
+    },
+    "target_public_role": "anon",
+    "source_public_class": "publishable",
+    "tokens_persisted": false
+  },
+  "human_auth": {
+    "source_jwt_rejection": "PENDING",
+    "source_refresh_rejection": "PENDING",
+    "fresh_user": "PENDING",
+    "staff_mfa": "PENDING",
+    "staff_separation": "PENDING",
+    "logout_stale": "PENDING"
+  },
+  "db_reused": true,
+  "new_restore_attempts": 0,
+  "storage_last_verified": {
+    "objects": 42,
+    "sha256_pass": 42,
+    "orphans": 0,
+    "missing_canonical": 0
+  },
+  "tests": {
+    "reconstruction": 6,
+    "private_gate_policy": 2,
+    "targeted_pass": 70,
+    "full_pass": 868,
+    "full_total": 868,
+    "fail": 0,
+    "skipped": 0,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "rpo": null,
+  "rto": null,
+  "main_changed": false,
+  "production_changed": false,
+  "source_admin_mutations": false,
+  "auth_schema_changed": false,
+  "payload_changed": false,
+  "photo_semantics_changed": false
+}

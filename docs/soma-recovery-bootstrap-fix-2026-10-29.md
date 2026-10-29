@@ -1,5 +1,7 @@
 # Recovery v3 — bootstrap approvato e gate Auth
 
+**Follow-up:** [ricostruzione Auth transitoria](soma-auth-transient-reconstruction-2026-10-29.md): loader GoTrue 7/7 e replay PASS dopo il fix tooling autorizzato; gate umani login/MFA ancora pending. Esito storico sotto preservato.
+
 29 ottobre 2026. Branch `codex/soma-schema-v2-staging`; baseline `540fd4a10631cb490688dad7872d6ce83c7d7798`.
 
 **ISOLATED RECOVERY V3: BLOCKED**. Correzione REST e qualificazione Storage 73→74 PASS. Startup REST→Auth→Storage PASS, byte privati 42/42 PASS. STOP successivo su GoTrue: il record Auth recuperato contiene `confirmation_token=NULL`, incompatibile con il caricamento utente del provider. Nessun login/MFA umano, nuovo restore o modifica al payload Auth durevole.

@@ -1,0 +1,16 @@
+/** One actual GoTrue start and seven GETs; no password/token grant, login or MFA. */
+import{execFile}from'node:child_process';import{promisify}from'node:util';import{readFile,writeFile,open}from'node:fs/promises';
+import{archiveMetadata}from'./archive-metadata.mjs';import{DOCKER,TARGET,targetEnvironment,targetSql}from'./local-target.mjs';import{recoveredHttp}from'./recovered-http.mjs';import{RETRY_DATABASE}from'./restore-bootstrap.mjs';import{INERT_AUTH_FIELDS}from'./auth-transient-reconstruction.mjs';
+if(process.argv[2]!=='--prove-loader-once')throw Error('RECOVERY_EXPLICIT_ACTION');const exec=promisify(execFile),name='supabase_auth_soma-recovery-v3',result={pass:false,login_performed:false};let started=false;
+try{
+ const repaired=JSON.parse(await readFile('.local/recovery-v3/auth-transient-reconstruction-result.json'));if(!repaired.pass)throw Error('RECOVERY_INERT_GATE');
+ const info=JSON.parse((await exec(DOCKER,['inspect',name])).stdout)[0];if(info.State.Running||Object.keys(info.HostConfig.PortBindings||{}).length)throw Error('RECOVERY_AUTH_QUARANTINE');
+ const a=await archiveMetadata();a.database.fill(0);const ids=a.inventory.security_snapshot.users.map(x=>x.id),env=await targetEnvironment(TARGET.storage);
+ const claim=await open('.local/recovery-v3/auth-loader-attempt.json','wx',0o600);await claim.writeFile(JSON.stringify({started_at:new Date().toISOString(),maximum_starts:1}));await claim.close();
+ await exec(DOCKER,['start',name]);started=true;
+ let healthy=false;for(let i=0;i<10;i++){try{if((await recoveredHttp('auth','/health')).status===200){healthy=true;break}}catch{}await new Promise(r=>setTimeout(r,300));}if(!healthy)throw Error('RECOVERY_AUTH_HEALTH');
+ let loaded=0;for(const id of ids){const r=await recoveredHttp('auth','/admin/users/'+id,{headers:{Authorization:'Bearer '+env.SERVICE_KEY}});if(r.status!==200||r.data?.id!==id){result.status=r.status;result.provider_code=r.data?.error_code;throw Error('RECOVERY_AUTH_LOADER');}loaded++;}
+ const invalid=await recoveredHttp('auth','/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'recovery',token_hash:''})});if(invalid.status!==400)throw Error('RECOVERY_EMPTY_TOKEN_ACCEPTED');
+ const state=JSON.parse(await targetSql(`begin read only;select jsonb_build_object('canonical_rows',(select count(*)from auth.users where ${INERT_AUTH_FIELDS.map(f=>`"${f}"=''`).join(' and ')}),'sessions',(select count(*)from auth.sessions),'refresh_tokens',(select count(*)from auth.refresh_tokens),'flow_state',(select count(*)from auth.flow_state),'factors',(select count(*)from auth.mfa_factors));rollback;`,{database:RETRY_DATABASE}));if(state.canonical_rows!==ids.length||['sessions','refresh_tokens','flow_state','factors'].some(k=>state[k]!==0))throw Error('RECOVERY_AUTH_STATE');
+ Object.assign(result,{pass:true,health:200,users_loaded:loaded,users_expected:ids.length,empty_token_status:400,state,source_writes:0,auth_starts:1});console.log(JSON.stringify(result));
+}catch(e){result.code=/^[A-Z_0-9]+$/.test(e.message)?e.message:'RECOVERY_LOADER_FAILED';if(started)await exec(DOCKER,['stop',name]).catch(()=>{});console.error(JSON.stringify(result));process.exitCode=1;}finally{await writeFile('.local/recovery-v3/auth-loader-result.json',JSON.stringify(result,null,2),{mode:0o600});}
