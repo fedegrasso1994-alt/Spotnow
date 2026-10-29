@@ -1,5 +1,7 @@
 # Local restore bootstrap — retry v3
 
+**Follow-up 29 ottobre:** [clock harness fix e prosecuzione Storage](soma-recovery-clock-fix-storage-continuation-2026-10-29.md): moderation harness risolto, DB riutilizzato, Storage bytes/hash/private access PASS. Recovery ancora bloccato sul bootstrap API locale; esito storico sotto preservato.
+
 28 ottobre 2026. Branch `codex/soma-schema-v2-staging`; baseline `228a1444db29e336e15175a5bd9f5ca6374013db`.
 
 **ISOLATED RECOVERY V3: BLOCKED**. Il blocker ownership è risolto: l'unico retry autorizzato ha completato il restore DB, la barriera Auth vuota e il confronto owner/ACL/RLS. Lo STOP successivo è un fallimento osservato nella suite completa, fuori scope bootstrap. Storage bytes/Auth/MFA recovery non sono proseguiti. Nessun RPO/RTO attestato.

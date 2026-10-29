@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-29",
+  "branch": "codex/soma-schema-v2-staging",
+  "status": "ISOLATED RECOVERY V3: BLOCKED",
+  "harness_commit": "415f993ad697b7a4e3180b79301129c0a89dfc2e",
+  "harness": {
+    "freezeClock_default": true,
+    "override_only_nominal_moderation_test": true,
+    "assertions_unchanged": true,
+    "focused_runs": 1,
+    "focused_pass": 1,
+    "targeted_pass": 77,
+    "initial_full_pass": 852
+  },
+  "db_reused": true,
+  "new_db_restore_attempts": 0,
+  "storage": {
+    "pass": true,
+    "http_verified": 42,
+    "unauthenticated_status": 400,
+    "public_route_status": 400,
+    "orphans": 0,
+    "missing_canonical": 0,
+    "private_bucket": true,
+    "photo_ledger_unchanged": true
+  },
+  "recovery_runtime": {
+    "checked_at": "2026-10-29T06:28:41.399Z",
+    "security_equal": false,
+    "added": [
+      "FUNCTION storage.enforce_versioning_status_transition()"
+    ],
+    "removed": [],
+    "changed": [],
+    "state": {
+      "factors": 0,
+      "refresh": 0,
+      "sessions": 0,
+      "cleanup_accounts": 95,
+      "graphql_public_exists": false
+    },
+    "auth_rest_stopped": true,
+    "replay_executed": false,
+    "blocker": {
+      "http": 503,
+      "code": "PGRST002",
+      "sqlstate": "3F000",
+      "missing_schema": "graphql_public",
+      "configured_schemas": "public,graphql_public"
+    },
+    "photo_ledger_unchanged": true,
+    "storage_metadata_unchanged": true,
+    "staff_roles": [
+      {
+        "role": "ADMIN",
+        "active": true
+      },
+      {
+        "role": "MODERATOR",
+        "active": true
+      }
+    ],
+    "services": [
+      {
+        "name": "/supabase_auth_soma-recovery-v3",
+        "running": false,
+        "published_ports": 0
+      },
+      {
+        "name": "/supabase_rest_soma-recovery-v3",
+        "running": false,
+        "published_ports": 0
+      },
+      {
+        "name": "/supabase_storage_soma-recovery-v3",
+        "running": false,
+        "published_ports": 0
+      }
+    ]
+  },
+  "tests": {
+    "new_contracts_pass": 3,
+    "full_pass": 855,
+    "full_total": 855,
+    "fail": 0,
+    "skipped": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "rerun_until_green": false
+  },
+  "source_tokens_post_restore": "NOT_TESTED",
+  "source_refresh": "NOT_TESTED",
+  "fresh_auth": "NOT_TESTED",
+  "staff_mfa": "NOT_TESTED",
+  "rpo": null,
+  "rto": null,
+  "staging_writes": false,
+  "production_changes": false,
+  "main_changes": false,
+  "photo_semantics_changes": false,
+  "new_cloud_resources": false,
+  "local_secret_files_ignored": true,
+  "local_secret_file_mode": "0600"
+}
