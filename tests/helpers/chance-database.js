@@ -1,0 +1,8 @@
+import{readFile}from'node:fs/promises';import{policyDatabase,admin,asUser,ids}from'./discovery-policy-database.js';import{freezeDiscoveryTestClock}from'./discovery-test-clock.js';
+export{admin,asUser,ids};export{users}from'./discovery-database.js';
+export async function chanceDatabase(t,n=12){const d=await policyDatabase(t,n);await admin(d);for(const f of['039_dd_outgoing_spot_state.sql','040_dd_idempotent_window_read.sql','041_dd_controlled_admission.sql','058_tribe_chance.sql'])await d.exec(await readFile('supabase/migrations/'+f,'utf8'));await d.exec("create function spot_private.fixture_chance_seed()returns trigger language plpgsql as $$begin new.generation_id:=md5(new.local_date::text||new.slot)::uuid;return new;end$$;create trigger fixture_chance_seed before insert on spot_private.discovery_windows for each row execute function spot_private.fixture_chance_seed()");await freezeDiscoveryTestClock(d,'2030-06-10T07:00:00Z');await asUser(d,ids.a);return d;}
+export async function chanceClock(d,stamp){await admin(d);await freezeDiscoveryTestClock(d,stamp);await asUser(d,ids.a);}
+export async function enableChance(d){await admin(d);await d.exec('update spot_private.chance_control set enabled=true;update spot_private.soma_v2_control set discovery_enabled=true;update spot_private.discovery_policy set enabled=true,paused=false where version=3');await asUser(d,ids.a);}
+export const chances=d=>d.query('select my_chances()v').then(r=>r.rows[0].v);
+export const reveal=(d,id)=>d.query('select reveal_chance($1)v',[id]).then(r=>r.rows[0].v);
+export const chanceSpot=(d,id,operation=crypto.randomUUID())=>d.query('select send_chance_spot($1,$2)v',[id,operation]).then(r=>r.rows[0].v);
