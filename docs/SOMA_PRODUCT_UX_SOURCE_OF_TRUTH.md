@@ -44,7 +44,7 @@ Preserve the current SOMA visual language. No global redesign or style refactor 
 
 Standard flow:
 
-**signup/login -> 18+ -> dating consent -> profile -> photo -> mandatory pilot Tribe choice -> TRIBE Daily Discovery**
+**signup/login -> 18+ -> dating consent -> profile -> photo -> mandatory pilot Tribe choice -> TRIBE Chance**
 
 QR is not required for standard entry.
 
@@ -140,76 +140,41 @@ This is the intentional exception to mandatory Tribe selection in the standard o
 
 ---
 
-## 8. TRIBE = Daily Discovery
+## 8. TRIBE → Chance (founder-approved, 2026-10-30)
 
-TRIBE is not:
-- a directory;
-- a Tribe menu;
-- a Bacheca selector;
-- a repeated Place selector;
-- infinite swipe.
+TRIBE presents private reciprocal introductions, one person at a time. It is not a gallery, a directory, a batch of available singles or a visual history.
 
-Opening TRIBE should expose Daily Discovery directly.
+- Initial pilot configuration: **4 new Chance globally per Europe/Rome calendar day**, across all 0–3 memberships.
+- Release times: **10:00, 14:00, 18:00, 21:30 Europe/Rome**, one server-side configurable schedule; UTC persisted timestamps.
+- One unordered A↔B introduction, same release slot and lifecycle on both sides, allocated atomically.
+- Released Chance remain in the backlog while valid, including when the user is offline. Metadata/count only until voluntary **Scopri la tua Chance**.
+- Reveal is directional and persisted: A revealing B does not reveal A for B.
+- Exactly **24 elapsed hours** from each released_at, independently of later releases and DST. Unmatched expired Chance disappears from discovery; Match/chat remains.
+- **Spot** or **Continua**. Continue sends no negative signal, no notification and no decline. Serial previous/next/revisit only among valid Chance, with no thumbnails, grid, pool endpoint or permanent visual history.
+- At most **1 Spot per Chance**. No additional daily Tribe Spot cap.
+- Explicit founder clarification: a valid Chance released yesterday can still receive its Spot today, even if this makes the number of Spot actions exceed four in today's calendar day. Four limits **new introductions**, not today's accumulated actions.
+- Next release and per-Chance expiry countdown use server timestamps plus monotonic elapsed time; no client clock authority.
+- Insufficient inventory means fewer introductions, never incompatible/fake/repeated filler.
 
-Per window:
-- up to **4 profiles**;
-- max **2 new Spots**.
-
-Per day:
-- max **8 Daily Discovery exposures/profiles** total;
-- max **4 Daily Discovery Spots** total.
-
-These are global across all user Tribes in the future.
-
-UI must include:
-- profiles;
-- Tribe attribution where relevant;
-- Spot CTA;
-- Spot budget/status;
-- visible countdown to next window;
-- partial-pool state;
-- exhausted state.
-
-If the compatible pool is too small, show fewer than 4. Never fill with incompatible profiles.
-
-Approved Daily Discovery policy (Federico, 2026-10-19):
-- Europe/Rome calendar day, 00:00–24:00, for daily quotas (ORA keeps its own calendar-day counters).
-- Window A: 08:00 inclusive to 16:00 exclusive.
-- Window B: 16:00 inclusive to next midnight exclusive.
-- No active drop from 00:00 to 08:00; next window starts at 08:00.
-- Server-derived boundaries/countdown; Europe/Rome DST civil-time conversion.
-- Discovery remains OFF until the TRIBE frontend + Figma gate is ready.
+The previous 4+4 DD product presentation and 2/window Spot budget are superseded only for Chance. ORA retains its independent frozen rules. Bottom navigation and the TRIBE name are unchanged. Rollout/feature activation remains subject to the staging gate; no ordinary-user activation is implied by this product contract.
 
 ---
 
-## 9. Daily Discovery allocation rules
+## 9. Chance allocation / reused DD foundations
 
-Server-side allocation by reciprocal pair.
+Reuse existing reciprocal compatibility/eligibility, membership identities, block/suspension/delete guards, unified Match/Chat, fairness counters and pair memory.
 
-If A sees B in a window, B must see A in the same window.
-
-Priority:
-
-**compatibility -> reciprocity -> exposure fairness -> novelty -> diversity -> randomness**
-
-No popularity boosting.
-
-Fairness concerns opportunity to be seen, not romantic outcomes.
+Priority remains **compatibility → reciprocity → exposure fairness → novelty → diversity → randomness**. No popularity or romantic-outcome ranking.
 
 Pair recurrence:
-- never twice in the same day;
-- hard floor ~72h;
-- target ~7 days;
-- recurrence between 72h and 7d allowed only when inventory is insufficient.
+- never twice in the same release day;
+- hard floor 72h;
+- target 7 days;
+- 72h–7d fallback only when compatible fresh inventory is exhausted.
 
-No replacement/refund of already assigned/consumed slots inside the same window.
-A newly eligible user may join the current window through reciprocal additions only
-in slots never assigned on either side. Existing profiles are never substituted;
-4/window and 8/day allocated-profile counters remain authoritative even after safety
-removals/leave. With no new eligible arrivals, repeated fetches remain unchanged;
-new arrivals can add profiles in previously empty slots. Zero/partial pools remain valid.
+A release slot allows one assigned counterpart per endpoint. Already assigned/consumed slots are not replaced or refunded on block/leave/safety changes. Existing DD support for reciprocal completion of never-assigned slots is reused; there is no new Chance before the feature's initial activation. Any delayed processing still uses the same slot and expiry on both endpoints, never two asynchronous release slots. Operational dispatch delay must be visible in evidence.
 
-A one-sided pending Spot does not preserve profile visibility.
+A pending person-level Spot does not extend Chance expiry or profile visibility. Profile/photo access via Chance requires that viewer's reveal plus current eligibility/context/expiry; existing Match and other independently authorized surfaces keep their own authorization.
 
 ---
 
@@ -861,7 +826,7 @@ Gate: **SPOT V2 READY**
 
 ### D. Profile/Photo authorization v2
 Profile/photo access only through valid relationship:
-- current DD exposure;
+- revealed, unexpired Chance;
 - shared live ORA;
 - existing Match;
 - deliverable SPOTTED request recipient -> sender.
