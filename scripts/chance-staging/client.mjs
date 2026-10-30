@@ -1,5 +1,5 @@
 // Manual staging-only canary. Never imported by application or CI.
-import{readFile}from'node:fs/promises';import{createClient}from'@supabase/supabase-js';import{createBackend}from'../../src/backend.js';import{createChanceApi}from'../../src/chance-api.js';
+import'./dns.mjs';import{readFile}from'node:fs/promises';import{createClient}from'@supabase/supabase-js';import{createBackend}from'../../src/backend.js';import{createChanceApi}from'../../src/chance-api.js';
 export const root='.local/chance-staging';
 const config=JSON.parse(await readFile('.local/legacy-key-migration/config.json','utf8'));
 if(config.url!=='https://zjinjtkekmaqtxsuyvho.supabase.co'||!config.publicKey.startsWith('sb_publishable_')||!config.serverKey.startsWith('sb_secret_'))throw Error('STAGING_MODERN_CONFIG_REQUIRED');
