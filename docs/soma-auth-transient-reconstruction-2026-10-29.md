@@ -1,5 +1,7 @@
 # Recovery v3 — ricostruzione dello stato Auth transitorio
 
+**Follow-up 30 ottobre:** [USER locale automatico e unico gate umano](soma-local-user-recovery-gate-2026-10-30.md): canary password/sessione recovery-only PASS e rimosso; source-token rejection USER resta una prova distinta su account già esistente, senza reset. Esito storico sotto preservato.
+
 29 ottobre 2026. Branch `codex/soma-schema-v2-staging`, baseline `f522f5a4c454d648f1a2d6b912e314d996a33c50`.
 
 **ISOLATED RECOVERY V3: BLOCKED sui gate umani finali**, non più sul loader GoTrue. Fix deterministico applicato una sola volta nel recovery esistente, 7/7 identità caricate, replay della fixture cancellata completato e idempotente. Nessun nuovo restore DB; nessun cambiamento a schema Auth o payload durevole. Source-token rejection, login recuperato e MFA staff richiedono ancora prove umane reali: non sono promossi a PASS dai test di modello.

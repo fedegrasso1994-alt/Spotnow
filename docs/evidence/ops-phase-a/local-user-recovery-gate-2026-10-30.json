@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-30",
+  "status": "LOCAL USER E2E PASS; FINAL HUMAN GATE READY",
+  "baseline": "14bfd250f2056a2ebc13eda55c9d6c003f9c4192",
+  "local_user": {
+    "pass": true,
+    "source_writes": 0,
+    "claims_recovered_identity": false,
+    "password_persisted": false,
+    "tokens_persisted": false,
+    "scope": "recovery-only fixture; NOT a recovered account",
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "fixture_id": "f3c1c560-d770-57fc-bdad-de68f96d80b7",
+    "wrong_password_status": 400,
+    "password_login_status": 200,
+    "identity_load_status": 200,
+    "session_created": true,
+    "local_refresh_status": 200,
+    "rest_rls_pass": true,
+    "staff_denied": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "denied": true
+      },
+      {
+        "operation": "ops_health",
+        "denied": true
+      },
+      {
+        "operation": "ops_recent",
+        "denied": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "denied": true
+      }
+    ],
+    "logout_status": 204,
+    "cleanup_pass": true,
+    "remaining": {
+      "objects": 0,
+      "profiles": 0,
+      "sessions": 0,
+      "identities": 0,
+      "refresh_tokens": 0
+    },
+    "existing_accounts_unchanged": true,
+    "source_token_rejection": "NOT_SUBSTITUTED_BY_THIS_TEST",
+    "fixture_credentials_destroyed": true
+  },
+  "staff_readiness": {
+    "pass": true,
+    "staff": [
+      {
+        "role": "ADMIN",
+        "identity_load": 200,
+        "confirmed": true,
+        "target_factors": 0,
+        "denied": [
+          {
+            "aal": "aal1",
+            "without_real_session_denied": true
+          },
+          {
+            "aal": "aal2",
+            "without_real_session_denied": true
+          }
+        ],
+        "source_mfa_preflight": "verified 1, unverified 0; read-only checked",
+        "source_and_checkpoint_credentials_equal": true,
+        "source_role_active": true
+      },
+      {
+        "role": "MODERATOR",
+        "identity_load": 200,
+        "confirmed": true,
+        "target_factors": 0,
+        "denied": [
+          {
+            "aal": "aal1",
+            "without_real_session_denied": true
+          },
+          {
+            "aal": "aal2",
+            "without_real_session_denied": true
+          }
+        ],
+        "source_mfa_preflight": "verified 1, unverified 0; read-only checked",
+        "source_and_checkpoint_credentials_equal": true,
+        "source_role_active": true
+      }
+    ],
+    "target_totp_enroll": true,
+    "target_totp_verify": true,
+    "session_proof_scope": "DB role/context negative only; fresh human AAL2 still pending"
+  },
+  "source_email_readiness": {
+    "http": 200,
+    "email_provider": true,
+    "tls_verified": true,
+    "dns_fallback": false,
+    "source_email_sent": false,
+    "source_config_changed": false,
+    "system_dns_changed": false
+  },
+  "invariants": {
+    "pass": true,
+    "objects": 42,
+    "storage_metadata_unchanged": true,
+    "photo_ledger_unchanged": true,
+    "sessions": 0,
+    "target_staff_factors": 0,
+    "staff_roles": [
+      {
+        "role": "ADMIN",
+        "active": true
+      },
+      {
+        "role": "MODERATOR",
+        "active": true
+      }
+    ]
+  },
+  "source_user_proof": {
+    "method": "existing confirmed source identity, normal email magiclink, create_user false",
+    "password_reset": false,
+    "account_creation": false,
+    "credentials_changed": false,
+    "email_requested_by_agent": false,
+    "real_source_token_negative": "PENDING HUMAN; NOT REPLACED BY LOCAL FIXTURE"
+  },
+  "final_gate_policy": {
+    "requires_independent_source_user": true,
+    "requires_local_user_cleanup": true,
+    "requires_source_staff_aal2": true,
+    "requires_target_aal1_denial": true,
+    "requires_target_staff_aal2_and_separation": true,
+    "requires_logout_stale_denial": true,
+    "no_client_self_reported_pass": true
+  },
+  "runtime_review": {
+    "http": 200,
+    "local_user_pass": true,
+    "local_user_cleaned": true,
+    "manual_summary_pass": false,
+    "source_enroll_denied": 403,
+    "source_recover_denied": 403,
+    "source_signup_denied": 403,
+    "source_email_without_request_denied": 400,
+    "target_without_custody_denied": 400,
+    "browser_user_and_admin_views_verified": true,
+    "email_or_login_sent_during_preparation": false
+  },
+  "tests": {
+    "targeted_pass": 79,
+    "full_pass": 877,
+    "full_total": 877,
+    "fail": 0,
+    "skipped": 0,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "full_runs": 1,
+    "canary_runs": 1
+  },
+  "checkpoint_changed": false,
+  "recovered_auth_passwords_changed": false,
+  "source_admin_mutations": false,
+  "main_changed": false,
+  "production_changed": false,
+  "photo_changed": false,
+  "rpo": null,
+  "rto": null
+}
