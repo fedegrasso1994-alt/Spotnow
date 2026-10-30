@@ -169,5 +169,38 @@
   "production_changed": false,
   "photo_changed": false,
   "rpo": null,
-  "rto": null
+  "rto": null,
+  "email_followup": {
+    "cause": "empty private link submitted; earlier email already requested",
+    "source_read_only_confirmation": {
+      "confirmed": true,
+      "link_pending": true,
+      "cooldown_elapsed": true
+    },
+    "new_request": {
+      "time": "2026-10-30T09:36:19.417Z",
+      "status": 200,
+      "pass": true,
+      "email_requested": true,
+      "new_accounts_allowed": false,
+      "code": null
+    },
+    "browser": {
+      "request_disabled_after_provider_success": true,
+      "verify_disabled_with_empty_link": true,
+      "pending_state_survives_reload": true
+    },
+    "source_or_target_login_performed": false,
+    "staff_mfa_performed": false,
+    "auth_proof_pending": true,
+    "tests": {
+      "targeted": 9,
+      "full": 879,
+      "failed": 0,
+      "skipped": 0,
+      "full_runs": 1,
+      "build": "PASS",
+      "typecheck": "PASS"
+    }
+  }
 }

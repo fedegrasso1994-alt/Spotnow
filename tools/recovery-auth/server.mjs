@@ -9,7 +9,7 @@ const env=await targetEnvironment(TARGET.storage),ids=JSON.parse(await targetSql
 const localUser=JSON.parse(await readFile('.local/recovery-v3/local-user-result.json'));if(!localUser.pass||!localUser.cleanup_pass)throw Error('LOCAL_USER_GATE_REQUIRED');
 const sourceUser=JSON.parse(await targetSql("begin read only;select jsonb_build_object('id',id,'email',email,'confirmed',email_confirmed_at is not null)from auth.users where id='"+SOURCE_USER_ID+"';rollback;",{database:'soma_recovery_v3_retry_20261028'}));if(sourceUser?.id!==SOURCE_USER_ID||sourceUser.confirmed!==true||Object.values(STAFF).includes(sourceUser.id))throw Error('SOURCE_USER_SCOPE');
 const archive=await archiveMetadata();archive.database.fill(0);const sourceCredentialWitness=archive.inventory.security_snapshot.users.find(x=>x.id===SOURCE_USER_ID)?.credential_digest;if(!sourceCredentialWitness)throw Error('SOURCE_USER_WITNESS');
-const evidence={},custody=new Map();let serial=Promise.resolve(),emailRequested=false;
+const evidence={},custody=new Map();let serial=Promise.resolve(),emailRequested=false,emailSent=false;
 const claims=t=>{try{return JSON.parse(Buffer.from(t.split('.')[1],'base64url'))}catch{throw Error('INVALID_ACCESS_TOKEN')}};
 async function user(access){const r=await recoveredHttp('auth','/user',{headers:{Authorization:'Bearer '+access}});if(r.status!==200)throw Error('TARGET_SESSION_INVALID');return r.data;}
 async function rpc(name,access,body={}){return recoveredHttp('rest','/rpc/'+name,{method:'POST',headers:{Authorization:'Bearer '+access,'Content-Type':'application/json'},body:JSON.stringify(body)});}
@@ -18,7 +18,7 @@ async function proof(path,b){
  if(path==='/source-user-email-request'){
   if(emailRequested)throw Error('SOURCE_EMAIL_ALREADY_REQUESTED');emailRequested=true;
   const current=(await readSourceMetadata('security')).users.find(x=>x.id===SOURCE_USER_ID);if(!current||current.credential_digest!==sourceCredentialWitness)throw Error('SOURCE_USER_STATE_CHANGED_STOP');
-  const r=await sourceAuthHttp('/auth/v1/otp?redirect_to='+encodeURIComponent(EXISTING_PREVIEW),{method:'POST',headers:{apikey:sourceConfig.publicKey,'Content-Type':'application/json'},body:JSON.stringify(existingUserOtpRequest(sourceUser.email))});if(r.status!==200)throw Error(r.status===429?'SOURCE_EMAIL_COOLDOWN_STOP':'SOURCE_EMAIL_REQUEST_FAILED');return{pass:true,email_requested:true,new_accounts_allowed:false};
+  const r=await sourceAuthHttp('/auth/v1/otp?redirect_to='+encodeURIComponent(EXISTING_PREVIEW),{method:'POST',headers:{apikey:sourceConfig.publicKey,'Content-Type':'application/json'},body:JSON.stringify(existingUserOtpRequest(sourceUser.email))});if(r.status!==200)throw Error(r.status===429?'SOURCE_EMAIL_COOLDOWN_STOP':'SOURCE_EMAIL_REQUEST_FAILED');emailSent=true;return{pass:true,email_requested:true,new_accounts_allowed:false};
  }
  if(path==='/source-user-email-complete'){
   if(!emailRequested)throw Error('SOURCE_EMAIL_REQUEST_REQUIRED');const hash=sourceMagicLinkHash(b.link);
@@ -53,7 +53,7 @@ const server=createServer((req,res)=>{const work=async()=>{
  try{
   if(req.headers.host!=='127.0.0.1:4297'||req.headers.origin&&req.headers.origin!==ORIGIN)return end(403,{code:'ORIGIN'});const url=new URL(req.url,ORIGIN);
   if(req.method==='GET'&&url.pathname==='/config')return end(200,{source:SOURCE,sourceRelay:ORIGIN+'/source',sourcePublic:sourceConfig.publicKey,target:ORIGIN,targetPublic:env.ANON_KEY,staff:STAFF,sourceUser:{id:sourceUser.id,email:sourceUser.email},localUser:{pass:true,cleaned:true,scope:'RECOVERY-ONLY — NOT RECOVERED'}});
-  if(req.method==='GET'&&url.pathname==='/summary')return end(200,{local_user:localUser.pass,local_user_cleaned:localUser.cleanup_pass,manual:finalRecoveryAuthGate(localUser,evidence)});
+  if(req.method==='GET'&&url.pathname==='/summary')return end(200,{local_user:localUser.pass,local_user_cleaned:localUser.cleanup_pass,email:{attempted:emailRequested,requested:emailSent,verified:evidence.USER?.source?.pass===true},manual:finalRecoveryAuthGate(localUser,evidence)});
   const assets={'/':['index.html','text/html'],'/review.js':['review.js','text/javascript'],'/style.css':['style.css','text/css']};if(req.method==='GET'&&assets[url.pathname]){const[f,type]=assets[url.pathname];return end(200,await readFile('.local/recovery-v3/review/'+f),type);}
   let body='';for await(const x of req){body+=x;if(body.length>48000)throw Error('REQUEST_TOO_LARGE');}
   if(url.pathname.startsWith('/source/auth/v1/')){

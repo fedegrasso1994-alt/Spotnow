@@ -91,3 +91,19 @@ Smoke negativi: origine estranea/route admin/source enroll/source recover/source
 RPO/RTO rimangono **non attestati** fino alla chiusura Auth/MFA/application smoke. Non si rinomina il USER locale come utente recuperato e non si dichiara chiuso il source-token gate prima dei token source reali.
 
 Unica checklist umana completa nella consegna finale; nessun tentativo manuale esplorativo richiesto durante la preparazione. File/evidence: [prova locale e readiness](evidence/ops-phase-a/local-user-recovery-gate-2026-10-30.json).
+
+## Follow-up — campo link vuoto e nuova email source
+
+Diagnosi del successivo `SOURCE_EMAIL_LINK_REQUIRED`: il parser riceveva un campo vuoto, non un errore di invio email. La richiesta del primo link era già stata accettata. Verifica source strettamente read-only dei soli indicatori/timestamp: account confermato, link pendente, invio precedente alle 09:30:42 UTC; cooldown superato. Nessun token o hash estratto.
+
+Correzione solo harness locale:
+
+- `/summary` espone solo `attempted/requested/verified`, mai link/token; distingue tentativo fallito da email accettata.
+- La pagina ricaricata riprende lo stato corretto: nessun secondo invio dalla UI. Verifica disabilitata finché il campo è vuoto; anche il relativo handler non invia una chiamata Auth per input vuoto.
+- Nessuna modifica al parser di sicurezza, alla prova di rifiuto JWT/refresh, alla custodia staff o ai percorsi Auth sorgente.
+- Dopo il riavvio del solo harness, una nuova richiesta normale esplicitamente autorizzata è stata inviata **una volta**: HTTP 200 alle **09:36:19 UTC / 10:36:19 Europe/Rome**. `create_user:false`; nessuna generazione admin del link, reset password o modifica al checkpoint. Il precedente link non va usato.
+- HTTP e browser confermano `requested:true`, `verified:false`, nuova richiesta disabilitata, verifica disabilitata con campo vuoto. Nessun login o MFA eseguito.
+
+La risposta 200 attesta accettazione provider, non ricezione nella casella né chiusura E2E. La sola azione USER ancora umana è copiare il link dalla nuova email al campo privato locale senza aprirlo. Prove source-token/staff e RPO/RTO restano pending. Nessun nuovo micro-gate: consegna unica USER → ADMIN → MODERATOR.
+
+Follow-up test: mirati email/transport/gate **9/9 PASS**; full suite **879/879 PASS**, una sola esecuzione, zero fail/skip/cancel; build/typecheck PASS.
