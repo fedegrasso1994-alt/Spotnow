@@ -1,0 +1,414 @@
+{
+  "date": "2026-10-30",
+  "gate": "ISOLATED RECOVERY V3: GO FOR REVIEW",
+  "review_scope": "v3 isolated recovery/security proof; pilot launch/RPO-RTO service targets not approved by this result",
+  "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+  "archive_sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+  "contract_version": 3,
+  "archive_changed": false,
+  "auth_replay": {
+    "pass": true,
+    "checked_at": "2026-10-30T11:02:41.769Z",
+    "server_gate": {
+      "pass": true,
+      "user": true,
+      "admin": true,
+      "moderator": true,
+      "user_password_proof": "RECOVERY-ONLY; NOT HISTORICAL ACCOUNT",
+      "source_token_rejection": "SEPARATE REAL SOURCE CAPABILITY REQUIRED"
+    },
+    "human_evidence": {
+      "USER": {
+        "source": {
+          "pass": true,
+          "source_session_verified": true,
+          "source_aal": "aal1",
+          "auth_status": 403,
+          "rest_status": 401,
+          "refresh_status": 400
+        }
+      },
+      "ADMIN": {
+        "source": {
+          "pass": true,
+          "source_session_verified": true,
+          "source_aal": "aal2",
+          "auth_status": 403,
+          "rest_status": 401,
+          "refresh_status": 400
+        },
+        "aal1": {
+          "pass": true,
+          "aal": "aal1",
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_health",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_recent",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "expected": "denied",
+              "pass": true
+            }
+          ]
+        },
+        "allowed": {
+          "pass": true,
+          "aal": "aal2",
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "expected": "allowed",
+              "pass": true
+            },
+            {
+              "operation": "ops_health",
+              "expected": "allowed",
+              "pass": true
+            },
+            {
+              "operation": "ops_recent",
+              "expected": "allowed",
+              "pass": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "expected": "allowed",
+              "pass": true
+            }
+          ]
+        },
+        "logout": {
+          "pass": true,
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "denied": true
+            },
+            {
+              "operation": "ops_health",
+              "denied": true
+            },
+            {
+              "operation": "ops_recent",
+              "denied": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "denied": true
+            }
+          ]
+        }
+      },
+      "MODERATOR": {
+        "source": {
+          "pass": true,
+          "source_session_verified": true,
+          "source_aal": "aal2",
+          "auth_status": 403,
+          "rest_status": 401,
+          "refresh_status": 400
+        },
+        "aal1": {
+          "pass": true,
+          "aal": "aal1",
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_health",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_recent",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "role_management",
+              "expected": "denied",
+              "pass": true
+            }
+          ]
+        },
+        "allowed": {
+          "pass": true,
+          "aal": "aal2",
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_health",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "ops_recent",
+              "expected": "denied",
+              "pass": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "expected": "allowed",
+              "pass": true
+            },
+            {
+              "operation": "role_management",
+              "expected": "denied",
+              "pass": true
+            }
+          ]
+        },
+        "logout": {
+          "pass": true,
+          "checks": [
+            {
+              "operation": "admin_analytics_dashboard",
+              "denied": true
+            },
+            {
+              "operation": "ops_health",
+              "denied": true
+            },
+            {
+              "operation": "ops_recent",
+              "denied": true
+            },
+            {
+              "operation": "moderation_review_queue",
+              "denied": true
+            }
+          ]
+        }
+      }
+    },
+    "human_completed_at": "2026-10-30T10:59:33.323Z",
+    "replay": {
+      "pass": true,
+      "read_only": true,
+      "replay_engine_calls": 0,
+      "source_deleted_identity_absent": true,
+      "durable_credentials_identities_roles_consents_unchanged": true,
+      "holds_and_moderation_unchanged": true,
+      "login_timestamps_excluded_by_existing_security_projection": true,
+      "mfa_proof": "SEPARATE_REAL_AUTH_GATE_REQUIRED"
+    },
+    "auth_state": {
+      "factors": [
+        {
+          "role": "MODERATOR",
+          "verified": 1,
+          "unverified": 0,
+          "recovery_enrollment": true
+        },
+        {
+          "role": "ADMIN",
+          "verified": 1,
+          "unverified": 0,
+          "recovery_enrollment": true
+        }
+      ],
+      "sessions": 0,
+      "refresh_rows": 0,
+      "unvalidated_fk": 0,
+      "revoked_receipts": 0,
+      "fixture_auth_rows": 0,
+      "live_refresh_sessions": 0
+    },
+    "source_writes": 0,
+    "new_logins": 0,
+    "new_mfa": 0,
+    "archive_unchanged": true
+  },
+  "storage": {
+    "pass": true,
+    "http_verified": 42,
+    "unauthenticated_status": 400,
+    "public_route_status": 400,
+    "orphans": 0,
+    "missing_canonical": 0,
+    "private_bucket": true,
+    "photo_ledger_unchanged": true
+  },
+  "schema": {
+    "pass": true,
+    "classification": "RECREATE BY PROVIDER BOOTSTRAP",
+    "migration_before": 73,
+    "migration_after": 74,
+    "migration_applied_once": true,
+    "all_original_objects_checked": 1547,
+    "added": [
+      "FUNCTION storage.enforce_versioning_status_transition()",
+      "TRIGGER storage.buckets enforce_versioning_status_transition"
+    ],
+    "removed_constraint": "buckets_versioning_dark_check",
+    "owners_acl_rls_preserved": true,
+    "bootstrap_contract_version": 1,
+    "checkpoint_contract_version": 3,
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "archive_sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+    "archive_unchanged": true
+  },
+  "application": {
+    "pass": true,
+    "checked_at": "2026-10-30T11:03:39.504Z",
+    "scope": "actual local Auth/REST/Storage; recorded human JWT staff RPCs + native authenticated DB read contracts; NOT a full product-browser UI replay",
+    "services": {
+      "auth": 200,
+      "rest": 200,
+      "storage": 200
+    },
+    "real_human_jwt_admin_rpc": {
+      "pass": true,
+      "aal": "aal2",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "expected": "allowed",
+          "pass": true
+        },
+        {
+          "operation": "ops_health",
+          "expected": "allowed",
+          "pass": true
+        },
+        {
+          "operation": "ops_recent",
+          "expected": "allowed",
+          "pass": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "expected": "allowed",
+          "pass": true
+        }
+      ]
+    },
+    "real_human_jwt_moderator_rpc": {
+      "pass": true,
+      "aal": "aal2",
+      "checks": [
+        {
+          "operation": "admin_analytics_dashboard",
+          "expected": "denied",
+          "pass": true
+        },
+        {
+          "operation": "ops_health",
+          "expected": "denied",
+          "pass": true
+        },
+        {
+          "operation": "ops_recent",
+          "expected": "denied",
+          "pass": true
+        },
+        {
+          "operation": "moderation_review_queue",
+          "expected": "allowed",
+          "pass": true
+        },
+        {
+          "operation": "role_management",
+          "expected": "denied",
+          "pass": true
+        }
+      ]
+    },
+    "ordinary_user_db_context": {
+      "no_other_profile": true,
+      "match_read_contract": true,
+      "account_status_boolean": true,
+      "scope": "actual authenticator connection / authenticated DB role; NOT a new Auth login"
+    },
+    "anonymous_rpc": [
+      {
+        "operation": "admin_analytics_dashboard",
+        "status": 401,
+        "denied": true
+      },
+      {
+        "operation": "ops_health",
+        "status": 401,
+        "denied": true
+      },
+      {
+        "operation": "moderation_review_queue",
+        "status": 401,
+        "denied": true
+      },
+      {
+        "operation": "my_matches",
+        "status": 401,
+        "denied": true
+      }
+    ],
+    "ordinary_auth_password_session_proof": "earlier recovery-only USER canary PASS; not a historical password claim",
+    "new_logins": 0,
+    "new_mfa": 0,
+    "source_writes": 0
+  },
+  "metrics": {
+    "checkpoint_at": "2026-10-28T07:40:43.624898+00:00",
+    "retry_started_at": "2026-10-28T16:33:36.988Z",
+    "verified_application_ready_at": "2026-10-30T11:03:39.504Z",
+    "checkpoint_lag_at_retry_start_seconds": 31973.364,
+    "observed_retry_recovery_elapsed_seconds": 153002.516,
+    "checkpoint_age_at_verified_ready_seconds": 184975.88,
+    "rpo_scope": "measured checkpoint lag at recorded retry start; NOT continuous operational RPO or an invented real incident timestamp",
+    "rto_scope": "observed retry path including debugging, provider limits and human waits; NOT entire earlier recovery campaign or an optimized clean-run benchmark",
+    "operational_rpo_24h_demonstrated": false,
+    "short_rto_target_met": false,
+    "measurement_resolution": "milliseconds; timestamps retained; no real incident time invented"
+  },
+  "source_administrative_writes": 0,
+  "new_agent_logins": 0,
+  "new_agent_mfa": 0,
+  "production_changed": false,
+  "main_changed": false,
+  "photo_changed": false,
+  "quarantine_preserved": true,
+  "quarantine_config": {
+    "cron_schema_present": false,
+    "physical_retention_job_present": false,
+    "retention_scheduler_flag_restored": true,
+    "notification_delivery": false,
+    "flags_not_activated_or_changed": true
+  },
+  "tests": {
+    "full_pass": 885,
+    "full_total": 885,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "full_runs_this_close": 1,
+    "build": "PASS",
+    "typecheck": "PASS"
+  },
+  "private_harness_stopped_after_proofs": true,
+  "source_sessions_revoked": false,
+  "recovery_staff_factors_preserved": true
+}

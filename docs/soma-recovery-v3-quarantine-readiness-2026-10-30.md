@@ -1,5 +1,7 @@
 # ISOLATED RECOVERY V3 — quarantena e gate finale pronto
 
+> Esito successivo: [ISOLATED RECOVERY V3 — GO FOR REVIEW](soma-isolated-recovery-v3-final-2026-10-30.md). I precedenti STOP sotto sono evidenza storica.
+
 30 ottobre 2026. Baseline `4fd714ca80c9510ac5ef551ccdd98ca0e8066d85`.
 Branch `codex/soma-schema-v2-staging`. Sorgente `zjinjtkekmaqtxsuyvho` in sola lettura.
 

@@ -1,5 +1,7 @@
 # Recovery v3 — USER locale automatico e unico gate umano
 
+> Esito successivo: [ISOLATED RECOVERY V3 — GO FOR REVIEW](soma-isolated-recovery-v3-final-2026-10-30.md). I precedenti STOP sotto sono evidenza storica.
+
 30 ottobre 2026. Branch `codex/soma-schema-v2-staging`, baseline `14bfd250f2056a2ebc13eda55c9d6c003f9c4192`.
 
 **USER target harness: PASS. Unico gate umano finale: READY. Recovery complessivo ancora BLOCKED fino alle prove umane source/staff.** Nessuna modifica al checkpoint storico, nessun utente sorgente creato o password/hash esistente modificato. Il test locale non è presentato come autenticazione con password di un'identità storica recuperata.
