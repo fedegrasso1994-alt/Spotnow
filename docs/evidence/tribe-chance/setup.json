@@ -1,0 +1,18 @@
+[
+  {
+    "id": "da51dce6-c07e-4807-bae3-2a8a7e45f7ae",
+    "auth": "PASS",
+    "age": "PASS",
+    "consent": "PASS",
+    "photo": "PASS",
+    "membership": "PASS"
+  },
+  {
+    "id": "5cf79429-c170-48fa-bb13-c71a5e9776bf",
+    "auth": "PASS",
+    "age": "PASS",
+    "consent": "PASS",
+    "photo": "PASS",
+    "membership": "PASS"
+  }
+]

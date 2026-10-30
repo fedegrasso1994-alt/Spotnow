@@ -1,0 +1,31 @@
+{
+  "full_suite": {
+    "tests": 914,
+    "pass": 914,
+    "fail": 0,
+    "skip": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "preview": {
+    "url": "https://spot-qmggd6u98-fedegrasso1994-1482.vercel.app/",
+    "deployment_id": "dpl_Hs1wtmuH9XNYaE8EjfdNcYYFvTrH",
+    "sha": "aba1f69d672b0cf852c82095c79a2964018840f7",
+    "target": null,
+    "alias": [],
+    "served_build_info_verified": true,
+    "production_ref_found": false,
+    "server_secret_found": false
+  },
+  "browser": {
+    "shell": "PASS",
+    "chance_waiting": "PASS",
+    "unified_match": "PASS",
+    "reveal_visual": "NOT_VERIFIED",
+    "responsive_320_390": "BLOCKED_COMPUTER_USE_PERMISSION"
+  },
+  "live_scheduler": "NOT_ACTIVATED_AUTO_REVIEW_REJECTION",
+  "main_sha": "d0f515e8d2c80eeae60f2d5c33dd8901558d5287",
+  "production_aliases_unchanged": true,
+  "status": "TRIBE CHANCE: BLOCKED"
+}

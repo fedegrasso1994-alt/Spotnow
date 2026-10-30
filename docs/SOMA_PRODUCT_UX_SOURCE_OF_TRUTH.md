@@ -777,7 +777,7 @@ University is the initial wedge; gym validates broader physical-context applicab
 - no unnecessary Place search.
 
 ### TBD
-- Daily Discovery activation (approved 08:00/16:00 policy remains staged OFF);
+- Chance activation (configured releases 10:00/14:00/18:00/21:30 Europe/Rome remain staged OFF);
 - Notifications MVP browser/reload and real-device delivery verification (Web Push/VAPID via Supabase Edge is approved; see `soma-notifications-mvp-contract-2026-10-22.md`);
 - professional validation of the approved SPOTTED guard/opt-out policy;
 - remaining physical-retention periods (DD allocation/exposure/pair-memory pilot target: 30 days; cleanup job not activated);

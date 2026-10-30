@@ -1,0 +1,9 @@
+{
+  "reciprocal_same_slot": "PASS",
+  "ttl_86400": "PASS",
+  "no_peer_metadata": "PASS",
+  "concurrent_reveal": "PASS",
+  "directional_reveal": "PASS",
+  "concurrent_distinct_spot_one_success": "PASS",
+  "unified_match": "PASS"
+}

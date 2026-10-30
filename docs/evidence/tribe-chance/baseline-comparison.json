@@ -1,0 +1,15 @@
+{
+  "equal": {
+    "auth": true,
+    "controls": false,
+    "cron": true,
+    "object_count": true,
+    "objects": true,
+    "photo": true,
+    "profiles": true
+  },
+  "storage_objects_before": 42,
+  "storage_objects_after": 42,
+  "controls_effective_equal": true,
+  "control_audit_timestamp_changed": true
+}
