@@ -1,6 +1,7 @@
 import {createAnalyticsApi}from './analytics.js';
 import {createNotificationApi}from './notifications.js';
 import {createDailyDiscoveryApi}from './daily-discovery.js';
+import {createChanceApi}from './chance-api.js';
 import {createProfileAuthorizationApi}from './profile-authorization.js';
 import {createSpotV2Api}from './spot-v2.js';
 import {cachedPhoto,clearPhotoMemory,preloadPhoto} from './photo-memory.js';
@@ -39,7 +40,7 @@ export function createBackend(client,{readTimeoutMs=15000,privacyEnabled=false,r
     ...(privacyEnabled?createPrivacyApi(client):{}),
     authEmailCodeEnabled:emailCodeEnabled,
     ...(analyticsEnabled?{analytics:createAnalyticsApi(client)}:{}),
-    ...(onboardingEnabled&&oraEnabled&&spotV2Enabled&&profileAuthorizationEnabled?{dailyDiscovery:createDailyDiscoveryApi(client)}:{}),
+    ...(onboardingEnabled&&oraEnabled&&spotV2Enabled&&profileAuthorizationEnabled?{dailyDiscovery:createDailyDiscoveryApi(client),chances:createChanceApi(client)}:{}),
     ...(spotV2Enabled?{spotV2:createSpotV2Api(client)}:{}),
     ...(oraEnabled?{ora:createOraApi(client)}:{}),
     ...(onboardingEnabled?{onboarding:createOnboardingApi(client)}:{}),

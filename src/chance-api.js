@@ -1,0 +1,2 @@
+/** No caller-supplied owner, peer, clock, schedule or expiry. */
+export function createChanceApi(client){const call=async(name,args={})=>{const r=await client.rpc(name,args);if(r.error)throw r.error;return r.data;};return{current:()=>call('my_chances'),reveal:id=>call('reveal_chance',{chance_id:id}),viewed:id=>call('chance_viewed',{chance_id:id}),spot:(id,operation)=>call('send_chance_spot',{chance_id:id,operation_id:operation})};}
