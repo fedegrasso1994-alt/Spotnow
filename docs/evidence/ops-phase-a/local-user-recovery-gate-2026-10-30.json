@@ -202,5 +202,34 @@
       "build": "PASS",
       "typecheck": "PASS"
     }
+  },
+  "capabilities_followup": {
+    "root_cause": "harness invented minimum refresh-token length 16; GoTrue legacy format and actual source metadata length 12",
+    "source_metadata_only": {
+      "link_consumed": true,
+      "refresh_length": 12,
+      "refresh_revoked": false,
+      "last_sign_in_at": "2026-10-30T09:40:36.415906+00:00"
+    },
+    "auth_guards_unchanged": true,
+    "new_request": {
+      "requested_at": "2026-10-30T09:45:45.957Z",
+      "http": 400,
+      "pass": false,
+      "email_requested": false,
+      "code": "SOURCE_EMAIL_COOLDOWN_STOP"
+    },
+    "request_retries": 0,
+    "manual_auth_gate": "PENDING_PROVIDER_EMAIL_AVAILABILITY",
+    "staff_login_attempted": false,
+    "tests": {
+      "targeted": 12,
+      "full": 882,
+      "failed": 0,
+      "skipped": 0,
+      "full_runs": 1,
+      "build": "PASS",
+      "typecheck": "PASS"
+    }
   }
 }

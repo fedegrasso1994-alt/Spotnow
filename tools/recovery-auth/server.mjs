@@ -1,3 +1,4 @@
+import{assertSourceCapabilities}from'./source-capabilities.mjs';
 /** Private loopback relay. Session material is RAM-only; never logged or persisted. */
 import{createServer}from'node:http';import{readFile,writeFile}from'node:fs/promises';import{recoveredHttp}from'../../scripts/recovery/recovered-http.mjs';import{targetEnvironment,TARGET,targetSql}from'../../scripts/recovery/local-target.mjs';import{ORIGIN,SOURCE,STAFF,READS,accountScope,authRoute,safeCode}from'./policy.mjs';
 import{SOURCE_USER_ID,EXISTING_PREVIEW,existingUserOtpRequest,sourceMagicLinkHash,sourceCredentialRoute}from'./source-user-policy.mjs';
@@ -26,7 +27,7 @@ async function proof(path,b){
   const p=await proof('/source-proof',{role:'USER',access:s.access_token,refresh:s.refresh_token});return{...p,local_user_gate:localUser.pass,local_fixture_cleaned:localUser.cleanup_pass,source_and_local_users_deliberately_separate:true};
  }
  if(path==='/source-proof'){
-  if(typeof b.access!=='string'||b.access.split('.').length!==3||typeof b.refresh!=='string'||b.refresh.length<16)throw Error('SOURCE_CAPABILITIES_REQUIRED');
+  assertSourceCapabilities(b);
   const r=await sourceAuthHttp('/auth/v1/user',{headers:{apikey:sourceConfig.publicKey,Authorization:'Bearer '+b.access}});if(r.status!==200)throw Error('SOURCE_SESSION_INVALID');const u=r.data;accountScope(b.role,u.id,ids);const c=claims(b.access);if(c.sub!==u.id||b.role!=='USER'&&c.aal!=='aal2')throw Error('SOURCE_FRESH_AAL2_REQUIRED');
   const target=await recoveredHttp('auth','/user',{headers:{Authorization:'Bearer '+b.access}}),rest=await recoveredHttp('rest','/profiles?select=id&limit=1',{headers:{Authorization:'Bearer '+b.access}});if(![401,403].includes(target.status)||rest.status!==401)throw Error('SOURCE_JWT_ACCEPTED');
   const refresh=await recoveredHttp('auth','/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refresh_token:b.refresh})});if(![400,401,403].includes(refresh.status)||refresh.data?.access_token||refresh.data?.session)throw Error('SOURCE_REFRESH_ACCEPTED');
