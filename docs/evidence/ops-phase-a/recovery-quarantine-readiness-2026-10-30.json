@@ -1,0 +1,189 @@
+{
+  "schema": {
+    "pass": true,
+    "classification": "RECREATE BY PROVIDER BOOTSTRAP",
+    "migration_before": 73,
+    "migration_after": 74,
+    "migration_applied_once": true,
+    "all_original_objects_checked": 1547,
+    "added": [
+      "FUNCTION storage.enforce_versioning_status_transition()",
+      "TRIGGER storage.buckets enforce_versioning_status_transition"
+    ],
+    "removed_constraint": "buckets_versioning_dark_check",
+    "owners_acl_rls_preserved": true,
+    "bootstrap_contract_version": 1,
+    "checkpoint_contract_version": 3,
+    "checkpoint_id": "28ec939f-9e37-4b91-9fe2-2cc1c9e252dc",
+    "archive_sha256": "b4ab1cbac728c82a031e2328eb6f75ce76d091b924fbce465726c65e4645b6ae",
+    "archive_unchanged": true
+  },
+  "storage": {
+    "pass": true,
+    "http_verified": 42,
+    "unauthenticated_status": 400,
+    "public_route_status": 400,
+    "orphans": 0,
+    "missing_canonical": 0,
+    "private_bucket": true,
+    "photo_ledger_unchanged": true
+  },
+  "db_roles": {
+    "database": "soma_recovery_v3_retry_20261028",
+    "scope": "actual PostgreSQL role sessions; JWT login not claimed",
+    "auth": {
+      "role": "supabase_auth_admin",
+      "own_service_table_read": true,
+      "private_staff_table_read": false,
+      "transport": "TCP with actual service credential"
+    },
+    "storage": {
+      "role": "supabase_storage_admin",
+      "own_service_table_read": true,
+      "private_staff_table_read": false,
+      "transport": "TCP with actual service credential"
+    },
+    "authenticated": {
+      "via": "authenticator SET LOCAL ROLE authenticated",
+      "own_row": 1,
+      "other_row": 0,
+      "claims": "DB-context-only, not an Auth proof"
+    },
+    "anon": {
+      "direct_profile_read": "DENIED"
+    },
+    "authenticator": {
+      "direct_profile_read": "DENIED"
+    },
+    "service_role": {
+      "via": "authenticator SET LOCAL ROLE service_role",
+      "bypass_rls_read": true
+    },
+    "pass": true
+  },
+  "harness": {
+    "checked_at": "2026-10-30T09:57:41.454Z",
+    "rpc_contracts": [
+      {
+        "name": "admin_analytics_dashboard",
+        "owner": "postgres",
+        "anon_execute": false,
+        "argument_types": "integer",
+        "security_definer": true,
+        "required_arguments": 0,
+        "authenticated_execute": true
+      },
+      {
+        "name": "moderation_review_queue",
+        "owner": "postgres",
+        "anon_execute": false,
+        "argument_types": "timestamp with time zone, text, uuid",
+        "security_definer": true,
+        "required_arguments": 0,
+        "authenticated_execute": true
+      },
+      {
+        "name": "moderation_role_set",
+        "owner": "postgres",
+        "anon_execute": false,
+        "argument_types": "uuid, text, uuid",
+        "security_definer": true,
+        "required_arguments": 3,
+        "authenticated_execute": true
+      },
+      {
+        "name": "ops_health",
+        "owner": "postgres",
+        "anon_execute": false,
+        "argument_types": "",
+        "security_definer": true,
+        "required_arguments": 0,
+        "authenticated_execute": true
+      },
+      {
+        "name": "ops_recent",
+        "owner": "postgres",
+        "anon_execute": false,
+        "argument_types": "uuid",
+        "security_definer": true,
+        "required_arguments": 0,
+        "authenticated_execute": true
+      }
+    ],
+    "auth_health": 200,
+    "negative_custody_guards": [
+      {
+        "path": "/target-proof",
+        "http": 400,
+        "code": "SOURCE_PROOF_REQUIRED"
+      },
+      {
+        "path": "/logout-proof",
+        "http": 400,
+        "code": "SOURCE_PROOF_REQUIRED"
+      }
+    ],
+    "source_login_attempted": false,
+    "target_login_attempted": false,
+    "email_requested": false
+  },
+  "replay": {
+    "pass": true,
+    "read_only": true,
+    "replay_engine_calls": 0,
+    "source_deleted_identity_absent": true,
+    "durable_credentials_identities_roles_consents_unchanged": true,
+    "holds_and_moderation_unchanged": true,
+    "login_timestamps_excluded_by_existing_security_projection": true,
+    "mfa_proof": "SEPARATE_REAL_AUTH_GATE_REQUIRED",
+    "checked_at": "2026-10-30T10:00:23.399Z"
+  },
+  "date": "2026-10-30",
+  "state": "FROZEN_EXTERNAL_EMAIL_429; NONINTERACTIVE_READINESS_PASS",
+  "archive_unchanged": true,
+  "target_quarantine": {
+    "postgres": "17.11",
+    "database_owner": "postgres",
+    "public_owner": "pg_database_owner",
+    "sessions": 0,
+    "refresh": 0,
+    "mfa_factors": 0,
+    "flow_state": 0,
+    "staff_revoked_receipts": 0,
+    "unvalidated_fk": 0,
+    "local_user_fixture": 0,
+    "source_deleted_fixture": 0,
+    "staff_roles_active": [
+      "ADMIN",
+      "MODERATOR"
+    ],
+    "services_running": 3,
+    "published_service_ports": 0,
+    "internal_network": true,
+    "runtime_uses_bootstrap_superuser": false
+  },
+  "email_requests_this_task": 0,
+  "source_writes_this_task": 0,
+  "human_auth": "PENDING",
+  "scheduled_resume": {
+    "created": false,
+    "auto_review_rejected": true,
+    "reason": "Persistent scheduled workspace access and source-email side effect require explicit scheduling authorization."
+  },
+  "rpo": null,
+  "rto": null,
+  "tests": {
+    "focused": 14,
+    "full": 885,
+    "failed": 0,
+    "skipped": 0,
+    "final_full_runs": 1,
+    "build": "PASS",
+    "typecheck": "PASS",
+    "earlier_baseline_run": {
+      "full": 882,
+      "failed": 0,
+      "before_three_new_replay_audit_tests": true
+    }
+  }
+}
