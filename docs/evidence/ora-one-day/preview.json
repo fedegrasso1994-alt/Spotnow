@@ -1,0 +1,13 @@
+{
+  "url": "https://spot-bbekvyw2q-fedegrasso1994-1482.vercel.app/",
+  "deployment_id": "dpl_EiS8FrhNvwCYfFdhvNogy12qMcX8",
+  "runtime_sha": "79f6b547bcf33deaf2449047b38a7adf21c1aaf4",
+  "state": "READY",
+  "target": null,
+  "aliases": [],
+  "chrome_welcome": "PASS",
+  "served_build_info_sha": "PASS",
+  "public_only_artifact_scan": "PASS",
+  "authenticated_browser_e2e": "not performed; Auth redirects unchanged",
+  "production_aliases_original": true
+}

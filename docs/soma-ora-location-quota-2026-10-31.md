@@ -43,3 +43,22 @@ No new staging synthetic users, photos or content are needed. No modification to
 - Deployed submit definition compared byte-for-byte after normalizing only the intended ORA quota replacement. Manual/QR public wrappers and every unrelated public/private function definition unchanged. Private helper/policy/counter access denied to ordinary clients; anonymous submit denied; authenticated RPC preserved; CHECK validated.
 - Chance/Discovery OFF; Chance scheduler OFF/no job. PHOTO OPEN, cleanup and schedulers OFF. Retention Phase A remains active at `0 3 * * *`; no other cron changed.
 - No auth/session/MFA or legal/retention policy changed. No staging synthetic fixtures/photos created. Only isolated disposable local test fixtures were used, all removed. No authenticated browser E2E claim; server correctness is proved with deployed-definition equivalence, real independent-session PostgreSQL races and PostgreSQL-backed regressions.
+
+## Preview and source control
+
+- Preview: https://spot-bbekvyw2q-fedegrasso1994-1482.vercel.app/
+- Deployment `dpl_EiS8FrhNvwCYfFdhvNogy12qMcX8`, READY, true Preview (`target=null`), no alias assignments.
+- Runtime commit `79f6b547bcf33deaf2449047b38a7adf21c1aaf4`, staging branch/ref, publishable key. Browser root and served build-info SHA verified. Zero secrets/Production refs in scanned artifact.
+- Browser authenticated E2E not performed; no Auth redirects/env changed. A new login roundtrip on this fresh URL is not claimed verified/configured by this task.
+- Both Production aliases remain on original `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh`; no Production mutations. Main remains `d0f515e8d2c80eeae60f2d5c33dd8901558d5287`.
+- Runtime commit pushed only to staging. Final evidence-only commit follows; no runtime difference from deployed commit.
+
+## Files and functions
+
+Runtime: `supabase/migrations/061_ora_location_daily_quota.sql`, `src/ora-spot-quota.js`, minimal ORA wiring in `src/live-social.js`, ORA messages in `src/errors.js`.
+
+Functions: private `ora_charge_visit(uuid,uuid,timestamptz)` added; private `start_ora(uuid,text)` adds visit enforcement; public `send_spot_v2(uuid,uuid,text,uuid)` replaces only ORA quota charging; public `my_ora_spot_budget()` returns current-Place residual with unchanged keys/signature. No other function definition changed.
+
+Tests: dedicated helper `tests/helpers/ora-quota-database.js`, `tests/ora-location-quota.test.js`, `tests/ora-spot-quota-client.test.js`, ORA-only tests/mock update in `tests/live-social.test.js`, canonical migration count in `tests/ops-phase-a-inventory.test.js`.
+
+Proof/tooling: `scripts/ora-one-day/native-proof.mjs`, four JSON files in `docs/evidence/ora-one-day/`. Documentation: this report and section 15/ORA quota bullets in `docs/SOMA_PRODUCT_UX_SOURCE_OF_TRUTH.md`.
