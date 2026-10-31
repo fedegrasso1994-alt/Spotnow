@@ -1,0 +1,14 @@
+{
+  "url": "https://spot-9i1syz4fz-fedegrasso1994-1482.vercel.app/",
+  "deployment_id": "dpl_J3yL51RksbzMWA2ttmQbzAnXmg8K",
+  "runtime_sha": "1ba7d1dce6ed2036c61caccbe8a849f459ef19aa",
+  "state": "READY",
+  "target": null,
+  "aliases": [],
+  "chrome_welcome_load": "PASS",
+  "served_build_info_sha": "PASS",
+  "public_artifact_secret_production_ref_scan": "PASS",
+  "authenticated_browser_quota_e2e": "not run; covered by PostgreSQL-backed tests/native races and frontend tests",
+  "production_aliases_original": true,
+  "auth_env_modified": false
+}

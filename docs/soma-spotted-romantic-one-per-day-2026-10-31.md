@@ -30,4 +30,12 @@ Evidence: `docs/evidence/spotted-one-day/native-races.json`, `staging-migration.
 
 ## Deployment and limits
 
-Runtime migration is staging only. Preview publication metadata will be recorded separately after building this commit. No new human login or Auth configuration is required for this quota change. Production/main remain untouched. Existing requests, pair guards and Match/chat records are not altered. Calendar-day quota is intentionally not a rolling 24-hour quota. No additional residual product risk identified; neutral API responses intentionally do not expose delivery outcome.
+Runtime migration is staging only. Fresh static Preview is READY:
+
+- URL: https://spot-9i1syz4fz-fedegrasso1994-1482.vercel.app/
+- Deployment: `dpl_J3yL51RksbzMWA2ttmQbzAnXmg8K`, true Preview (`target=null`), no aliases assigned.
+- Runtime/artifact commit: `1ba7d1dce6ed2036c61caccbe8a849f459ef19aa`.
+- Chrome real page loads welcome; served `/build-info.json` confirms exact commit, staging branch/ref and publishable key source. Public-only artifact scan PASS (zero secret/Production ref). No authenticated end-to-end browser quota test claimed: behavior is proved by PostgreSQL-backed targeted tests, actual independent-session native races, frontend CTA tests and deployed staging function/ACL verification.
+- No Auth redirect/env changes. Production aliases `spot-now-alpha.vercel.app` and `spot-now-fedegrasso1994-1482.vercel.app` still target original `dpl_6jX7jKUxcEFvieWoBdN6KS9i3Juh` (read-only verified).
+
+ No new human login or Auth configuration is required for this quota change. Production/main remain untouched. Existing requests, pair guards and Match/chat records are not altered. Calendar-day quota is intentionally not a rolling 24-hour quota. No additional residual product risk identified; neutral API responses intentionally do not expose delivery outcome.
