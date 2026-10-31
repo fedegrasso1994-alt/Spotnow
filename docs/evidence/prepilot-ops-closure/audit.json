@@ -1,0 +1,256 @@
+{
+  "analytics": false,
+  "at": "2026-10-31T11:09:18.929917+00:00",
+  "chance": {
+    "activated_at": null,
+    "daily_limit": 4,
+    "enabled": false,
+    "release_times": [
+      "10:00:00",
+      "14:00:00",
+      "18:00:00",
+      "21:30:00"
+    ],
+    "scheduler_enabled": false,
+    "singleton": true
+  },
+  "cron": [
+    {
+      "active": false,
+      "command_hash": "535fe5253435ad18dab31157b9a36c1c",
+      "id": 1,
+      "modern_key_header": true,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *",
+      "staging_target": true
+    },
+    {
+      "active": false,
+      "command_hash": "3f1ba66ed6fffd320d143bfd634529ab",
+      "id": 2,
+      "modern_key_header": true,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *",
+      "staging_target": true
+    },
+    {
+      "active": false,
+      "command_hash": "b788ec929fe16429e76c72005a6459fa",
+      "id": 3,
+      "modern_key_header": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *",
+      "staging_target": false
+    },
+    {
+      "active": true,
+      "command_hash": "b94d76131915a5c3903d0bf8253dc524",
+      "id": 4,
+      "modern_key_header": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *",
+      "staging_target": true
+    }
+  ],
+  "cron_runs": [
+    {
+      "end_time": "2026-10-31T03:00:00.358524+00:00",
+      "jobid": 4,
+      "runid": 20,
+      "start_time": "2026-10-31T03:00:00.221334+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-30T03:00:00.329076+00:00",
+      "jobid": 4,
+      "runid": 19,
+      "start_time": "2026-10-30T03:00:00.201569+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-29T03:00:00.355681+00:00",
+      "jobid": 4,
+      "runid": 18,
+      "start_time": "2026-10-29T03:00:00.219262+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-28T03:00:00.28408+00:00",
+      "jobid": 4,
+      "runid": 17,
+      "start_time": "2026-10-28T03:00:00.207326+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-27T03:00:00.349758+00:00",
+      "jobid": 4,
+      "runid": 16,
+      "start_time": "2026-10-27T03:00:00.211042+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-26T03:00:00.376596+00:00",
+      "jobid": 4,
+      "runid": 15,
+      "start_time": "2026-10-26T03:00:00.244713+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-25T03:00:00.353653+00:00",
+      "jobid": 4,
+      "runid": 14,
+      "start_time": "2026-10-25T03:00:00.22712+00:00",
+      "status": "succeeded"
+    },
+    {
+      "end_time": "2026-10-24T03:00:00.360462+00:00",
+      "jobid": 4,
+      "runid": 13,
+      "start_time": "2026-10-24T03:00:00.224263+00:00",
+      "status": "succeeded"
+    }
+  ],
+  "cron_timezone": "GMT",
+  "discovery": false,
+  "notifications": {
+    "delivery_enabled": false,
+    "enabled": false,
+    "singleton": true
+  },
+  "ops": {
+    "dropped": 0,
+    "email_enabled": false,
+    "enabled": false,
+    "purge_ready": false,
+    "retention": "14 days",
+    "singleton": true,
+    "test_only": true
+  },
+  "ops_constraints": {
+    "ops_control_email_enabled_check": "CHECK ((NOT email_enabled))",
+    "ops_control_pkey": "PRIMARY KEY (singleton)",
+    "ops_control_retention_check": "CHECK ((retention = '14 days'::interval))",
+    "ops_control_singleton_check": "CHECK (singleton)",
+    "ops_incidents_email_state_check": "CHECK ((email_state = 'disabled_provider'::text))",
+    "ops_incidents_pkey": "PRIMARY KEY (id)",
+    "ops_incidents_rule_check": "CHECK ((rule = ANY (ARRAY['three_failures'::text, 'error_spike'::text, 'job_failure'::text])))",
+    "ops_incidents_state_check": "CHECK ((state = ANY (ARRAY['open'::text, 'resolved'::text])))",
+    "ops_purge_readiness": "CHECK (((NOT enabled) OR test_only OR purge_ready))"
+  },
+  "ops_counts": {
+    "events": 0,
+    "incidents": 0,
+    "jobs": 0
+  },
+  "permissions": {
+    "anon_health": false,
+    "user_raw_incidents": false,
+    "user_record_server": false
+  },
+  "phase_a": {
+    "manual_enabled": true,
+    "scheduler_enabled": true,
+    "singleton": true
+  },
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "policies": [
+    {
+      "expected_interval": null,
+      "operation": "notifications.dispatch"
+    },
+    {
+      "expected_interval": null,
+      "operation": "notifications.prune"
+    },
+    {
+      "expected_interval": null,
+      "operation": "analytics.purge"
+    },
+    {
+      "expected_interval": null,
+      "operation": "ops.purge"
+    },
+    {
+      "expected_interval": "00:01:00",
+      "operation": "photo.cleanup"
+    },
+    {
+      "expected_interval": "00:01:00",
+      "operation": "privacy.retention"
+    }
+  ],
+  "vault_names": [
+    "photo02_staging_scheduler_key",
+    "soma-modern-server-staging",
+    "soma-photo02-cutover-staging-key"
+  ],
+  "edge_secret_names": [
+    "NOTIFICATIONS_DISPATCH_SECRET",
+    "NOTIFICATIONS_PREVIEW_ORIGIN",
+    "NOTIFICATIONS_VAPID_PRIVATE",
+    "NOTIFICATIONS_VAPID_PUBLIC",
+    "NOTIFICATIONS_VAPID_SUBJECT",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "source_project": "zjinjtkekmaqtxsuyvho",
+  "read_only": true,
+  "smtp_dashboard": {
+    "project": "Soma Staging",
+    "url": "https://supabase.com/dashboard/project/zjinjtkekmaqtxsuyvho/auth/templates",
+    "custom_smtp_configured": false,
+    "built_in_service_warning_visible": true,
+    "mutations": false
+  },
+  "edge_functions": [
+    {
+      "slug": "photo-assets",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "delete-account",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "photo-normalize-jpeg",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "photo-normalize-png",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "photo-normalize-webp",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "photo-lifecycle",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "privacy-retention",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "profile-photo",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "notifications",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "operations",
+      "status": "ACTIVE"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "read_only": true,
+  "job_id": 4,
+  "cron_run": {
+    "end_time": "2026-10-31T03:00:00.358524+00:00",
+    "jobid": 4,
+    "runid": 20,
+    "start_time": "2026-10-31T03:00:00.221334+00:00",
+    "status": "succeeded"
+  },
+  "daily_root_operation_id": "a1a154ff-0000-4000-8000-202610310001",
+  "derived_child_ids_exact_match": true,
+  "runs": [
+    {
+      "deleted": 0,
+      "dry_run": false,
+      "eligible": 0,
+      "error_code": null,
+      "finished_at": "2026-10-31T03:00:09.524268+00:00",
+      "operation_id": "9787147c-ae2c-4de3-b232-cd61c6448a74",
+      "path": "notifications",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-31T03:00:09.504242+00:00",
+      "status": "completed"
+    },
+    {
+      "deleted": 0,
+      "dry_run": false,
+      "eligible": 0,
+      "error_code": null,
+      "finished_at": "2026-10-31T03:00:09.42366+00:00",
+      "operation_id": "97e41756-c77c-4b93-8b0e-51756701804a",
+      "path": "dd",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-31T03:00:09.346968+00:00",
+      "status": "completed"
+    },
+    {
+      "deleted": 0,
+      "dry_run": false,
+      "eligible": 0,
+      "error_code": null,
+      "finished_at": "2026-10-31T03:00:09.260306+00:00",
+      "operation_id": "41849653-8706-4fe7-b218-e72c7082d58d",
+      "path": "observability",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-31T03:00:09.239987+00:00",
+      "status": "completed"
+    },
+    {
+      "deleted": 0,
+      "dry_run": false,
+      "eligible": 0,
+      "error_code": null,
+      "finished_at": "2026-10-31T03:00:09.077954+00:00",
+      "operation_id": "c5644af5-826d-4dd2-ba6a-74b7abf5542a",
+      "path": "analytics",
+      "protected": 0,
+      "skipped": 0,
+      "started_at": "2026-10-31T03:00:08.998436+00:00",
+      "status": "completed"
+    }
+  ],
+  "manual_invocation_this_task": false,
+  "next_expected_utc": "2026-11-01T03:00:00Z",
+  "next_expected_rome": "2026-11-01T04:00:00+01:00",
+  "transport_response_unavailable": "No new HTTP call; evidence is cron dispatch plus matching downstream DB receipts, not a retained pg_net response."
+}
