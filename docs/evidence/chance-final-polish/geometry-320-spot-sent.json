@@ -1,0 +1,17 @@
+{
+  "continue_touch": {
+    "height": 44,
+    "width": 71.046875
+  },
+  "navigation_bottom": 578.9609375,
+  "overflow": false,
+  "photos": 1,
+  "previous_enabled": true,
+  "previous_touch": {
+    "height": 44,
+    "width": 44
+  },
+  "spot_disabled": true,
+  "tabbar_top": 711.6015625,
+  "width": 320
+}

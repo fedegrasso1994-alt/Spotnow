@@ -1,0 +1,87 @@
+{
+  "continue": {
+    "bottom": 591.9609375,
+    "color": "rgb(139, 141, 151)",
+    "height": 44,
+    "size": "13px",
+    "top": 547.9609375,
+    "weight": "400",
+    "width": 71.046875
+  },
+  "expiry": {
+    "bottom": 470.4609375,
+    "color": "rgb(245, 243, 239)",
+    "height": 17,
+    "size": "14px",
+    "top": 453.4609375,
+    "weight": "500",
+    "width": 284
+  },
+  "expiry_text": "Scade tra 23h 59m",
+  "nav": {
+    "bottom": 591.9609375,
+    "color": "rgb(245, 243, 239)",
+    "height": 44,
+    "size": "16px",
+    "top": 547.9609375,
+    "weight": "400",
+    "width": 284
+  },
+  "next": {
+    "bottom": 620.9609375,
+    "color": "rgb(139, 141, 151)",
+    "height": 13,
+    "size": "11px",
+    "top": 607.9609375,
+    "weight": "400",
+    "width": 284
+  },
+  "overflow": false,
+  "photo": {
+    "bottom": 439.4609375,
+    "color": "rgb(245, 243, 239)",
+    "height": 378.6640625,
+    "size": "13.3333px",
+    "top": 60.796875,
+    "weight": "400",
+    "width": 284
+  },
+  "photos": 1,
+  "position": {
+    "bottom": 579.4609375,
+    "color": "rgb(139, 141, 151)",
+    "height": 13,
+    "size": "11px",
+    "top": 566.4609375,
+    "weight": "400",
+    "width": 19.1015625
+  },
+  "previous": {
+    "bottom": 591.9609375,
+    "color": "rgb(139, 141, 151)",
+    "height": 44,
+    "size": "18px",
+    "top": 547.9609375,
+    "weight": "600",
+    "width": 44
+  },
+  "spot": {
+    "bottom": 535.9609375,
+    "color": "rgb(26, 13, 16)",
+    "height": 51.5,
+    "size": "16px",
+    "top": 484.4609375,
+    "weight": "700",
+    "width": 284
+  },
+  "tabbar": {
+    "bottom": 780,
+    "color": "rgb(245, 243, 239)",
+    "height": 68.3984375,
+    "size": "16px",
+    "top": 711.6015625,
+    "weight": "400",
+    "width": 320
+  },
+  "width": 320
+}

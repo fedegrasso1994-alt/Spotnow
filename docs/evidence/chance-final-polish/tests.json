@@ -1,0 +1,19 @@
+{
+  "targeted": {
+    "tests": 25,
+    "pass": 25
+  },
+  "full": {
+    "tests": 930,
+    "pass": 930,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "release_source_changes": [
+    "src/chance.css"
+  ],
+  "logic_backend_changes": false
+}

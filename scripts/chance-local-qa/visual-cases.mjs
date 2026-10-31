@@ -1,6 +1,6 @@
 // Visual review only: existing real local SQL/RPCs. No cron activation or source data.
 import assert from'node:assert/strict';import{sql,receipt}from'./environment.mjs';
-if(!['1','experience'].includes(process.env.SOMA_CHANCE_VISUAL_QA))throw Error('EXPLICIT_VISUAL_SCOPE_REQUIRED');
+if(!['1','experience','freeze'].includes(process.env.SOMA_CHANCE_VISUAL_QA))throw Error('EXPLICIT_VISUAL_SCOPE_REQUIRED');
 const mode=process.argv[2],me='10000000-0000-0000-0000-000000000001';if(!['waiting','single','backlog','expired','shortage'].includes(mode))throw Error('VISUAL_CASE');
 assert.equal(await sql('select count(*)from cron.job'),'0');
 if(mode==='waiting'){

@@ -56,3 +56,7 @@ For the later Chance experience/nav-label review use
 `SOMA_CHANCE_VISUAL_QA=experience` instead: the same local fixture/RPC path writes
 separate evidence to `docs/evidence/chance-experience/`, preserving prior reviews.
 No scheduler/canary is used for either visual path.
+
+For the final CSS-only pre-freeze polish, `SOMA_CHANCE_VISUAL_QA=freeze` selects
+`docs/evidence/chance-final-polish/` with the same isolated fixture/cleanup path.
+This is an operator evidence selector, not a runtime product or rollout flag.

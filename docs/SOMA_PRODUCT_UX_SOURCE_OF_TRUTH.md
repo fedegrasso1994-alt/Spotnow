@@ -160,6 +160,8 @@ The previous 4+4 DD product presentation and 2/window Spot budget are superseded
 
 Experience composition (founder-approved): before reveal show only a decorative, non-personal SOMA-native focal point, “Hai una nuova Chance 👀”, supporting copy and “Scopri la tua Chance”; no previous/Continue controls or candidate previews. Backlog is numeric and secondary. Next release is tertiary while Chance exist, and becomes the primary real countdown when none are available. After reveal the person and nearby expiry are primary, Spot is the primary action, Continue and a small previous affordance remain non-negative serial navigation. This changes only presentation, not release/reveal/Spot/Match semantics.
 
+**Chance visual freeze (founder-approved, 2026-10-31):** after the final micro-polish, Chance-specific visual work is frozen until the global SOMA visual refresh. That refresh should give Chance substantial premium polish as a flagship screen: the hero may be redesigned more deeply, motion/transitions upgraded, and typography, spacing, cards and the overall SOMA visual language harmonized app-wide. These are deferred design goals, not work authorized by the current freeze task. Product/interaction semantics and rollout gates remain unchanged.
+
 Acceptance follow-up (2026-10-31): founder-approved isolated local PostgreSQL/
 pg_cron and real-app Chrome QA close the remaining Chance scheduler/visual gates;
 see `soma-tribe-chance-local-acceptance-2026-10-31.md`. Existing staging backend

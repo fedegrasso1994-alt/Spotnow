@@ -1,0 +1,14 @@
+{
+  "controls_hidden": true,
+  "cta_bottom": 430.9921875,
+  "overflow": false,
+  "photos": 0,
+  "tabbar_top": 711.6015625,
+  "title": {
+    "family": "Inter, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
+    "line_height": "29.7px",
+    "size": "22px",
+    "weight": "600"
+  },
+  "width": 320
+}
