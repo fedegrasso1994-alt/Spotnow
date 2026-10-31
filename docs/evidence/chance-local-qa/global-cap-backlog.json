@@ -1,0 +1,11 @@
+{
+  "memberships_per_user": 3,
+  "max_day": 3,
+  "min_day": 3,
+  "pairs": 9,
+  "jobs": 0,
+  "deterministic_local_server_clock": true,
+  "normal_pair_selection": true,
+  "partial_inventory_allowed": true,
+  "assertion_note": "Product is up to four, never forced fill. No scheduler rerun."
+}

@@ -1,0 +1,33 @@
+// Local-only existing DEV backend injection. Chance RPCs and UI are the real modules.
+import{createServer}from'vite';import{readFile,writeFile,mkdir}from'node:fs/promises';import{resolve}from'node:path';
+import{createHash}from'node:crypto';
+import{canaryJpeg}from'../../tests/fixtures/photo-canary-generator.mjs';import{createPhotoProcessor}from'../../supabase/functions/_shared/photo-processing.js';import{createBoundedJpegEncoder}from'../../supabase/functions/_shared/photo-jpeg-encoder.js';
+import{docker,container,network,root,privateConfig,run,sql,quote,jwt,receipt}from'./environment.mjs';
+await writeFile(root+'/app.pid',String(process.pid),{mode:0o600});
+const cfg=await privateConfig(),me='10000000-0000-0000-0000-000000000001',url='http://127.0.0.1:4273';
+await writeFile(root+'/rest.env',`PGRST_DB_URI=postgresql://authenticator:${cfg.password}@${container}:5432/chance_qa\nPGRST_DB_SCHEMAS=public\nPGRST_DB_ANON_ROLE=anon\nPGRST_JWT_SECRET=${cfg.jwt}\n`,{mode:0o600});
+if(process.argv[2]!=='--resume-local-app'){
+await run(docker,['run','-d','--name','soma-chance-qa-rest-20261030','--network',network,'-p','127.0.0.1:55439:3000','--env-file',resolve(root+'/rest.env'),'ghcr.io/supabase/postgrest:v16.4']);
+await run(docker,['network','create','soma-chance-qa-frontend-20261030']);
+await run(docker,['network','connect','soma-chance-qa-frontend-20261030','soma-chance-qa-rest-20261030']);}
+const processor=createPhotoProcessor('JPEG',{encoderFactory:createBoundedJpegEncoder}),normalized=await processor.process(await canaryJpeg(10));
+const image=Buffer.from(normalized.detail),thumb=Buffer.from(normalized.thumbnail),preview=normalized.preview;
+const people=JSON.parse(await sql('select json_agg(id)from profiles;'));
+if(process.argv[2]!=='--resume-local-app')for(const id of people){const path=id+'/qa.jpg';await sql(`insert into spot_private.validated_photos(photo_path,user_id,preview,canonical_sha,canonical_bytes,source_format,source_width,source_height)values(${quote(path)},${quote(id)},${quote(preview)},${quote(createHash('sha256').update(image).digest('hex'))},${image.length},'JPEG',320,240);insert into storage.objects(bucket_id,name)values('profile-photos',${quote(path)}),('profile-photos',${quote(path+'.thumb.jpg')}),('profile-photos',${quote(path+'.detail.jpg')});update public.profiles set photo_path=${quote(path)}where id=${quote(id)};`);}
+const browserScript=`import {createClient}from'@supabase/supabase-js';import{createBackend}from'/src/backend.js';
+const c=await(await fetch('/qa-config')).json();const client=createClient(c.url,c.anon,{global:{headers:{Authorization:'Bearer '+c.token},fetch:async(u,o)=>{const r=await fetch(u,o);if(!r.ok){let e;try{e=await r.clone().json();}catch{}console.error('LOCAL_QA_API',new URL(u).pathname,r.status,e?.code);}return r;}},auth:{persistSession:false,autoRefreshToken:false}});
+// Existing local QA Auth scaffold only. No Auth/MFA certification is claimed.
+client.auth.getUser=async()=>({data:{user:{id:c.me,is_anonymous:false}},error:null});client.auth.getSession=async()=>({data:{session:{user:{id:c.me,is_anonymous:false}}},error:null});client.auth.onAuthStateChange=()=>({data:{subscription:{unsubscribe(){}}}});
+const backend=createBackend(client,{privacyEnabled:true,onboardingEnabled:true,oraEnabled:true,spotV2Enabled:true,profileAuthorizationEnabled:true});
+for(const k of Object.keys(backend)){if(typeof backend[k]==='function'){const f=backend[k];backend[k]=function(...a){const r=f.apply(this,a);if(r?.catch)return r.catch(e=>{console.error('LOCAL_QA_CALL',k,e?.code||e?.name||'ERROR');throw e;});return r;};}}
+backend.photoUrls=async refs=>{const r=await fetch('/qa-photos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({refs})});if(!r.ok)throw Error('Local photo authorization');return new Map((await r.json()).map(ref=>[ref,'/qa-photo?ref='+encodeURIComponent(ref)]));};
+backend.photoUrl=async ref=>(await backend.photoUrls([ref])).get(ref)||null;
+globalThis.__SPOT_LOAD_TEST_BACKEND__=backend;document.title='SOMA · LOCAL CHANCE QA';await import('/src/live.js');`;
+await mkdir('tests/fixtures',{recursive:true});await writeFile('tests/fixtures/chance-local-preview.js',browserScript);
+const html=(await readFile('index.html','utf8')).replace('<script type="module" src="/src/main.js"></script>','<script type="module" src="/tests/fixtures/chance-local-preview.js"></script>');await writeFile('tests/fixtures/chance-local-review.html',html);
+const authorize=async refs=>{const r=await fetch(url+'/rest/v1/rpc/resolve_authorized_photos',{method:'POST',headers:{Authorization:'Bearer '+jwt(cfg.jwt,'service_role'),'Content-Type':'application/json'},body:JSON.stringify({viewer:me,refs})});if(!r.ok)throw Error('LOCAL_PHOTO_RPC');return await r.json();};
+for(const key of Object.keys(process.env))if(key.startsWith('VITE_'))delete process.env[key];
+const server=await createServer({configFile:false,envDir:resolve(root+'/empty-env'),server:{host:'127.0.0.1',port:4273,strictPort:true,proxy:{'/rest/v1':{target:'http://127.0.0.1:55439',rewrite:p=>p.replace(/^\/rest\/v1/,'')}}},plugins:[{name:'local-chance-authorized-fixtures',configureServer(s){s.middlewares.use(async(req,res,next)=>{if(!req.url.startsWith('/qa-'))return next();res.setHeader('Cache-Control','no-store');try{const u=new URL(req.url,'http://127.0.0.1:4273');if(u.pathname==='/qa-config'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({url,anon:jwt(cfg.jwt,'anon'),token:jwt(cfg.jwt,'authenticated',me),me}));}if(u.pathname==='/qa-photos'){let body='';for await(const x of req)body+=x;if(body.length>12000)throw Error('Bound');const refs=JSON.parse(body).refs;if(!Array.isArray(refs)||refs.length>48)throw Error('Bound');const a=await authorize(refs);res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(a.map(x=>x.ref)));}if(u.pathname==='/qa-photo'){const ref=u.searchParams.get('ref'),a=await authorize([ref]);if(a.length!==1){res.statusCode=403;return res.end();}res.setHeader('Content-Type','image/jpeg');return res.end(a[0].object_name.endsWith('.thumb.jpg')?thumb:image);}res.statusCode=404;res.end();}catch{res.statusCode=403;res.end();}});}}]});
+await server.listen();
+await receipt('app-environment',{url:'http://127.0.0.1:4273/tests/fixtures/chance-local-review.html',actual_live_module:true,actual_chance_rpc:true,postgrest:true,auth:'existing DEV QA injection; no live Auth recertification',photo:'locally generated, same-owner validated QA rows and real bytes; not staging PHOTO canary',loopback_only:true,staging_calls:false});
+console.log('Local Chance real application ready on http://127.0.0.1:4273/tests/fixtures/chance-local-review.html');

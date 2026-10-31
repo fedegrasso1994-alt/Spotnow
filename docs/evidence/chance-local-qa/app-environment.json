@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:4273/tests/fixtures/chance-local-review.html",
+  "actual_live_module": true,
+  "actual_chance_rpc": true,
+  "postgrest": true,
+  "auth": "existing DEV QA injection; no live Auth recertification",
+  "photo": "locally generated, same-owner validated QA rows and real bytes; not staging PHOTO canary",
+  "loopback_only": true,
+  "staging_calls": false
+}

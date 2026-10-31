@@ -1,0 +1,18 @@
+{
+  "chance_targeted": {
+    "pass": 29,
+    "fail": 0
+  },
+  "full_suite": {
+    "pass": 914,
+    "fail": 0,
+    "skipped": 0,
+    "runs": 1
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_source_change": "src/chance.css only",
+  "source_runtime_logic_changes": false,
+  "native_scheduler_runs": 1,
+  "photo_staging_canary": "NOT CERTIFIED; historical BUSY inconclusive"
+}

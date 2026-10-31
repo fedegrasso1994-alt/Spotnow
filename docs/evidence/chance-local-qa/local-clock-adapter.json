@@ -1,0 +1,7 @@
+{
+  "native_scheduler_proof": "unchanged, already completed with native clock",
+  "scope": "disposable local DB only",
+  "functions": "Chance/DD and send_spot_v2 test clock dependency only",
+  "runtime_source_files_changed": false,
+  "reason": "Native PostgreSQL fast-paths built-in clock; use qualified QA clock consistently for synthetic future-window RPCs"
+}

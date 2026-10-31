@@ -1,0 +1,48 @@
+{
+  "chance": {
+    "activated_at": null,
+    "enabled": false,
+    "scheduler_enabled": false
+  },
+  "chance_jobs": 0,
+  "cron": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "discovery": false,
+  "objects": 42,
+  "objects_fingerprint": "85e27e4092e265e280a27e510ae516cb",
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "project": "zjinjtkekmaqtxsuyvho",
+  "original_storage_fingerprint_unchanged": true,
+  "fixture_residuals": {
+    "users": 0,
+    "profiles": 0,
+    "objects": 0,
+    "jobs": 0,
+    "validated": 0
+  },
+  "verification": "read-only"
+}

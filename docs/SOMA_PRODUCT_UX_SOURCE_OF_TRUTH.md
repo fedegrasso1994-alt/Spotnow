@@ -158,6 +158,13 @@ TRIBE presents private reciprocal introductions, one person at a time. It is not
 
 The previous 4+4 DD product presentation and 2/window Spot budget are superseded only for Chance. ORA retains its independent frozen rules. Bottom navigation and the TRIBE name are unchanged. Rollout/feature activation remains subject to the staging gate; no ordinary-user activation is implied by this product contract.
 
+Acceptance follow-up (2026-10-31): founder-approved isolated local PostgreSQL/
+pg_cron and real-app Chrome QA close the remaining Chance scheduler/visual gates;
+see `soma-tribe-chance-local-acceptance-2026-10-31.md`. Existing staging backend
+smoke remains separate evidence. PHOTO's historical staging BUSY is inconclusive,
+not re-certified here. Chance/Discovery and Chance scheduler remain OFF in staging;
+GO FOR REVIEW does not authorize rollout.
+
 ---
 
 ## 9. Chance allocation / reused DD foundations

@@ -1,0 +1,30 @@
+{
+  "actual_live_app": true,
+  "actual_postgrest_rpc": true,
+  "unrevealed_profile_cards": 0,
+  "reveal_profile_cards": 1,
+  "revisit_profile_cards": 1,
+  "pending_after_reload_and_revisit": true,
+  "continue_does_not_auto_reveal": true,
+  "backlog_count_only": 3,
+  "viewport320": {
+    "width": 320,
+    "overflow": false,
+    "nav_bounds": [
+      18,
+      302
+    ]
+  },
+  "viewport390": {
+    "height": 844,
+    "navBottom": 715.8984375,
+    "profileCards": 1,
+    "profileImages": 1,
+    "scrollWidth": 390,
+    "tabTop": 775.6015625,
+    "width": 390
+  },
+  "next_release_countdown": true,
+  "expiry_countdown": true,
+  "css_fix": "Chance-only nav flex sizing; previous shared btn width caused clipping"
+}

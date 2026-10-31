@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "status": "succeeded",
+      "message": "DO"
+    }
+  ],
+  "receipt": {
+    "at": "2026-10-30T18:23:14.019886+00:00",
+    "first_count": 1,
+    "second_count": 1,
+    "stable": true
+  },
+  "windows": 1,
+  "pairs": 3,
+  "owners": 6,
+  "ttl": true,
+  "max_global": 1,
+  "native_pg_cron": true,
+  "native_wall_clock": true,
+  "remaining_jobs": 0,
+  "automatic_invocations": 1,
+  "second_tick_same_invocation": true,
+  "harness_correction": "Expected one eligible release: three past fixture slots correctly excluded by activated_at. Scheduler not re-executed."
+}

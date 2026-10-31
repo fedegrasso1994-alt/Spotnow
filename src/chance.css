@@ -9,6 +9,6 @@
 #daily .chance-empty{min-height:260px;justify-content:center;gap:20px;margin:20px 0}
 #daily .chance-empty p{margin:0}
 #daily .chance-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 0}
-#daily .chance-nav .btn{min-height:44px;min-width:0;padding-left:12px;padding-right:12px}
-#daily .chance-nav span{white-space:nowrap}
+#daily .chance-nav .btn{flex:1 1 0;width:auto;min-height:44px;min-width:0;padding-left:12px;padding-right:12px}
+#daily .chance-nav span{flex:0 0 auto;white-space:nowrap}
 #daily .chance-expiry{margin:12px 0}
