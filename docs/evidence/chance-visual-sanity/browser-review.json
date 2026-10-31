@@ -1,0 +1,36 @@
+{
+  "actual_live_app": true,
+  "actual_chance_rpc": true,
+  "auth": "local synthetic DEV scaffold only",
+  "photo": "same-owner deterministic technical QA JPEG, not product artwork or PHOTO canary",
+  "widths": [
+    320,
+    390
+  ],
+  "heights": [
+    780,
+    844
+  ],
+  "states": [
+    "waiting",
+    "unrevealed",
+    "revealed",
+    "backlog",
+    "revisit",
+    "after_spot_reload",
+    "expired_removed",
+    "pool_shortage",
+    "serial_end"
+  ],
+  "one_profile_at_a_time": true,
+  "unrevealed_photos": 0,
+  "no_gallery": true,
+  "no_overflow": true,
+  "cta_gap_320": 18.40625,
+  "cta_gap_390": 20.90625,
+  "long_copy_wraps": true,
+  "clock": "server-derived RPC timestamps with deterministic adapter only in disposable local DB",
+  "scheduler_jobs": 0,
+  "source_enabled": false,
+  "physical_device_safe_area_qa": "not claimed; browser viewport only"
+}

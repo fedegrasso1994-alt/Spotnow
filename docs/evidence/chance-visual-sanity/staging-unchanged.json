@@ -1,0 +1,37 @@
+{
+  "same_as_post_061": true,
+  "profile_storage_presence_fingerprints_unchanged": true,
+  "storage_objects": 42,
+  "chance_enabled": false,
+  "chance_scheduler": false,
+  "discovery": false,
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "cron": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "source_writes": false,
+  "pass": true
+}

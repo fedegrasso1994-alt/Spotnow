@@ -12,3 +12,11 @@
 #daily .chance-nav .btn{flex:1 1 0;width:auto;min-height:44px;min-width:0;padding-left:12px;padding-right:12px}
 #daily .chance-nav span{flex:0 0 auto;white-space:nowrap}
 #daily .chance-expiry{margin:12px 0}
+/* Focused pilot sanity pass: ritual hierarchy and action breathing room only. */
+#daily.chance-screen .chance-clock{align-items:center}
+#daily .chance-clock span:last-child{font-size:20px;font-weight:600;line-height:1.2}
+#daily .chance-empty h3{margin:0;color:var(--text);font-family:var(--font-d);font-size:30px;font-weight:400;line-height:1.1;max-width:100%;text-wrap:balance}
+#daily .chance-empty p{max-width:30ch}
+#daily .chance-photo{aspect-ratio:5/6}
+#daily .chance-expiry{text-align:center;font-variant-numeric:tabular-nums}
+#daily .chance-card>.btn:disabled{background:var(--surface2);color:var(--muted);opacity:1}

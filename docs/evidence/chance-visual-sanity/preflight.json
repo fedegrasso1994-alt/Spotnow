@@ -1,0 +1,12 @@
+{
+  "postgres": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+  "cron": "1.6.4",
+  "users": 6,
+  "profiles": 6,
+  "eligible": 6,
+  "local_only": true,
+  "source_data": false,
+  "recovery_reused": false,
+  "seed_source": "tests/helpers/chance-full-database.js",
+  "auth_scaffold": "existing local QA, not an Auth acceptance test"
+}

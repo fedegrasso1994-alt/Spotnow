@@ -1,0 +1,10 @@
+{
+  "scope": "disposable local visual QA; server clock adapted only here",
+  "status": "ready",
+  "chances": 4,
+  "unrevealed": 3,
+  "server_now": "2030-06-10T19:31:00+00:00",
+  "next_release_at": "2030-06-11T08:00:00+00:00",
+  "jobs": 0,
+  "scheduler": false
+}

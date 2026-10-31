@@ -19,7 +19,7 @@ await writeFile(root+'/seed.sql',schema,{mode:0o600});
 if(!rebuild){await run(docker,['network','create','--internal',network]);
 await run(docker,['run','-d','--name',container,'--network',network,'--env-file',resolve(root+'/postgres.env'),'ghcr.io/supabase/postgres:17.11.0.004','postgres','-D','/etc/postgresql','-c','shared_preload_libraries=pg_cron','-c','cron.database_name=chance_qa','-c','cron.use_background_workers=on']);}
 // Bounded readiness polling only; no canary or upload retry.
-let ready=false;for(let i=0;i<30;i++){try{await run(docker,['exec',container,'pg_isready','-U','supabase_admin']);ready=true;break;}catch{await new Promise(r=>setTimeout(r,1000));}}if(!ready)throw Error('LOCAL_DB_START_FAILED');
+let ready=false;for(let i=0;i<30;i++){try{await run(docker,['exec',container,'pg_isready','-h','127.0.0.1','-U','supabase_admin']);ready=true;break;}catch{await new Promise(r=>setTimeout(r,1000));}}if(!ready)throw Error('LOCAL_DB_START_FAILED');
 if(rebuild){if((await sql("select count(*)from pg_extension where extname='pg_cron'"))!=='0')throw Error('CANARY_BOOTSTRAP_ALREADY_FINISHED');await run(docker,['exec',container,'dropdb','--force','-U','supabase_admin','chance_qa']);}
 await run(docker,['exec',container,'createdb','-U','supabase_admin','chance_qa']);
 await sql(schema);

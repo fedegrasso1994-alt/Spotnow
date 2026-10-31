@@ -39,3 +39,15 @@ All JWTs/passwords are ephemeral, ignored by Git and removed by cleanup.
 The recovery environment is never reused. Cleanup removes only the explicitly
 named `soma-chance-qa-*` containers/networks, their anonymous volumes and generated
 browser files. Evidence remains under `docs/evidence/chance-local-qa/`.
+
+## Focused visual review (no scheduler)
+
+Set `SOMA_CHANCE_VISUAL_QA=1` for every command to write separate evidence under
+`docs/evidence/chance-visual-sanity/`. Create the disposable local target, then run
+`visual-cases.mjs waiting`; start `app.mjs` as above. Advance with
+`visual-cases.mjs single`, `backlog`, `expired`, `shortage` and reload the real app.
+Do **not** call `canary.mjs` for this path. Chance scheduler stays false and cron
+has zero jobs. Only these local fixture controls are enabled, never staging.
+Run `cleanup.mjs --destroy-disposable-local` with the same environment flag.
+`prepare.mjs` waits for TCP readiness, distinguishing the official image's
+socket-only initialization server from its final database service.

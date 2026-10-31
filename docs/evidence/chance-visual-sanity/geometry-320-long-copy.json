@@ -1,0 +1,42 @@
+{
+  "boxes": [
+    {
+      "bottom": 623.6953125,
+      "right": 302,
+      "selector": ".chance-card",
+      "x": 18,
+      "y": 192.3984375
+    },
+    {
+      "bottom": 521.1953125,
+      "right": 290,
+      "selector": ".chance-attribution",
+      "x": 30,
+      "y": 504.3984375
+    },
+    {
+      "bottom": 623.6953125,
+      "right": 302,
+      "selector": ".chance-card>.btn",
+      "x": 18,
+      "y": 572.1953125
+    },
+    {
+      "bottom": 693.1953125,
+      "right": 302,
+      "selector": ".chance-nav",
+      "x": 18,
+      "y": 639.6953125
+    },
+    {
+      "bottom": 780,
+      "right": 320,
+      "selector": "#tabbar",
+      "x": 0,
+      "y": 711.6015625
+    }
+  ],
+  "overflow": false,
+  "photos": 1,
+  "width": 320
+}

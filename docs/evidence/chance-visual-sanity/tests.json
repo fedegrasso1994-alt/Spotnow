@@ -1,0 +1,20 @@
+{
+  "targeted_frontend": {
+    "tests": 22,
+    "pass": 22,
+    "fail": 0
+  },
+  "full": {
+    "tests": 927,
+    "pass": 927,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "product_source_changes": [
+    "src/chance.css"
+  ],
+  "backend_product_logic_changes": false
+}
