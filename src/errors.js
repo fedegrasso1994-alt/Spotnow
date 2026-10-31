@@ -6,8 +6,8 @@ export function userMessage(error) {
   if(/otp_expired|Token has expired|invalid.*otp/i.test(String(error?.code||'')+' '+String(error?.message||'')))return 'Accesso scaduto o non valido. Richiedi una nuova email di accesso a Soma.';
   if(error instanceof PhotoError)return error.message;
   const text=String(error?.message||'');
-  if(/SPOT_DAILY_QUOTA/.test(text))return 'Hai usato gli Spot disponibili oggi. Riprova domani.';
-  if(/SPOT_PLACE_QUOTA/.test(text))return 'Hai usato gli Spot disponibili oggi in questa location.';
+  if(/ORA_LOCATION_DAILY_QUOTA/.test(text))return 'Hai già visitato 3 location oggi. Puoi tornare in quelle già visitate o riprovare domani.';
+  if(/SPOT_PLACE_QUOTA/.test(text))return 'Hai già usato lo Spot disponibile oggi in questa location.';
   if(/SPOT_PAUSED|SPOT_LEGACY_RETIRED/.test(text))return 'Gli Spot sono in aggiornamento. Riprova tra poco.';
   if(/SPOT_/.test(text))return 'Non puoi inviare uno Spot a questo profilo in questo momento.';
   if(/AGE_REQUIRED|AGE_INVALID|AGE_AUTH/.test(text))return 'Conferma di avere almeno 18 anni per continuare.';

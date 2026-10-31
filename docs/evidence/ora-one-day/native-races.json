@@ -1,0 +1,32 @@
+{
+  "scope": "isolated PostgreSQL 17.11, synthetic fixture; source not mutated",
+  "photo_uploads": false,
+  "third_fourth_race": {
+    "sessions": 2,
+    "lock_waiters": 2,
+    "allowed": 1,
+    "denied": 1
+  },
+  "same_location_spot_race": {
+    "sessions": 2,
+    "lock_waiters": 2,
+    "allowed": 1,
+    "denied": 1
+  },
+  "idempotent_retry": true,
+  "concurrent_recheck_no_reset": true,
+  "midnight_spot_race": {
+    "sessions": 2,
+    "lock_waiters": 2,
+    "allowed": 1,
+    "denied": 1
+  },
+  "counts": {
+    "max_used": 1,
+    "actor_spots": 2,
+    "max_locations": 3
+  },
+  "pass": true,
+  "local_target_removed": true,
+  "credentials_removed": true
+}

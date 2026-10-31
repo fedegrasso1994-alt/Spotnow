@@ -285,11 +285,10 @@ not a technical check-in screen.
 
 ## 15. ORA Spot quota
 
-Per account/day:
-- max **5 new ORA Spots**.
-
-Per same Place/day:
-- max **3 new ORA Spots**.
+Per account / Europe/Rome calendar day:
+- max **3 distinct visited Places**, through manual or QR presence; a fourth distinct Place is refused server-side. Returning to an already visited Place uses no additional location slot.
+- max **1 new ORA Spot per visited Place**. No additional global Spot cap; three is the natural maximum only when three distinct Places are actually visited.
+- Active ORA presence remains **4 hours**; this does not restore the legacy 90-minute duration.
 
 Counters do not reset through:
 - exit/re-entry;
@@ -824,8 +823,8 @@ Gate: **SOMA IA PILOT ALIGNED**
 - idempotency
 - cross-surface reciprocity
 - unique Match
-- ORA 5/day
-- ORA 3/place
+- ORA 1 Spot/Place/day
+- ORA max 3 distinct visited Places/day
 - Europe/Rome
 - atomic enforcement
 

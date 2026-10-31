@@ -1,3 +1,4 @@
+import {createOraSpotQuota}from './ora-spot-quota.js';
 import {matchPreview}from './pilot-ui.js';
 import {createDetailPhoto} from './detail-photo.js';
 import {clearAvatar} from './avatar.js';
@@ -77,29 +78,30 @@ export function createLiveSocial({backend,go,showToast,avatar,profile,session,on
   }
   function showMatch(m){if(current)drafts.set(current.id,$('chatIn').value);current=m;avatar($('mAvatarMe'),profile());avatar($('mAvatarThem'),m,{thumbnail:true});$('mText').textContent=`Tu e ${m.name} vi siete notati a vicenda.`;go('match');}
   function detailMatch(){return detail?(matches.find(m=>m.person_id===detail.id)||detailFound):null;}
+  const oraQuota=createOraSpotQuota({api:backend.spotV2,onChange:()=>syncDetailAction()});
   function syncDetailAction(){
     if(!detail)return;
     const match=detailMatch(),done=detail.outgoing_spot_pending||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`);
-    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='daily'&&!detail.daily_spot_allowed)||(detail.source==='ora-v2'&&!backend.spotV2));
-    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?(detail.source==='daily'?'Spot inviato':'Interesse già inviato'):detail.source==='daily'?(detail.daily_spot_allowed?'Spot':'Spot esauriti'):'Mi Interessa';
+    $('interestBtn').disabled=!match&&(busy||detailChecking||Boolean(done)||(detail.source==='daily'&&!detail.daily_spot_allowed)||(detail.source==='ora-v2'&&(!backend.spotV2||oraQuota.state.disabled)));
+    $('interestBtn').textContent=match?'Apri la Chat':detailChecking?'Verifica match…':detail.source==='ora-v2'&&!backend.spotV2?'Spot disponibili nel prossimo aggiornamento':done?(detail.source==='daily'?'Spot inviato':'Interesse già inviato'):detail.source==='ora-v2'&&oraQuota.state.label?oraQuota.state.label:detail.source==='daily'?(detail.daily_spot_allowed?'Spot':'Spot esauriti'):'Mi Interessa';
   }
   let detailRequest=0,pendingDailyId=null;
   async function openDetail(person){
     const request=++detailRequest,generationBeforeRead=epoch;pendingDailyId=person.source==='daily'?person.id:null;
     if(backend.authorizedProfile){try{const fresh=await backend.authorizedProfile(person.id);if(request!==detailRequest||generationBeforeRead!==epoch)return;if(!fresh){showToast('Questo profilo non è più disponibile.');return;}person={...person,...fresh,photo:null,photo_preview:null};}catch{if(request===detailRequest)showToast('Non riesco a verificare il profilo. Riprova.');return;}}
-    pendingDailyId=null;detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
-    $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${['tribe','daily'].includes(person.source)?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();void refresh();
+    pendingDailyId=null;oraQuota.clear();detail=person;detailFound=null;detailChecking=Boolean(backend.matchWith&&!matches.some(m=>m.person_id===person.id));const generation=epoch,account=session()?.user.id;
+    $('dOccupation').textContent=person.occupation||'';detailPhoto.open(person);$('dName').textContent=`${person.name}, ${person.age}`;$('dTime').textContent=`${['tribe','daily'].includes(person.source)?'Tribe':'Qui ora'} · ${person.venue_name||venueName()}`;syncDetailAction();detailModal.open();if(person.source==='ora-v2'&&backend.spotV2)void oraQuota.load();void refresh();
     if(detailChecking)void backend.matchWith(person.id).then(match=>{if(detail!==person||generation!==epoch)return;detailFound=match;}).catch(()=>{}).finally(()=>{if(detail===person&&generation===epoch){detailChecking=false;syncDetailAction();}});
 
   }
-  function closeDetail(){detailRequest++;pendingDailyId=null;detailPhoto.stop();detail=null;detailFound=null;detailChecking=false;detailModal.close();}
+  function closeDetail(){detailRequest++;pendingDailyId=null;detailPhoto.stop();detail=null;oraQuota.clear();detailFound=null;detailChecking=false;detailModal.close();}
   async function expressInterest(){
     if(!detail)return;const match=detailMatch();if(match){closeDetail();await openChat(match);return;}
     if(detail.source==='daily'){await onDailySpot?.(detail.id);closeDetail();return;}
-    if(detail.source==='ora-v2'&&!backend.spotV2)return;
+    if(detail.source==='ora-v2'&&(!backend.spotV2||oraQuota.state.disabled))return;
     if(busy||detail.interest_sent||sent.has(`${detail.id}:${detail.venue_id}`))return;const generation=epoch,person=detail;busy=true;syncDetailAction();
     try{let id;if(person.source==='ora-v2'){let operation=spotOperations.get(person.id);if(!operation){operation=crypto.randomUUID();spotOperations.set(person.id,operation);}const result=await backend.spotV2.send(person.id,operation);id=result.match_id;}else id=await backend.expressInterest(person.id,person.venue_id);if(generation!==epoch)return;sent.add(`${person.id}:${person.venue_id}`);if(detail===person)closeDetail();await refresh();await refresh();if(generation!==epoch)return;if(id){const m=matches.find(m=>m.id===id)||(backend.matchById?await backend.matchById(id):null);if(generation!==epoch)return;if(m){if(['venue','tribe'].includes(active()))showMatch(m);else showToast(`Nuovo match con ${m.name}!`);onFirstMatch();}}else showToast('Interesse inviato. Ti avviseremo se è reciproco.');}
-    catch(error){if(generation===epoch)showToast(userMessage(error));}
+    catch(error){if(generation===epoch){showToast(userMessage(error));if(person.source==='ora-v2'&&detail===person)void oraQuota.load();}}
     finally{if(generation===epoch){busy=false;syncDetailAction();}}
   }
   const drafts=new Map();

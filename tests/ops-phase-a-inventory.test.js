@@ -3,16 +3,16 @@ import assert from 'node:assert/strict';
 import {migrations,reconstruct,differences} from '../scripts/ops-phase-a-inventory.mjs';
 
 test('OPS Phase A: canonical active migration IDs are unique,045 absent,029 explicitly snapshot-specific',async()=>{
- const items=await migrations();assert.equal(items.length,59);
+ const items=await migrations();assert.equal(items.length,60);
  assert.equal(new Set(items.map(x=>x.version)).size,items.length);
- assert.ok(!items.some(x=>x.version==='045'));assert.equal(items.at(-1).version,'060');
+ assert.ok(!items.some(x=>x.version==='045'));assert.equal(items.at(-1).version,'061');
  assert.match(items.find(x=>x.version==='029').sql,/BACKFILL_SNAPSHOT_DRIFT/);
  for(const i of items)assert.match(i.sha256,/^[0-9a-f]{64}$/);
 });
 
 test('OPS Phase A: exact-file fresh local replay succeeds only with declared platform/cutover/data exceptions',async()=>{
  const result=await reconstruct();
- assert.equal(result.steps.filter(x=>x.status==='applied_exact_file').length,58);
+ assert.equal(result.steps.filter(x=>x.status==='applied_exact_file').length,59);
  assert.deepEqual(result.steps.filter(x=>x.status!=='applied_exact_file').map(x=>[x.version,x.reason]),[['029','BACKFILL_SNAPSHOT_DRIFT']]);
  assert.equal(result.catalog.tables.length,104);
  const role=result.catalog.functions.find(x=>x.key==='spot_private.moderation_role()');assert.ok(role.security_definer);

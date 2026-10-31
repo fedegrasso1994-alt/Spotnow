@@ -1,0 +1,61 @@
+{
+  "anon_submit": false,
+  "authenticated_submit": true,
+  "constraints": [
+    {
+      "definition": "CHECK (((location_daily_limit = 3) AND (spot_location_daily_limit = 1)))",
+      "name": "ora_pilot_limits"
+    },
+    {
+      "definition": "CHECK (((spot_location_daily_limit > 0) AND (spot_location_daily_limit <= location_daily_limit)))",
+      "name": "ora_spot_policy_check"
+    },
+    {
+      "definition": "CHECK ((location_daily_limit > 0))",
+      "name": "ora_spot_policy_daily_limit_check"
+    },
+    {
+      "definition": "PRIMARY KEY (singleton)",
+      "name": "ora_spot_policy_pkey"
+    },
+    {
+      "definition": "CHECK ((quota_retention > '00:00:00'::interval))",
+      "name": "ora_spot_policy_quota_retention_check"
+    },
+    {
+      "definition": "CHECK (singleton)",
+      "name": "ora_spot_policy_singleton_check"
+    },
+    {
+      "definition": "CHECK ((timezone = 'Europe/Rome'::text))",
+      "name": "ora_spot_policy_timezone_check"
+    },
+    {
+      "definition": "CHECK ((used <= 1))",
+      "name": "ora_one_spot_per_location"
+    },
+    {
+      "definition": "PRIMARY KEY (user_id, place_id, local_date)",
+      "name": "ora_spot_place_quota_pkey"
+    },
+    {
+      "definition": "FOREIGN KEY (place_id) REFERENCES venues(id) ON DELETE CASCADE",
+      "name": "ora_spot_place_quota_place_id_fkey"
+    },
+    {
+      "definition": "CHECK ((used >= 0))",
+      "name": "ora_spot_place_quota_used_check"
+    },
+    {
+      "definition": "FOREIGN KEY (user_id, local_date) REFERENCES spot_private.ora_spot_daily_quota(user_id, local_date) ON DELETE CASCADE",
+      "name": "ora_spot_place_quota_user_id_local_date_fkey"
+    }
+  ],
+  "helper_anon": false,
+  "helper_authenticated": false,
+  "helper_service_role": false,
+  "private_policy_write": false,
+  "private_quota_write": false,
+  "quota_constraint_valid": true,
+  "registered": true
+}

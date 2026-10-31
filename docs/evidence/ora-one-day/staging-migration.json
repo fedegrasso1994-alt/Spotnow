@@ -1,0 +1,65 @@
+{
+  "project": "zjinjtkekmaqtxsuyvho",
+  "migration": "061",
+  "source_quota_rows_before_after": [
+    0,
+    0
+  ],
+  "policy": {
+    "enabled": true,
+    "location_daily_limit": 3,
+    "quota_retention": null,
+    "singleton": true,
+    "spot_location_daily_limit": 1,
+    "timezone": "Europe/Rome"
+  },
+  "only_ora_submit_branch_changed": true,
+  "manual_qr_wrappers_unchanged": true,
+  "carryover_deployed": true,
+  "other_function_definitions_unchanged": 306,
+  "source_profile_storage_checkin_fingerprints_unchanged": true,
+  "profiles": 4,
+  "storage_objects": 42,
+  "chance": {
+    "activated_at": null,
+    "daily_limit": 4,
+    "enabled": false,
+    "release_times": [
+      "10:00:00",
+      "14:00:00",
+      "18:00:00",
+      "21:30:00"
+    ],
+    "scheduler_enabled": false,
+    "singleton": true
+  },
+  "discovery": false,
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "cron": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "pass": true
+}
