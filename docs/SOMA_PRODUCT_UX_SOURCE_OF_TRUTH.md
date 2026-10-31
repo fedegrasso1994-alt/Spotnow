@@ -12,7 +12,7 @@ SOMA is not an infinite-swipe dating app.
 
 It has three distinct discovery surfaces:
 
-- **TRIBE** — scarce daily discovery inside the user's community.
+- **CHANCE** — scarce daily discovery inside the user's community. **Tribe** remains the membership/community concept.
 - **SPOTTED** — anonymous community/social discovery based on content and personality.
 - **ORA** — live discovery among people who declare they are at the same Place now.
 
@@ -28,9 +28,9 @@ There must never be separate match/chat systems per surface.
 
 Bottom navigation for the pilot:
 
-**TRIBE | SPOTTED | ORA | MATCH | PROFILO**
+**CHANCE | SPOTTED | ORA | MATCH | PROFILO**
 
-- TRIBE is the primary/home reward.
+- CHANCE is the primary/home reward; the route and backend Tribe identifiers are unchanged.
 - SPOTTED is autonomous and must not live inside TRIBE.
 - ORA is the live-presence mode.
 - MATCH contains all matches and chats.
@@ -44,7 +44,7 @@ Preserve the current SOMA visual language. No global redesign or style refactor 
 
 Standard flow:
 
-**signup/login -> 18+ -> dating consent -> profile -> photo -> mandatory pilot Tribe choice -> TRIBE Chance**
+**signup/login -> 18+ -> dating consent -> profile -> photo -> mandatory pilot Tribe choice -> CHANCE**
 
 QR is not required for standard entry.
 
@@ -109,7 +109,7 @@ Pilot UX:
 Important: this is a **pilot UI policy only**. The backend Membership Engine remains capable of 0-3 Tribes for robustness/future use.
 
 After selection:
-**Continua -> TRIBE**
+**Continua -> CHANCE**
 to deliver an immediate reward.
 
 ---
@@ -134,15 +134,15 @@ External flyer flow:
 - No automatic Tribe join.
 - QR never bypasses the Tribe Membership Engine.
 - If the user has no Tribe yet because they entered through QR, ORA still works.
-- When that user later opens TRIBE or SPOTTED, require normal Tribe choice before granting those surfaces.
+- When that user later opens CHANCE or SPOTTED, require normal Tribe choice before granting those surfaces.
 
 This is the intentional exception to mandatory Tribe selection in the standard onboarding flow.
 
 ---
 
-## 8. TRIBE → Chance (founder-approved, 2026-10-30)
+## 8. CHANCE — introductions within Tribes (founder-approved)
 
-TRIBE presents private reciprocal introductions, one person at a time. It is not a gallery, a directory, a batch of available singles or a visual history.
+CHANCE presents private reciprocal introductions, one person at a time. It is not a gallery, a directory, a batch of available singles or a visual history.
 
 - Initial pilot configuration: **4 new Chance globally per Europe/Rome calendar day**, across all 0–3 memberships.
 - Release times: **10:00, 14:00, 18:00, 21:30 Europe/Rome**, one server-side configurable schedule; UTC persisted timestamps.
@@ -156,7 +156,9 @@ TRIBE presents private reciprocal introductions, one person at a time. It is not
 - Next release and per-Chance expiry countdown use server timestamps plus monotonic elapsed time; no client clock authority.
 - Insufficient inventory means fewer introductions, never incompatible/fake/repeated filler.
 
-The previous 4+4 DD product presentation and 2/window Spot budget are superseded only for Chance. ORA retains its independent frozen rules. Bottom navigation and the TRIBE name are unchanged. Rollout/feature activation remains subject to the staging gate; no ordinary-user activation is implied by this product contract.
+The previous 4+4 DD product presentation and 2/window Spot budget are superseded only for Chance. ORA retains its independent frozen rules. Founder-approved frontend rename: the discovery tab/page is CHANCE, while Tribe communities, memberships, IDs, RPC names and internal origins are unchanged. Bottom navigation structure is unchanged. Rollout/feature activation remains subject to the staging gate; no ordinary-user activation is implied by this product contract.
+
+Experience composition (founder-approved): before reveal show only a decorative, non-personal SOMA-native focal point, “Hai una nuova Chance 👀”, supporting copy and “Scopri la tua Chance”; no previous/Continue controls or candidate previews. Backlog is numeric and secondary. Next release is tertiary while Chance exist, and becomes the primary real countdown when none are available. After reveal the person and nearby expiry are primary, Spot is the primary action, Continue and a small previous affordance remain non-negative serial navigation. This changes only presentation, not release/reveal/Spot/Match semantics.
 
 Acceptance follow-up (2026-10-31): founder-approved isolated local PostgreSQL/
 pg_cron and real-app Chrome QA close the remaining Chance scheduler/visual gates;
@@ -193,7 +195,7 @@ Cross-surface reciprocity must work.
 
 Example:
 - A Spots B in ORA.
-- B later Spots A in TRIBE.
+- B later Spots A in CHANCE (Tribe context).
 - => MATCH.
 
 Internal origin metadata may record:
@@ -765,7 +767,7 @@ University is the initial wedge; gym validates broader physical-context applicab
 
 ### Frozen for pilot architecture
 - nav order;
-- TRIBE / SPOTTED / ORA distinction;
+- CHANCE / SPOTTED / ORA distinction;
 - unified Match/chat;
 - scarce Daily Discovery;
 - ORA live semantics;

@@ -51,3 +51,8 @@ has zero jobs. Only these local fixture controls are enabled, never staging.
 Run `cleanup.mjs --destroy-disposable-local` with the same environment flag.
 `prepare.mjs` waits for TCP readiness, distinguishing the official image's
 socket-only initialization server from its final database service.
+
+For the later Chance experience/nav-label review use
+`SOMA_CHANCE_VISUAL_QA=experience` instead: the same local fixture/RPC path writes
+separate evidence to `docs/evidence/chance-experience/`, preserving prior reviews.
+No scheduler/canary is used for either visual path.

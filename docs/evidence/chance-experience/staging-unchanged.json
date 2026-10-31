@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "all_audited_function_hashes_unchanged": true,
+  "ora_functions_policy_unchanged": true,
+  "profiles_storage_presences_unchanged": true,
+  "storage_objects": 42,
+  "chance_enabled": false,
+  "discovery_enabled": false,
+  "chance_scheduler": false,
+  "cron_unchanged": true,
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "source_writes": false
+}

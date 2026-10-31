@@ -1,0 +1,17 @@
+{
+  "targeted_frontend_nav": {
+    "pass": 35,
+    "tests": 35
+  },
+  "full_final": {
+    "pass": 930,
+    "tests": 930,
+    "fail": 0,
+    "skip": 0,
+    "cancelled": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "backend_changes": false,
+  "new_regressions": 3
+}

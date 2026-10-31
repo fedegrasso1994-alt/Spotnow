@@ -1,0 +1,32 @@
+{
+  "hidden_next_countdown": true,
+  "navigation": {
+    "bottom": 564.296875,
+    "height": 44,
+    "right": 302,
+    "width": 284,
+    "x": 18,
+    "y": 520.296875
+  },
+  "overflow": false,
+  "photos": 1,
+  "previous_label": "Chance precedente",
+  "spot": {
+    "bottom": 512.296875,
+    "height": 51.5,
+    "right": 302,
+    "width": 284,
+    "x": 18,
+    "y": 460.796875
+  },
+  "state": "revealed",
+  "tabbar": {
+    "bottom": 780,
+    "height": 68.3984375,
+    "right": 320,
+    "width": 320,
+    "x": 0,
+    "y": 711.6015625
+  },
+  "width": 320
+}

@@ -6,7 +6,7 @@ import {randomBytes,createHmac} from 'node:crypto';
 export const docker='/Applications/Docker.app/Contents/Resources/bin/docker';
 export const root='.local/chance-local-qa-20261030';
 export const container='soma-chance-qa-db-20261030',network='soma-chance-qa-20261030';
-export const evidence=process.env.SOMA_CHANCE_VISUAL_QA==='1'?'docs/evidence/chance-visual-sanity':'docs/evidence/chance-local-qa';
+export const evidence=process.env.SOMA_CHANCE_VISUAL_QA==='experience'?'docs/evidence/chance-experience':process.env.SOMA_CHANCE_VISUAL_QA==='1'?'docs/evidence/chance-visual-sanity':'docs/evidence/chance-local-qa';
 export const run=promisify(execFile);
 export async function privateConfig(){return JSON.parse(await readFile(root+'/private.json','utf8'));}
 export async function prepareConfig(){

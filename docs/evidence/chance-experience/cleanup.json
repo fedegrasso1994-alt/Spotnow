@@ -1,0 +1,15 @@
+{
+  "before": {
+    "users": 6,
+    "profiles": 6,
+    "jobs": 0
+  },
+  "target_removed": true,
+  "anonymous_volumes_removed": true,
+  "local_secrets_removed": true,
+  "generated_browser_fixture_removed": true,
+  "remaining_local_qa_containers": 0,
+  "remaining_jobs": 0,
+  "source_staging_fixture_created": false,
+  "recovery_containers_untouched": true
+}

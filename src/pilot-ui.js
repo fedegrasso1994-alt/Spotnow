@@ -4,7 +4,7 @@ import {mountChance}from './chance-ui.js';
 /** Pilot presentation only. No membership, exposure, Spot or presence limits live here. */
 export const PILOT_PLACES=Object.freeze(['Università IULM Milano','Università Bocconi Milano','Palestra FitActive Cesena']);
 export const PILOT_TABS=Object.freeze([
- ['daily','👥','TRIBE'],['spotted','👀','SPOTTED'],['venue','🔥','ORA'],['matches','💘','MATCH'],['myprofile','🙂','PROFILO']
+ ['daily','👥','CHANCE'],['spotted','👀','SPOTTED'],['venue','🔥','ORA'],['matches','💘','MATCH'],['myprofile','🙂','PROFILO']
 ]);
 export const pilotRoute=screen=>({tribes:'daily',tribe:'daily',chats:'matches'}[screen]||screen);
 export const pilotTab=screen=>['chat','match'].includes(screen)?'matches':pilotRoute(screen);
@@ -16,7 +16,7 @@ export function mountPilotShell({doc=globalThis.document,go,tribes,onChoose,boar
  const nav=doc.getElementById('tabbar');nav.replaceChildren();for(const [id,icon,label]of PILOT_TABS){const b=el('button','','tab');b.type='button';b.dataset.tab=id;b.append(el('span',icon,'ic'),el('span',label));b.onclick=()=>go(id);nav.append(b);}
  const screen=id=>{const s=el('section','','screen tabscreen pilot-screen');s.id=id;doc.getElementById('phone').append(s);return s;};
  const daily=screen('daily'),status=el('p','','sub'),communities=el('p','','privacy-note'),choose=el('button','Scegli la tua community','btn btn-primary'),retry=el('button','Riprova','backlink');
- daily.append(el('h2','Tribe','disp'),el('p','Una persona alla volta. Una possibilità diversa.','sub'),communities,status,choose,retry);choose.onclick=onChoose;retry.hidden=true;
+ daily.append(el('h2','Chance','disp'),el('p','Una persona alla volta. Una possibilità diversa.','sub'),communities,status,choose,retry);choose.onclick=onChoose;retry.hidden=true;
  const discovery=chanceApi?mountChance({root:daily,api:chanceApi,photoUrls,onChoose,onOpen:onDailyOpen,onMatch:onDailyMatch,onExpire:onDailyExpire,onState:onDailyState,document:doc}):dailyApi?mountDailyDiscovery({root:daily,api:dailyApi,photoUrls,onChoose,onOpen:onDailyOpen,onMatch:onDailyMatch,onExpire:onDailyExpire,onState:onDailyState,document:doc}):null;if(discovery){for(const n of [communities,status,choose,retry])n.remove();}
  const spotted=screen('spotted'),boardStatus=el('p','','sub'),selector=el('select'),label=el('label','La tua community'),host=el('div','','pilot-board-host'),pick=el('button','Scegli una community','btn btn-primary'),boardRetry=el('button','Riprova','backlink');selector.setAttribute('aria-label','Community Spotted');label.append(selector);pick.onclick=onChoose;boardRetry.hidden=true;spotted.append(el('h2','Spotted','disp'),el('p','La bacheca della tua community.','sub'),label,boardStatus,pick,boardRetry,host);
  const board=spottedApi?mountSpotted({root:host,api:spottedApi,document:doc,analytics}):boardApi?mountBoard({root:host,api:boardApi,peopleNodes:[],onPeople:()=>{},standalone:true,document:doc}):null;

@@ -1,21 +1,31 @@
+import{createChanceHero}from'./chance-hero.js';
 import{renderAvatar,clearAvatar}from'./avatar.js';import{chanceView,createDiscoveryClock,chanceCountdown,chanceTime}from'./chance-state.js';
 /** One private introduction at a time. No peer cache, preview list or client-side release calculation.
  * @param {any} options
  */
 export function mountChance({root,api,photoUrls=async()=>new Map(),onChoose=()=>{},onOpen=()=>{},onMatch=async()=>{},onExpire=()=>{},onState=()=>{},document:doc=globalThis.document,avatar=renderAvatar,now=()=>performance.now(),schedule=setTimeout,cancel=clearTimeout,operationId=()=>crypto.randomUUID()}){
  const el=(tag,text='',cls='')=>{const n=doc.createElement(tag);n.textContent=text;n.className=cls;return n;};
- const header=el('div','','chance-clock'),next=el('span'),countdown=el('span'),count=el('p','','privacy-note'),host=el('div','','chance-host'),notice=el('p','','empty-hint'),retry=el('button','Riprova','btn btn-ghost'),nav=el('div','','chance-nav'),prev=el('button','Precedente','btn btn-ghost'),forward=el('button','Continua','btn btn-ghost'),position=el('span','','privacy-note');
- header.append(next,countdown);nav.append(prev,position,forward);notice.setAttribute('role','status');for(const b of[retry,prev,forward])b.type='button';retry.hidden=true;nav.hidden=true;root.append(header,count,host,nav,notice,retry);root.classList.add('chance-screen');
+ const header=el('div','','chance-clock'),next=el('span'),countdown=el('span'),count=el('p','','privacy-note chance-backlog'),host=el('div','','chance-host'),notice=el('p','','empty-hint'),retry=el('button','Riprova','btn btn-ghost'),nav=el('div','','chance-nav'),prev=el('button','←','backlink chance-back'),forward=el('button','Continua','backlink chance-forward'),position=el('span','','privacy-note');
+ header.append(next,countdown);prev.setAttribute('aria-label','Chance precedente');nav.append(prev,position,forward);notice.setAttribute('role','status');for(const b of[retry,prev,forward])b.type='button';retry.hidden=true;nav.hidden=true;root.append(host,nav,count,header,notice,retry);root.classList.add('chance-screen');
  const clock=createDiscoveryClock(now),operations=new Map();let active=false,epoch=0,owner=0,request=0,index=0,payload=null,person=null,face=null,card=null,spotButton=null,expiry=null,timer=null,poll=null,loading=false,busy=false,boundary=null,resting=false;
  const selected=()=>payload?.chances[index];
- function clear(){if(face)clearAvatar(face);face=null;card=null;spotButton=null;expiry=null;person=null;host.replaceChildren();onExpire();onState([],0);}
+ function clear(){nav.hidden=true;if(face)clearAvatar(face);face=null;card=null;spotButton=null;expiry=null;person=null;host.replaceChildren();onExpire();onState([],0);}
  function message(title,text){clear();const box=el('div','','chat-empty chance-empty');box.append(el('h3',title,'disp'),el('p',text,'sub'));host.append(box);}
- function status(){const c=selected();count.textContent=payload?.unrevealed_count?`Hai ${payload.unrevealed_count} ${payload.unrevealed_count===1?'Chance':'Chance'} da scoprire`:'';nav.hidden=resting||!c;prev.disabled=index===0||busy||loading;forward.disabled=!c||busy||loading;position.textContent=c?`${index+1} / ${payload.chances.length}`:'';header.hidden=['paused','tribe_required'].includes(payload?.status);next.textContent=payload?.next_release_at?`Prossima Chance alle ${chanceTime(payload.next_release_at)}`:'Prossima Chance';if(spotButton)spotButton.disabled=busy||loading||Boolean(c?.spotted)||person?.outgoing_spot_pending||clock.remaining(c?.expires_at)===0;}
- function fail(){clear();payload=null;clock.clear();header.hidden=true;nav.hidden=true;count.textContent='';message('Non siamo riusciti a caricare','Controlla la connessione e riprova.');retry.hidden=false;}
+ function status(){
+  const c=selected(),pending=Boolean(payload?.chances.length),revealed=Boolean(c?.revealed&&person);
+  root.dataset.chanceState=resting?'resting':revealed?'revealed':c&&!c.revealed?'unrevealed':payload?.status||'loading';
+  count.textContent=payload?.unrevealed_count?`Hai ${payload.unrevealed_count} Chance da scoprire`:'';count.hidden=!payload?.unrevealed_count;
+  nav.hidden=resting||!revealed;prev.disabled=index===0||busy||loading;forward.disabled=!c||busy||loading;position.textContent=c?`${index+1} / ${payload.chances.length}`:'';
+  header.hidden=!payload||['paused','tribe_required'].includes(payload.status);countdown.hidden=pending;
+  next.textContent=payload?.next_release_at?`${pending?'Prossima alle':'Prossima Chance alle'} ${chanceTime(payload.next_release_at)}`:'Prossima Chance';
+  root.insertBefore(header,pending?notice:host);
+  if(spotButton)spotButton.disabled=busy||loading||Boolean(c?.spotted)||person?.outgoing_spot_pending||clock.remaining(c?.expires_at)===0;
+ }
+ function fail(){clear();payload=null;root.dataset.chanceState='error';clock.clear();header.hidden=true;nav.hidden=true;count.textContent='';message('Non siamo riusciti a caricare','Controlla la connessione e riprova.');retry.hidden=false;}
  function rest(){resting=true;message('Ogni incontro ha il suo momento','Le tue Chance ancora valide restano disponibili.');const revisit=el('button','Rivedi le Chance','btn btn-ghost');revisit.type='button';revisit.onclick=()=>{resting=false;index=0;request++;clear();void show();};host.querySelector('.chance-empty').append(revisit);status();}
  async function show({voluntary=false,quiet=false}={}){
   const c=selected();if(!c)return;const g=epoch,r=request;
-  if(!c.revealed&&!voluntary){message('Hai una nuova Chance 👀','Soma ha qualcuno della tua Tribe da presentarti.');const reveal=el('button','Scopri la tua Chance','btn btn-primary');reveal.type='button';reveal.onclick=()=>show({voluntary:true});host.querySelector('.chance-empty').append(reveal);status();return;}
+  if(!c.revealed&&!voluntary){message('Hai una nuova Chance 👀','Soma pensa che ci sia qualcuno che dovresti conoscere.');host.querySelector('.chance-empty').prepend(createChanceHero(doc));const reveal=el('button','Scopri la tua Chance','btn btn-primary');reveal.type='button';reveal.onclick=()=>show({voluntary:true});host.querySelector('.chance-empty').append(reveal);status();return;}
   if(loading||busy)return;loading=true;status();if(!quiet)message('La tua Chance','Un momento…');const start=now();
   try{const p=await api.reveal(c.id);if(!active||g!==epoch||r!==request||selected()?.id!==c.id)return;
    if(p.id!==c.id||!p.profile?.id||typeof p.profile.name!=='string'||typeof p.profile.outgoing_spot_pending!=='boolean'||Date.parse(p.expires_at)!==Date.parse(c.expires_at))throw Error('CHANCE_REVEAL_RESPONSE');
@@ -28,7 +38,7 @@ export function mountChance({root,api,photoUrls=async()=>new Map(),onChoose=()=>
   }catch{if(active&&g===epoch&&r===request){message('Questa Chance non è disponibile','Riprova per aggiornare.');retry.hidden=false;}}
   finally{if(active&&g===epoch){loading=false;status();}}
  }
- async function load({initial=false}={}){if(!active||loading)return;const g=epoch,r=++request,start=now(),old=selected()?.id;retry.hidden=true;notice.textContent='';if(initial){message('Chance','Caricamento…');nav.hidden=true;header.hidden=true;}
+ async function load({initial=false}={}){if(!active||loading)return;const g=epoch,r=++request,start=now(),old=selected()?.id;retry.hidden=true;notice.textContent='';if(initial){message('Chance','Caricamento…');root.dataset.chanceState='loading';count.hidden=true;nav.hidden=true;header.hidden=true;}
   try{const p=chanceView(await api.current());if(!active||g!==epoch||r!==request)return;clock.set(p,start);payload=p;const existing=p.chances.findIndex(x=>x.id===old);index=existing>=0?existing:Math.max(0,p.chances.findIndex(x=>!x.revealed));
    if(!p.chances.length){const copy={paused:['Chance è in preparazione','Qui Soma ti presenterà una persona alla volta.'],tribe_required:['Scegli la tua community','Trova le tue crush nei posti che frequenti.'],waiting:['Ogni incontro ha il suo momento','Torna alla prossima Chance.']}[p.status]||['Per ora è tutto','Torna alla prossima Chance.'];message(...copy);if(p.status==='tribe_required'){const choose=el('button','Scegli la tua community','btn btn-primary');choose.type='button';choose.onclick=onChoose;host.querySelector('.chance-empty').append(choose);}}
    else if(resting)rest();else await show({quiet:old===selected()?.id&&Boolean(person)});status();tick();

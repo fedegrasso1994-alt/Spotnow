@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "bottom": 564.296875,
+    "right": 302,
+    "x": 18,
+    "y": 520.296875
+  },
+  "next_countdown_hidden": true,
+  "overflow": false,
+  "profile_count": 1,
+  "spot": {
+    "bottom": 512.296875,
+    "right": 302,
+    "x": 18,
+    "y": 460.796875
+  },
+  "tabbar": {
+    "bottom": 780,
+    "right": 320,
+    "x": 0,
+    "y": 711.6015625
+  },
+  "width": 320
+}
