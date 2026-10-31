@@ -874,7 +874,8 @@ Gate: **TRIBE E2E PASS**
 - reports/moderation
 
 ### I. SPOTTED romantic request
-- 6/day
+- 1 new romantic initiative per user / Europe/Rome calendar day, global across all boards/Tribes (founder-approved 2026-10-31; migration060).
+- Idempotent retry does not consume another initiative. Non-romantic reads/likes/comments/reports do not consume it. Beyond quota, server delivery/attempt creation is rejected while the existing uniform neutral response is preserved.
 - neutral receipts
 - privacy/side-channel controls
 - 7d

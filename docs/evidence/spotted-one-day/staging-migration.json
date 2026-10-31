@@ -1,0 +1,16 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "migration": "060",
+  "quota_rows_before_after": [
+    0,
+    0
+  ],
+  "submit_only_cap_and_comment_changed": true,
+  "settings_only_limit_changed": true,
+  "profiles_storage_fingerprints_unchanged": true,
+  "storage_objects": 42,
+  "chance_discovery_off": true,
+  "photo_open_cleanup_scheduler_off": true,
+  "retention_schedule_unchanged": "0 3 * * *",
+  "pass": true
+}

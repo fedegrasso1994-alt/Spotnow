@@ -47,7 +47,7 @@ export function mountSpotted({root,api,document:doc=globalThis.document,schedule
     if(busy)return;const g=generation,key='romantic:'+kind+':'+item.id;let op=operations.get(key);if(!op){op=operationId();operations.set(key,op);}busy=true;status.dataset.tone='';update();
     try{await api.romantic.submit(item.id,kind,op);if(g!==generation)return;operations.delete(key);status.textContent='Richiesta registrata. Non mostriamo informazioni su consegna o risposta.';status.dataset.tone='success';const next=await api.romantic.settings().catch(()=>null);if(g===generation&&next){romanticState=next;paint();}}
     catch(error){if(g===generation)status.textContent=romanticError(error);}finally{if(g===generation){busy=false;update();arm();}}
-   },'btn btn-ghost spotted-action spotted-romantic-cta');request.prepend(spottedIcon(doc,'spark'));request.disabled=busy||romanticState.remaining===0;request.dataset.romantic='true';request.title=romanticState.remaining===0?'Hai usato le 6 richieste disponibili oggi.':'';actions.append(request);
+   },'btn btn-ghost spotted-action spotted-romantic-cta');request.prepend(spottedIcon(doc,'spark'));request.disabled=busy||romanticState.remaining===0;request.dataset.romantic='true';request.title=romanticState.remaining===0?'Hai già usato la richiesta romantica disponibile oggi.':'';actions.append(request);
   }
   if(api.share){
    let sharing=false;const share=button('Condividi',async()=>{

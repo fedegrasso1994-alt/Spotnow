@@ -1,0 +1,31 @@
+{
+  "scope": "isolated local native PostgreSQL, existing QA Auth/Storage scaffold",
+  "source_staging_mutations": false,
+  "photo_uploads": false,
+  "same_day_race": {
+    "independent_sessions": 2,
+    "observed_lock_waiters": 2,
+    "public_responses": "uniform neutral; acceptance measured by durable quota/attempt/request rows",
+    "counts": {
+      "attempts": 1,
+      "requests": 1,
+      "used": 1
+    }
+  },
+  "idempotent_replay": true,
+  "midnight_race": {
+    "independent_sessions": 2,
+    "observed_lock_waiters": 2,
+    "public_responses": "uniform neutral; acceptance measured by durable quota/attempt/request rows",
+    "counts": {
+      "attempts": 2,
+      "requests": 2,
+      "days": 2,
+      "max_used": 1,
+      "matches": 0
+    }
+  },
+  "pass": true,
+  "local_target_removed": true,
+  "secrets_removed": true
+}

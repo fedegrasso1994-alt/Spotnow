@@ -1,0 +1,10 @@
+{
+  "anon_helper": false,
+  "anon_submit": false,
+  "authenticated_helper": false,
+  "authenticated_submit": true,
+  "constraint_validated": true,
+  "limit": 1,
+  "migration": "spotted_romantic_one_per_day",
+  "private_table_authenticated_write": false
+}
