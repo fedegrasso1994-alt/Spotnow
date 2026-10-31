@@ -1,0 +1,32 @@
+{
+  "baseline": "d47d13d358ca1d2efdb4a1a94e57d939406ea69a",
+  "targeted": {
+    "tests": 73,
+    "pass": 73,
+    "fail": 0
+  },
+  "full": {
+    "tests": 934,
+    "pass": 934,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "runs": 1
+  },
+  "native_independent_sessions": "PASS; one execution",
+  "build": "PASS",
+  "typecheck": "PASS",
+  "runtime_changed": false,
+  "schema_changed": false,
+  "staging_mutations": false,
+  "source_flags_changed": false,
+  "new_schedulers": 0,
+  "main_production_photo_recovery_changed": false,
+  "logs_sha256": {
+    "targeted": "ac2e2e2b997606dcb394480db1556e767e7cb6c0b0d480067b3e40d59c6a42ad",
+    "native": "3f3e73498ea10300f164302b63e4abbca773a7fbc60847a6f9414dbae288ea19",
+    "full": "09be11a864a67c081f9b101e223a75440f59d25fc71ded861c659f2fb15b80c4",
+    "build": "c9be715ffe2fc1405059692b3fe5467e77b399fa983143b9a9de996c805d9595",
+    "typecheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

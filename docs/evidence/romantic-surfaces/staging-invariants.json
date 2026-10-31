@@ -1,0 +1,60 @@
+{
+  "source_project": "zjinjtkekmaqtxsuyvho",
+  "read_only": true,
+  "before_after_equal": true,
+  "function_hashes_equal": true,
+  "chance": {
+    "activated_at": null,
+    "daily_limit": 4,
+    "enabled": false,
+    "release_times": [
+      "10:00:00",
+      "14:00:00",
+      "18:00:00",
+      "21:30:00"
+    ],
+    "scheduler_enabled": false,
+    "singleton": true
+  },
+  "checkins": {
+    "active": 0,
+    "count": 3,
+    "fingerprint": "ea1fe27e8c46c1a61ba223529d29fee0"
+  },
+  "cron": [
+    {
+      "active": false,
+      "name": "soma-photo02-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-photo02-cutover-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": false,
+      "name": "soma-privacy-retention-staging",
+      "schedule": "* * * * *"
+    },
+    {
+      "active": true,
+      "name": "soma-retention-phase-a-staging",
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "discovery": false,
+  "photo": {
+    "cleanup": false,
+    "phase": "OPEN",
+    "scheduler": false
+  },
+  "profiles": {
+    "count": 4,
+    "fingerprint": "994432dac2dad6980f0e7abb61b4e226"
+  },
+  "storage": {
+    "count": 42,
+    "fingerprint": "89560e1f8a659561522a2ddee009c3d5"
+  }
+}

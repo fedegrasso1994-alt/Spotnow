@@ -1,0 +1,72 @@
+{
+  "functions": {
+    "public.send_spot_v2(uuid,uuid,text,uuid)": {
+      "hash": "7f6887fec02b09cbfb089718fd41fd40",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "public.spotted_romantic_settings()": {
+      "hash": "dc1a74dd7c8bc9ec1a41e099ed5e0d82",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "public.spotted_romantic_submit(uuid,text,uuid)": {
+      "hash": "b3c988a5e73ff265f1805a2de7b5e29c",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "spot_private.chance_release_due()": {
+      "hash": "ad0a006f396a294f182e017d39f110a8",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "spot_private.dd_charge_spot(uuid)": {
+      "hash": "25928ae5e9b0bee3ee70bdb69ffca51b",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "spot_private.ora_charge_visit(uuid,uuid,timestamp with time zone)": {
+      "hash": "9c8a74a0017c485a2323d7ff137b7020",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    },
+    "spot_private.start_ora(uuid,text)": {
+      "hash": "a828b0129f8e095b3b9d51cd720fbd95",
+      "old_ora_cap": false,
+      "old_romantic_cap": false,
+      "rome_day": true
+    }
+  },
+  "migrations": [
+    "058",
+    "059",
+    "060",
+    "061"
+  ],
+  "ora_policy": {
+    "enabled": true,
+    "location_daily_limit": 3,
+    "quota_retention": null,
+    "singleton": true,
+    "spot_location_daily_limit": 1,
+    "timezone": "Europe/Rome"
+  },
+  "quota_constraints": {
+    "board_request_quota_pkey": "PRIMARY KEY (user_id, day)",
+    "board_request_quota_used_check": "CHECK ((used >= 0))",
+    "board_request_quota_user_id_fkey": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+    "ora_one_spot_per_location": "CHECK ((used <= 1))",
+    "ora_spot_place_quota_pkey": "PRIMARY KEY (user_id, place_id, local_date)",
+    "ora_spot_place_quota_place_id_fkey": "FOREIGN KEY (place_id) REFERENCES venues(id) ON DELETE CASCADE",
+    "ora_spot_place_quota_used_check": "CHECK ((used >= 0))",
+    "ora_spot_place_quota_user_id_local_date_fkey": "FOREIGN KEY (user_id, local_date) REFERENCES spot_private.ora_spot_daily_quota(user_id, local_date) ON DELETE CASCADE",
+    "romantic_daily_cap": "CHECK ((used <= spot_private.spotted_romantic_daily_limit()))"
+  },
+  "romantic_limit": 1
+}
