@@ -1,0 +1,29 @@
+{
+  "project_ref": "zjinjtkekmaqtxsuyvho",
+  "synthetic_only": true,
+  "request_ids": [
+    "ae627ea4-637b-463e-be8f-c414fe5cc885",
+    "6c892a35-f62a-4da9-bec9-97f075eb27d5",
+    "9b837e0a-31ef-4341-a766-737d94952ff5",
+    "5e4e857d-42c0-43b0-8c57-fd930a90a1c3"
+  ],
+  "provider_sends_allowed": 1,
+  "automatic_retries": 0,
+  "incident": {
+    "email_attempts": 1,
+    "email_error": null,
+    "email_provider_id": "01a1935a-4a36-70b5-8833-7c0aa85949d8",
+    "email_state": "delivered",
+    "id": "c7398195-c153-4ab6-a187-1ec13db930c8",
+    "state": "resolved"
+  },
+  "dedupe": true,
+  "provider_acceptance": true,
+  "delivered": true,
+  "delivery_verification": "Human custodian confirmed receipt in authorized inbox for exact incident; server-only RPC attested through owner CLI",
+  "collection_restored_off": true,
+  "email_restored_off": true,
+  "synthetic_events_cleaned": true,
+  "minimal_incident_receipt_retained_14_days": true,
+  "attestation_runner_dns_failure": "ENOTFOUND before HTTP; no provider/email retry; CLI administration path succeeded"
+}

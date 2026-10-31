@@ -1,0 +1,23 @@
+// One-shot staging-only canary. Never retries an external email; no provider key in this runner.
+import{readFile,writeFile,access}from'node:fs/promises';import{execFile}from'node:child_process';import{promisify}from'node:util';import{randomUUID}from'node:crypto';import assert from'node:assert/strict';
+const exec=promisify(execFile),root='.local/ops-email',project='zjinjtkekmaqtxsuyvho',stateFile=root+'/canary-private.json',out='docs/evidence/ops-email/canary.json';process.umask(0o077);
+if(process.argv[2]!=='--one-approved-send')throw Error('EXPLICIT_APPROVAL_REQUIRED');try{await access(stateFile);throw Error('CANARY_ALREADY_STARTED_NO_RETRY');}catch(e){if(e.code!=='ENOENT')throw e;}
+const req=Array.from({length:4},randomUUID),result={project_ref:project,synthetic_only:true,request_ids:req,provider_sends_allowed:1,automatic_retries:0};await writeFile(stateFile,JSON.stringify(result),{mode:0o600});
+async function sql(s){await writeFile(root+'/canary-query.sql',s,{mode:0o600});const r=await exec('/opt/homebrew/bin/supabase',['db','query','--linked','--project-ref',project,'--file',root+'/canary-query.sql','--output','json'],{maxBuffer:200000});return JSON.parse(r.stdout).rows;}
+let prepared=false;
+try{
+ const j=(await sql("begin read only;select jsonb_build_object('control',(select to_jsonb(c)from spot_private.ops_control c),'events',(select count(*)from spot_private.ops_events),'incidents',(select count(*)from spot_private.ops_incidents),'admission',(select count(*)from spot_private.ops_admission),'migration',exists(select 1 from supabase_migrations.schema_migrations where version='062'))v;rollback;"))[0].v;
+ assert.equal(j.control.enabled,false);assert.equal(j.control.email_enabled,false);assert.equal(j.control.test_only,true);assert.equal(j.events+j.incidents+j.admission,0);assert.equal(j.migration,true);
+ // No account/profile/content fixtures. Only admitted minimized diagnostic events.
+ prepared=true;await sql(`begin;select pg_advisory_xact_lock(hashtextextended('soma-operational-recorder',53));insert into spot_private.ops_admission(request_id)values${req.map(x=>"('"+x+"')").join(',')};update spot_private.ops_control set enabled=true,test_only=true;${req.slice(0,3).map(x=>"select ops_record_server('runtime.bootstrap','"+x+"','failure','internal_error',1,false);").join('')}update spot_private.ops_control set email_enabled=true,email_incident=(select id from spot_private.ops_incidents where operation='runtime.bootstrap'and source='edge'and state='open');select ops_record_server('runtime.bootstrap','${req[3]}','failure','internal_error',1,false);commit;`);
+ let row;for(let n=0;n<30;n++){row=(await sql("begin read only;select id,state,email_state,email_attempts,email_provider_id,email_error from spot_private.ops_incidents where operation='runtime.bootstrap'and source='edge';rollback;"))[0];if(['accepted','failed','unknown'].includes(row?.email_state))break;await new Promise(r=>setTimeout(r,500));}
+ result.incident=row;assert.equal(row?.email_state,'accepted','EMAIL_NOT_ACCEPTED_STOP_NO_RETRY');assert.equal(row.email_attempts,1);assert.ok(row.email_provider_id);
+ // An unchanged collector retry must not generate another incident or dispatch.
+ const replay=(await sql(`begin;select ops_record_server('runtime.bootstrap','${req[3]}','failure','internal_error',1,false)v;commit;`))[0].v;assert.equal(replay,false);
+ const repeated=(await sql("begin read only;select count(*)::int n,max(email_attempts)attempts from spot_private.ops_incidents;rollback;"))[0];assert.deepEqual(repeated,{n:1,attempts:1});result.dedupe=true;result.provider_acceptance=true;result.delivered=false;result.delivery_verification='pending inbox/provider evidence';
+ console.log('One staging synthetic email accepted; durable incident/attempt dedupe PASS. Delivery not yet attested.');
+}catch{result.stop=true;result.reason='CANARY_NOT_ACCEPTED_OR_PROOF_FAILED_NO_RETRY';console.error(result.reason);process.exitCode=1;}
+finally{
+ if(prepared){try{await sql(`begin;update spot_private.ops_control set enabled=false,email_enabled=false,email_incident=null;update spot_private.ops_incidents set state='resolved',resolved_at=clock_timestamp()where operation='runtime.bootstrap'and source='edge';delete from spot_private.ops_events where request_id in(${req.map(x=>"'"+x+"'").join(',')});delete from spot_private.ops_admission where request_id in(${req.map(x=>"'"+x+"'").join(',')});commit;`);result.collection_restored_off=true;result.email_restored_off=true;result.synthetic_events_cleaned=true;result.minimal_incident_receipt_retained_14_days=true;}catch{result.cleanup_failed=true;process.exitCode=1;}}
+ await writeFile(stateFile,JSON.stringify(result),{mode:0o600});await writeFile(out,JSON.stringify(result,null,2)+'\n');
+}

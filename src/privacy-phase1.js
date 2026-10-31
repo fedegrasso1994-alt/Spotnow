@@ -38,14 +38,16 @@ export function createPrivacyControls({backend,onContinue,onRestricted,onRevoke,
  const accept=make('button','btn btn-primary','Conferma e continua');accept.disabled=true;consent.onchange=()=>{accept.disabled=!consent.checked;};
  consentCard.append(consentTitle,consentLabel,consentHelp,accept);choices.append(ageCard,consentCard);
  const gateRevoke=make('button','backlink','Revoca consenso dating');
- const support=make('a','backlink','Assistenza e privacy');support.href='mailto:somadatingapp@gmail.com';
+ const support=make('a','backlink','Assistenza e privacy');support.href='mailto:somadatingapp@gmail.com?subject=%5BSOMA%20SUPPORT%5D';
+ const privacyContact=make('a','backlink','Richieste privacy');privacyContact.href='mailto:somadatingapp@gmail.com?subject=%5BSOMA%20PRIVACY%5D';
+ const safetyContact=make('a','backlink','Sicurezza e segnalazioni');safetyContact.href='mailto:somadatingapp@gmail.com?subject=%5BSOMA%20SAFETY%5D';
  const status=make('p','privacy-status');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const back=make('button','backlink','Torna al profilo');back.onclick=onBack;
  const remove=make('button','backlink privacy-danger','Elimina account');remove.onclick=onDelete;
  const signout=make('button','backlink','Esci');signout.onclick=onSignOut;
  const footer=make('footer','privacy-footer'),footerLinks=make('div','privacy-footer-links');footer.id='privacyFooter';
  const note=make('p','privacy-legal-note','Informativa e consenso in revisione prima del pilot.');
- footerLinks.append(back,gateRevoke,support,remove,signout);footer.append(footerLinks,note);
+ footerLinks.append(back,gateRevoke,support,privacyContact,safetyContact,remove,signout);footer.append(footerLinks,note);
  screen.append(header,choices,status,footer);doc.getElementById('phone').append(screen);
  let current=null;
  const update=(s,showAge=false)=>{current=s;const eligible=s.age_status==='eligible';back.hidden=!eligible;gateRevoke.hidden=!['active','renewal_required'].includes(s.consent_status);text.textContent=s.consent_text||'Il consenso non è disponibile. Riprova più tardi.';ageCard.hidden=eligible&&!showAge;consentCard.hidden=!eligible;adult.checked=false;ageButton.disabled=true;consent.checked=false;accept.disabled=true;status.textContent=s.age_status==='restricted'?'Soma è riservata ai maggiorenni. Puoi chiedere assistenza o eliminare l’account.':'';if(s.age_status==='restricted'){adult.disabled=true;ageButton.disabled=true;}else adult.disabled=false;};

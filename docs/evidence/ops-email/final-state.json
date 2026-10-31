@@ -1,0 +1,98 @@
+{
+  "ops": {
+    "admission": 0,
+    "anon_claim": false,
+    "control": {
+      "dropped": 0,
+      "email_enabled": false,
+      "email_incident": null,
+      "enabled": false,
+      "purge_ready": false,
+      "retention": "14 days",
+      "singleton": true,
+      "test_only": true
+    },
+    "events": 0,
+    "incidents": [
+      {
+        "email_attempts": 1,
+        "email_state": "delivered",
+        "error": null,
+        "id": "c7398195-c153-4ab6-a187-1ec13db930c8",
+        "provider_id": "01a1935a-4a36-70b5-8833-7c0aa85949d8",
+        "state": "resolved"
+      }
+    ],
+    "migration062": true,
+    "pending_email_requests": 0,
+    "service_claim": true,
+    "user_claim": false
+  },
+  "product_invariants_equal": true,
+  "changed_existing_functions": [
+    "public.ops_health()"
+  ],
+  "invariants": {
+    "profiles": {
+      "count": 4,
+      "fingerprint": "994432dac2dad6980f0e7abb61b4e226"
+    },
+    "storage": {
+      "count": 42,
+      "fingerprint": "89560e1f8a659561522a2ddee009c3d5"
+    },
+    "checkins": {
+      "active": 0,
+      "count": 3,
+      "fingerprint": "ea1fe27e8c46c1a61ba223529d29fee0"
+    },
+    "chance": {
+      "activated_at": null,
+      "daily_limit": 4,
+      "enabled": false,
+      "release_times": [
+        "10:00:00",
+        "14:00:00",
+        "18:00:00",
+        "21:30:00"
+      ],
+      "scheduler_enabled": false,
+      "singleton": true
+    },
+    "discovery": false,
+    "photo": {
+      "cleanup": false,
+      "phase": "OPEN",
+      "scheduler": false
+    },
+    "cron": [
+      {
+        "active": false,
+        "name": "soma-photo02-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-photo02-cutover-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": false,
+        "name": "soma-privacy-retention-staging",
+        "schedule": "* * * * *"
+      },
+      {
+        "active": true,
+        "name": "soma-retention-phase-a-staging",
+        "schedule": "0 3 * * *"
+      }
+    ]
+  },
+  "only_resend_secret_added": true,
+  "other_secret_digests_unchanged": true,
+  "only_operations_bundle_changed": true,
+  "other_edge_bundle_hashes_unchanged": true,
+  "other_edge_version_counters_incremented_by_one": true,
+  "operations_jwt_verification_unchanged": true,
+  "public_bundle_and_changed_files_secret_scan": "PASS"
+}

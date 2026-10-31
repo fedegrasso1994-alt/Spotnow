@@ -1,0 +1,35 @@
+{
+  "baseline": "0abc1408fb7e4857145aedc179afe86321e450a0",
+  "targeted": {
+    "tests": 44,
+    "pass": 44,
+    "fail": 0
+  },
+  "full_final": {
+    "tests": 940,
+    "pass": 940,
+    "fail": 0,
+    "skip": 0,
+    "cancel": 0
+  },
+  "build": "PASS",
+  "typecheck": "PASS",
+  "initial_inventory_failures": {
+    "full": 2,
+    "classification": "stale migration inventory counts; TEST/HARNESS BUG"
+  },
+  "initial_typecheck": "missing optional key JSDoc; fixed without runtime change",
+  "initial_added_catalog_assertion": "named identity arguments mismatch; TEST/HARNESS BUG fixed before final run",
+  "malformed_null": "TypeError reproduced before RPC/provider; explicit object guard added and tested",
+  "one_real_email": true,
+  "inbox_receipt_confirmed_by_custodian": true,
+  "emails_retried": 0,
+  "other_secrets_unchanged": true,
+  "secret_scan": "PASS",
+  "logs_sha256": {
+    "ops-email-target-safe": "7bd8752fd0d46049889c305457cccdde52e227fce037b923dbe19ea159d39eae",
+    "ops-email-release-full": "927be88f3b8a791a154c705cfc76c2d258bcab4b07f3d15b22eb62091c87fba7",
+    "ops-email-build-final": "c4789de828feb4577ea097db2112e774c2ab319a17525c5f3bff3eb6193506a3",
+    "ops-email-typecheck-final": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

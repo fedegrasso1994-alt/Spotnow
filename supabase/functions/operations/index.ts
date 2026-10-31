@@ -1,3 +1,4 @@
+import {dispatchOpsEmail}from '../_shared/ops-email.js';
 import {serverCredential}from '../_shared/server-key.js';
 import {stagingServerKey,stagingAdminClient} from '../_shared/server-key.js';
 import {retentionPhaseA,retentionServiceAuthorized} from '../_shared/retention-phase-a.js';
@@ -13,6 +14,8 @@ Deno.serve(async request=>{
  const token=request.headers.get('Authorization')?.replace(/^Bearer\s+/i,'');
  if(!serverCredential(request,key)&&!await retentionServiceAuthorized(token,{url,key}))return reply({error:'AUTH'},403);
  let body;try{const text=await request.text();if(text.length>256)return reply({error:'INPUT'},400);body=JSON.parse(text);}catch{return reply({error:'INPUT'},400);}
+ if(!body||typeof body!=='object'||Array.isArray(body))return reply({error:'INPUT'},400);
+ if(body.action==='ops_alert'){const r=await dispatchOpsEmail(admin,body,{key:Deno.env.get('RESEND_API_KEY')});console.log(JSON.stringify({tag:'SOMA_OPS_EMAIL',result:r.result}));return reply(r,r.status);}
  if(body.action==='phase_a_run'){try{return reply(await retentionPhaseA(admin,body));}catch{return reply({error:'INPUT'},400);}}
  if(!['diagnostic_purge','analytics_purge'].includes(body.action)||typeof body.dry_run!=='boolean')return reply({error:'INPUT'},400);
  return operationalHandler(body.action==='analytics_purge'?'analytics.purge':'ops.purge',async()=>{const r=await admin.rpc(body.action==='analytics_purge'?'analytics_purge':'ops_purge',{dry_run:body.dry_run});return r.error?reply({error:'PURGE_FAILED'},503):reply(r.data);},{record:operationalRecorder(admin),job:true,summary:true})(request);

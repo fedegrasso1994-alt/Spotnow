@@ -1,0 +1,22 @@
+{
+  "edge_http": [
+    {
+      "incident_id": "c7398195-c153-4ab6-a187-1ec13db930c8",
+      "provider_id": "01a1935a-4a36-70b5-8833-7c0aa85949d8",
+      "request_id": 25,
+      "result": "accepted",
+      "status": 200,
+      "timed_out": false
+    }
+  ],
+  "receipt": {
+    "attempts": 1,
+    "email_state": "delivered",
+    "finished_at": "2026-10-31T19:05:30.662184+00:00",
+    "id": "c7398195-c153-4ab6-a187-1ec13db930c8",
+    "provider_id": "01a1935a-4a36-70b5-8833-7c0aa85949d8",
+    "resolved_at": "2026-10-31T19:05:35.323753+00:00",
+    "started_at": "2026-10-31T19:05:30.316537+00:00",
+    "state": "resolved"
+  }
+}
