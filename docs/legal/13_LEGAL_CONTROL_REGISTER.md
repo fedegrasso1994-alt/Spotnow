@@ -22,3 +22,14 @@ Do not start remediation before the complete audit.
 Do not modify Production or main without explicit approval.
 
 Pilot GO requires every P0 control to be resolved appropriately; a technical P0 failure cannot be waived by wording alone.
+
+
+## Criteria supplements
+
+The following files are authoritative extensions of the same Register and define the controls that were previously listed by ID only:
+
+- 13_REGISTER_SECURITY_CRITERIA.md
+- 13_REGISTER_INCIDENT_CRITERIA.md
+- 13_REGISTER_DSA_COPY_CRITERIA.md
+
+If an earlier audit marked a control OPEN or unclassified because an individual canonical criterion was missing, reassess that control using these supplements before remediation.
