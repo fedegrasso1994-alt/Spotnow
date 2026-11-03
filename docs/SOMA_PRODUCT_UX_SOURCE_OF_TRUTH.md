@@ -6,7 +6,7 @@
 
 ---
 
-## 1. Product model
+**Legal/documentary reconciliation 2026-11-03:** Dating-consent placement and the Spotted/ORA contradictions above were corrected as text only. This does not activate features, change deployed quotas or authorize legal release. Historical roadmap references below may remain superseded; verify against dated founder decisions before implementation.\n\n## 1. Product model
 
 SOMA is not an infinite-swipe dating app.
 
@@ -44,7 +44,7 @@ Preserve the current SOMA visual language. No global redesign or style refactor 
 
 Standard flow:
 
-**signup/login -> 18+ -> dating consent -> profile -> photo -> mandatory pilot Tribe choice -> CHANCE**
+**signup/login -> 18+ / Terms / Privacy notice -> profile (including specific explicit dating-preference consent where required) -> photo -> mandatory pilot Tribe choice -> CHANCE**
 
 QR is not required for standard entry.
 
@@ -61,7 +61,7 @@ Current staging auth and PHOTO have real-world E2E coverage. Custom SMTP / SOMA-
 Use a clean "Prima di iniziare" screen.
 
 - Checkbox: **Dichiaro di avere almeno 18 anni**
-- Separate dating-consent checkbox with clear copy.
+- Specific explicit dating-preference consent, where legally required, is collected within the existing profile/preferences screen, separate from Terms, unselected and documented; no standalone dating activation screen or artificial 'Non ora' path.
 - No numeric age input.
 
 Final legal copy still requires professional validation.
@@ -264,7 +264,7 @@ QR never:
 - changing Place atomically closes/replaces the previous presence;
 - explicit **Esci da ORA**;
 - no mandatory GPS;
-- no daily Place-count limit;
+- maximum 3 distinct Places per Europe/Rome calendar day (per section 15);
 - no user-facing visit-history product.
 
 ORA is an explicit user declaration of current presence, not infallible location proof.
@@ -385,7 +385,7 @@ Available on:
 Not on the SOMA system post itself.
 
 Quota:
-- **6 attempts/day globally across SPOTTED**.
+- **1 new romantic initiative/day globally across SPOTTED** (founder-approved 2026-10-31, superseding the 2026-10-20 six-attempt rule).
 
 Independent of:
 - TRIBE Spot quota;
