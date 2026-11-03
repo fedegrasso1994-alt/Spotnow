@@ -30,7 +30,7 @@ Some attempts to write full PDF transcription content were blocked by platform s
 
 ## Register and product conflicts
 
-- 13_LEGAL_CONTROL_REGISTER.md and Parts A–F plus criteria supplements remain the **v1.0 historical audit baseline**, not the approved v1.2 register.
+- 13_LEGAL_CONTROL_REGISTER.md and Parts A–F plus criteria supplements remain the **v1.0 historical audit baseline**, not the approved v1.2 register.\n- 13_REGISTER_V12_RECONCILIATION.md now documents the 145-ID inventory, overrides, X-01–10 and appendix-collision gate; it is a supplement, **not** a complete v1.2 replacement.
 - Local PDF appendix control IDs can collide with but differ from canonical IDs. Preserve provenance and map explicitly before import.
 - LEG-06/consent: no artificial standalone dating activation/Non ora screen; explicit preference consent within profile where required.
 - Spotted: latest approved global romantic initiation quota 1/day, not the older 6/day.
@@ -39,7 +39,7 @@ Some attempts to write full PDF transcription content were blocked by platform s
 - Tribe remains membership/community term; Chance names the discovery tab.
 - Vercel/Gmail contractual and GCS backup transfer checks remain OPEN.
 
-## Next gates
+## Product source correction applied\n\nThe product/UX source was updated in documentation only for the consent location, Spotted 1/day and ORA 3 Places/day, without runtime changes. Other historical notes still require source comparison.\n\n## Next gates
 
 1. Complete faithful materialization of remaining six documents and complete canonical control-register v1.2 without loss of individual controls.
 2. Source-to-repo editorial diff plus approved updates to Product/UX Source of Truth.
