@@ -1,77 +1,49 @@
-# SOMA — Canonical Legal Audit Pack
+# SOMA — Legal Pack staging status
 
-Version: 1.0  
-Date: 2 November 2026  
-Branch: codex/soma-schema-v2-staging
+Updated: 2026-11-03. Documentation-only transition, **PARTIAL**.
 
-## MATERIALIZATION COMPLETE — AUDIT MAY RESUME
+## Source preservation
 
-This directory is now the canonical legal/privacy input for the Codex pre-pilot audit.
+Twelve PDF v1.1 source documents have been supplied and verified as complete, including the 19-page Provider Matrix. The PDFs (not the previous v1.0 repository texts) are the source for the approved drafts. Any copied text must be reconciled with the PDFs for tables and appendices.
 
-## Canonical files present
+## Materialized and verified (v1.1 PDF transcriptions)
 
 - 01_PRIVACY_POLICY.md
-- 02_TERMS_AND_CONDITIONS.md
 - 03_ONBOARDING_LEGAL_COPY.md
+- 07_MODERATION_REPORTING_APPEALS.md
+- 08_DPIA.md
+- 09_INCIDENT_RESPONSE.md (new)
+- 10_AGE_ASSURANCE_ASSESSMENT.md
+
+These files include internal checklists and editorial notes from the PDFs. They are **internal review sources**, NOT ready-to-publish user-facing copy. Do not publish unredacted internal notes or operational checklists.
+
+## Not yet materialized / legacy v1.0 remains
+
+- 02_TERMS_AND_CONDITIONS.md
 - 04_COMMUNITY_SAFETY_GUIDELINES.md
 - 05_RETENTION_POLICY.md
 - 06_RIGHTS_REQUEST_PROCEDURE.md
-- 07_MODERATION_REPORTING_APPEALS.md
-- 08_DPIA.md
-- 10_AGE_ASSURANCE_ASSESSMENT.md
+- 11_PROVIDER_PROCESSOR_TRANSFER_MATRIX.md (new, not yet committed)
 - 12_DSA_CLASSIFICATION.md
-- 13_LEGAL_CONTROL_REGISTER.md
-- 13_REGISTER_PART_A.md
-- 13_REGISTER_PART_B.md
-- 13_REGISTER_PART_C.md
-- 13_REGISTER_PART_D.md
-- 13_REGISTER_PART_E.md
-- 13_REGISTER_PART_F.md
 
-The Legal Control Register is intentionally split into six parts because of repository-tool payload limits. Treat all six parts as one register.
+Some attempts to write full PDF transcription content were blocked by platform safety checks. No incomplete replacement should be presented as a v1.1 final document.
 
-## Provider and incident material
+## Register and product conflicts
 
-Provider requirements are authoritative in PROV-01 through PROV-13 in the Register and must be checked against the current provider/operations evidence already present under docs/.
+- 13_LEGAL_CONTROL_REGISTER.md and Parts A–F plus criteria supplements remain the **v1.0 historical audit baseline**, not the approved v1.2 register.
+- Local PDF appendix control IDs can collide with but differ from canonical IDs. Preserve provenance and map explicitly before import.
+- LEG-06/consent: no artificial standalone dating activation/Non ora screen; explicit preference consent within profile where required.
+- Spotted: latest approved global romantic initiation quota 1/day, not the older 6/day.
+- ORA: 4h, maximum 3 distinct Places/day, 1 new Spot per Place/day; contradictory older UX sentence remains to reconcile.
+- Match/chat retained after withdrawal only with distinct valid legal basis and Article 9 condition as applicable.
+- Tribe remains membership/community term; Chance names the discovery tab.
+- Vercel/Gmail contractual and GCS backup transfer checks remain OPEN.
 
-Incident-readiness requirements are authoritative in INC-01 through INC-09 in the Register and must be checked against the current incident/recovery evidence already present under docs/.
+## Next gates
 
-Do not reconstruct requirements from legacy LP01–LP08 controls.
+1. Complete faithful materialization of remaining six documents and complete canonical control-register v1.2 without loss of individual controls.
+2. Source-to-repo editorial diff plus approved updates to Product/UX Source of Truth.
+3. Read-only adversarial audit of actual staging and provider facts; no remediation until expressly approved.
+4. No changes to application code, `main`, or Production under this documentation step.
 
-## Source-of-truth hierarchy
-
-1. 13_LEGAL_CONTROL_REGISTER.md plus Parts A–F
-2. substantive legal files in this directory
-3. docs/SOMA_PRODUCT_UX_SOURCE_OF_TRUTH.md
-4. current implementation/runtime evidence
-5. legacy documentation only as historical evidence
-
-If legacy material conflicts with this directory, treat it as STALE.
-
-## Frozen pilot decisions
-
-- Service is 18+.
-- Age assurance is risk-based and progressive; no universal document/selfie check in ordinary pilot onboarding.
-- Terms acceptance, Privacy notice delivery, age declaration and dating consent are separate.
-- Privacy is not a consent checkbox.
-- Dating consent requires a real Non ora path.
-- Withdrawal stops new preference-based dating processing and must not fall back to ALL.
-- Existing Match/Chat may persist only if independent of revoked preferences and otherwise lawful.
-- Spotted is anonymous to peers, not absolutely anonymous to SOMA.
-- ORA is declared presence, not verified GPS presence.
-- No user-facing legacy Tribe terminology.
-- No attractiveness/desirability ranking.
-- No behavioral advertising in the pilot.
-- No Production change without explicit approval.
-
-## Codex audit rule
-
-Codex must now produce:
-
-CONTROL ID → CURRENT STATE → PASS / GAP / CONFLICT / OPEN → EVIDENCE → REQUIRED CHANGE
-
-No control may be marked PASS without concrete evidence.
-
-Do not implement remediation until the complete audit is delivered.
-
-Do not modify Production or main.
+Document integrity status: **NO-GO to treating the Legal Pack as completely materialized**.
