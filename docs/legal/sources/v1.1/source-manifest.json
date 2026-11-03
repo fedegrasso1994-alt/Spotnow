@@ -1,0 +1,1590 @@
+{
+  "date": "2026-11-03",
+  "scope": "Faithful documentation materialization only; no runtime/legal audit",
+  "source_authority": "12 PDFs supplied directly by the owner in this session",
+  "original_source_directory": "/Users/federicograsso/Desktop/LEGAL SOMA",
+  "zip_archive": "SOMA_LegalPack_v1.1_verified_source.zip NOT AVAILABLE; no ZIP or external expected-hash comparison asserted",
+  "checksum_meaning": "SHA-256 computed from supplied local PDF bytes, re-read for stability; not an external signature/authentication claim",
+  "baseline_before_materialization": "52a914f2d4dd1e68768683a969619cf97cc96cf7",
+  "extractor": {
+    "name": "pypdf",
+    "version": "6.10.0",
+    "mode": "layout",
+    "encoding": "UTF-8"
+  },
+  "comparison_rules": "Remove editorial HTML comments, normalize NFKC and whitespace/ZWSP/BOM/soft-hyphen for visible-stream comparison only; no such normalization rewrites source clauses. Form-feed becomes blank lines in new fenced transcriptions.",
+  "source_count": 12,
+  "source_pages": 116,
+  "new_document_count": 6,
+  "preserved_document_count": 6,
+  "source_records": [
+    {
+      "source": "Community & Safety Guidelines di SOMA.pdf",
+      "sha256": "f4ef34fbf66e6ce13a3632d15df36876a0540d9c438e218e21e1e6d21c732316",
+      "bytes": 81325,
+      "pages": 5,
+      "text_file": "01.txt",
+      "text_sha256": "7d66981869b2b1759bb2677d2660010de6a6dbc776b8fd1f71dddc13d1e6737c",
+      "page_chars": [
+        1490,
+        1680,
+        1806,
+        1486,
+        1223
+      ],
+      "target": "docs/legal/04_COMMUNITY_SAFETY_GUIDELINES.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "SAFE-PDF",
+      "main_pages": [
+        1,
+        4
+      ],
+      "checklist_pages": [
+        5,
+        5
+      ],
+      "source_split_offset": 6474,
+      "main_source_sha256": "38abcfafd676724c10cd0c546c0734e2eb6069acee219bf28e8cfc1a653925ab",
+      "checklist_source_sha256": "cd0858396bc1116051d9d2116c3559a653c64fe4932a39644301e823760c33dd",
+      "materialized_sha256": "c8f72e1cabe8dab1739051f4061ff778f3199e795be41cea8d281f012ad0ea80",
+      "pdf_visible_sha256": "a4169f0551c081fe75b0067a01875106af70cbee32254e7b62270489f95e1231",
+      "repo_visible_sha256": "a4169f0551c081fe75b0067a01875106af70cbee32254e7b62270489f95e1231",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "da45d435d05c6e74f8f9559b6db511b7b867dc7d8d3debbbe71e9265fbe44c55",
+      "checklist_payload_sha256": "1de00f65993b77eb9837821e478438c12e14f94453c50afb61497ec6526008c9",
+      "local_ids_original": [
+        "SAFE-01",
+        "SAFE-02",
+        "SAFE-03",
+        "SAFE-04",
+        "SAFE-05",
+        "SAFE-06"
+      ],
+      "local_ids_qualified": [
+        "SAFE-PDF:SAFE-01",
+        "SAFE-PDF:SAFE-02",
+        "SAFE-PDF:SAFE-03",
+        "SAFE-PDF:SAFE-04",
+        "SAFE-PDF:SAFE-05",
+        "SAFE-PDF:SAFE-06"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    },
+    {
+      "source": "SOMA – Age Assurance Assessment v1.1 – Pilot.pdf",
+      "sha256": "7ad12e2971534afc589a4431af46bd77e78f817d3ac9e58aa40194a6306dc612",
+      "bytes": 90375,
+      "pages": 6,
+      "text_file": "02.txt",
+      "text_sha256": "513640cc7d9b1cd0ee065553a82c9d77a8581b3145434f8be8384aae9553b48e",
+      "page_chars": [
+        1655,
+        2021,
+        1808,
+        1663,
+        1505,
+        407
+      ],
+      "target": "docs/legal/10_AGE_ASSURANCE_ASSESSMENT.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "VISIBLE_STREAM_MATCH",
+      "materialized_sha256": "d6878a6b268f3244a3a50ebca025482d90947517e05a43376ddc85507881c294",
+      "pdf_visible_sha256": "a76ccd587b11653fbdecacde433099aa2d66d4695826eab11a56565da9072728",
+      "repo_visible_sha256": "a76ccd587b11653fbdecacde433099aa2d66d4695826eab11a56565da9072728",
+      "local_checklist_namespace": "AGE-PDF",
+      "local_ids_original": [
+        "AGE-01",
+        "AGE-02",
+        "AGE-03",
+        "AGE-04",
+        "AGE-05",
+        "AGE-06"
+      ],
+      "local_ids_qualified": [
+        "AGE-PDF:AGE-01",
+        "AGE-PDF:AGE-02",
+        "AGE-PDF:AGE-03",
+        "AGE-PDF:AGE-04",
+        "AGE-PDF:AGE-05",
+        "AGE-PDF:AGE-06"
+      ],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged."
+    },
+    {
+      "source": "SOMA – Data Protection Impact Assessment (DPIA).pdf",
+      "sha256": "a84a7eb8e0c0fec68fe0beb0461a140918a67e56c866c811dff1123a726c4220",
+      "bytes": 131875,
+      "pages": 10,
+      "text_file": "03.txt",
+      "text_sha256": "92f1743ce67d817887ba97bb27aa82fb0ac25e90ba05dbed273ee9f3b181538f",
+      "page_chars": [
+        1782,
+        1840,
+        2264,
+        2200,
+        3000,
+        1901,
+        1881,
+        1885,
+        1560,
+        449
+      ],
+      "target": "docs/legal/08_DPIA.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "VISIBLE_STREAM_MATCH",
+      "materialized_sha256": "143b9342f3f70a9b3b30488a294b12eda8dc3a807d8e92c4c1a0ca20bae43fc3",
+      "pdf_visible_sha256": "5cfc7e947d0e98430cd0c6798c572fd30b10fa5eb9d9435b67b23af65ea41ee2",
+      "repo_visible_sha256": "5cfc7e947d0e98430cd0c6798c572fd30b10fa5eb9d9435b67b23af65ea41ee2",
+      "local_checklist_namespace": "PDF-08",
+      "local_ids_original": [],
+      "local_ids_qualified": [],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged."
+    },
+    {
+      "source": "SOMA – Incident Response & Personal Data Breach Procedure v1.1 – Pilot.pdf",
+      "sha256": "c7c106bcfe201de2c39532439a985caa63ed1a22caea0d10adab30a3c257b1d7",
+      "bytes": 184885,
+      "pages": 12,
+      "text_file": "04.txt",
+      "text_sha256": "f9315b36117398b6ad0d338148b68dd39f1fa999afb7d3a135c338a9acf8bcdf",
+      "page_chars": [
+        1554,
+        1994,
+        1570,
+        1473,
+        1652,
+        1911,
+        1841,
+        1669,
+        1670,
+        1645,
+        1572,
+        932
+      ],
+      "target": "docs/legal/09_INCIDENT_RESPONSE.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "VISIBLE_STREAM_MATCH",
+      "materialized_sha256": "c65061e882df1035d873ad12e8e19ac570e258c005f540c007f752232f649e38",
+      "pdf_visible_sha256": "17ffacecb718121825902154e328a7e8cc1431aa1e61c8fffd799c0797d5b89f",
+      "repo_visible_sha256": "17ffacecb718121825902154e328a7e8cc1431aa1e61c8fffd799c0797d5b89f",
+      "local_checklist_namespace": "INC-PDF",
+      "local_ids_original": [
+        "INC-01",
+        "INC-02",
+        "INC-03",
+        "INC-04",
+        "INC-05",
+        "INC-06",
+        "INC-07",
+        "INC-08",
+        "INC-09"
+      ],
+      "local_ids_qualified": [
+        "INC-PDF:INC-01",
+        "INC-PDF:INC-02",
+        "INC-PDF:INC-03",
+        "INC-PDF:INC-04",
+        "INC-PDF:INC-05",
+        "INC-PDF:INC-06",
+        "INC-PDF:INC-07",
+        "INC-PDF:INC-08",
+        "INC-PDF:INC-09"
+      ],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged."
+    },
+    {
+      "source": "SOMA – Moderation _ Reporting _ Appeals Procedure v1.1 – Pilot.pdf",
+      "sha256": "9cfc9973b7013673ca38dfafaddd5afc3e8ddc04c8720c3c04c5a198be45713d",
+      "bytes": 140270,
+      "pages": 9,
+      "text_file": "05.txt",
+      "text_sha256": "84d7ddf0c24efd1204231918d147c4d4f5594a278e19670367c658b2fd3f5527",
+      "page_chars": [
+        1589,
+        2044,
+        1669,
+        1714,
+        1974,
+        2003,
+        1763,
+        1372,
+        475
+      ],
+      "target": "docs/legal/07_MODERATION_REPORTING_APPEALS.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "VISIBLE_STREAM_MATCH",
+      "materialized_sha256": "f316b5dea572a3dc60bf66a9cffb4c6976964414d56c65475cccee93d0a4ce89",
+      "pdf_visible_sha256": "b4318875405bf65fcceac84b7b48ffdfdf66544eb540d421ccece77c36773df7",
+      "repo_visible_sha256": "b4318875405bf65fcceac84b7b48ffdfdf66544eb540d421ccece77c36773df7",
+      "local_checklist_namespace": "MOD-PDF",
+      "local_ids_original": [
+        "MOD-01",
+        "MOD-02",
+        "MOD-03",
+        "MOD-04",
+        "MOD-05",
+        "MOD-06",
+        "MOD-07",
+        "MOD-08",
+        "MOD-09",
+        "MOD-10"
+      ],
+      "local_ids_qualified": [
+        "MOD-PDF:MOD-01",
+        "MOD-PDF:MOD-02",
+        "MOD-PDF:MOD-03",
+        "MOD-PDF:MOD-04",
+        "MOD-PDF:MOD-05",
+        "MOD-PDF:MOD-06",
+        "MOD-PDF:MOD-07",
+        "MOD-PDF:MOD-08",
+        "MOD-PDF:MOD-09",
+        "MOD-PDF:MOD-10"
+      ],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged."
+    },
+    {
+      "source": "SOMA – Onboarding Legal Copy v1.1 – Pilot.pdf",
+      "sha256": "4bcbb292248fc5b550a16659f5be6ac8fc2fff6efd5dedb374019fd6b5f2781c",
+      "bytes": 68356,
+      "pages": 4,
+      "text_file": "06.txt",
+      "text_sha256": "949c006094e99a9e26194c72f724aadcaf6ce8602173a548ffdecca647366f1f",
+      "page_chars": [
+        1242,
+        1730,
+        1374,
+        575
+      ],
+      "target": "docs/legal/03_ONBOARDING_LEGAL_COPY.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "VISIBLE_STREAM_MATCH",
+      "materialized_sha256": "371588fae7f8f6ace1721c7504ea0a7c219b5422d59fa155987c9ef611619cfb",
+      "pdf_visible_sha256": "a985b6f0efd8fe524822c99038b0b3f159dd8b367f6b7cd0132938ff36187cc8",
+      "repo_visible_sha256": "a985b6f0efd8fe524822c99038b0b3f159dd8b367f6b7cd0132938ff36187cc8",
+      "local_checklist_namespace": "PDF-03",
+      "local_ids_original": [],
+      "local_ids_qualified": [],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged."
+    },
+    {
+      "source": "SOMA – Provider _ Processor _ International Transfer Matrix (3).pdf",
+      "sha256": "cb931877eed629087dbbc190e5c90610f28c67bc0420fdf787e54f76d0c88e15",
+      "bytes": 269530,
+      "pages": 19,
+      "text_file": "07.txt",
+      "text_sha256": "68ecf757c770614a380951f6b5180edc24772586d987d72d9f74307c86a53cf7",
+      "page_chars": [
+        970,
+        1022,
+        1032,
+        1080,
+        1061,
+        1107,
+        908,
+        1020,
+        1074,
+        945,
+        916,
+        1025,
+        1072,
+        1079,
+        1033,
+        749,
+        809,
+        1229,
+        442
+      ],
+      "target": "docs/legal/11_PROVIDER_PROCESSOR_TRANSFER_MATRIX.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "PROV-MX",
+      "main_pages": [
+        1,
+        18
+      ],
+      "checklist_pages": [
+        18,
+        19
+      ],
+      "source_split_offset": 17119,
+      "main_source_sha256": "55d9dee3d1f86aea06007a35af72201ede5e584f94d417934c813687db6c66b8",
+      "checklist_source_sha256": "a844c9f57f20ae0ae39c293e157db26bd849e8370c17ca078ade06ff71812453",
+      "materialized_sha256": "5268d322b4c9462f11bfa1d539dea89ed6063a176da8f03577792a60a48840c6",
+      "pdf_visible_sha256": "06a455ccf0cd6726f82f17b6efd8c09493597b0327f8066b6be4f294d68cf8cc",
+      "repo_visible_sha256": "06a455ccf0cd6726f82f17b6efd8c09493597b0327f8066b6be4f294d68cf8cc",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "06ee7c8c10d70514431102531b978c606a0015cec954b224bed54a4f31d87ee8",
+      "checklist_payload_sha256": "126c169fb53a1429a49dc3c87e3cfe3e2bb03dce0a296bde5ed17cad0507f8f9",
+      "local_ids_original": [
+        "PROV-01",
+        "PROV-02",
+        "PROV-03",
+        "PROV-04",
+        "PROV-05",
+        "PROV-06",
+        "PROV-07",
+        "PROV-08",
+        "PROV-09"
+      ],
+      "local_ids_qualified": [
+        "PROV-MX:PROV-01",
+        "PROV-MX:PROV-02",
+        "PROV-MX:PROV-03",
+        "PROV-MX:PROV-04",
+        "PROV-MX:PROV-05",
+        "PROV-MX:PROV-06",
+        "PROV-MX:PROV-07",
+        "PROV-MX:PROV-08",
+        "PROV-MX:PROV-09"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    },
+    {
+      "source": "SOMA – Rights Request Procedure v1.1– Pilot.pdf",
+      "sha256": "339eb507e1af339aad503d6342e22a33eb4adf6ba966a233e1b53421e564d39c",
+      "bytes": 143670,
+      "pages": 9,
+      "text_file": "08.txt",
+      "text_sha256": "376f164de7e2101159c7fb0cc874f3ff888c303d5b4f640cea91d2edb7b0c5be",
+      "page_chars": [
+        1322,
+        1652,
+        1985,
+        1984,
+        1740,
+        2001,
+        1689,
+        1498,
+        1467
+      ],
+      "target": "docs/legal/06_RIGHTS_REQUEST_PROCEDURE.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "DSR-PDF",
+      "main_pages": [
+        1,
+        8
+      ],
+      "checklist_pages": [
+        8,
+        9
+      ],
+      "source_split_offset": 13882,
+      "main_source_sha256": "96d10ed6ac041f9238d621f51dffc1fae10055b4fc66896a0b69f02ff6741539",
+      "checklist_source_sha256": "0347c7b8475a41261fa141eadfd61a4e6cc0592bac8fb669f1e87019fecba4b1",
+      "materialized_sha256": "bcb8c7571daaac0c089ec7092a12eb82b9f4edb22c1a95f7fa4dc14a01e253a9",
+      "pdf_visible_sha256": "73126b77f8ee0af7b403bd9188274f7160fda7c2013e1504941f44d8e24961df",
+      "repo_visible_sha256": "73126b77f8ee0af7b403bd9188274f7160fda7c2013e1504941f44d8e24961df",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "7fdbdd1cb8abd9586673bd1057d88434b90a41b4828b80007446528258db373b",
+      "checklist_payload_sha256": "8d60d94f9aec01f856ea253cd739e40b9c4e7c6e45f538ce1ef89f03fdc863dd",
+      "local_ids_original": [
+        "DSR-01",
+        "DSR-02",
+        "DSR-03",
+        "DSR-04",
+        "DSR-05",
+        "DSR-06",
+        "DSR-07",
+        "DSR-08"
+      ],
+      "local_ids_qualified": [
+        "DSR-PDF:DSR-01",
+        "DSR-PDF:DSR-02",
+        "DSR-PDF:DSR-03",
+        "DSR-PDF:DSR-04",
+        "DSR-PDF:DSR-05",
+        "DSR-PDF:DSR-06",
+        "DSR-PDF:DSR-07",
+        "DSR-PDF:DSR-08"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    },
+    {
+      "source": "SOMA — Valutazione della classificazione ai sensi del Digital Services Act.pdf",
+      "sha256": "87292fa14e7085b06b6c971dfa829d16ad1b491db62074ab6b81d6e17af80a21",
+      "bytes": 121054,
+      "pages": 7,
+      "text_file": "09.txt",
+      "text_sha256": "856bbabbc5360cf616e841a02d4b645ce561d54c2c42459664b6d5858a498509",
+      "page_chars": [
+        1621,
+        1889,
+        2143,
+        2063,
+        1935,
+        1853,
+        978
+      ],
+      "target": "docs/legal/12_DSA_CLASSIFICATION.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "DSA-PDF",
+      "main_pages": [
+        1,
+        6
+      ],
+      "checklist_pages": [
+        6,
+        7
+      ],
+      "source_split_offset": 11517,
+      "main_source_sha256": "8c07198f7dba3b0c8a1f81330521b62ff7fcf43988f134f46577e39466a0aa0f",
+      "checklist_source_sha256": "921bb23d945e8a85cf8b6dec75a7aa83276df12c897e0deadcd1a00ea63af953",
+      "materialized_sha256": "532a04dcfa27b1abedc902ff2ac106891020b0cc8a8b3cb40d11ee6c4e8dda55",
+      "pdf_visible_sha256": "ca061db09d8bed782eeca4ce3479668d8593e2f91ade8cfedd400e4c325bf243",
+      "repo_visible_sha256": "ca061db09d8bed782eeca4ce3479668d8593e2f91ade8cfedd400e4c325bf243",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "e9a2414c71c335fb9f7cde9b972174d2a0bf534b14c85cee72dbf1136e22a4fd",
+      "checklist_payload_sha256": "642d0c029f4198e471721bbffb58644011b583ae16b70cac7fb66b7b24fa7f86",
+      "local_ids_original": [
+        "DSA-03",
+        "DSA-04",
+        "DSA-05"
+      ],
+      "local_ids_qualified": [
+        "DSA-PDF:DSA-03",
+        "DSA-PDF:DSA-04",
+        "DSA-PDF:DSA-05"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    },
+    {
+      "source": "Soma - Privacy Policy (1).pdf",
+      "sha256": "649308c0d7df0ba016c2354da778e57870a5779b9034437fd53416bd6759f40d",
+      "bytes": 208839,
+      "pages": 14,
+      "text_file": "10.txt",
+      "text_sha256": "33f744efab85327995d3bfc1191ec934500c19db2dcfaad1acb2e2d68c80a611",
+      "page_chars": [
+        2246,
+        2331,
+        2397,
+        2683,
+        2396,
+        2218,
+        2283,
+        2376,
+        577,
+        1364,
+        2358,
+        2386,
+        2808,
+        1618
+      ],
+      "target": "docs/legal/01_PRIVACY_POLICY.md",
+      "action": "PRESERVED_ALREADY_MATERIALIZED",
+      "comparison": "FORMATTING_ONLY_CONFIRMED_BY_SIX_CELL_COMPARISON",
+      "materialized_sha256": "3b98ce7b927f1b22d030b9a44b75d7c761f51060ded68a626db78b073a8aa1ea",
+      "pdf_visible_sha256": "ae9514d7bc2135cda36d2f07f53cc0705444de84e1f6b516d4bce72e2a5dc4d7",
+      "repo_visible_sha256": "ef6dbe624210925142da7e63bdf70797466262cfb1a2e7afe51931307cf6366b",
+      "difference": "Page12 PRIV-04: flat extraction reading order differs; all six cells equal after formatting normalization and entire document outside this row equal. Information fully preserved; original Markdown unchanged.",
+      "local_checklist_namespace": "PRIV-PDF",
+      "local_ids_original": [
+        "PRIV-01",
+        "PRIV-02",
+        "PRIV-03",
+        "PRIV-04",
+        "PRIV-05",
+        "PRIV-06"
+      ],
+      "local_ids_qualified": [
+        "PRIV-PDF:PRIV-01",
+        "PRIV-PDF:PRIV-02",
+        "PRIV-PDF:PRIV-03",
+        "PRIV-PDF:PRIV-04",
+        "PRIV-PDF:PRIV-05",
+        "PRIV-PDF:PRIV-06"
+      ],
+      "canonical_mapping": "NO ID-TEXT JOIN; source-local namespace only, existing text unchanged.",
+      "table_verification": {
+        "source_pdf_page": 12,
+        "source_row": "PRIV-04",
+        "repository_lines": [
+          462,
+          480
+        ],
+        "method": "PDF default cell reading order and rendered page compared with six fixed-width repository columns; whitespace/NFKC/invisible formatting normalization only",
+        "columns": [
+          "ID",
+          "Evidenza già disponibile",
+          "Gap da chiudere",
+          "Criterio di chiusura",
+          "Tipo",
+          "Stato"
+        ],
+        "all_six_cells_equal": true,
+        "source_cells": [
+          "PRIV-04",
+          "Inventario  fornitori  e  scopi  parziali;  Supabase  staging  eu-west-1,  Vercel  deployment  iad1,  GCS  europe-west1,  Resend  canary",
+          "Accordi  applicabili  e  trasferimenti  effettivi  non  documentati  per  singolo  servizio",
+          "Inventario  di  servizi  abilitati  e  destinatari;  ruoli  titolare/responsabile  ove  applicabile,  DPA/termini  pertinenti,  subfornitori/regioni  e  meccanismo  Capo  V  specifico;  confermare  SMTP  e  provider  casella",
+          "Documentale/contrattuale",
+          "APERTO"
+        ],
+        "repo_cells": [
+          "PRI V-04                 ",
+          "Inventario fornitori e scopi parziali; Supabase staging eu-west-1, Vercel deployment iad1, GCS europe-west  1, Resend  canary     ",
+          "Accordi applicabili e trasferimenti effettivi non documentati per singolo servizio            ",
+          "Inventario di servizi abilitati e destinatari; ruoli titolare/respons abile ove applicabile, DPA/termini pertinenti, subfornitori/regi oni e  meccanismo  Capo V specifico; confermare SMTP e provider casella",
+          "Documentale/contra ttuale                 ",
+          "APER TO                 "
+        ],
+        "cell_sha256": [
+          "12433a5edb6d7438aadce57d07a6da7492b1c791aee3891ea1f7a91950dc1ba0",
+          "4c18ecd483c6da77069878b94585454aa12990d0faff42d28262e1d9b9d9e17d",
+          "8b2a51f3826fc28503d11d745e2aa477dd8eeba49b7325cf34f01d8c6ca5c027",
+          "302f21696a6d8c5a3746fd07d80850d1a7539e8615ddf0e67b1727035fc5bd37",
+          "933b075c41b3f8d2e5668091223a8615e529230c0199ea8b217eda05cb57cbf1",
+          "ef09ff612663a3f6e3f6b02ef98f79fcb1387018fdc14f7c3703b14edeaae898"
+        ],
+        "file_rewritten": false,
+        "entire_document_outside_verified_row_equal": true
+      }
+    },
+    {
+      "source": "Soma - Terms & Conditions.pdf",
+      "sha256": "29fd0eb2316323156d26a5424878227a76da97f69fe5cc3cea188927481b7f05",
+      "bytes": 171198,
+      "pages": 11,
+      "text_file": "11.txt",
+      "text_sha256": "d729693ca3e17fba28f7f8feb608404662677af107b1c91dc458789adf99e3b8",
+      "page_chars": [
+        1578,
+        1912,
+        2050,
+        1945,
+        2003,
+        2088,
+        2003,
+        1837,
+        1953,
+        1895,
+        1396
+      ],
+      "target": "docs/legal/02_TERMS_AND_CONDITIONS.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "TERMS-PDF",
+      "main_pages": [
+        1,
+        10
+      ],
+      "checklist_pages": [
+        11,
+        11
+      ],
+      "source_split_offset": 19294,
+      "main_source_sha256": "661f351d5a2f9c1a7d46eceaf3ed2a7609d3d8a4cf0d4bc29e0cc2201521af99",
+      "checklist_source_sha256": "65dc851b680319dd582ffb933c0f90f6743c6baae85df836e008ea02b535fb32",
+      "materialized_sha256": "c891a9d563342f16f49975477f9ca33f98aad6bbd69eb4ea3d381a3d0f8a96a9",
+      "pdf_visible_sha256": "8d6c9e1eb617185df4ad12d73138fc8612ce6ec35c3cc45027bb0ecaf392196c",
+      "repo_visible_sha256": "8d6c9e1eb617185df4ad12d73138fc8612ce6ec35c3cc45027bb0ecaf392196c",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "8d4ba28d4e851d1481acc3b524d96711832c764455fc9ddcfa41ebe2cddee9d1",
+      "checklist_payload_sha256": "1fb3091fd9f56a12eafc58682803a7d159fb0f716b3627c15af431678dbef406",
+      "local_ids_original": [
+        "TERMS-01",
+        "TERMS-02",
+        "TERMS-03",
+        "TERMS-04",
+        "TERMS-05",
+        "TERMS-06"
+      ],
+      "local_ids_qualified": [
+        "TERMS-PDF:TERMS-01",
+        "TERMS-PDF:TERMS-02",
+        "TERMS-PDF:TERMS-03",
+        "TERMS-PDF:TERMS-04",
+        "TERMS-PDF:TERMS-05",
+        "TERMS-PDF:TERMS-06"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    },
+    {
+      "source": "Soma Retention Policy.pdf",
+      "sha256": "79d86ddb44b23f4fbf676186b3e999e953bf673c625407f8bd34b20c35a7d0e3",
+      "bytes": 167245,
+      "pages": 10,
+      "text_file": "12.txt",
+      "text_sha256": "f61dca754318e3aedcd08df4d26f89a8d238dad2dc96fd51591686a04881cc57",
+      "page_chars": [
+        1726,
+        3005,
+        2669,
+        2254,
+        1885,
+        2218,
+        1962,
+        1862,
+        2103,
+        1414
+      ],
+      "target": "docs/legal/05_RETENTION_POLICY.md",
+      "action": "MATERIALIZED_FROM_SUPPLIED_PDF",
+      "local_checklist_namespace": "RET-PDF",
+      "main_pages": [
+        1,
+        9
+      ],
+      "checklist_pages": [
+        10,
+        10
+      ],
+      "source_split_offset": 19711,
+      "main_source_sha256": "4dae252ec506c1d22e42ac67b3fc0654f1b68d003baf38479480d6f4b4c914ce",
+      "checklist_source_sha256": "3ccf6b0820194d7ec50e8603132e4d73f5d9968294fbb92a408574c43af13e40",
+      "materialized_sha256": "fc77353b1e277fd4db6a06c52544485639a667f3b4d9440ca4837213fa234929",
+      "pdf_visible_sha256": "bb718005c853e64b794c5a19d7f7f5bc69c33960e41887622d4fc1dac6141c42",
+      "repo_visible_sha256": "bb718005c853e64b794c5a19d7f7f5bc69c33960e41887622d4fc1dac6141c42",
+      "comparison": "SOURCE_SEGMENTS_ROUNDTRIP_MATCH",
+      "main_payload_sha256": "2b7fc10084a944947a34e1966d44505e164886177f1b743f2161fdcf564b3b08",
+      "checklist_payload_sha256": "1078b9c7395cdbb33150d71f0ea9d747b23db0742792bb8526a9cdd741746744",
+      "local_ids_original": [
+        "RET-01",
+        "RET-02",
+        "RET-03",
+        "RET-04",
+        "RET-05",
+        "RET-06",
+        "RET-07",
+        "RET-08"
+      ],
+      "local_ids_qualified": [
+        "RET-PDF:RET-01",
+        "RET-PDF:RET-02",
+        "RET-PDF:RET-03",
+        "RET-PDF:RET-04",
+        "RET-PDF:RET-05",
+        "RET-PDF:RET-06",
+        "RET-PDF:RET-07",
+        "RET-PDF:RET-08"
+      ],
+      "canonical_mapping": "NOT_AUTOMATIC; document-local identifiers are excluded from the canonical inventory. Any future mapping requires explicit semantic review."
+    }
+  ],
+  "protected_file_sha256": {
+    "01_PRIVACY_POLICY.md": "3b98ce7b927f1b22d030b9a44b75d7c761f51060ded68a626db78b073a8aa1ea",
+    "03_ONBOARDING_LEGAL_COPY.md": "371588fae7f8f6ace1721c7504ea0a7c219b5422d59fa155987c9ef611619cfb",
+    "07_MODERATION_REPORTING_APPEALS.md": "f316b5dea572a3dc60bf66a9cffb4c6976964414d56c65475cccee93d0a4ce89",
+    "08_DPIA.md": "143b9342f3f70a9b3b30488a294b12eda8dc3a807d8e92c4c1a0ca20bae43fc3",
+    "09_INCIDENT_RESPONSE.md": "c65061e882df1035d873ad12e8e19ac570e258c005f540c007f752232f649e38",
+    "10_AGE_ASSURANCE_ASSESSMENT.md": "d6878a6b268f3244a3a50ebca025482d90947517e05a43376ddc85507881c294"
+  },
+  "canonical_register": {
+    "master": "13_LEGAL_CONTROL_REGISTER.md",
+    "version": "1.2",
+    "part_counts": {
+      "13_REGISTER_PART_A.md": 20,
+      "13_REGISTER_PART_B.md": 18,
+      "13_REGISTER_PART_C.md": 23,
+      "13_REGISTER_PART_D.md": 26,
+      "13_REGISTER_PART_E.md": 28,
+      "13_REGISTER_PART_F.md": 30
+    },
+    "original_count": 145,
+    "priorities": {
+      "P0": 100,
+      "P1": 45
+    },
+    "supplement_ids": [
+      "X-01",
+      "X-02",
+      "X-03",
+      "X-04",
+      "X-05",
+      "X-06",
+      "X-07",
+      "X-08",
+      "X-09",
+      "X-10"
+    ],
+    "local_checklist_ids_counted_as_canonical": false,
+    "inventory": [
+      {
+        "id": "LEG-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 6
+      },
+      {
+        "id": "LEG-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 7
+      },
+      {
+        "id": "LEG-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 8
+      },
+      {
+        "id": "LEG-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 9
+      },
+      {
+        "id": "LEG-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 10
+      },
+      {
+        "id": "LEG-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 11
+      },
+      {
+        "id": "LEG-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 12
+      },
+      {
+        "id": "LEG-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 13
+      },
+      {
+        "id": "LEG-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 14
+      },
+      {
+        "id": "LEG-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 15
+      },
+      {
+        "id": "CONS-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 20
+      },
+      {
+        "id": "CONS-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 21
+      },
+      {
+        "id": "CONS-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 22
+      },
+      {
+        "id": "CONS-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 23
+      },
+      {
+        "id": "CONS-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 24
+      },
+      {
+        "id": "CONS-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 25
+      },
+      {
+        "id": "CONS-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 26
+      },
+      {
+        "id": "CONS-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 27
+      },
+      {
+        "id": "CONS-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 28
+      },
+      {
+        "id": "CONS-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_A.md",
+        "line": 29
+      },
+      {
+        "id": "AGE-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 6
+      },
+      {
+        "id": "AGE-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 7
+      },
+      {
+        "id": "AGE-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 8
+      },
+      {
+        "id": "AGE-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 9
+      },
+      {
+        "id": "AGE-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 10
+      },
+      {
+        "id": "AGE-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 11
+      },
+      {
+        "id": "AGE-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 12
+      },
+      {
+        "id": "AGE-08",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 13
+      },
+      {
+        "id": "AGE-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 14
+      },
+      {
+        "id": "AGE-10",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 15
+      },
+      {
+        "id": "CH-01",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 20
+      },
+      {
+        "id": "CH-02",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 21
+      },
+      {
+        "id": "CH-03",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 22
+      },
+      {
+        "id": "CH-04",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 23
+      },
+      {
+        "id": "CH-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 24
+      },
+      {
+        "id": "CH-06",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 25
+      },
+      {
+        "id": "CH-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 26
+      },
+      {
+        "id": "CH-08",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_B.md",
+        "line": 27
+      },
+      {
+        "id": "SP-01",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 6
+      },
+      {
+        "id": "SP-02",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 7
+      },
+      {
+        "id": "SP-03",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 8
+      },
+      {
+        "id": "SP-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 9
+      },
+      {
+        "id": "SP-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 10
+      },
+      {
+        "id": "SP-06",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 11
+      },
+      {
+        "id": "SP-07",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 12
+      },
+      {
+        "id": "SP-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 13
+      },
+      {
+        "id": "SP-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 14
+      },
+      {
+        "id": "SP-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 15
+      },
+      {
+        "id": "ORA-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 20
+      },
+      {
+        "id": "ORA-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 21
+      },
+      {
+        "id": "ORA-03",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 22
+      },
+      {
+        "id": "ORA-04",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 23
+      },
+      {
+        "id": "ORA-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 24
+      },
+      {
+        "id": "ORA-06",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 25
+      },
+      {
+        "id": "ORA-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 26
+      },
+      {
+        "id": "ORA-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 27
+      },
+      {
+        "id": "MC-01",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 32
+      },
+      {
+        "id": "MC-02",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 33
+      },
+      {
+        "id": "MC-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 34
+      },
+      {
+        "id": "MC-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 35
+      },
+      {
+        "id": "MC-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_C.md",
+        "line": 36
+      },
+      {
+        "id": "MOD-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 6
+      },
+      {
+        "id": "MOD-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 7
+      },
+      {
+        "id": "MOD-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 8
+      },
+      {
+        "id": "MOD-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 9
+      },
+      {
+        "id": "MOD-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 10
+      },
+      {
+        "id": "MOD-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 11
+      },
+      {
+        "id": "MOD-07",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 12
+      },
+      {
+        "id": "MOD-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 13
+      },
+      {
+        "id": "MOD-09",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 14
+      },
+      {
+        "id": "MOD-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 15
+      },
+      {
+        "id": "MOD-11",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 16
+      },
+      {
+        "id": "MOD-12",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 17
+      },
+      {
+        "id": "MOD-13",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 18
+      },
+      {
+        "id": "MOD-14",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 19
+      },
+      {
+        "id": "DSR-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 24
+      },
+      {
+        "id": "DSR-02",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 25
+      },
+      {
+        "id": "DSR-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 26
+      },
+      {
+        "id": "DSR-04",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 27
+      },
+      {
+        "id": "DSR-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 28
+      },
+      {
+        "id": "DSR-06",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 29
+      },
+      {
+        "id": "DSR-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 30
+      },
+      {
+        "id": "DSR-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 31
+      },
+      {
+        "id": "DSR-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 32
+      },
+      {
+        "id": "DSR-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 33
+      },
+      {
+        "id": "DSR-11",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 34
+      },
+      {
+        "id": "DSR-12",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_D.md",
+        "line": 35
+      },
+      {
+        "id": "RET-01",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 6
+      },
+      {
+        "id": "RET-02",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 7
+      },
+      {
+        "id": "RET-03",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 8
+      },
+      {
+        "id": "RET-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 9
+      },
+      {
+        "id": "RET-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 10
+      },
+      {
+        "id": "RET-06",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 11
+      },
+      {
+        "id": "RET-07",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 12
+      },
+      {
+        "id": "RET-08",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 13
+      },
+      {
+        "id": "RET-09",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 14
+      },
+      {
+        "id": "RET-10",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 15
+      },
+      {
+        "id": "RET-11",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 16
+      },
+      {
+        "id": "RET-12",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 17
+      },
+      {
+        "id": "RET-13",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 18
+      },
+      {
+        "id": "RET-14",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 19
+      },
+      {
+        "id": "RET-15",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 20
+      },
+      {
+        "id": "PROV-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 25
+      },
+      {
+        "id": "PROV-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 26
+      },
+      {
+        "id": "PROV-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 27
+      },
+      {
+        "id": "PROV-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 28
+      },
+      {
+        "id": "PROV-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 29
+      },
+      {
+        "id": "PROV-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 30
+      },
+      {
+        "id": "PROV-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 31
+      },
+      {
+        "id": "PROV-08",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 32
+      },
+      {
+        "id": "PROV-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 33
+      },
+      {
+        "id": "PROV-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 34
+      },
+      {
+        "id": "PROV-11",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 35
+      },
+      {
+        "id": "PROV-12",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 36
+      },
+      {
+        "id": "PROV-13",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_E.md",
+        "line": 37
+      },
+      {
+        "id": "SEC-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 4
+      },
+      {
+        "id": "SEC-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 5
+      },
+      {
+        "id": "SEC-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 6
+      },
+      {
+        "id": "SEC-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 7
+      },
+      {
+        "id": "SEC-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 8
+      },
+      {
+        "id": "SEC-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 9
+      },
+      {
+        "id": "SEC-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 10
+      },
+      {
+        "id": "SEC-08",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 11
+      },
+      {
+        "id": "SEC-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 12
+      },
+      {
+        "id": "SEC-10",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 13
+      },
+      {
+        "id": "INC-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 18
+      },
+      {
+        "id": "INC-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 19
+      },
+      {
+        "id": "INC-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 20
+      },
+      {
+        "id": "INC-04",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 21
+      },
+      {
+        "id": "INC-05",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 22
+      },
+      {
+        "id": "INC-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 23
+      },
+      {
+        "id": "INC-07",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 24
+      },
+      {
+        "id": "INC-08",
+        "priority": "P1",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 25
+      },
+      {
+        "id": "INC-09",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 26
+      },
+      {
+        "id": "DSA-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 31
+      },
+      {
+        "id": "DSA-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 32
+      },
+      {
+        "id": "DSA-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 33
+      },
+      {
+        "id": "DSA-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 34
+      },
+      {
+        "id": "DSA-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 35
+      },
+      {
+        "id": "COPY-01",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 38
+      },
+      {
+        "id": "COPY-02",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 39
+      },
+      {
+        "id": "COPY-03",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 40
+      },
+      {
+        "id": "COPY-04",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 41
+      },
+      {
+        "id": "COPY-05",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 42
+      },
+      {
+        "id": "COPY-06",
+        "priority": "P0",
+        "part": "13_REGISTER_PART_F.md",
+        "line": 43
+      }
+    ],
+    "part_sha256": {
+      "13_REGISTER_PART_A.md": "227f60437fcc6939abec87e828408236e80b18fad2501d10c7153f8daf52f3ed",
+      "13_REGISTER_PART_B.md": "8bf1bea0dce6aa9e63b21a12ece534cfc4df6de0a55c81fb0c3005a9b84e7fc3",
+      "13_REGISTER_PART_C.md": "6cd48a49ebb976df33f5fc1f50eb633fbd2452cc4b6151194f4f2e217a0cc5c0",
+      "13_REGISTER_PART_D.md": "05a78981579dffd886c41334736d8dd70da95980ca5151fa1dbba86c85ce4d52",
+      "13_REGISTER_PART_E.md": "3571d6085e8e123b5a17dcaa1e172cbdef57b21ad601620685703f03086ecae3",
+      "13_REGISTER_PART_F.md": "4f176b16973930e7d1afec020f031af56bb787fb4abe252f587bb142b8e48065"
+    },
+    "criteria_sha256": {
+      "13_REGISTER_DSA_COPY_CRITERIA.md": "b7dda69f9c3fecb716eb0a22ce4d54af83749504782f32e62e3935dee5e6f103",
+      "13_REGISTER_INCIDENT_CRITERIA.md": "8478c3e90b42cc40033846b2e1f422ea39c8532bac244e1c69f6c1dddf5dc9bc",
+      "13_REGISTER_SECURITY_CRITERIA.md": "238339312702378ad3f4de40f69dd1a4c002cde54038730c2361243c64c59721"
+    },
+    "reconciliation_sha256": "c84330814b67965ffe5a034f3425e907fea027613f77856e091196989254aa11"
+  },
+  "visual_verification": "All 61 pages of six target PDFs rendered and inspected in six contact sheets; source layout/table separation confirmed.",
+  "result": "All six new transcriptions roundtrip-match. Six prior files byte-preserved: five visible-stream matches and Privacy equivalent by verified six-cell comparison plus complete outside-row equality. No substantive differences identified.",
+  "local_id_extraction": "Source appendix first-column IDs, including continuation of split labels across the next nonempty line; provenance-only, never canonical string join."
+}

@@ -1,7 +1,7 @@
 # SOMA — Legal Control Register v1.2 — Canonical Master
 
 **Editorial reference date:** 2026-11-03  
-**State:** DOCUMENTATION RECONCILED / LEGAL PACK MATERIALIZATION INCOMPLETE / AUDIT NOT YET STARTED  
+**State:** DOCUMENTATION RECONCILED / 12 OF 12 SOURCE TEXTS MATERIALIZED / NO NEW AUDIT OR REMEDIATION
 **Scope:** staging documentation. No application changes or production authorization.
 
 ## 1. Canonical 145-control inventory
@@ -41,6 +41,6 @@ States: PASS / FAIL / GAP / CONFLICT / OPEN / N/A (N/A requires a concrete basis
 ## 5. Scope limits and release gate
 No standalone 'Non ora' screen. No unapproved redesign, identity-doc/selfie mandate, new dashboard, paid provider migration, product quota changes beyond explicitly approved decisions, or policy-based waiver of concrete risk.
 
-The legal pack has twelve complete **uploaded PDF sources** but only a subset of their v1.1 full text is materialized in this branch as of this update. [README.md](README.md) tracks exact status. Do **not** present a mixed v1.0/v1.1 repository as a fully materialized v1.1 pack.
+The legal pack now has twelve materialized v1.1 PDF source texts. Six remaining transcriptions were completed on 2026-11-03; six prior files remain byte-identical to baseline `52a914f`. [README.md](README.md), the [source manifest](sources/v1.1/source-manifest.json) and the [materialization report](15_V11_MATERIALIZATION_REPORT_2026-11-03.md) identify checksums, internal checklists and the preserved Privacy-table extraction difference. This is source availability, not publication approval, a new audit outcome or a pilot GO.
 
-**STOP GATE:** No full-scope read-only legal audit representing all 12 v1.1 documents until source integrity is completed; no remediation, activation, main, or Production changes without explicit separate authorization. Final pilot state remains NO-GO pending documented provider, age, retention, incident, DSA, security and DPIA closures.
+**STOP GATE:** No audit, remediation, activation, main or Production action is started by materialization. Any subsequent review must use the full source inventory and explicitly account for documented source differences and internal-only annexes. Final pilot state remains NO-GO pending documented provider, age, retention, incident, DSA, security and DPIA closures; no prior control status is upgraded by this import.

@@ -1,244 +1,552 @@
-# SOMA — Terms & Conditions v1.0 — Pilot Candidate
+# SOMA — Terms — Fonte PDF v1.1
 
-**Effective date:** 2 November 2026  
-**Service operator:** Federico Grasso  
-**Contact:** somadatingapp@gmail.com
+## Provenienza e destinazione — metadati interni, non pubblicabili
 
-## 1. Service
+- Fonte fornita dal titolare: `Soma - Terms & Conditions.pdf` (11 pagine).
+- SHA-256 PDF: `29fd0eb2316323156d26a5424878227a76da97f69fe5cc3cea188927481b7f05`.
+- Destinazione del testo principale: **CANDIDATO AGLI UTENTI — NON PUBBLICATO**.
+- Trascrizione integrale da PDF; nessuna clausola o decisione riscritta. Fences e titoli A/B sono solo separatori redazionali. Non costituisce autorizzazione alla pubblicazione o al pilot.
+- A conserva il corpo della fonte e i suoi indicatori editoriali; B conserva separatamente la checklist operativa. Gli indicatori interni della fonte non vanno pubblicati come copy agli utenti.
+- ID in B: **locali alla fonte, namespace `TERMS-PDF`**. Le etichette originali, anche spezzate dalla tabella PDF, sono preservate; non sono nuove righe dei 145 controlli canonici. Non unirle al register per uguaglianza del numero.
+- Checksum, pagine e confronto delle altre sei fonti: [manifest](sources/v1.1/source-manifest.json). Gli originali PDF restano invariati nella cartella fornita dal titolare.
 
-SOMA is a digital service designed to facilitate discovery, connection and interaction among people linked to real-world contexts such as universities, gyms and communities.
+## A. Testo principale integrale della fonte
 
-Core surfaces may include Chance, Spotted, ORA, Match and Chat.
+<!-- SOMA-SOURCE-SEGMENT main BEGIN -->
+```text
+SOMA — Termini e condizioni di utilizzo
 
-## 2. 18+ only
+Versione: 1.1 — Candidata per il pilot
+Data di revisione: 3 novembre 2026
+Stato: Congelamento editoriale proposto; non ancora pubblicata
 
-SOMA is strictly for users aged 18 or over.
+1. Chi gestisce SOMA
 
-During registration the user must declare that they are at least 18.
+SOMA è un servizio digitale gestito da Federico Grasso (di seguito, “SOMA” o “Gestore”).
 
-If reasonable doubts arise, SOMA may:
+Per comunicazioni relative al servizio, richieste di assistenza e questioni riguardanti le
+presenti Condizioni è possibile scrivere a:
 
-- temporarily restrict relevant features;
-- review the account;
-- request a proportionate age verification;
-- suspend or close an account reasonably determined to belong to a minor.
+somadatingapp@gmail.com
 
-This does not authorize arbitrary document requests to all users.
+Le presenti Condizioni disciplinano la registrazione e l'utilizzo di SOMA.
 
-## 3. Account rules
+L'informativa sul trattamento dei dati personali è contenuta nella Privacy Policy, disponibile
+separatamente.
 
-Users must:
+2. Che cos'è SOMA
 
-- provide reasonably accurate information;
-- use their own account;
-- protect credentials;
-- not impersonate others;
-- not abuse or evade restrictions.
+SOMA è un servizio rivolto a persone maggiorenni che desiderano conoscere altre persone
+attraverso luoghi e comunità condivisi, come università, palestre e altri contesti di
+aggregazione.
 
-## 4. Nature of service
+Le funzionalità previste comprendono:
 
-SOMA is not:
+    ●   Tribe: comunità alle quali l'utente può appartenere;
+    ●   Chance: presentazioni reciproche di persone potenzialmente compatibili;
+    ●   Spotted: bacheche comunitarie con pubblicazioni e interazioni;
+    ●   ORA: dichiarazione temporanea di presenza in un luogo;
+    ●   Spot: segnalazioni di interesse secondo le regole delle rispettive funzionalità;
+    ●   Match e Chat: connessioni e conversazioni tra utenti autorizzati.
 
-- a comprehensive identity-verification service;
-- a background-check service;
-- an emergency service;
-- a marriage agency;
-- a guarantee of offline conduct or compatibility.
+Le caratteristiche delle funzionalità sono descritte nelle sezioni seguenti.
 
-SOMA does not guarantee Matches, replies, meetings or romantic outcomes.
+3. Requisito di maggiore età
 
-## 5. Dating activation
+SOMA è riservata esclusivamente a persone che abbiano compiuto 18 anni.
 
-Some functions depend on dating preferences.
+Durante la registrazione l'utente deve dichiarare di essere maggiorenne.
 
-Dating activation is separate from accepting these Terms.
 
-The user must have a real **Non ora** option.
 
-If dating is not activated, features requiring dating preferences may be unavailable while genuinely separable functions may remain available.
+In presenza di ragionevoli dubbi sull'età, SOMA può limitare temporaneamente le
+funzionalità interessate, effettuare verifiche proporzionate e richiedere informazioni
+aggiuntive quando necessario.
 
-## 6. Withdrawal
+L'account di una persona accertata come minorenne può essere chiuso, nel rispetto delle
+disposizioni applicabili.
 
-Users may withdraw dating consent through the in-app privacy/dating settings.
+La registrazione tramite Google, l'accesso con QR o l'appartenenza a un'università non
+costituiscono di per sé una verifica dell'età.
 
-Withdrawal is distinct from:
+4. Registrazione e account
 
-- account deletion;
-- suspension;
-- ban.
+Per utilizzare le funzionalità riservate agli utenti registrati è necessario creare un account
+attraverso le modalità di accesso disponibili.
 
-Existing Match/Chat may remain if they are independent of revoked preferences and otherwise lawful.
+L'utente si impegna a:
 
-## 7. Chance
+    ●    fornire informazioni sostanzialmente veritiere e aggiornate;
+    ●    utilizzare il proprio account senza impersonare altre persone;
+    ●    proteggere i propri strumenti di autenticazione;
+    ●    non concedere a terzi accessi non autorizzati;
+    ●    non creare o utilizzare account per eludere restrizioni legittimamente applicate;
+    ●    segnalare eventuali utilizzi non autorizzati di cui venga a conoscenza.
 
-Current pilot rules:
+SOMA può adottare misure proporzionate per proteggere l'account e il servizio in caso di
+accessi sospetti o abusi.
 
-- up to 4 new Chance/day;
-- releases at 10:00, 14:00, 18:00, 21:30 Europe/Rome;
-- reciprocal;
-- one person at a time;
-- 24h lifecycle;
-- one Spot per Chance;
-- no attractiveness/desirability ranking.
+5. Accettazione delle Condizioni
 
-## 8. Spotted
+L'utente deve poter consultare le presenti Condizioni prima di accettarle.
 
-Current pilot rules:
+L'accettazione avviene attraverso un'azione positiva e distinta dalle eventuali richieste di
+consenso al trattamento dei dati personali.
 
-- context-specific board;
-- 280-character post limit;
-- posts/comments visible 24h;
-- likes/comments anonymous to peers;
-- romantic initiative max 1/day globally;
-- pending max 7d;
-- pair guard 30d after decline/expiry.
+SOMA può conservare le informazioni necessarie a documentare la versione delle
+Condizioni accettata e il momento dell'accettazione.
 
-Spotted is anonymous to other users, not to SOMA.
+L'accettazione delle Condizioni non equivale al consenso generalizzato al trattamento dei
+dati personali.
 
-## 9. ORA
+6. Preferenze e consenso ai dati particolari
 
-Current pilot rules:
+SOMA è un servizio di dating e non richiede una separata attivazione generale del dating.
 
-- manual Place or QR;
-- no mandatory GPS;
-- user declaration of presence;
-- one live Place;
-- max 4h;
-- max 3 distinct Places/day;
-- max 1 new ORA Spot per Place/day.
+Alcune funzionalità utilizzano le preferenze relative alle persone che l'utente desidera
+conoscere.
 
-SOMA does not certify that the user is physically present in the declared Place.
 
-## 10. Match/Chat
 
-No generalized free DM before reciprocal or accepted connection.
+Quando il trattamento di queste informazioni richiede il consenso esplicito ai sensi
+dell'articolo 9 GDPR, SOMA lo richiede con modalità specifiche e separate dall'accettazione
+delle presenti Condizioni.
 
-Users remain responsible for messages they send.
+In assenza di una condizione giuridica valida, le funzionalità che dipendono
+necessariamente da tali trattamenti possono risultare indisponibili.
 
-## 11. Offline safety
+Le finalità, le modalità di raccolta e i diritti dell'utente sono spiegati nella Privacy Policy.
 
-Users should exercise caution in offline meetings, prefer public places initially and contact emergency services when immediate danger exists.
+7. Revoca del consenso e cancellazione dell'account
 
-## 12. User-generated content
+L'utente può revocare il consenso alle preferenze di dating attraverso i controlli messi a
+disposizione nel profilo, secondo quanto indicato nella Privacy Policy.
 
-Users retain their rights in content, subject to a limited licence necessary for SOMA to host, display, transmit and moderate content.
+La revoca del consenso è distinta dalla cancellazione dell'account, dalla sospensione e dagli
+altri provvedimenti di moderazione.
 
-Users must have the right to publish what they upload.
+Dopo la revoca non vengono effettuati nuovi trattamenti che richiedono il consenso revocato.
 
-## 13. Prohibited conduct
+I Match e le conversazioni precedentemente creati non vengono cancellati automaticamente
+per il solo fatto della revoca. La loro eventuale disponibilità successiva dipende dalla liceità
+dei trattamenti residui, comprese le condizioni previste per i dati particolari quando
+applicabili.
 
-Prohibited conduct includes:
+L'utente può richiedere separatamente la cancellazione dell'account.
 
-- harassment;
-- threats;
-- stalking;
-- coercion;
-- discrimination/hate;
-- grooming;
-- sextortion;
-- non-consensual intimate content;
-- impersonation;
-- scams/phishing;
-- spam;
-- doxxing;
-- abusive scraping;
-- restriction evasion;
-- report abuse;
-- attacks on service security.
+8. Chance
 
-Community & Safety Guidelines form part of the service rules.
+Chance propone presentazioni reciproche tra persone potenzialmente compatibili.
 
-## 14. Moderation
+Il modello previsto per il pilot comprende:
 
-SOMA may apply proportionate measures such as:
+    ●    fino a quattro nuove Chance al giorno;
+    ●    rilasci alle 10:00, 14:00, 18:00 e 21:30, fuso Europe/Rome;
+    ●    una persona presentata alla volta;
+    ●    disponibilità di ciascuna Chance per 24 ore;
+    ●    un solo Spot per Chance.
 
-- warning;
-- removal;
-- visibility/feature limitation;
-- suppression of romantic initiatives;
-- temporary restriction;
-- suspension;
-- account closure.
+SOMA può utilizzare criteri di compatibilità, reciprocità, novità, equità delle esposizioni e
+sicurezza.
 
-Pilot principles:
+Non viene garantita una Chance in ogni fascia oraria quando non sussistono le condizioni
+tecniche, di idoneità o di compatibilità necessarie.
 
-- no undeclared ML auto-ban;
-- no permanent reputation score;
-- no attractiveness/desirability score;
-- moderation should be diligent, proportionate, objective and non-arbitrary.
+La presenza di una Chance non garantisce che l'altra persona invii uno Spot o risponda.
 
-## 15. Reports
+SOMA non prevede classifiche di attrattività o desiderabilità delle persone.
 
-A report does not automatically trigger a sanction.
 
-SOMA may consider content, context, severity, relevant history and risk.
 
-Good-faith reporting is not abuse merely because the report is later unsubstantiated.
+9. Spotted
 
-## 16. Potentially illegal content
+Spotted consente la pubblicazione di contenuti nelle bacheche delle comunità.
 
-Where applicable, SOMA must provide an electronic notice mechanism appropriate to its DSA classification.
+Le regole del pilot prevedono:
 
-## 17. Reasons and review
+    ●    post fino a 280 caratteri;
+    ●    visibilità ordinaria di post e commenti per 24 ore;
+    ●    like e commenti anonimi nei confronti degli altri utenti, secondo le regole della
+         funzione;
+    ●    al massimo un'iniziativa romantica privata al giorno per utente, complessivamente
+         sulle bacheche;
+    ●    durata massima ordinaria delle richieste romantiche in sospeso di sette giorni;
+    ●    limitazioni temporanee alle nuove richieste tra le stesse persone dopo rifiuto o
+         scadenza, per un periodo previsto di 30 giorni.
 
-Where required by law or appropriate to the measure, SOMA should provide reasons and a review mechanism.
+L'anonimato riguarda la visibilità dell'identità verso gli altri utenti: SOMA può associare
+internamente i contenuti agli account per esigenze legittime di sicurezza, gestione e
+moderazione.
 
-A simple voluntary internal review should remain available for major moderation decisions.
+La scadenza della visibilità non implica necessariamente l'eliminazione immediata di tutte le
+registrazioni tecniche.
 
-## 18. Precautionary restrictions
+10. ORA
 
-Temporary restrictions may be imposed before review completion where proportionate to a concrete safety risk.
+ORA permette all'utente di dichiarare temporaneamente la propria presenza in un luogo.
 
-## 19. Possible minor
+La dichiarazione può avvenire manualmente o tramite QR, senza verifica GPS obbligatoria.
 
-Where reasonable doubt exists, SOMA may restrict new dating interactions and request proportionate age verification pending review.
+Il modello previsto comprende:
 
-## 20. Universities, gyms and communities
+    ●    una sola presenza attiva alla volta;
+    ●    durata massima di quattro ore;
+    ●    massimo tre luoghi distinti al giorno;
+    ●    massimo un nuovo Spot ORA per luogo al giorno.
 
-Use of a university/gym/community name does not automatically imply partnership, endorsement or access to user data.
+L'utente deve utilizzare la funzione in modo veritiero e non dichiarare intenzionalmente una
+presenza fittizia allo scopo di molestare, ingannare o abusare del servizio.
 
-## 21. Availability and pilot status
+SOMA non certifica che le persone siano fisicamente presenti nel luogo dichiarato.
 
-The service may change, experience errors or downtime during the pilot.
+11. Match e Chat
 
-Nothing in these Terms excludes mandatory consumer rights or non-waivable liability.
+Le funzionalità di messaggistica sono disponibili nei casi previsti dalle regole di connessione
+reciproca o accettazione di una richiesta.
 
-## 22. Changes
+SOMA non consente l'invio generalizzato di messaggi privati a qualsiasi utente
+indipendentemente da una connessione autorizzata.
 
-Material product/Terms changes should be communicated appropriately.
 
-Continued use must not be used as a substitute for explicit consent where explicit consent is legally required.
 
-## 23. Privacy
+L'utente è responsabile dei contenuti che invia e deve rispettare la legge, le presenti
+Condizioni e le regole della comunità.
 
-Personal-data processing is governed by the Privacy Policy.
+Le connessioni possono rimanere disponibili oltre la durata delle presentazioni iniziali, nei
+limiti delle condizioni applicabili.
 
-Accepting the Terms does not equal consenting to all data processing.
+Gli utenti non devono utilizzare la Chat per molestie, minacce, frodi, richieste coercitive o
+condivisione non consensuale di materiale intimo.
 
-## 24. Future paid services
+12. Sicurezza degli incontri
 
-Any future paid feature or subscription must require a clear user choice before charge.
+SOMA facilita la scoperta e la comunicazione tra persone, ma non garantisce l'identità,
+l'affidabilità, le intenzioni o il comportamento degli altri utenti.
 
-## 25. Intellectual property
+SOMA non è un servizio di verifica completa dell'identità, di controllo dei precedenti
+personali o di emergenza.
 
-SOMA software, design, branding and proprietary content remain protected by applicable intellectual-property rights.
+In occasione di un incontro dal vivo, è consigliabile adottare ragionevoli precauzioni,
+soprattutto quando si conosce una persona per la prima volta.
 
-## 26. Suspension/closure
+In caso di pericolo immediato, l'utente deve rivolgersi ai servizi di emergenza competenti.
 
-SOMA may restrict, suspend or close an account for reasonable grounds such as serious Terms violations, safety risk, fraud, confirmed minor status, repeated abuse or legal obligation.
+Queste indicazioni non limitano le responsabilità di SOMA previste inderogabilmente dalla
+legge.
 
-Measures should be proportionate.
+13. Contenuti pubblicati dagli utenti
 
-## 27. User deletion
+L'utente conserva i diritti sui contenuti che crea e pubblica, nei limiti della normativa
+applicabile.
 
-Users may request account deletion under the Privacy/Retention framework.
+Pubblicando contenuti su SOMA, concede al Gestore una licenza non esclusiva, limitata a
+quanto necessario per ospitare, riprodurre tecnicamente, mostrare agli utenti autorizzati,
+trasmettere, conservare per i periodi applicabili e moderare tali contenuti nell'ambito del
+servizio.
 
-## 28. Applicable law and jurisdiction
+La licenza non autorizza l'utilizzo dei contenuti per finalità commerciali estranee al servizio
+né la loro vendita a terzi.
 
-Italian law applies, subject to mandatory consumer protections and mandatory consumer-forum rules.
+La durata e le modalità dei trattamenti dei dati personali restano disciplinate dalla Privacy
+Policy e dalla normativa applicabile.
 
-## 29. Severability and non-waiver
+L'utente dichiara di avere i diritti necessari per pubblicare ciò che carica e si impegna a non
+violare i diritti di terzi.
 
-Invalidity of one clause does not automatically invalidate the remainder.
+La presente licenza non impedisce l'esercizio dei diritti previsti dalla normativa sulla
+protezione dei dati personali.
 
-Failure to exercise a right immediately does not automatically waive it.
+14. Comportamenti vietati
+
+
+
+Sono vietati, tra gli altri:
+
+    ●    molestie, minacce, stalking e intimidazioni;
+    ●    discriminazione illecita, incitamento all'odio o alla violenza;
+    ●    coercizione, grooming e sfruttamento sessuale;
+    ●    diffusione di immagini intime senza consenso;
+    ●    sextortion, truffe, phishing e impersonificazione;
+    ●    pubblicazione di dati personali altrui senza titolo legittimo;
+    ●    spam, messaggi automatizzati abusivi e utilizzo commerciale non autorizzato;
+    ●    raccolta massiva di dati, scraping abusivo o accessi non autorizzati;
+    ●    aggiramento di blocchi, sospensioni e limiti di utilizzo;
+    ●    segnalazioni deliberatamente false e abusive;
+    ●    caricamento di contenuti illegali;
+    ●    tentativi di compromettere la sicurezza o il funzionamento del servizio.
+
+Le Community & Safety Guidelines integrano le regole di comportamento e sono rese
+accessibili agli utenti.
+
+Una segnalazione presentata in buona fede non costituisce abuso soltanto perché
+successivamente risulta infondata.
+
+15. Moderazione dei contenuti
+
+SOMA può adottare misure ragionevoli e proporzionate in caso di violazioni della legge,
+delle Condizioni o delle regole della comunità.
+
+Le misure possono comprendere:
+
+    ●    avvisi;
+    ●    rimozione o limitazione della visibilità di contenuti;
+    ●    limitazione temporanea di specifiche funzionalità;
+    ●    restrizioni alle iniziative romantiche;
+    ●    sospensione temporanea;
+    ●    chiusura dell'account nei casi giustificati.
+
+La scelta della misura tiene conto, quando pertinente, della natura della violazione, della
+gravità, del contesto, del rischio, di eventuali ripetizioni e delle informazioni disponibili.
+
+Le decisioni devono essere gestite in modo diligente, obiettivo, proporzionato e non
+arbitrario, secondo gli obblighi applicabili.
+
+La presentazione di una segnalazione non comporta automaticamente una sanzione.
+
+16. Segnalazione dei contenuti
+
+Gli utenti possono utilizzare gli strumenti di segnalazione disponibili nel servizio per
+comunicare comportamenti o contenuti problematici.
+
+
+
+Quando richiesto dalla normativa applicabile ai servizi di hosting, SOMA mette a
+disposizione un meccanismo elettronico per la segnalazione di contenuti ritenuti illegali,
+idoneo a ricevere le informazioni necessarie a individuare il contenuto e comprendere i
+motivi della segnalazione.
+
+Le segnalazioni vengono valutate secondo le procedure applicabili, tenendo conto della
+sicurezza degli utenti, dei diritti delle persone coinvolte e delle eventuali disposizioni di
+legge.
+
+Il contatto per le segnalazioni e le comunicazioni relative ai contenuti è:
+
+somadatingapp@gmail.com
+
+17. Motivazioni dei provvedimenti e riesame
+
+Quando richiesto dalla normativa applicabile, SOMA comunica all'utente interessato le
+ragioni delle restrizioni adottate in relazione a contenuti illegali o incompatibili con le
+Condizioni.
+
+L'utente può richiedere un riesame dei provvedimenti di moderazione significativi attraverso
+le modalità di contatto disponibili.
+
+Le richieste vengono valutate in modo proporzionato e tenendo conto delle informazioni
+pertinenti.
+
+Ulteriori strumenti di reclamo o risoluzione delle controversie sono messi a disposizione
+quando previsti dalla normativa applicabile alla classificazione del servizio e alle dimensioni
+del Gestore.
+
+18. Restrizioni precauzionali
+
+In presenza di rischi concreti per la sicurezza degli utenti, per il servizio o per il rispetto della
+legge, SOMA può adottare limitazioni temporanee prima della conclusione delle verifiche.
+
+Tali misure devono essere proporzionate al rischio e riesaminate secondo le procedure
+applicabili.
+
+Le restrizioni non devono essere utilizzate arbitrariamente o come mezzo di discriminazione
+illegittima.
+
+19. Account appartenenti a minorenni
+
+Se emergono ragionevoli dubbi sull'età di un utente, SOMA può temporaneamente limitare
+le nuove interazioni romantiche e richiedere verifiche proporzionate.
+
+Qualora sia accertato che l'utente non ha compiuto 18 anni, l'account può essere chiuso
+secondo la legge e le procedure applicabili.
+
+
+
+20. Università, palestre e comunità
+
+Il riferimento a un'università, una palestra, un locale o un'altra comunità non implica
+automaticamente l'esistenza di una collaborazione, sponsorizzazione, approvazione o
+affiliazione ufficiale.
+
+Le denominazioni e gli eventuali segni distintivi dei terzi restano di proprietà dei rispettivi
+titolari.
+
+Le organizzazioni citate non ricevono automaticamente dati individuali degli utenti soltanto
+perché il loro nome identifica un contesto di SOMA.
+
+21. Disponibilità e natura sperimentale del pilot
+
+SOMA può essere messa a disposizione inizialmente come servizio pilota gratuito, con una
+disponibilità e una platea di utenti limitate.
+
+Durante il pilot possono verificarsi interruzioni, errori, modifiche funzionali, problemi di
+compatibilità o periodi di manutenzione.
+
+SOMA si impegna a gestire il servizio con diligenza e ad adottare misure proporzionate ai
+rischi.
+
+Non vengono garantiti un numero minimo di utenti, presentazioni, Match, risposte, incontri o
+risultati sentimentali.
+
+La natura sperimentale del servizio non esclude né limita i diritti inderogabili riconosciuti
+dalla normativa applicabile, inclusi quelli eventualmente previsti a tutela dei consumatori.
+
+22. Modifiche al servizio
+
+SOMA può modificare le funzionalità per motivi validi, tra cui sicurezza, correzione di errori,
+adeguamenti normativi, miglioramenti tecnici, sostenibilità operativa o evoluzione del
+servizio.
+
+Le modifiche vengono comunicate in modo proporzionato alla loro rilevanza e nel rispetto
+delle disposizioni applicabili.
+
+Quando la legge riconosce specifici diritti in relazione alle modifiche di un servizio digitale,
+tali diritti rimangono impregiudicati.
+
+Una modifica del servizio non costituisce, da sola, una nuova autorizzazione al trattamento
+di dati personali.
+
+23. Modifiche delle Condizioni
+
+
+
+SOMA può aggiornare le presenti Condizioni quando necessario per motivi giuridici, tecnici,
+organizzativi o per cambiamenti del servizio.
+
+Le modifiche sostanziali sono comunicate agli utenti con modalità e preavviso appropriati,
+tenendo conto della loro natura e degli obblighi applicabili.
+
+Quando è richiesta una nuova accettazione, questa viene raccolta secondo modalità
+adeguate.
+
+Il semplice utilizzo continuato del servizio non sostituisce un consenso esplicito al
+trattamento dei dati personali quando tale consenso è richiesto dalla legge.
+
+24. Protezione dei dati personali
+
+Il trattamento dei dati personali è disciplinato dalla Privacy Policy di SOMA.
+
+Le presenti Condizioni non sostituiscono l'informativa sulla privacy e la loro accettazione non
+equivale al consenso per trattamenti che richiedono una manifestazione di volontà separata.
+
+L'utente può esercitare i diritti previsti dal GDPR secondo le modalità indicate nella Privacy
+Policy.
+
+25. Servizi a pagamento futuri
+
+Il pilot descritto non prevede, nelle presenti Condizioni, l'attivazione automatica di
+abbonamenti o servizi a pagamento.
+
+Qualora in futuro SOMA introduca funzionalità a pagamento, prezzi, condizioni di acquisto,
+eventuali rinnovi e diritti applicabili saranno comunicati prima della conclusione del relativo
+acquisto.
+
+Nessun addebito può essere introdotto senza una scelta valida dell'utente.
+
+26. Proprietà intellettuale del servizio
+
+Il software, il design, gli elementi grafici, i marchi e gli altri contenuti propri di SOMA sono
+protetti dalla normativa applicabile.
+
+L'utente riceve un diritto personale, non esclusivo e limitato di utilizzare il servizio secondo le
+presenti Condizioni.
+
+Sono vietati la riproduzione o lo sfruttamento non autorizzati degli elementi protetti, salvo gli
+utilizzi consentiti dalla legge.
+
+La presente clausola non attribuisce a SOMA la proprietà dei contenuti creati dagli utenti.
+
+27. Sospensione, chiusura e cancellazione
+
+
+
+SOMA può limitare, sospendere o chiudere un account in presenza di ragioni giustificate,
+comprese violazioni gravi delle Condizioni, rischi per la sicurezza, frodi, utilizzo da parte di
+minorenni o obblighi legali.
+
+Le misure sono proporzionate alle circostanze e soggette alle garanzie previste dalla
+normativa applicabile.
+
+L'utente può richiedere la cancellazione dell'account attraverso le funzioni disponibili oppure
+contattando il Gestore.
+
+La chiusura dell'account non elimina necessariamente nell'immediato tutti i dati per i quali
+sussiste un obbligo o un'altra valida ragione giuridica di conservazione, secondo la Privacy
+Policy.
+
+28. Responsabilità e diritti inderogabili
+
+SOMA non garantisce il comportamento degli altri utenti né il conseguimento di risultati
+sentimentali.
+
+Ciascun utente è responsabile delle proprie azioni e dei contenuti che pubblica, secondo la
+legge applicabile.
+
+Nulla nelle presenti Condizioni esclude o limita la responsabilità di SOMA nei casi in cui tale
+esclusione o limitazione sia vietata dalla legge, né pregiudica i diritti inderogabili degli utenti
+e dei consumatori.
+
+29. Legge applicabile e controversie
+
+Le presenti Condizioni sono disciplinate dalla legge italiana, fatti salvi i diritti e le protezioni
+inderogabili eventualmente riconosciuti agli utenti consumatori dalla normativa applicabile.
+
+Per le controversie si applicano i criteri di competenza giurisdizionale previsti dalla legge,
+comprese le norme inderogabili relative al foro del consumatore.
+
+30. Validità delle clausole e contatti
+
+L'eventuale invalidità o inefficacia di una singola clausola non comporta automaticamente
+l'invalidità delle altre disposizioni, nei limiti consentiti dalla legge.
+
+Il mancato esercizio immediato di un diritto non implica automaticamente una rinuncia a
+esercitarlo successivamente.
+
+Gestore: Federico Grasso
+Contatto: somadatingapp@gmail.com
+```
+<!-- SOMA-SOURCE-SEGMENT main END -->
+
+## B. Checklist operativa interna — separata dal testo principale
+
+<!-- SOMA-SOURCE-SEGMENT checklist BEGIN -->
+```text
+Checklist pre-pilot — Terms & Conditions
+
+Il testo è completo, ma per autorizzarne la pubblicazione dobbiamo distinguere la
+correttezza delle clausole dall'effettiva disponibilità delle procedure che descrivono.
+
+
+     ID                                  Controllo                                           Stato
+
+
+
+ TERMS-        Identità e informazioni di contatto del gestore, incluse           Da completare
+ 01            quelle eventualmente richieste dalla normativa sui
+               servizi digitali e sui consumatori
+
+
+
+ TERMS-        Versione finale dei Terms accessibile e accettazione               Da
+ 02            registrata separatamente dal consenso privacy                      implementare/verificar
+                                                                                  e
+
+
+
+ TERMS-        Classificazione DSA di Spotted e obblighi realmente                Da formalizzare
+ 03            applicabili
+
+
+
+ TERMS-        Segnalazioni di contenuti illegali, motivazioni delle              Da verificare sul
+ 04            restrizioni e riesame                                              prodotto
+
+
+
+ TERMS-        Coerenza con Community & Safety Guidelines e                       Da verificare
+ 05            Privacy Policy
+
+
+
+ TERMS-        Comunicazione delle modifiche contrattuali e tutela                Da verificare
+ 06            degli utenti consumatori
+```
+<!-- SOMA-SOURCE-SEGMENT checklist END -->
