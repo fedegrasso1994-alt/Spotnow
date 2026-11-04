@@ -1,0 +1,133 @@
+{
+  "date": "2026-11-04",
+  "baseline": "97d7d27271a2ba5c6223ffc8badd7cc3e2c20a68",
+  "branch": "codex/soma-schema-v2-staging",
+  "scope": "local PGlite synthetic databases + local Chromium components; not hosted Auth E2E",
+  "migration063_applied_to_cloud": false,
+  "deployments": 0,
+  "provider_changes": 0,
+  "production_changes": 0,
+  "main_changes": 0,
+  "retention_recovery_process_changes": 0,
+  "checks": {
+    "targeted_final": {
+      "pass": 80,
+      "fail": 0
+    },
+    "document_projection_final": {
+      "pass": 8,
+      "fail": 0
+    },
+    "full_suite": {
+      "pass": 954,
+      "fail": 0,
+      "duration_ms": 2228713.018041
+    },
+    "build": "PASS",
+    "typecheck": "PASS",
+    "diff_check": "PASS"
+  },
+  "responsive": {
+    "pass": true,
+    "scope": "local synthetic components, not hosted Auth/DB E2E",
+    "results": [
+      {
+        "width": 320,
+        "login": {
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "clientHeight": 844,
+          "scrollHeight": 844
+        },
+        "legal": {
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "clientHeight": 844,
+          "scrollHeight": 844
+        },
+        "profile": {
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "clientHeight": 844,
+          "scrollHeight": 915
+        },
+        "ctaReachable": true,
+        "independentCalls": [
+          "age",
+          "terms",
+          "consent"
+        ],
+        "pageErrors": []
+      },
+      {
+        "width": 390,
+        "login": {
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "clientHeight": 844,
+          "scrollHeight": 844
+        },
+        "legal": {
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "clientHeight": 844,
+          "scrollHeight": 844
+        },
+        "profile": {
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "clientHeight": 844,
+          "scrollHeight": 856
+        },
+        "ctaReachable": true,
+        "independentCalls": [
+          "age",
+          "terms",
+          "consent"
+        ],
+        "pageErrors": []
+      }
+    ],
+    "screenshots": "/tmp/soma-m1-responsive"
+  },
+  "prior_failures": [
+    {
+      "run": "first targeted",
+      "pass": 12,
+      "fail": 3,
+      "cause": "new test query helper put value alias after FROM; test harness syntax only"
+    },
+    {
+      "run": "second targeted",
+      "pass": 14,
+      "fail": 1,
+      "cause": "new reciprocal ORA fixture did not start both presences before first Spot"
+    },
+    {
+      "run": "initial typecheck",
+      "errors": 2,
+      "cause": "default callback signatures inferred as zero-argument; corrected"
+    },
+    {
+      "run": "first full suite",
+      "pass": 936,
+      "fail": 16,
+      "cause": "existing VM navigation harness strips imports and lacked new dependencies/Terms fixture metadata; updated and added negative Terms tests"
+    }
+  ],
+  "open_decisions": [
+    "Initial profile refusal/no-consent consequences: not implemented as an alternative mode; new preference save remains fail-closed.",
+    "Freely given consent: legal decision not inferred from checkbox or profile placement.",
+    "Residual Match/Chat processing after withdrawal: technical behavior unchanged; legal approval remains open."
+  ],
+  "logs_sha256": {
+    "targeted": "091c1bfcef7d87ae331cef1d40f85bcb3b62d32784e2a64ab951a6c666a67686",
+    "full": "5bf387b42315190d1bb93296ad1e0f6a3bcbc3eeea7e132ca74dd87ed892f4eb",
+    "documents": "01c050716c150fd7d0dc93d36563e2466abe900b72dcf01724f1094c65b55948",
+    "responsive": "b64863944810890676446d41a09cc1c4f5a6e14d10505bd65ffea1a6265c6b7f",
+    "build": "20e23fecdfcbe6323ad9e9ea4dcf825bd92c0f2ec470c7bdb602b4f0064aa3d1",
+    "typecheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "legal_sources_unchanged": true,
+  "final_review": "Back link hidden while legal proof incomplete; failed confirmation message preserved; final 80 targeted and 954 full-suite PASS after correction."
+}

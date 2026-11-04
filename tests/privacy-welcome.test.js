@@ -28,18 +28,17 @@ test('adult checkbox is server-authorized, no invented age, explicit-only, idemp
  assert.equal((await d.query('select declared_age from spot_private.account_eligibility where user_id=$1',[ids.a])).rows[0].declared_age,null);
  await d.exec('set role anon');await assert.rejects(d.query('select attest_adult_checkbox(true,$1)',[uuid()]));
 });
-test('welcome uses separate unchecked choices, no numeric input, guarded submits and preserves exact server consent',async()=>{
- const ui=dom();ui.document.createTextNode=text=>{const e=new Element('span');e.textContent=text;return e;};
- let calls=0,accepted=0,continued=0;const state={age_status:'confirmation_required',consent_status:'missing',required_version:'v2',consent_text:'Exact versioned consent'};
- const backend={attestAdultCheckbox:async v=>{assert.equal(v,true);calls++;return {...state,age_status:'eligible'};},consentChallenge:async()=>({token:'test',version:'v2',text:state.consent_text}),acceptConsent:async()=>{accepted++;return {...state,age_status:'eligible',consent_status:'active'};}};
+test('M1 welcome has separate unchecked age/Terms, one continuation and no standalone dating consent',async()=>{
+ const {LEGAL_DOCUMENTS}=await import('../src/legal-document-data.js');const ui=dom();
+ let ageCalls=0,termsCalls=0,continued=0;let state={age_status:'confirmation_required',consent_status:'missing',terms_status:'required',required_terms_version:LEGAL_DOCUMENTS.terms.version,required_terms_hash:LEGAL_DOCUMENTS.terms.sha256,terms_url:LEGAL_DOCUMENTS.terms.url};
+ const backend={privacyState:async()=>state,attestAdultCheckbox:async()=>{ageCalls++;state={...state,age_status:'eligible'};return state;},acceptTerms:async()=>{termsCalls++;state={...state,terms_status:'accepted'};return state;}};
  const controls=createPrivacyControls({backend,document:ui.document,onContinue:async()=>continued++});controls.update(state);
- assert.equal(controls.screen.querySelectorAll('input').length,2);assert.ok(controls.screen.querySelectorAll('input').every(e=>e.type==='checkbox'));
- const age=controls.screen.querySelector('#adultDeclaration'),consent=controls.screen.querySelector('#datingDeclaration');
- const buttons=controls.screen.querySelectorAll('button'),next=buttons.find(b=>b.textContent==='Conferma e continua');
- await next.onclick();assert.equal(calls,0);age.checked=true;age.onchange();await next.onclick();assert.equal(calls,1);assert.equal(consent.checked,false);
- const consentNext=buttons.filter(b=>b.textContent==='Conferma e continua')[1];await consentNext.onclick();assert.equal(accepted,0);
- consent.checked=true;consent.onchange();await consentNext.onclick();assert.equal(accepted,1);assert.equal(continued,1);
- assert.equal(controls.screen.querySelector('.privacy-consent-text').textContent,state.consent_text);
+ const inputs=controls.screen.querySelectorAll('input');assert.equal(inputs.length,2);assert.ok(inputs.every(e=>e.type==='checkbox'&&!e.checked));assert.equal(controls.screen.querySelector('#datingDeclaration'),null);
+ const next=controls.screen.querySelector('#legalContinue'),age=controls.screen.querySelector('#adultDeclaration'),terms=controls.screen.querySelector('#termsDeclaration');
+ await next.onclick();assert.equal(ageCalls,0);age.checked=true;age.onchange();assert.equal(next.disabled,true);terms.checked=true;terms.onchange();assert.equal(next.disabled,false);
+ await next.onclick();assert.equal(ageCalls,1);assert.equal(termsCalls,1);assert.equal(continued,1);assert.equal(controls.state.consent_status,'missing');
+ controls.update({...state,terms_status:'required'});assert.equal(controls.screen.querySelectorAll('button').find(b=>b.textContent==='Torna al profilo').hidden,true);
+ controls.update(state);await next.onclick();assert.equal(ageCalls,1);assert.equal(termsCalls,1);assert.equal(continued,2);
 });
 test('checkbox API never sends a fabricated age, DOB, user id or client timestamp',async()=>{
  let sent;await createPrivacyApi({rpc:async(name,args)=>{sent={name,args};return {data:{}};}}).attestAdultCheckbox(true);

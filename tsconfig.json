@@ -16,6 +16,9 @@
   },
   "include": [
     "src/domain.js",
+    "src/legal-onboarding.js",
+    "src/legal-documents.js",
+    "src/profile-consent.js",
     "src/analytics.js",
     "src/analytics-dashboard-api.js",
     "src/analytics-dashboard.js",

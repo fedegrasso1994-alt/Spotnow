@@ -1,0 +1,17 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M1 local synthetic component QA</title><link rel="stylesheet" href="/fonts/fonts.css"></head><body><div class="stage"><div id="phone" class="phone"><section id="login" class="screen"></section><section id="myprofile" class="screen"><div id="profileActions"></div></section></div></div><script type="module">
+import '/src/styles.css';import '/src/privacy-welcome.css';
+import {createPrivacyControls} from '/src/privacy-phase1.js';
+import {createProfileConsent} from '/src/profile-consent.js';
+import {LEGAL_DOCUMENTS} from '/src/legal-document-data.js';
+const source=new DOMParser().parseFromString(await(await fetch('/index.html')).text(),'text/html');
+const login=source.getElementById('login');for(const n of login.querySelectorAll('*'))for(const a of [...n.attributes])if(a.name.startsWith('on'))n.removeAttribute(a.name);document.getElementById('login').replaceWith(login);
+const profile=source.getElementById('onboarding');for(const n of profile.querySelectorAll('*'))for(const a of [...n.attributes])if(a.name.startsWith('on'))n.removeAttribute(a.name);for(const b of profile.querySelectorAll('.pref-btn'))b.classList.remove('selected');document.getElementById('phone').append(profile);
+const notice=await(await fetch('/docs/legal/03_ONBOARDING_LEGAL_COPY.md')).text();const copy=notice.slice(notice.indexOf('Acconsento esplicitamente al trattamento')).split('\n\n')[0].split(/\s+/).join(' ').trim();
+let state={age_status:'confirmation_required',terms_status:'required',required_terms_version:LEGAL_DOCUMENTS.terms.version,required_terms_hash:LEGAL_DOCUMENTS.terms.sha256,terms_url:LEGAL_DOCUMENTS.terms.url,consent_status:'missing',required_version:'dating-profile-1.1-staging',consent_revision:0,consent_text:copy};
+const calls=[];const backend={privacyState:async()=>state,attestAdultCheckbox:async()=>{calls.push('age');return state={...state,age_status:'eligible'};},acceptTerms:async()=>{calls.push('terms');return state={...state,terms_status:'accepted'};},consentChallenge:async()=>({token:'SYNTHETIC',version:state.required_version,text:state.consent_text}),acceptConsent:async()=>{calls.push('consent');return state={...state,consent_status:'active',consent_revision:1};}};
+const show=id=>document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+const legal=createPrivacyControls({backend,onContinue:async()=>show('onboarding'),onState:s=>consent?.update(s)});
+const consent=createProfileConsent({backend,onState:s=>legal.update(s)});legal.update(state);show('privacy');
+document.getElementById('profileBtn').onclick=async()=>{await consent.prepareSave('F');document.getElementById('profileBtn').dataset.saved='true';};
+window.m1QA={calls,show,get state(){return state;}};window.m1Ready=true;
+</script></body></html>

@@ -18,6 +18,8 @@ import {canConsumeQr} from './onboarding.js';
 import {createTribeOnboarding} from './onboarding-ui.js';
 import {mountBoard} from './bacheca-ui.js';
 import {createPrivacyControls} from './privacy-phase1.js';
+import {legalGateRequired} from './legal-onboarding.js';
+import {createProfileConsent} from './profile-consent.js';
 import { renderAvatar } from './avatar.js';
 import { validatePhoto } from './photo.js';
 import { userMessage } from './errors.js';
@@ -45,7 +47,7 @@ const oraControls=oraV2?mountOraControls({root:$('venue'),api:backend.ora,pilot,
 let onboardingComplete=false,explicitQrScan=false,pilotHomePending=false,pilotNeedsTribe=true;
 const tribeOnboarding=noQr?createTribeOnboarding({api:backend.onboarding,pilot,onDone:()=>{pilotHomePending=pilot;return hydrate();}}):null;
 const pilotShell=pilot?mountPilotShell({go,tribes:()=>backend.tribes(),onChoose:()=>void choosePilotTribe(),boardApi:backend.board,mountBoard,spottedApi:backend.spotted,dailyApi:backend.dailyDiscovery,chanceApi:backend.chances,photoUrls:refs=>backend.photoUrls(refs),onDailyOpen:person=>social.openDetail(person),onDailyMatch:id=>social.presentMatch(id),onDailyExpire:()=>social.closeDailyDetail(),analytics,onDailyState:(people,budget)=>{social.syncDailyDetail(people,budget);if(!backend.chances)analytics?.discoveryPainted(people.length>0);}}):null;
-let privacy=null,existingProfile=false;
+let privacy=null,profileConsent=null,existingProfile=false;
 async function choosePilotTribe(){const generation=accountGeneration;try{const progress=await backend.onboarding.state();if(generation!==accountGeneration||!state.session)return;pilotNeedsTribe=!progress.tribes.length;go('tribeOnboarding');await tribeOnboarding.open(progress);}catch(e){if(generation===accountGeneration)showToast(message(e));}}
 const state={profile:{name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null},photoFile:null,checkin:null,venue:null,session:null,saving:false};
 $('phone').addEventListener('pointerdown',()=>analytics?.view(activeScreen()));
@@ -91,7 +93,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   pilotShell?.pause();
   if(deleting)screen='deleting';
   else if(suspended)screen='suspended';
-  else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&privacy?.state?.age_status!=='eligible'&&['onboarding','tribeOnboarding','daily','spotted','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
+  else if(privacyEnabled&&state.session&&!state.session.user.is_anonymous&&legalGateRequired(privacy?.state)&&['onboarding','tribeOnboarding','daily','spotted','venue','tribes','tribe','matches','chats','myprofile','chat','match'].includes(screen))screen='privacy';
   if(screen!=='tribeOnboarding')tribeOnboarding?.pause();if(screen!=='venue')oraControls?.pause();
   listGeneration++;backend.cancelDiscoveryReads?.(screen==='tribe'?selectedTribe?.id:null);
   if(screen==='camera'){awaitingQr=true;entryGeneration++;pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}
@@ -118,7 +120,7 @@ function go(screen,{replace=false,fromHistory=false}={}) {
   analytics?.view(screen);
   social.onScreen(screen);
   romanticRequests?.open(screen);
-  if(screen==='onboarding'){profileNotice.textContent='';$('toast').classList.remove('show');const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
+  if(screen==='onboarding'){profileConsent?.update(privacy.state);profileNotice.textContent='';$('toast').classList.remove('show');const editing=Boolean(state.profile.photoPath);$('onboarding').querySelector('.disp').textContent=editing?'Modifica il tuo profilo':'Crea il tuo profilo';$('profileBtn').textContent=editing?'Salva modifiche':'Entra';$('onboarding').querySelector('.backlink').onclick=()=>go(editing?'myprofile':noQr?'login':pendingQr?'scan':'intro');void refreshOwnPhoto();}
   if(screen==='myprofile') {void refreshOwnPhoto();avatar($('mpAvatar'),state.profile,{eager:privacyEnabled});$('mpName').textContent=state.profile.name;$('mpMeta').textContent=`${state.profile.age} anni${state.profile.occupation?' · '+state.profile.occupation:''}${state.venue?' · '+state.venue.name:''}`;}
 }
 function syncForm() {
@@ -135,9 +137,9 @@ const loadAccount=singleFlight(async(key)=>{
   const account=state.session?.user.id;
   if(!state.session||state.session.user.is_anonymous){if(!current())return;if(pendingQr&&!noQr)await previewVenue();else go('intro');return;}
   if(await checkAccountStatus())return;
-  if(privacyEnabled){const ps=await privacy.refresh();if(!current())return;if(ps.age_status!=='eligible'){social.reset();go('privacy',{replace:true});return;}}
+  if(privacyEnabled){const ps=await privacy.refresh();if(!current())return;if(legalGateRequired(ps)){social.reset();go('privacy',{replace:true});return;}}
   const profile=await backend.getProfile();existingProfile=Boolean(profile);
-  if(privacyEnabled&&!profile){state.profile.age=privacy.state.declared_age||0;if(privacy.state.consent_status!=='active'){go('privacy',{replace:true});return;}}
+  if(privacyEnabled&&!profile)state.profile.age=privacy.state.declared_age||0;
   if(!current())return;
   if(!profile){if(noQr){onboardingComplete=false;explicitQrScan=false;if(pendingQr)rememberDraft();syncForm();go('onboarding',{replace:true});return;}if(pendingQr){await previewVenue();if(!current())return;restoredDraft=false;rememberDraft();syncForm();go('onboarding',{replace:true});}else{syncForm();go('intro',{replace:true});}return;}
   const photo=state.profile.photoPath===profile.photo_path?state.profile.photo:null;
@@ -233,6 +235,9 @@ async function trySaveProfile() {
   try {
     // Preserve the uploaded path on retries, so a transient DB error does not upload twice.
     const draft={...state.profile},file=state.photoFile;
+    if(profileConsent)await profileConsent.prepareSave(draft.preference,{existingProfile,current:()=>generation===accountGeneration});
+    if(generation!==accountGeneration)return;
+    if(draft.preference!==state.profile.preference)throw Error('Le preferenze sono cambiate. Salva di nuovo il profilo.');
     const chosen=await photoForProfileSave({file,path:draft.photoPath,uploadPhoto:f=>backend.uploadPhoto(f),currentProfile:()=>generation===accountGeneration?backend.getProfile():null});
     if(generation!==accountGeneration)return;if(selection!==photoSelection)return showToast('La foto è cambiata. Salva di nuovo il profilo.');
     draft.photoPath=chosen.path;if(file){state.profile.photoPath=chosen.path;state.photoFile=null;if(chosen.reusedCurrent){state.profile.photo=null;$('photoInput').value='';}}
@@ -356,11 +361,12 @@ const loadTribe=singleFlight(async(generation)=>{
 const renderTribe=()=>board?.isActive()?(board.context(selectedTribe?.id),Promise.resolve()):loadTribe(listGeneration);
 const deletion=document.createElement('button');deletion.className='backlink';deletion.style.marginTop='18px';deletion.textContent='Elimina account';
 deleteAccountButtonSetup();
-if(privacyEnabled)privacy=createPrivacyControls({backend,onBack:()=>go('myprofile'),onContinue:()=>hydrate(),onRestricted:()=>go('privacy'),onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick(),onRevoke:async()=>{state.profile.preference=null;backend.clearPrivacyCaches?.();social.reset();syncForm();await hydrate();showToast('Consenso revocato. Preferenza cancellata; match e chat esistenti conservati.');}});
+if(privacyEnabled)privacy=createPrivacyControls({backend,onBack:()=>go(existingProfile?'myprofile':'onboarding'),onContinue:()=>hydrate(),onRestricted:()=>go('privacy'),onDelete:()=>deletion.onclick(),onSignOut:()=>signout.onclick(),onState:s=>profileConsent?.update(s),onRevoke:async()=>{state.profile.preference=null;backend.clearPrivacyCaches?.();social.reset();syncForm();await hydrate();showToast('Consenso revocato. Preferenza cancellata.');}});
+if(privacyEnabled)profileConsent=createProfileConsent({backend,onState:s=>privacy.update(s)});
 function deleteAccountButtonSetup(){deletion.onclick=async()=>{if(deletion.disabled)return;if(!confirm('Eliminare definitivamente account, foto, Tribe, Spot e conversazioni? Questa operazione non può essere annullata.'))return;deletion.disabled=true;retryDelete.disabled=true;try{await backend.deleteAccount();await backend.signOut().catch(()=>{});clearDraft();sessionStorage.removeItem('spot-pending-qr');location.assign(location.origin+location.pathname);}catch(error){showToast(message(error));await checkAccountStatus().catch(()=>{});}finally{deletion.disabled=false;retryDelete.disabled=false;}};$('profileActions').append(deletion);}
 
 function syncAccountControls(){const anonymous=Boolean(state.session?.user?.is_anonymous);signout.hidden=!state.session||anonymous;}
-backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id){if(oraV2&&previous){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}onboardingComplete=false;explicitQrScan=false;pilotNeedsTribe=true;tribeOnboarding?.reset();oraControls?.reset();presenceClock.clear();}if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){shareIntent.reset();pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
+backend.onSessionChange((event,session)=>{const previous=state.session?.user.id;state.session=session;if(previous!==session?.user.id){privacy?.reset();profileConsent?.reset();if(oraV2&&previous){pendingQr=null;restoredDraft=false;clearDraft();sessionStorage.removeItem('spot-pending-qr');const clean=new URL(location.href);clean.searchParams.delete('venue');history.replaceState(null,'',clean);}onboardingComplete=false;explicitQrScan=false;pilotNeedsTribe=true;tribeOnboarding?.reset();oraControls?.reset();presenceClock.clear();}if(previous!==session?.user.id)accountGeneration++;syncAccountControls();if(previous&&session?.user.id&&previous!==session.user.id){pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;installPrompt.close();social.reset();state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();syncForm();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();}if(event==='SIGNED_OUT'){shareIntent.reset();pilotShell?.reset();pilotHomePending=false;navigation.reset();photoSelection++;state.saving=false;$('profileBtn').disabled=false;suspended=false;deleting=false;state.profile={name:'',age:0,gender:null,preference:privacyEnabled?null:'ALL',photo:null};state.photoFile=null;syncForm();installPrompt.close();social.reset();state.venue=null;state.checkin=null;selectedTribe=null;liveOffset=0;tribeOffset=0;livePager.reset();tribePager.reset();for(const id of ['list','tribeGrid','tribesList','matchesList','chatsList'])$(id).replaceChildren();go('intro');}else if(!booting&&event==='SIGNED_IN'&&previous!==session?.user.id){setTimeout(()=>void hydrate().catch(error=>showToast(message(error))),0);}});
 setInterval(()=>{if(document.hidden)return;if($('venue').classList.contains('active'))void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));if($('tribe').classList.contains('active'))void renderTribe();},5000);
 setInterval(async()=>{if(document.hidden||!state.session||statusChecking)return;statusChecking=true;try{const wasSuspended=suspended;if(!await checkAccountStatus()&&wasSuspended)await hydrate();}catch{/* Retry on the next poll; server authorization remains authoritative. */}finally{statusChecking=false;}},15000);
 function resume(){if(document.hidden||!state.session)return;if(['intro','login'].includes(activeScreen())&&!state.session.user.is_anonymous){void hydrate().catch(error=>showToast(message(error)));return;}social.resume();if(activeScreen()==='venue'){if(!oraV2&&state.checkin&&!liveCheckin())go('tribes',{replace:true});else void renderPeople().catch(error=>showToast(oraV2?oraError(error):message(error)));}if(activeScreen()==='tribe')void renderTribe();if(activeScreen()==='tribes')void renderTribes();if(['daily','spotted'].includes(activeScreen()))pilotShell?.open(activeScreen());void checkAccountStatus().then(blocked=>{if(!blocked&&activeScreen()==='deleting')void hydrate().catch(error=>showToast(message(error)));}).catch(()=>{});}

@@ -21,4 +21,11 @@
 .privacy-footer .privacy-danger{color:var(--coral)}
 .privacy-legal-note{font-size:10px;color:var(--muted);line-height:1.6;margin:8px 0 0}
 .privacy-footer pre{font-size:11px;overflow-wrap:anywhere}
+.privacy-check span{min-width:0;overflow-wrap:anywhere}
+.privacy-check a.backlink{display:inline;font:inherit;min-height:0;padding:0;color:var(--coral)}
+.profile-consent{margin-top:16px;max-width:100%;flex-shrink:0}
+.profile-consent .privacy-check{display:flex;font-size:14px;color:var(--text);margin:0}
+.profile-consent [hidden]{display:none}
+.profile-consent .backlink{font-size:12px;max-width:100%;white-space:normal}
+#login .privacy-footer-links{margin-top:16px}
 @media(max-height:660px){.privacy-welcome{gap:16px;padding-top:20px}.privacy-choice{padding:16px}.privacy-header h2.disp{font-size:32px}}
