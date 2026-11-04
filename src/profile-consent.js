@@ -31,7 +31,18 @@ export function createProfileConsent({backend,onState=(_state)=>{},document:doc=
   const challenge=pending?.challenge||await backend.consentChallenge();ensure();
   if(challenge.version!==shown.required_version||challenge.text!==shown.consent_text){pending=null;checkbox.checked=false;throw Error('Il testo del consenso è cambiato. Ricarica il profilo.');}
   pending??={challenge,operation:crypto.randomUUID()};
-  const result=await backend.acceptConsent(challenge,pending.operation);ensure();
+  let result;
+  try{result=await backend.acceptConsent(challenge,pending.operation);ensure();}
+  catch(error){
+   ensure();
+   // Only the server's definitive challenge rejection discards the retry identity.
+   // Network/unknown errors keep it: the original acceptance may have committed.
+   if(error?.code!=='P0001'||error?.message!=='CONSENT_CHALLENGE')throw error;
+   pending=null;checkbox.checked=false;
+   const latest=await backend.privacyState();ensure();update(latest);onState(latest);
+   if(!legalGateRequired(latest)&&latest.consent_status==='active')return;
+   throw Error('Conferma nuovamente il consenso corrente prima di salvare.');
+  }
   if(result.consent_status!=='active')throw Error('Consenso non registrato. Riprova.');
   update(result);onState(result);
  }

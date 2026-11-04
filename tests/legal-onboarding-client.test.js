@@ -61,3 +61,49 @@ test('M1 preserves QR/Share callback context and does not introduce pre-auth con
  const location={origin:'https://preview.example',pathname:'/',search:'?s='+'a'.repeat(64)};const url=new URL(authRedirect(location,'synthetic-qr'));assert.equal(url.searchParams.get('venue'),'synthetic-qr');assert.equal(url.searchParams.get('s'),'a'.repeat(64));
  const source=await readFile('src/live.js','utf8');assert.ok(source.includes('if(legalGateRequired(ps))'));assert.ok(source.includes('profileConsent.prepareSave'));assert.ok(source.includes('privacy?.reset();profileConsent?.reset()'));assert.doesNotMatch(source,/!profile\)\{[^\n]*consent_status!==/);
 });
+
+test('M1 fresh missing age/Terms never recreates a proof from an earlier satisfied requirement',async()=>{
+ for(const [field,missing,code]of[['age_status','confirmation_required','AGE_EXPLICIT_REQUIRED'],['terms_status','required','TERMS_EXPLICIT_REQUIRED']]){
+  for(const checked of[false,true]){
+   const shown=state(),fresh={...shown,[field]:missing},updates=[];let writes=0;
+   const backend={privacyState:async()=>fresh,attestAdultCheckbox:async()=>writes++,acceptTerms:async()=>writes++};
+   await assert.rejects(completeLegalGate(backend,shown,{adult:checked,terms:checked,operations:operationIds(),onState:s=>updates.push(s)}),new RegExp(code));
+   assert.equal(writes,0);assert.deepEqual(updates,[fresh]);
+  }
+ }
+});
+test('M1 fresh legal requirement/version change stops all writes, preserving already valid proofs',async()=>{
+ const shown={...state(),age_status:'confirmation_required',statement_version:'adult-v1'},updates=[];let writes=0;
+ const backend={privacyState:async()=>({...shown,statement_version:'adult-v2'}),attestAdultCheckbox:async()=>writes++,acceptTerms:async()=>writes++};
+ await assert.rejects(completeLegalGate(backend,shown,{adult:true,terms:false,operations:operationIds(),onState:s=>updates.push(s)}),/AGE_EXPLICIT_REQUIRED/);
+ assert.equal(writes,0);assert.equal(updates[0].terms_status,'accepted');
+ // If Terms disappear while age was visibly missing, do not partially write age.
+ backend.privacyState=async()=>({...shown,terms_status:'required'});
+ await assert.rejects(completeLegalGate(backend,shown,{adult:true,terms:false,operations:operationIds()}),/TERMS_EXPLICIT_REQUIRED/);assert.equal(writes,0);
+});
+for(const cause of['expiry','other-tab invalidation'])test(`M1 consent ${cause} requires a new explicit choice and fresh challenge, preserving the profile draft`,async()=>{
+ const ui=profileDom(),s=state(),seen=[],operations=[];let challengeCalls=0,reject=true;
+ const draft=ui.get('profileName');draft.value='Unsaved synthetic draft';
+ const backend={privacyState:async()=>s,consentChallenge:async()=>({token:`challenge-${++challengeCalls}`,version:s.required_version,text:s.consent_text}),acceptConsent:async(c,op)=>{seen.push(c.token);operations.push(op);if(reject){reject=false;throw {code:'P0001',message:'CONSENT_CHALLENGE'};}return {...s,consent_status:'active'};}};
+ const control=createProfileConsent({document:ui.document,backend});control.update(s);const input=control.section.querySelector('input');input.checked=true;
+ await assert.rejects(control.prepareSave('M'),/Conferma nuovamente/);assert.equal(input.checked,false);assert.equal(draft.value,'Unsaved synthetic draft');
+ await assert.rejects(control.prepareSave('M'),/scelta esplicita/);assert.equal(challengeCalls,1);assert.equal(seen.length,1);
+ input.checked=true;await control.prepareSave('M');assert.deepEqual(seen,['challenge-1','challenge-2']);assert.notEqual(operations[0],operations[1]);
+});
+test('M1 rejected consent challenge refreshes changed text/version before another explicit acceptance',async()=>{
+ const ui=profileDom();let s=state(),calls=0;
+ const control=createProfileConsent({document:ui.document,backend:{privacyState:async()=>s,consentChallenge:async()=>({token:'challenge',version:s.required_version,text:s.consent_text}),acceptConsent:async()=>{calls++;s={...s,required_version:'new-version',consent_text:'New specific text'};throw {code:'P0001',message:'CONSENT_CHALLENGE'};}}});
+ control.update(s);control.section.querySelector('input').checked=true;await assert.rejects(control.prepareSave('M'),/Conferma nuovamente/);
+ assert.equal(control.section.querySelector('input').checked,false);assert.equal(control.section.querySelector('span').textContent,'New specific text');
+ await assert.rejects(control.prepareSave('M'),/scelta esplicita/);assert.equal(calls,1);
+});
+test('M1 consent uncertain committed response is reconciled without another challenge or acceptance',async()=>{
+ const ui=profileDom();let s=state(),challenges=0,accepts=0;
+ const control=createProfileConsent({document:ui.document,backend:{privacyState:async()=>s,consentChallenge:async()=>{challenges++;return {token:'challenge',version:s.required_version,text:s.consent_text};},acceptConsent:async()=>{accepts++;s={...s,consent_status:'active'};throw Error('network');}}});
+ control.update(s);control.section.querySelector('input').checked=true;await assert.rejects(control.prepareSave('M'),/network/);await control.prepareSave('M');assert.equal(challenges,1);assert.equal(accepts,1);
+});
+test('M1 definitively rejected challenge reconciles consent already active in another tab',async()=>{
+ const ui=profileDom();let s=state(),accepts=0;
+ const control=createProfileConsent({document:ui.document,backend:{privacyState:async()=>s,consentChallenge:async()=>({token:'challenge',version:s.required_version,text:s.consent_text}),acceptConsent:async()=>{accepts++;s={...s,consent_status:'active'};throw {code:'P0001',message:'CONSENT_CHALLENGE'};}}});
+ control.update(s);control.section.querySelector('input').checked=true;await control.prepareSave('M');await control.prepareSave('M');assert.equal(accepts,1);
+});
