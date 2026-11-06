@@ -146,6 +146,8 @@ const loadAccount=singleFlight(async(key)=>{
   if(!current()||state.session?.user.id!==account)return;
   state.profile={name:profile.name,age:profile.age,gender:profile.gender,preference:profile.preference,photo,photoPath:profile.photo_path,occupation:profile.occupation||''};
   syncForm();void refreshOwnPhoto();
+  // Renew only the outdated consent, preserving the existing profile and pending entry intents.
+  if(privacyEnabled&&privacy.state.consent_status==='renewal_required'){go('onboarding',{replace:true});return;}
   if(noQr){const progress=await backend.onboarding.state();if(!current())return;onboardingComplete=progress.complete;pilotNeedsTribe=pilot&&!progress.tribes.length;if(pendingQr)rememberDraft();
     // A Place QR is the declaration of presence, never a Tribe join. Restore its live session too.
     let qrOraEntry=pilot&&Boolean(pendingQr)&&privacy?.state?.consent_status==='active';
